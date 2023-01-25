@@ -1,4 +1,5 @@
-﻿using AdminPanel.Models;
+﻿using AdminPanel.Helpers;
+using AdminPanel.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -15,7 +16,20 @@ namespace AdminPanel.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [Authorize(Policy = RolesHelper.Administrator)]
+        public IActionResult AdminPanel()
+        {
+            return View();
+        }
+
+        [Authorize(Policy = RolesHelper.Manager)]
+        public IActionResult CreateAccount()
+        {
+            return View();
+        }
+
+        [Authorize(Policy = RolesHelper.Manager)]
+        public IActionResult Logs()
         {
             return View();
         }
