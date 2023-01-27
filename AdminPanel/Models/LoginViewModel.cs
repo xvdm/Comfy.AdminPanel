@@ -8,12 +8,12 @@ namespace AdminPanel.Models
     public class LoginViewModel
     {
         [Required]
-        public string Login { get; set; } = null!;
+        public string UserName { get; set; } = null!;
 
         [Required]
         public string Password { get; set; } = null!;
 
-        [Required]
+        [ValidateNever]
         public string ReturnUrl { get; set; } = null!;
     }
 }

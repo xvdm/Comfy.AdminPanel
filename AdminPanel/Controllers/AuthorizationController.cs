@@ -1,8 +1,11 @@
-﻿using AdminPanel.Helpers;
+﻿using AdminPanel.Data;
+using AdminPanel.Helpers;
 using AdminPanel.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Security.Claims;
 
@@ -10,10 +13,17 @@ namespace AdminPanel.Controllers
 {
     public class AuthorizationController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public AuthorizationController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
         public IActionResult Login(string? returnUrl)
         {
-            if (String.IsNullOrEmpty(returnUrl) || Url.IsLocalUrl(returnUrl) == false)
-                returnUrl = "/Authorization/Login";
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -22,18 +32,30 @@ namespace AdminPanel.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
-            
-            var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, model.Login),
-                new Claim(ClaimTypes.Role, RolesHelper.Manager)
-            };
-            var claimIdentity = new ClaimsIdentity(claims, "Cookie");
-            var claimPrincipal = new ClaimsPrincipal(claimIdentity);
-            await HttpContext.SignInAsync("Cookie", claimPrincipal);
+                Console.WriteLine($"Authorization::Login | Model: {model.UserName}; {model.Password}; {model.ReturnUrl}");
+                return View(model);
+            }
 
-            return LocalRedirect(model.ReturnUrl);
+            if (String.IsNullOrEmpty(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl) == false)
+            {
+                model.ReturnUrl = "/Authorization/Login";
+            }
+
+            var user = await _userManager.FindByNameAsync(model.UserName);
+            if(user == null)
+            {
+                ModelState.AddModelError("", "User not found");
+                return View(model);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            if(result.Succeeded)
+            {
+                return LocalRedirect(model.ReturnUrl);
+            }
+
+            return View(model);
         }
 
         public IActionResult AccessDenied()
@@ -44,7 +66,7 @@ namespace AdminPanel.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync("Cookie");
+            await _signInManager.SignOutAsync();
             return Redirect("Login");
         }
     }

@@ -5,11 +5,13 @@
 
 <div class="text-center">
     <form method="post" asp-controller="Authorization" asp-action="Login">
+        <div asp-validation-summary="All"></div>
+
         <input hidden asp-for="ReturnUrl" value="@ViewBag.ReturnUrl" />
         <div>
-            <input asp-for="Login" type="text" placeholder="Login"/>
+            <input asp-for="UserName" type="text" placeholder="UserName" />
             <br />
-            <span asp-validation-for="Login"></span>
+            <span asp-validation-for="UserName"></span>
         </div>
         <div>
             <input asp-for="Password" type="password" placeholder="Password"/>
