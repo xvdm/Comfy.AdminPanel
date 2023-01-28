@@ -16,19 +16,19 @@ namespace AdminPanel.Controllers
             _logger = logger;
         }
 
-        [Authorize(Policy = RolesHelper.Administrator)]
+        [Authorize(Policy = RolesNames.Administrator)]
         public IActionResult AdminPanel()
         {
             return View();
         }
 
-        [Authorize(Policy = RolesHelper.Manager)]
+        [Authorize(Policy = RolesNames.Manager)]
         public IActionResult CreateAccount()
         {
             return View();
         }
 
-        [Authorize(Policy = RolesHelper.Manager)]
+        [Authorize(Policy = RolesNames.Manager)]
         public IActionResult Logs()
         {
             return View();

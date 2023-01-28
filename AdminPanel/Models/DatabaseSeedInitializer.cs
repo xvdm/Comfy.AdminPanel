@@ -17,7 +17,7 @@ namespace AdminPanel.Models
             var managerResult = userManager?.CreateAsync(manager, "manager").GetAwaiter().GetResult();
             if (managerResult!.Succeeded)
             {
-                userManager?.AddClaimAsync(manager, new Claim(ClaimTypes.Role, RolesHelper.Manager)).GetAwaiter().GetResult();
+                userManager?.AddClaimAsync(manager, new Claim(ClaimTypes.Role, RolesNames.Manager)).GetAwaiter().GetResult();
             }
 
             var admin = new ApplicationUser
@@ -27,7 +27,7 @@ namespace AdminPanel.Models
             var adminResult = userManager?.CreateAsync(admin, "admin").GetAwaiter().GetResult();
             if (adminResult!.Succeeded)
             {
-                userManager?.AddClaimAsync(admin, new Claim(ClaimTypes.Role, RolesHelper.Administrator)).GetAwaiter().GetResult();
+                userManager?.AddClaimAsync(admin, new Claim(ClaimTypes.Role, RolesNames.Administrator)).GetAwaiter().GetResult();
             }
         }
     }

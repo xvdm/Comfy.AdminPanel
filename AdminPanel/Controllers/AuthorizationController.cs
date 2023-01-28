@@ -1,13 +1,6 @@
-﻿using AdminPanel.Data;
-using AdminPanel.Helpers;
-using AdminPanel.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+﻿using AdminPanel.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using System.Security.Claims;
 
 namespace AdminPanel.Controllers
 {
@@ -33,7 +26,6 @@ namespace AdminPanel.Controllers
         {
             if (!ModelState.IsValid)
             {
-                Console.WriteLine($"Authorization::Login | Model: {model.UserName}; {model.Password}; {model.ReturnUrl}");
                 return View(model);
             }
 

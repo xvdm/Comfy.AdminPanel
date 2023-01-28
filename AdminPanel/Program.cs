@@ -24,19 +24,21 @@ builder.Services.ConfigureApplicationCookie(config =>
 {
     config.LoginPath = "/Authorization/Login";
     config.AccessDeniedPath = "/Authorization/AccessDenied";
+    config.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    config.SlidingExpiration = true;
 });
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(RolesHelper.Administrator, builder =>
+    options.AddPolicy(RolesNames.Administrator, builder =>
     {
         builder.RequireAssertion(x => 
-            x.User.HasClaim(ClaimTypes.Role, RolesHelper.Administrator) ||
-            x.User.HasClaim(ClaimTypes.Role, RolesHelper.Manager));
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Administrator) ||
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager));
     });
-    options.AddPolicy(RolesHelper.Manager, builder =>
+    options.AddPolicy(RolesNames.Manager, builder =>
     {
-        builder.RequireAssertion(x => x.User.HasClaim(ClaimTypes.Role, RolesHelper.Manager));
+        builder.RequireAssertion(x => x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager));
     });
 });
 builder.Services.AddControllersWithViews();

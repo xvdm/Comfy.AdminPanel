@@ -3,9 +3,15 @@
     ViewData["Title"] = "Login";
 }
 
+<style>
+    li {
+        list-style-type: none;
+    }
+</style>
+
 <div class="text-center">
+    <div asp-validation-summary="All"></div>
     <form method="post" asp-controller="Authorization" asp-action="Login">
-        <div asp-validation-summary="All"></div>
 
         <input hidden asp-for="ReturnUrl" value="@ViewBag.ReturnUrl" />
         <div>
@@ -21,3 +27,4 @@
         <button type="submit">Login</button>
     </form>
 </div>
+
