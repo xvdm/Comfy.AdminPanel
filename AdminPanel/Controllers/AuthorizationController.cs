@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class AuthorizationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

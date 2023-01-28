@@ -22,6 +22,7 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(config =>
 
 builder.Services.ConfigureApplicationCookie(config =>
 {
+    config.Cookie.Name = "ident";
     config.LoginPath = "/Authorization/Login";
     config.AccessDeniedPath = "/Authorization/AccessDenied";
     config.ExpireTimeSpan = TimeSpan.FromMinutes(10);
@@ -41,7 +42,14 @@ builder.Services.AddAuthorization(options =>
         builder.RequireAssertion(x => x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager));
     });
 });
+
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAntiforgery(config =>
+{
+    config.FormFieldName = "xcsrf-token";
+    config.Cookie.Name = "xcsrf";
+});
 
 var app = builder.Build();
 
