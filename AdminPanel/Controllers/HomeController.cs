@@ -1,6 +1,9 @@
-﻿using AdminPanel.Helpers;
+﻿using AdminPanel.Data;
+using AdminPanel.Helpers;
 using AdminPanel.Models;
+using AdminPanel.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -11,10 +14,16 @@ namespace AdminPanel.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUserService _userService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _logger = logger;
+            _userService = userService;
+            _userManager = userManager;
+            _context = context;
         }
 
         [Authorize(Policy = RolesNames.Administrator)]
@@ -24,9 +33,18 @@ namespace AdminPanel.Controllers
         }
 
         [Authorize(Policy = RolesNames.Manager)]
-        public IActionResult CreateAccount()
+        public IActionResult Accounts()
         {
-            return View();
+            var users = _userService.GetUsers().Select(x => new UserViewModel
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                Email = x.Email,
+                //EmailConfirmed = x.EmailConfirmed,
+                //PhoneNumberConfirmed = x.PhoneNumberConfirmed,
+                PhoneNumber = x.PhoneNumber
+            });
+            return View(users);
         }
 
         [Authorize(Policy = RolesNames.Manager)]
@@ -39,6 +57,58 @@ namespace AdminPanel.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        [Authorize(Policy=RolesNames.Manager)]
+        public async Task<IActionResult> UpdateUser(UserViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View("Accounts", _userService.GetUsers().Select(x => new UserViewModel
+                {
+                    Id = x.Id,
+                    UserName = x.UserName,
+                    Email = x.Email,
+                    PhoneNumber = x.PhoneNumber
+                }));
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+            if(user == null)
+            {
+                return NotFound($"No user with ID '{model.Id}'.");
+            }
+
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            await _userManager.UpdateAsync(user);
+            
+            if (user.UserName != model.UserName)
+            {
+                await _userManager.UpdateNormalizedUserNameAsync(user);
+            }
+            if(user.Email != model.Email)
+            {
+                await _userManager.UpdateNormalizedEmailAsync(user);
+            }
+            await _userManager.UpdateSecurityStampAsync(user);
+            await _context.SaveChangesAsync();
+
+            return Redirect("Accounts");
+        }
+
+        [HttpPost]
+        [Authorize(Policy = RolesNames.Manager)]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if(user != null)
+            {
+                await _userManager.DeleteAsync(user);
+            }
+            return Redirect("Accounts");
         }
     }
 }

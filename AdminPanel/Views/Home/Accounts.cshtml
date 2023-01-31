@@ -1,0 +1,50 @@
+﻿@model IEnumerable<UserViewModel>
+@using AdminPanel.Data;
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+<style>
+    table {
+        border:1px solid black;
+    }
+
+    th {
+        border: 1px solid grey;
+    }
+    
+    td {
+        border: 1px solid grey;
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Accounts</h1>
+</div>
+
+<div class="text-center">
+    <div asp-validation-summary="All"></div>
+    <table>
+        <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>PhoneNumber</th>
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <form method="post" asp-controller="Home" asp-action="UpdateUser">
+                    <input hidden name="Id" value="@user.Id" />
+                    <td><input type="text" name="UserName" value="@user.UserName" /></td>
+                    <td><input type="text" name="Email" value="@user.Email" /></td>
+                    <td><input type="text" name="PhoneNumber" value="@user.PhoneNumber" /></td>
+                    <td><button type="submit">Update</button></td>
+                </form>
+                <form method="post" asp-controller="Home" asp-action="DeleteUser">
+                    <input hidden type="text" name="Id" value="@user.Id"/>
+                    <td><button type="submit">Delete</button></td>
+                </form>
+            </tr>
+        }
+    </table>
+</div>

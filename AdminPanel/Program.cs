@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using AdminPanel.Data;
 using AdminPanel.Models;
+using AdminPanel.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -51,12 +52,14 @@ builder.Services.AddAntiforgery(config =>
     config.Cookie.Name = "xcsrf";
 });
 
+builder.Services.AddScoped<IUserService, UserService>();
+
 var app = builder.Build();
 
 //using (var scope = app.Services.CreateScope())   // seed initializer
 //{                                                
-//    var services = scope.ServiceProvider;        
-//    DatabaseSeedInitializer.Init(services);      
+//    var services = scope.ServiceProvider;
+//    DatabaseSeedInitializer.Init(services);
 //}                                                
 
 if (!app.Environment.IsDevelopment())
