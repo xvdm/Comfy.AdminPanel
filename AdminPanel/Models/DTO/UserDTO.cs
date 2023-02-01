@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace AdminPanel.Models
+namespace AdminPanel.Models.DTO
 {
-    public class UserViewModel
+    public class UserDTO
     {
         [Required]
         public Guid Id { get; set; }

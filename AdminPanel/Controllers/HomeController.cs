@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Helpers;
 using AdminPanel.Models;
+using AdminPanel.Models.DTO;
 using AdminPanel.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,13 +18,15 @@ namespace AdminPanel.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly DTOService _DTOService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, UserManager<ApplicationUser> userManager, ApplicationDbContext context, DTOService DTOcontroller)
         {
             _logger = logger;
             _userService = userService;
             _userManager = userManager;
             _context = context;
+            _DTOService = DTOcontroller;
         }
 
         [Authorize(Policy = RolesNames.Administrator)]
@@ -35,16 +38,13 @@ namespace AdminPanel.Controllers
         [Authorize(Policy = RolesNames.Manager)]
         public IActionResult Accounts()
         {
-            var users = _userService.GetUsers().Select(x => new UserViewModel
-            {
-                Id = x.Id,
-                UserName = x.UserName,
-                Email = x.Email,
-                //EmailConfirmed = x.EmailConfirmed,
-                //PhoneNumberConfirmed = x.PhoneNumberConfirmed,
-                PhoneNumber = x.PhoneNumber
-            });
+            var users = _DTOService.GetDTOUsers();
             return View(users);
+        }
+
+        public string Allo()
+        {
+            return "adas";
         }
 
         [Authorize(Policy = RolesNames.Manager)]
@@ -61,17 +61,12 @@ namespace AdminPanel.Controllers
 
         [HttpPost]
         [Authorize(Policy=RolesNames.Manager)]
-        public async Task<IActionResult> UpdateUser(UserViewModel model)
+        public async Task<IActionResult> UpdateUser(UserDTO model)
         {
             if(!ModelState.IsValid)
             {
-                return View("Accounts", _userService.GetUsers().Select(x => new UserViewModel
-                {
-                    Id = x.Id,
-                    UserName = x.UserName,
-                    Email = x.Email,
-                    PhoneNumber = x.PhoneNumber
-                }));
+                var users = _DTOService.GetDTOUsers();
+                return View("Accounts", users);
             }
 
             var user = await _userManager.FindByIdAsync(model.Id.ToString());

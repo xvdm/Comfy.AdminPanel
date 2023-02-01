@@ -4,6 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using AdminPanel.Data;
 using AdminPanel.Models;
 using AdminPanel.Services;
+using MapsterMapper;
+using Mapster;
+using System.Drawing.Text;
+using AdminPanel.Mappers;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -11,15 +16,8 @@ var connectionString = builder.Configuration.GetConnectionString("AdminPanelCont
 
 builder.Services.AddDbContext<ApplicationDbContext>(config => config.UseMySql(connectionString, new MySqlServerVersion(new Version(10, 4, 25))));
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(config =>
-{
-    config.SignIn.RequireConfirmedAccount = false;
-    //config.Password.RequireNonAlphanumeric = false; // testing only
-    //config.Password.RequiredLength = 3;             // testing only
-    //config.Password.RequireDigit = false;           // testing only
-    //config.Password.RequireUppercase = false;       // testing only
-    //config.Password.RequireLowercase = false;       // testing only
-}).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(config => UseTestingIdentityConfig(config))
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.ConfigureApplicationCookie(config =>
 {
@@ -54,6 +52,11 @@ builder.Services.AddAntiforgery(config =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<DTOService>();
+
+builder.Services.AddSingleton(GetConfiguredMappingConfig());
+builder.Services.AddScoped<IMapper, ServiceMapper>();
+
 var app = builder.Build();
 
 //using (var scope = app.Services.CreateScope())   // seed initializer
@@ -81,3 +84,31 @@ app.MapControllerRoute(
     pattern: "{controller=Authorization}/{action=Login}/{id?}");
 
 app.Run();
+
+
+static TypeAdapterConfig GetConfiguredMappingConfig()
+{
+    var config = new TypeAdapterConfig();
+    new RegisterMapper().Register(config);
+    return config;
+}
+
+static void UseTestingIdentityConfig(IdentityOptions config)
+{
+    config.SignIn.RequireConfirmedAccount = false;
+    config.Password.RequireNonAlphanumeric = false;
+    config.Password.RequireUppercase = false; 
+    config.Password.RequireLowercase = true;
+    config.Password.RequiredLength = 3;
+    config.Password.RequireDigit = false;
+}
+
+//static void UseProductionIdentityConfig(IdentityOptions config)
+//{
+//    config.SignIn.RequireConfirmedAccount = false;
+//    config.Password.RequireNonAlphanumeric = true;
+//    config.Password.RequireUppercase = true;
+//    config.Password.RequireLowercase = true;
+//    config.Password.RequiredLength = 10;
+//    config.Password.RequireDigit = true;
+//}
