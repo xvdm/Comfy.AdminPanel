@@ -9,6 +9,9 @@ namespace AdminPanel.Models.DTO
         public Guid Id { get; set; }
 
         [Required]
+        public string Position { get; set; } = null!;
+
+        [Required]
         public string UserName { get; set; } = null!;
 
         [Required]

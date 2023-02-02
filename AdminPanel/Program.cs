@@ -9,6 +9,7 @@ using Mapster;
 using System.Drawing.Text;
 using AdminPanel.Mappers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -30,15 +31,30 @@ builder.Services.ConfigureApplicationCookie(config =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(RolesNames.Administrator, builder =>
+    options.AddPolicy(RolesNames.Owner, builder =>
     {
-        builder.RequireAssertion(x => 
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Administrator) ||
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager));
+        builder.RequireAssertion(x => x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner));
+    });
+    options.AddPolicy(RolesNames.SeniorManager, builder =>
+    {
+        builder.RequireAssertion(x =>
+        x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner) ||
+        x.User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager));
     });
     options.AddPolicy(RolesNames.Manager, builder =>
     {
-        builder.RequireAssertion(x => x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager));
+        builder.RequireAssertion(x =>
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner) ||
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager) ||
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager));
+    });
+    options.AddPolicy(RolesNames.Administrator, builder =>
+    {
+        builder.RequireAssertion(x =>
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner) ||
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager) ||
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager) ||
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Administrator));
     });
 });
 
