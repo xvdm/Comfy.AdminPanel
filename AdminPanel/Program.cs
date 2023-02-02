@@ -33,13 +33,14 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(RolesNames.Owner, builder =>
     {
-        builder.RequireAssertion(x => x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner));
+        builder.RequireAssertion(x => 
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner));
     });
     options.AddPolicy(RolesNames.SeniorManager, builder =>
     {
         builder.RequireAssertion(x =>
-        x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner) ||
-        x.User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager));
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner) ||
+            x.User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager));
     });
     options.AddPolicy(RolesNames.Manager, builder =>
     {

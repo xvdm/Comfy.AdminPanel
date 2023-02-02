@@ -6,8 +6,8 @@ using System.Diagnostics;
 
 namespace AdminPanel.Controllers
 {
-    [Authorize]
     [AutoValidateAntiforgeryToken]
+    [Authorize(Policy = RolesNames.Manager)]
     public class LogfileController : Controller
     {
         public LogfileController()
@@ -15,7 +15,6 @@ namespace AdminPanel.Controllers
 
         }
 
-        [Authorize(Policy = RolesNames.Manager)]
         public IActionResult Index()
         {
             return View();

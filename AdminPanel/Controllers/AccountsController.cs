@@ -13,8 +13,8 @@ using System.Security.Claims;
 
 namespace AdminPanel.Controllers
 {
-    [Authorize]
     [AutoValidateAntiforgeryToken]
+    [Authorize(Policy = RolesNames.Manager)]
     public class AccountsController : Controller
     {
         private readonly ILogger<AccountsController> _logger;
@@ -32,7 +32,6 @@ namespace AdminPanel.Controllers
             _DTOService = DTOService;
         }
 
-        [Authorize(Policy = RolesNames.Manager)]
         public IActionResult Index()
         {
             var users = _DTOService.GetDTOUsers();
@@ -40,7 +39,6 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = RolesNames.Manager)]
         public async Task<IActionResult> UpdateUser(UserDTO model)
         {
             if (ModelState.IsValid)
@@ -73,26 +71,27 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = RolesNames.Manager)]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user != null)
             {
-                await _userManager.DeleteAsync(user);
+                if(User.Identity?.Name != user.UserName)
+                {
+                    await _userManager.DeleteAsync(user);
+                }
             }
             var users = _DTOService.GetDTOUsers();
             return View("Index", users);
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateUser(CreateUserDTO model)
         {
             if(ModelState.IsValid)
             {
                 var user = model.Adapt<ApplicationUser>();
-                var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if(result.Succeeded)
                 {
                     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, model.Role));
