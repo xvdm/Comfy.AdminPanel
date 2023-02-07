@@ -23,7 +23,7 @@ namespace AdminPanel.Services
             _userManager = userManager;
         }
 
-        [Authorize(Roles = RolesNames.Manager)]
+        [Authorize(Roles = PoliciesNames.Manager)]
         public IEnumerable<UserDTO> GetDTOUsers()
         {
             var users = _mapper.From(_context.Users).ProjectToType<UserDTO>().ToList();

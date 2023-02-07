@@ -1,0 +1,36 @@
+﻿@using AdminPanel.Helpers
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewData["Title"] = "Create user";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Create user</h1>
+    <form method="post" asp-controller="Accounts" asp-action="CreateUser">
+        <div asp-validation-summary="All"></div>
+        <select name="Role">
+            @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Owner)).Succeeded)
+            {
+                <option value="@PoliciesNames.Owner">@PoliciesNames.Owner</option>
+                <option value="@PoliciesNames.SeniorManager">@PoliciesNames.SeniorManager</option>
+            }
+            @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.SeniorManager)).Succeeded)
+            {
+                <option value="@PoliciesNames.Manager">@PoliciesNames.Manager</option>
+                <option selected value="@PoliciesNames.Administrator">@PoliciesNames.Administrator</option>
+            }
+        </select>
+        <input type="text" name="UserName" placeholder="Username" />
+        <input type="password" name="Password" placeholder="Password" />
+        <input type="password" name="ConfirmPassword" placeholder="Confirm password" />
+        <input type="email" name="Email" placeholder="Email" />
+        <input type="text" name="PhoneNumber" placeholder="PhoneNumber" />
+        <button type="submit">Create</button>
+    </form>
+</div>

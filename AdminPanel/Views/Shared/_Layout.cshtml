@@ -1,6 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using AdminPanel.Helpers
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IAuthorizationService AuthorizationService
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +19,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                @if(SignInManager.IsSignedIn(User)) {
+                @if((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Administrator)).Succeeded) {
                     <a class="navbar-brand" asp-area="" asp-controller="AdminPanel" asp-action="Index">AdminPanel</a>
+                }
+                @if((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Manager)).Succeeded) {
                     <a class="navbar-brand" asp-area="" asp-controller="Accounts" asp-action="Index">Accounts</a>
                     <a class="navbar-brand" asp-area="" asp-controller="Logfile" asp-action="Index">Logs</a>
                 }

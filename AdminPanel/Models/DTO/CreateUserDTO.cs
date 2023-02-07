@@ -8,9 +8,12 @@ namespace AdminPanel.Models.DTO
         public string Role { get; set; } = null!;
 
         [Required]
+        [MinLength(5)]
         public string UserName { get; set; } = null!;
 
         [Required]
+        [MinLength(5)]
+        [MaxLength(30)]
         public string Password { get; set; } = null!;
 
         [Required]

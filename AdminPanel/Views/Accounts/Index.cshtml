@@ -5,8 +5,10 @@
 @using AdminPanel.Helpers
 @using AdminPanel.Models.DTO;
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 @{
-    ViewData["Title"] = "Accounts";
+    ViewData["Title"] = "Users";
 }
 
 <style>
@@ -23,39 +25,12 @@
     }
 </style>
 
-<div class="text-center">
-    <h1 class="display-4">Create user</h1>
-    <form method="post" asp-controller="Accounts" asp-action="CreateUser">
-        <select name="Role">
-            @*@if (User.HasClaim(ClaimTypes.Role, RolesNames.Owner)) {
-                <option value="@RolesNames.Owner">@RolesNames.Owner</option>
-            }
-            @if (User.HasClaim(ClaimTypes.Role, RolesNames.Owner))
-            {
-                <option value="@RolesNames.SeniorManager">@RolesNames.SeniorManager</option>
-            }
-            @if (User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager))
-            {
-                <option value="@RolesNames.Manager">@RolesNames.Manager</option>
-            }
-            @if (User.HasClaim(ClaimTypes.Role, RolesNames.Manager))
-            {
-                <option selected value="@RolesNames.Administrator">@RolesNames.Administrator</option>
-            }*@
-            <option value="@RolesNames.Owner">@RolesNames.Owner</option>
-            <option value="@RolesNames.SeniorManager">@RolesNames.SeniorManager</option>
-            <option value="@RolesNames.Manager">@RolesNames.Manager</option>
-            <option selected value="@RolesNames.Administrator">@RolesNames.Administrator</option>
-        </select>
-        <input type="text" name="UserName"  placeholder="Username" />
-        <input type="password" name="Password" placeholder="Password" />
-        <input type="password" name="ConfirmPassword" placeholder="Confirm password" />
-        <input type="email" name="Email" placeholder="Email" />
-        <input type="text" name="PhoneNumber" placeholder="PhoneNumber" />
-        <button type="submit">Create</button>
-    </form>
-</div>
-
+@if((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.SeniorManager)).Succeeded)
+{
+    <div class="text-center">
+        <h3 class="display-4"><a asp-action="Create" asp-controller="Accounts">Create user</a></h3>
+    </div>
+}
 
 <div class="text-center">
     <h1 class="display-4">Users</h1>

@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
-    [Authorize(Policy = RolesNames.Manager)]
+    [Authorize(Policy = PoliciesNames.Manager)]
     public class LogfileController : Controller
     {
         public LogfileController()

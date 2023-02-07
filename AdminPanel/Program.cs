@@ -31,31 +31,31 @@ builder.Services.ConfigureApplicationCookie(config =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(RolesNames.Owner, builder =>
+    options.AddPolicy(PoliciesNames.Owner, builder =>
     {
         builder.RequireAssertion(x => 
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner));
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner));
     });
-    options.AddPolicy(RolesNames.SeniorManager, builder =>
+    options.AddPolicy(PoliciesNames.SeniorManager, builder =>
     {
         builder.RequireAssertion(x =>
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner) ||
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager));
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner) ||
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorManager));
     });
-    options.AddPolicy(RolesNames.Manager, builder =>
+    options.AddPolicy(PoliciesNames.Manager, builder =>
     {
         builder.RequireAssertion(x =>
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner) ||
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager) ||
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager));
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner) ||
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorManager) ||
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Manager));
     });
-    options.AddPolicy(RolesNames.Administrator, builder =>
+    options.AddPolicy(PoliciesNames.Administrator, builder =>
     {
         builder.RequireAssertion(x =>
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Owner) ||
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.SeniorManager) ||
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Manager) ||
-            x.User.HasClaim(ClaimTypes.Role, RolesNames.Administrator));
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner) ||
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorManager) ||
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Manager) ||
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Administrator));
     });
 });
 

@@ -1,6 +1,6 @@
 ﻿namespace AdminPanel.Helpers
 {
-    public static class RolesNames
+    public static class PoliciesNames
     {
         public const string Owner = "Owner";
         public const string SeniorManager = "SeniorManager";

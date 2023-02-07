@@ -14,7 +14,7 @@ using System.Security.Claims;
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
-    [Authorize(Policy = RolesNames.Manager)]
+    [Authorize(Policy = PoliciesNames.Manager)]
     public class AccountsController : Controller
     {
         private readonly ILogger<AccountsController> _logger;
@@ -85,7 +85,13 @@ namespace AdminPanel.Controllers
             return View("Index", users);
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         [HttpPost]
+        [Authorize(Policy = PoliciesNames.SeniorManager)]
         public async Task<IActionResult> CreateUser(CreateUserDTO model)
         {
             if(ModelState.IsValid)
@@ -97,9 +103,7 @@ namespace AdminPanel.Controllers
                     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, model.Role));
                 }
             }
-            
-            var users = _DTOService.GetDTOUsers();
-            return View("Index", users);
+            return View("Create", model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
