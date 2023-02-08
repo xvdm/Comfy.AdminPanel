@@ -3,6 +3,7 @@ using System;
 using AdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdminPanel.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230208182846_UserLogs")]
+    partial class UserLogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,19 +137,25 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Property<int>("LoggingActionId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("SubjectUserId")
+                    b.Property<int>("SubjectUserId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("SubjectUserId1")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId1")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LoggingActionId");
 
-                    b.HasIndex("SubjectUserId");
+                    b.HasIndex("SubjectUserId1");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("UserLogs");
                 });
@@ -261,13 +269,13 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.HasOne("AdminPanel.Models.ApplicationUser", "SubjectUser")
                         .WithMany()
-                        .HasForeignKey("SubjectUserId")
+                        .HasForeignKey("SubjectUserId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AdminPanel.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

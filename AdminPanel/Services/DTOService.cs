@@ -24,13 +24,28 @@ namespace AdminPanel.Services
         }
 
         [Authorize(Roles = PoliciesNames.Manager)]
-        public IEnumerable<UserDTO> GetDTOUsers()
+        public IEnumerable<UserDTO> GetActiveDTOUsers()
         {
-            var users = _mapper.From(_context.Users).ProjectToType<UserDTO>().ToList();
+            var users = _mapper.From(_context.Users.Where(x => x.LockoutEnd == null)).ProjectToType<UserDTO>().ToList();
             foreach(var user in users)
             {
                 var claim = _context.UserClaims.FirstOrDefault(x => x.UserId == user.Id);
                 if(claim is not null)
+                {
+                    user.Position = claim.ClaimValue;
+                }
+            }
+            return users;
+        }
+
+        [Authorize(Roles = PoliciesNames.Manager)]
+        public IEnumerable<UserDTO> GetLockoutedDTOUsers()
+        {
+            var users = _mapper.From(_context.Users.Where(x => x.LockoutEnd != null)).ProjectToType<UserDTO>().ToList();
+            foreach (var user in users)
+            {
+                var claim = _context.UserClaims.FirstOrDefault(x => x.UserId == user.Id);
+                if (claim is not null)
                 {
                     user.Position = claim.ClaimValue;
                 }

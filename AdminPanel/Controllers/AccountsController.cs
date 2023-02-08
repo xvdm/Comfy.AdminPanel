@@ -2,6 +2,7 @@
 using AdminPanel.Helpers;
 using AdminPanel.Models;
 using AdminPanel.Models.DTO;
+using AdminPanel.Models.Logging;
 using AdminPanel.Services;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -17,25 +18,27 @@ namespace AdminPanel.Controllers
     [Authorize(Policy = PoliciesNames.Manager)]
     public class AccountsController : Controller
     {
-        private readonly ILogger<AccountsController> _logger;
-        private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly DTOService _DTOService;
+        private readonly DatabaseLoggerService _databaseLoggerService;
 
-        public AccountsController(IUserService userService, ILogger<AccountsController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext context, DTOService DTOService)
+        public AccountsController(
+            UserManager<ApplicationUser> userManager, 
+            ApplicationDbContext context, 
+            DTOService DTOService, 
+            DatabaseLoggerService databaseLoggerService)
         {
-            _logger = logger;
-            _userService = userService;
             _userManager = userManager;
             _context = context;
             _DTOService = DTOService;
+            _databaseLoggerService = databaseLoggerService;
         }
 
         public IActionResult Index()
         {
-            var users = _DTOService.GetDTOUsers();
-            return View("Index", users);
+            
+            return View("Index");
         }
 
         [HttpPost]
@@ -64,24 +67,10 @@ namespace AdminPanel.Controllers
                 }
                 await _userManager.UpdateSecurityStampAsync(user);
                 await _context.SaveChangesAsync();
+                await _databaseLoggerService.LogUserAction(User, user.Id, LoggingActionNames.Update);
             }
 
-            var users = _DTOService.GetDTOUsers();
-            return View("Index", users);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteUser(Guid id)
-        {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            if (user != null)
-            {
-                if(User.Identity?.Name != user.UserName)
-                {
-                    await _userManager.DeleteAsync(user);
-                }
-            }
-            var users = _DTOService.GetDTOUsers();
+            var users = _DTOService.GetActiveDTOUsers();
             return View("Index", users);
         }
 
@@ -101,9 +90,54 @@ namespace AdminPanel.Controllers
                 if(result.Succeeded)
                 {
                     await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, model.Role));
+                    await _databaseLoggerService.LogUserAction(User, user.Id, LoggingActionNames.Create);
                 }
             }
             return View("Create", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LockoutUser(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user != null)
+            {
+                if (User.Identity?.Name != user.UserName)
+                {
+                    await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Parse("2999-03-01"));
+                    await _databaseLoggerService.LogUserAction(User, id, LoggingActionNames.Lockout);
+                }
+            }
+            var users = _DTOService.GetActiveDTOUsers();
+            return View("ActiveUsers", users);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActivateUser(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user != null)
+            {
+                if (User.Identity?.Name != user.UserName)
+                {
+                    await _userManager.SetLockoutEndDateAsync(user, null);
+                    await _databaseLoggerService.LogUserAction(User, id, LoggingActionNames.Activate);
+                }
+            }
+            var users = _DTOService.GetLockoutedDTOUsers();
+            return View("LockoutedUsers", users);
+        }
+
+        public IActionResult ShowActiveUsers()
+        {
+            var users = _DTOService.GetActiveDTOUsers();
+            return View("ActiveUsers", users);
+        }
+
+        public IActionResult ShowLockoutedUsers()
+        {
+            var users = _DTOService.GetLockoutedDTOUsers();
+            return View("LockoutedUsers", users);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

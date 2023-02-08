@@ -1,0 +1,35 @@
+﻿@using AdminPanel.Models.DTO
+@model IEnumerable<UserDTO>
+@{
+    ViewData["Title"] = "Lockouted users";
+}
+
+
+<div class="text-center">
+    <div asp-validation-summary="All"></div>
+    <table>
+        <tr>
+            <th>Position</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone number</th>
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <form method="post" asp-controller="Accounts" asp-action="UpdateUser">
+                    <input hidden name="Id" value="@user.Id" />
+                <td><input type="text" name="Position" value="@user.Position" readonly /></td>
+                <td><input type="text" name="UserName" value="@user.UserName" /></td>
+                <td><input type="text" name="Email" value="@user.Email" /></td>
+                <td><input type="text" name="PhoneNumber" value="@user.PhoneNumber" /></td>
+                <td><button type="submit">Update</button></td>
+                </form>
+                <form method="post" asp-controller="Accounts" asp-action="ActivateUser">
+                    <input hidden type="text" name="Id" value="@user.Id" />
+                <td><button type="submit">Activate</button></td>
+                </form>
+            </tr>
+        }
+    </table>
+</div>

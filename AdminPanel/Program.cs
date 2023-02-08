@@ -74,13 +74,15 @@ builder.Services.AddScoped<DTOService>();
 builder.Services.AddSingleton(GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 
+builder.Services.AddTransient<DatabaseLoggerService>();
+
 var app = builder.Build();
 
-//using (var scope = app.Services.CreateScope())   // seed initializer
-//{                                                
-//    var services = scope.ServiceProvider;
-//    DatabaseSeedInitializer.Init(services);
-//}                                                
+using (var scope = app.Services.CreateScope())   // seed initializer
+{
+    var services = scope.ServiceProvider;
+    DatabaseSeedInitializer.Seed(services);
+}
 
 if (!app.Environment.IsDevelopment())
 {

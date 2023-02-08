@@ -1,4 +1,6 @@
-﻿using AdminPanel.Helpers;
+﻿using AdminPanel.Data;
+using AdminPanel.Helpers;
+using AdminPanel.Models.Logging;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
@@ -8,7 +10,7 @@ namespace AdminPanel.Models
     {
         public static void Seed(IServiceProvider scopeServiceProvider)
         {
-            var userManager = scopeServiceProvider.GetService<UserManager<ApplicationUser>>();
+            //var userManager = scopeServiceProvider.GetService<UserManager<ApplicationUser>>();
 
             //var manager = new ApplicationUser
             //{
