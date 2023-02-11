@@ -1,15 +1,16 @@
-using AdminPanel.Helpers;
-using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
-using AdminPanel.Data;
-using AdminPanel.Models;
+using Microsoft.AspNetCore.Identity;
+using AdminPanel.Repositories;
+using System.Security.Claims;
 using AdminPanel.Services;
+using AdminPanel.Mapping;
+using AdminPanel.Helpers;
+using System.Reflection;
+using AdminPanel.Models;
+using AdminPanel.Data;
 using MapsterMapper;
 using Mapster;
-using System.Drawing.Text;
-using AdminPanel.Mappers;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -67,18 +68,18 @@ builder.Services.AddAntiforgery(config =>
     config.Cookie.Name = "xcsrf";
 });
 
-builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<DTOService>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 builder.Services.AddSingleton(GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 builder.Services.AddTransient<DatabaseLoggerService>();
 
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly()); // typeof(Program)
+
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())   // seed initializer
+using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     DatabaseSeedInitializer.Seed(services);

@@ -1,11 +1,8 @@
-﻿using AdminPanel.Helpers;
+﻿using AdminPanel.Models.DTO;
 using AdminPanel.Models;
-using AdminPanel.Models.DTO;
 using Mapster;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
-namespace AdminPanel.Mappers
+namespace AdminPanel.Mapping
 {
     public class RegisterMapper : IRegister
     {

@@ -1,8 +1,6 @@
-﻿using AdminPanel.Helpers;
-using AdminPanel.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using AdminPanel.Models;
 
 namespace AdminPanel.Controllers
 {

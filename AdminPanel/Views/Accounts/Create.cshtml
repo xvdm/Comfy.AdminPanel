@@ -1,10 +1,10 @@
-﻿@using AdminPanel.Helpers
-@using System.Security.Claims
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject IAuthorizationService AuthorizationService
+@inject UserManager<ApplicationUser> UserManager
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
-@inject IAuthorizationService AuthorizationService
+@using System.Security.Claims
+@using AdminPanel.Helpers
 @{
     ViewData["Title"] = "Create user";
 }

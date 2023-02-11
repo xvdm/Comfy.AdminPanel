@@ -1,9 +1,9 @@
-﻿@using AdminPanel.Data;
-@using AdminPanel.Helpers
+﻿@inject IAuthorizationService AuthorizationService
+@using Microsoft.AspNetCore.Authorization;
+@using System.Security.Claims;
 @using AdminPanel.Models.DTO;
-@using System.Security.Claims
-@using Microsoft.AspNetCore.Authorization
-@inject IAuthorizationService AuthorizationService
+@using AdminPanel.Helpers;
+@using AdminPanel.Data;
 @{
     ViewData["Title"] = "Users";
 }
@@ -30,10 +30,10 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4"><a asp-action="ShowActiveUsers" asp-controller="Accounts">Show active users</a></h1>
+    <h1 class="display-4"><a asp-action="ActiveUsers" asp-controller="Accounts">Show active users</a></h1>
 </div>
 
 <div class="text-center">
-    <h1 class="display-4"><a asp-action="ShowLockoutedUsers" asp-controller="Accounts">Show lockouted users</a></h1>
+    <h1 class="display-4"><a asp-action="LockoutedUsers" asp-controller="Accounts">Show lockouted users</a></h1>
 </div>
 

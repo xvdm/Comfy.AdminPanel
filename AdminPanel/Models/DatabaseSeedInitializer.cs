@@ -1,8 +1,8 @@
-﻿using AdminPanel.Data;
-using AdminPanel.Helpers;
+﻿using Microsoft.AspNetCore.Identity;
 using AdminPanel.Models.Logging;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using AdminPanel.Helpers;
+using AdminPanel.Data;
 
 namespace AdminPanel.Models
 {

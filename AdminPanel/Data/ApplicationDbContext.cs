@@ -1,8 +1,7 @@
-﻿using AdminPanel.Models;
-using AdminPanel.Models.Logging;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
+using AdminPanel.Models.Logging;
+using AdminPanel.Models;
 
 namespace AdminPanel.Data
 {

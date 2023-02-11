@@ -1,10 +1,9 @@
-﻿using AdminPanel.Data;
-using AdminPanel.Models;
-using AdminPanel.Models.DTO;
-using AdminPanel.Models.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using AdminPanel.Models.Logging;
 using System.Security.Claims;
+using AdminPanel.Models;
+using AdminPanel.Data;
 
 namespace AdminPanel.Services
 {

@@ -1,21 +1,24 @@
-﻿using AdminPanel.Data;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using AdminPanel.Helpers;
 using AdminPanel.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
+using AdminPanel.Data;
+using MediatR;
+using AdminPanel.Queries.Logging;
 
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
     [Authorize(Policy = PoliciesNames.Manager)]
-    public class LogfileController : Controller
+    public class LoggingController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public LogfileController(ApplicationDbContext context)
+        private readonly IMediator _mediator;
+
+        public LoggingController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         public IActionResult Index()
@@ -24,10 +27,11 @@ namespace AdminPanel.Controllers
         }
 
         [Authorize(Policy = PoliciesNames.SeniorManager)]
-        public IActionResult ShowUserLogs()
+        public async Task<IActionResult> UserLogs()
         {
-            var logs = _context.UserLogs.Include(x => x.LoggingAction).ToList();
-            return View("UserLogs", logs);
+            var getUserLogsQuery = new GetUserLogsQuery();
+            var getUserLogsQueryResult = await _mediator.Send(getUserLogsQuery);
+            return View(getUserLogsQueryResult);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
