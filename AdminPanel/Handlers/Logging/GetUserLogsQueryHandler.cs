@@ -17,7 +17,7 @@ namespace AdminPanel.Handlers.Logging
 
         public async Task<IEnumerable<UserLog>> Handle(GetUserLogsQuery request, CancellationToken cancellationToken)
         {
-            var logs = await _context.UserLogs.Include(x => x.LoggingAction).ToListAsync();
+            var logs = await _context.UserLogs.Include(x => x.LoggingAction).ToListAsync(cancellationToken);
             return logs;
         }
     }

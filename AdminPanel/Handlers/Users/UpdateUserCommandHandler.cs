@@ -40,7 +40,6 @@ namespace AdminPanel.Handlers.Users
                 await _userManager.UpdateNormalizedEmailAsync(user);
             }
             await _userManager.UpdateSecurityStampAsync(user);
-            await _context.SaveChangesAsync();
 
             return true;
         }

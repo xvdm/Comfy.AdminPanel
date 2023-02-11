@@ -28,7 +28,8 @@ namespace AdminPanel.Handlers.Users
             var users = _usersRepository.GetUsers();
             var usersDTO = await _mapper
                 .From(users.Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null))
-                .ProjectToType<UserDTO>().ToListAsync();
+                .ProjectToType<UserDTO>()
+                .ToListAsync(cancellationToken);
 
             foreach (var user in usersDTO)
             {
