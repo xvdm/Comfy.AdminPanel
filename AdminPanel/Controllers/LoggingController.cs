@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
+using AdminPanel.Models.ViewModels;
+using AdminPanel.Queries.Logging;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using AdminPanel.Helpers;
-using AdminPanel.Models;
-using AdminPanel.Data;
 using MediatR;
-using AdminPanel.Queries.Logging;
 
 namespace AdminPanel.Controllers
 {

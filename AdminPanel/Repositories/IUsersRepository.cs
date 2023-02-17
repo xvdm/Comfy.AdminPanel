@@ -1,4 +1,4 @@
-﻿using AdminPanel.Models;
+﻿using AdminPanel.Models.Identity;
 
 namespace AdminPanel.Repositories
 {

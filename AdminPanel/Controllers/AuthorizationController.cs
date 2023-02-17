@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using AdminPanel.Models.ViewModels;
+using AdminPanel.Models.Identity;
 using Microsoft.AspNetCore.Mvc;
-using AdminPanel.Models;
 
 namespace AdminPanel.Controllers
 {

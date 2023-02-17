@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using AdminPanel.Models.Identity;
 using AdminPanel.Models.Logging;
 using System.Security.Claims;
-using AdminPanel.Models;
 using AdminPanel.Data;
 
 namespace AdminPanel.Services

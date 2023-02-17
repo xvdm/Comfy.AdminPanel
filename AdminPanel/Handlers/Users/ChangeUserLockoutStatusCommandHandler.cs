@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using AdminPanel.Commands.Users;
 using AdminPanel.Exceptions;
-using AdminPanel.Models;
 using MediatR;
+using AdminPanel.Models.Identity;
 
 namespace AdminPanel.Handlers.Users
 {

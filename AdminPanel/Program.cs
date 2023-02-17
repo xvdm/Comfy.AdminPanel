@@ -1,12 +1,13 @@
+using AdminPanel.Models.SeedInitializers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using AdminPanel.Models.Identity;
 using AdminPanel.Repositories;
 using System.Security.Claims;
 using AdminPanel.Services;
 using AdminPanel.Mapping;
 using AdminPanel.Helpers;
 using System.Reflection;
-using AdminPanel.Models;
 using AdminPanel.Data;
 using MapsterMapper;
 using Mapster;
