@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using AdminPanel.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using AdminPanel.Helpers;
-using AdminPanel.Models;
+using MediatR;
 
 namespace AdminPanel.Controllers
 {
@@ -10,9 +11,10 @@ namespace AdminPanel.Controllers
     [Authorize(Policy = PoliciesNames.Administrator)]
     public class AdminPanelController : Controller
     {
-        public AdminPanelController()
+        private readonly IMediator _mediator;
+        public AdminPanelController(IMediator mediator)
         {
-
+            _mediator = mediator;
         }
 
         public IActionResult Index()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using AdminPanel.Models.ViewModels;
 using AdminPanel.Commands.Users;
 using Microsoft.AspNetCore.Mvc;
 using AdminPanel.Commands.Logs;
@@ -6,7 +7,6 @@ using AdminPanel.Queries.Users;
 using AdminPanel.Models.DTO;
 using System.Diagnostics;
 using AdminPanel.Helpers;
-using AdminPanel.Models;
 using Mapster;
 using MediatR;
 

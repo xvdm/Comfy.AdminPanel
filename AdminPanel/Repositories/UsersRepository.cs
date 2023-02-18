@@ -1,6 +1,5 @@
-﻿using AdminPanel.Models;
+﻿using AdminPanel.Models.Identity;
 using AdminPanel.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Repositories
 {

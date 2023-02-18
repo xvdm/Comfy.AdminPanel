@@ -1,19 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AdminPanel.Queries.Authorization;
+using AdminPanel.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using AdminPanel.Models;
+using AdminPanel.Queries.Users;
+using MediatR;
 
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
     public class AuthorizationController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IMediator _mediator;
 
-        public AuthorizationController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthorizationController(IMediator mediator)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _mediator = mediator;
         }
 
         public IActionResult Login(string? returnUrl)
@@ -35,14 +35,14 @@ namespace AdminPanel.Controllers
                 model.ReturnUrl = "/Authorization/Login";
             }
 
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _mediator.Send(new GetUserByUsernameQuery(model.UserName));
             if(user == null)
             {
                 ModelState.AddModelError("", "User not found");
                 return View(model);
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            var result = await _mediator.Send(new SignInQuery(user, model.Password, false, false));
             if(result.Succeeded)
             {
                 return LocalRedirect(model.ReturnUrl);
@@ -51,16 +51,16 @@ namespace AdminPanel.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            await _mediator.Send(new SignOutQuery());
+            return Redirect("Login");
+        }
+
         public IActionResult AccessDenied()
         {
             ViewBag.PageName = HttpContext.Request.Query["ReturnUrl"];
             return View();
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return Redirect("Login");
         }
     }
 }

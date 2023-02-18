@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace AdminPanel.Models
+namespace AdminPanel.Models.ViewModels
 {
     public class LoginViewModel
     {

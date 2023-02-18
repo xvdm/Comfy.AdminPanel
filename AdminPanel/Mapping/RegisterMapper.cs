@@ -1,6 +1,6 @@
 ﻿using AdminPanel.Models.DTO;
-using AdminPanel.Models;
 using Mapster;
+using AdminPanel.Models.Identity;
 
 namespace AdminPanel.Mapping
 {

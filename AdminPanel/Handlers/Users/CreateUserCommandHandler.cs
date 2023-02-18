@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using AdminPanel.Commands.Users;
 using System.Security.Claims;
-using AdminPanel.Models;
 using MediatR;
 using Mapster;
+using AdminPanel.Models.Identity;
 
 namespace AdminPanel.Handlers.Users
 {

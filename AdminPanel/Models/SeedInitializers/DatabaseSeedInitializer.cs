@@ -4,7 +4,7 @@ using System.Security.Claims;
 using AdminPanel.Helpers;
 using AdminPanel.Data;
 
-namespace AdminPanel.Models
+namespace AdminPanel.Models.SeedInitializers
 {
     public class DatabaseSeedInitializer
     {

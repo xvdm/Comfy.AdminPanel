@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AdminPanel.Models
+namespace AdminPanel.Models.Identity
 {
     public class ApplicationRole : IdentityRole<Guid>
     {

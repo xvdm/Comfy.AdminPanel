@@ -1,4 +1,6 @@
-﻿namespace AdminPanel.Models.Logging
+﻿using AdminPanel.Models.Identity;
+
+namespace AdminPanel.Models.Logging
 {
     public class UserLog
     {
