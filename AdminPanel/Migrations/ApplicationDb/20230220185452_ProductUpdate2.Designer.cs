@@ -3,6 +3,7 @@ using System;
 using AdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdminPanel.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230220185452_ProductUpdate2")]
+    partial class ProductUpdate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,7 +362,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("WebApplication2.Models.Category", b =>
+            modelBuilder.Entity("WebApplication2.Models.CategoryModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -616,16 +618,13 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<double>("Rating")
                         .HasColumnType("double");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -634,12 +633,6 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("ModelId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.HasIndex("Url")
-                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -988,7 +981,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .IsRequired()
                         .HasConstraintName("FK_Products_Brands");
 
-                    b.HasOne("WebApplication2.Models.Category", "Category")
+                    b.HasOne("WebApplication2.Models.CategoryModel", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .IsRequired()
@@ -1093,7 +1086,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("WebApplication2.Models.Category", b =>
+            modelBuilder.Entity("WebApplication2.Models.CategoryModel", b =>
                 {
                     b.Navigation("Products");
                 });

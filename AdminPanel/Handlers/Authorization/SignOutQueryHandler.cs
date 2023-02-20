@@ -14,10 +14,10 @@ namespace AdminPanel.Handlers.Authorization
             _signInManager = signInManager;
         }
 
-        public async Task<Unit> Handle(SignOutQuery request, CancellationToken cancellationToken)
+        public async Task Handle(SignOutQuery request, CancellationToken cancellationToken)
         {
             await _signInManager.SignOutAsync();
-            return Unit.Value;
+            return;
         }
     }
 }

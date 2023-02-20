@@ -2,7 +2,6 @@
 using AdminPanel.Queries.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using NuGet.Protocol.Plugins;
 
 namespace AdminPanel.Handlers.Authorization
 {

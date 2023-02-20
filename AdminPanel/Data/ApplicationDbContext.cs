@@ -20,7 +20,7 @@ namespace AdminPanel.Data
         public DbSet<AddressType> AddressTypes { get; set; } = null!;
         public DbSet<Answer> Answers { get; set; } = null!;
         public DbSet<Brand> Brands { get; set; } = null!;
-        public DbSet<CategoryModel> Categories { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Characteristic> Characteristics { get; set; } = null!;
         public DbSet<CharacteristicName> CharacteristicsNames { get; set; } = null!;
         public DbSet<CharacteristicValue> CharacteristicsValues { get; set; } = null!;

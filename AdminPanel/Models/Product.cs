@@ -2,24 +2,29 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Emit;
 
 namespace WebApplication2.Models
 {
     public partial class Product : IEntityTypeConfiguration<Product>
     {
         public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string? Description { get; set; } = null!;
         public int Price { get; set; }
         public int DiscountAmmount { get; set; }
         public int Amount { get; set; }
         public int Code { get; set; }
-        public double Rating { get; set; }
+        public double Rating { get; set; } 
         public bool IsActive { get; set; }
+        public string? Url { get; set; }
 
         public int BrandId { get; set; }
         public Brand Brand { get; set; } = null!;
 
         public int CategoryId { get; set; }
-        public CategoryModel Category { get; set; } = null!;
+        public Category Category { get; set; } = null!;
 
         public int ModelId { get; set; }
         public Model Model { get; set; } = null!;
@@ -36,6 +41,14 @@ namespace WebApplication2.Models
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.HasKey(e => e.Id);
+
+            builder.Property(p => p.Code)
+                .HasDefaultValue(1000000)
+                .ValueGeneratedOnAdd();
+
+            builder.HasIndex(u => u.Name).IsUnique();
+
+            builder.HasIndex(u => u.Url).IsUnique();
 
             builder.HasOne(d => d.Brand)
                     .WithMany(p => p.Products)

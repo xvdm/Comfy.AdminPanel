@@ -76,7 +76,7 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 builder.Services.AddTransient<DatabaseLoggerService>();
 
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly()); // typeof(Program)
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WebApplication2.Models
 {
-    public partial class CategoryModel : IEntityTypeConfiguration<CategoryModel>
+    public partial class Category : IEntityTypeConfiguration<Category>
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
@@ -13,7 +13,7 @@ namespace WebApplication2.Models
         public ICollection<Product>? Products { get; set; }
 
 
-        public void Configure(EntityTypeBuilder<CategoryModel> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Name).IsUnicode(false);

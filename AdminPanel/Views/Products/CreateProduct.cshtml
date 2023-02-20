@@ -1,0 +1,128 @@
+﻿@using AdminPanel.Models.DTO
+@model ProductDTO
+
+@{
+    ViewData["Title"] = "Create product";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Create product</h1>
+    <form method="post" asp-controller="Products" asp-action="CreateProduct">
+        <div asp-validation-summary="All"></div>
+        <input type="text" name="Name" placeholder="Name" />
+        <br />
+        <input type="number" name="Price" placeholder="Price in UAH" />
+        <div>
+            <input id="brandInput" type="text" name="Brand" placeholder="Brand" />
+            <br />
+            <select id="autocomplete-list-brands" style="display:none"></select>
+        </div>
+        <div>
+            <input id="categoryInput" type="text" name="Category" placeholder="Category" />
+            <br />
+            <select id="autocomplete-list-categories" style="display:none"></select>
+        </div>
+        <div>
+            <input id="modelInput" type="text" name="Model" placeholder="Model" />
+            <br />
+            <select id="autocomplete-list-models" style="display:none"></select>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#brandInput').on('input', function () {
+                var input = $(this).val();
+                if (input.length >= 1) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Products/GetAutocompleteBrands',
+                        data: { input: input },
+                        success: function (data) {
+                            if (data.length == 0) {
+                                $('#autocomplete-list-brands').hide();
+                            }
+                            else {
+                                $('#autocomplete-list-brands').html(data);
+                                $('#autocomplete-list-brands').show();
+                            }
+                        }
+                    });
+                }
+                else {
+                    $('#autocomplete-list-brands').hide();
+                }
+            });
+
+            $(document).on('change', '#autocomplete-list-brands', function () {
+                $('#brandInput').val($(this).val());
+                $('#autocomplete-list-brands').hide();
+            });
+        });
+
+        $(document).ready(function () {
+            $('#categoryInput').on('input', function () {
+                var input = $(this).val();
+                if (input.length >= 1) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Products/GetAutocompleteCategories',
+                        data: { input: input },
+                        success: function (data) {
+                            if (data.length == 0) {
+                                $('#autocomplete-list-categories').hide();
+                            }
+                            else {
+                                $('#autocomplete-list-categories').html(data);
+                                $('#autocomplete-list-categories').show();
+                            }
+                        }
+                    });
+                }
+                else {
+                    $('#autocomplete-list-categories').hide();
+                }
+            });
+
+            $(document).on('change', '#autocomplete-list-categories', function () {
+                $('#categoryInput').val($(this).val());
+                $('#autocomplete-list-categories').hide();
+            });
+        });
+
+        $(document).ready(function () {
+            $('#modelInput').on('input', function () {
+                var input = $(this).val();
+                if (input.length >= 1) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Products/GetAutocompleteModels',
+                        data: { input: input },
+                        success: function (data) {
+                            if (data.length == 0) {
+                                $('#autocomplete-list-models').hide();
+                            }
+                            else {
+                                $('#autocomplete-list-models').html(data);
+                                $('#autocomplete-list-models').show();
+                            }
+                        }
+                    });
+                }
+                else {
+                    $('#autocomplete-list-models').hide();
+                }
+            });
+
+            $(document).on('change', '#autocomplete-list-models', function () {
+                $('#modelInput').val($(this).val());
+                $('#autocomplete-list-models').hide();
+            });
+        });
+    </script>
+}
