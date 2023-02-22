@@ -1,0 +1,17 @@
+﻿@using WebApplication2.Models
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products: </h1>
+
+@foreach(var product in Model) {
+    <h6>Name: @product.Name</h6>
+    <h6>Code: @product.Code</h6>
+    <h6>Url: @product.Url</h6>
+    <a asp-action="EditProduct" asp-controller="Products" asp-route-id="@product.Id">Edit</a>
+    <br />
+    <br />
+}

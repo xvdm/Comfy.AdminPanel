@@ -72,8 +72,32 @@ namespace AdminPanel.Controllers
 
                 await _context.Products.AddAsync(product);
                 await _context.SaveChangesAsync();
+                var id = product.Id;
+                product.Code = id + 1000000;
+                await _context.SaveChangesAsync();
             }
             return View(productDto);
+        }
+
+        public async Task<IActionResult> EditProduct(int id)
+        {
+            var product = await _context.Products
+                .Include(x => x.Brand)
+                .Include(x => x.Category)
+                .Include(x => x.Model)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if(product is null)
+            {
+                return NotFound(product);
+            }
+            return View(product);
+        }
+
+        public async Task<IActionResult> GetProducts()
+        {
+            var products = await _context.Products.ToListAsync();
+            return View(products);
         }
 
         public IActionResult CreateBrand()

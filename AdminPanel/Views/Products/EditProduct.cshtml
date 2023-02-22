@@ -1,0 +1,66 @@
+﻿@using WebApplication2.Models
+@model Product
+@{
+    ViewData["Title"] = "Edit product";
+}
+
+<h1>Edit product</h1>
+
+<label for="Name">Name</label>
+<br />
+<input type="text" name="Name" placeholder="Name" value="@Model.Name"/>
+<br /><br />
+
+<label for="Price">Price</label>
+<br />
+<input type="number" name="Price" placeholder="Price" value="@Model.Price" />
+<br /><br />
+
+<label for="Brand">Brand</label>
+<br />
+<input type="text" name="Brand" placeholder="Brand" value="@Model.Brand.Name" />
+<br /><br />
+
+<label for="Category">Category</label>
+<br />
+<input type="text" name="Category" placeholder="Category" value="@Model.Category.Name" />
+<br /><br />
+
+<label for="Model">Model</label>
+<br />
+<input type="text" name="Model" placeholder="Model" value="@Model.Model.Name" />
+<br /><br />
+
+<label for="Description">Description</label>
+<br />
+<input type="text" name="Description" placeholder="Description" value="@Model.Description" />
+<br /><br />
+
+<label for="DiscountAmount">Discount amount</label>
+<br />
+<input type="number" name="DiscountAmount" placeholder="Discount amount" value="@Model.DiscountAmmount" />
+<br /><br />
+
+<label for="IsActive">Is active</label>
+<br />
+<input type="checkbox" name="IsActive" placeholder="Is active" value="@Model.IsActive" />
+<br /><br />
+
+<label for="Url">Url</label>
+<br />
+<input disabled readonly type="text" name="Url" placeholder="Url" value="@Model.Description" />
+<br /><br />
+
+<label for="Rating">Rating</label>
+<br />
+<input disabled readonly type="text" name="Rating" placeholder="Rating" value="@Model.Rating" />
+<br /><br />
+
+<label for="Amount">Amount</label>
+<br />
+<input disabled readonly type="number" name="Amount" placeholder="Amount" value="@Model.Amount" />
+<br /><br />
+
+<label for="Code">Code</label>
+<br />
+<input disabled readonly type="number" name="Code" placeholder="Code" value="@Model.Code" />

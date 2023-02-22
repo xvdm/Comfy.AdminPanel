@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -42,9 +43,7 @@ namespace WebApplication2.Models
         {
             builder.HasKey(e => e.Id);
 
-            builder.Property(p => p.Code)
-                .HasDefaultValue(1000000)
-                .ValueGeneratedOnAdd();
+            builder.HasIndex(p => p.Code).IsUnique();
 
             builder.HasIndex(u => u.Name).IsUnique();
 
