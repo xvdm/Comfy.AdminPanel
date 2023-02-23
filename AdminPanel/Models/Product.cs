@@ -30,10 +30,11 @@ namespace WebApplication2.Models
         public int ModelId { get; set; }
         public Model Model { get; set; } = null!;
 
+        public ICollection<PriceHistory>? PriceHistory { get; set; }
+        public ICollection<Image>? Images { get; set; }
+
         public ICollection<Characteristic>? Characteristics { get; set; }
         public ICollection<OrderedProduct>? OrderedProducts { get; set; }
-        public ICollection<PriceHistory>? PriceHistories { get; set; }
-        public ICollection<ProductImage>? ProductImages { get; set; }
         public ICollection<Question>? Questions { get; set; }
         public ICollection<Review>? Reviews { get; set; }
         public ICollection<Wishlist>? WhishLists { get; set; }
@@ -41,29 +42,29 @@ namespace WebApplication2.Models
 
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(e => e.Id);
+            builder.HasKey(x => x.Id);
 
-            builder.HasIndex(p => p.Code).IsUnique();
+            builder.HasIndex(x => x.Name);
 
-            builder.HasIndex(u => u.Name).IsUnique();
+            builder.HasIndex(x => x.Code).IsUnique();
 
-            builder.HasIndex(u => u.Url).IsUnique();
+            builder.HasIndex(x => x.Url).IsUnique();
 
-            builder.HasOne(d => d.Brand)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.BrandId)
+            builder.HasOne(x => x.Brand)
+                    .WithMany(x => x.Products)
+                    .HasForeignKey(x => x.BrandId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Brands");
 
-            builder.HasOne(d => d.Category)
-                .WithMany(p => p.Products)
-                .HasForeignKey(d => d.CategoryId)
+            builder.HasOne(x => x.Category)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Products_Categories");
 
-            builder.HasOne(d => d.Model)
-                .WithMany(p => p.Products)
-                .HasForeignKey(d => d.ModelId)
+            builder.HasOne(x => x.Model)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.ModelId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Products_Models");
         }

@@ -25,7 +25,6 @@ namespace WebApplication2.Models
         public Product Product { get; set; } = null!;
 
         public ICollection<Answer>? Answers { get; set; }
-        public ICollection<ReviewImage>? ReviewImages { get; set; }
 
 
         public void Configure(EntityTypeBuilder<Review> builder)

@@ -22,7 +22,7 @@ namespace WebApplication2.Models
             builder.Property(e => e.Date).HasColumnType("date");
 
             builder.HasOne(d => d.Product)
-                .WithMany(p => p.PriceHistories)
+                .WithMany(p => p.PriceHistory)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PriceHistory_Products");

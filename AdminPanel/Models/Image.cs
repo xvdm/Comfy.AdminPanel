@@ -10,13 +10,17 @@ namespace WebApplication2.Models
         public int Id { get; set; }
         public string Url { get; set; } = null!;
 
-        public ICollection<ProductImage>? ProductImages { get; set; }
-        public ICollection<ReviewImage>? ReviewsImages { get; set; }
-
+        public int ProductId { get; set; }
+        public Product Product { get; set; } = null!;
 
         public void Configure(EntityTypeBuilder<Image> builder)
         {
             builder.HasKey(e => e.Id);
+
+            builder.HasOne(d => d.Product)
+                .WithMany(p => p.Images)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

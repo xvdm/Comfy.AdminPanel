@@ -32,10 +32,8 @@ namespace AdminPanel.Data
         public DbSet<PaymentType> PaymentTypes { get; set; } = null!;
         public DbSet<PriceHistory> PriceHistories { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<ProductImage> ProductImages { get; set; } = null!;
         public DbSet<Question> Questions { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
-        public DbSet<ReviewImage> ReviewsImages { get; set; } = null!;
         public DbSet<Wishlist> WhishLists { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
