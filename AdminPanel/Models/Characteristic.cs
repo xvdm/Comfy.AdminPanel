@@ -26,14 +26,12 @@ namespace WebApplication2.Models
             builder.HasOne(d => d.CharacteristicsName)
                     .WithMany(p => p.Characteristics)
                     .HasForeignKey(d => d.CharacteristicsNameId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Characteristics_CharacteristicsNames");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(d => d.CharacteristicsValue)
                 .WithMany(p => p.Characteristics)
                 .HasForeignKey(d => d.CharacteristicsValueId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Characteristics_CharacteristicsValues");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(d => d.Product)
                 .WithMany(p => p.Characteristics)

@@ -11,6 +11,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using NickBuhro.Translit;
 using System;
+using System.Drawing;
+using System.Reflection.PortableExecutable;
 using WebApplication2.Models;
 
 namespace AdminPanel.Controllers
@@ -76,8 +78,7 @@ namespace AdminPanel.Controllers
             await _context.SaveChangesAsync();
 
             // после получения id товара инициализируется артикул и история цен
-            var id = product.Id;
-            product.Code = id + 1000000;
+            product.Code = product.Id + 1000000;
 
             product.PriceHistory = new List<PriceHistory>();
             var priceHistory = new PriceHistory
@@ -105,6 +106,7 @@ namespace AdminPanel.Controllers
                 .Include(x => x.Category)
                 .Include(x => x.Model)
                 .Include(x => x.PriceHistory)
+                
                 .FirstAsync(x => x.Id == productDto.Id);
 
             if(product is null) return BadRequest("Product was not found");
@@ -164,6 +166,10 @@ namespace AdminPanel.Controllers
         public async Task<IActionResult> EditProduct(int id)
         {
             var product = await _context.Products
+                .Include(x => x.Characteristics)
+                    .ThenInclude(x => x.CharacteristicsName)
+                .Include(x => x.Characteristics)
+                    .ThenInclude(x => x.CharacteristicsValue)
                 .Include(x => x.Brand)
                 .Include(x => x.Category)
                 .Include(x => x.Model)
@@ -184,6 +190,108 @@ namespace AdminPanel.Controllers
             return View(products);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditCharacteristic(int productId, int id, string name, string value)
+        {
+            var product = await _context.Products
+                .Include(x => x.Characteristics)
+                    .ThenInclude(x => x.CharacteristicsName)
+                .Include(x => x.Characteristics)
+                    .ThenInclude(x => x.CharacteristicsValue)
+                .FirstOrDefaultAsync(x => x.Id == productId);
+            if (product is null) return BadRequest("No product with given Id was found");
+
+            var characteristic = await _context.Characteristics.FirstOrDefaultAsync(x => x.Id == id);
+            if (characteristic is null) return BadRequest("There is no characteristic with given Id");
+
+            var productCharacteristic = product.Characteristics.FirstOrDefault(x => x.CharacteristicsName.Name == name);
+            if (productCharacteristic is not null && productCharacteristic.Id != id)
+            {
+                return BadRequest("This product already has characteristic with given name");
+            }
+            
+            var characteristicName = await _context.CharacteristicsNames.FirstOrDefaultAsync(x => x.Name == name);
+            var characteristicValue = await _context.CharacteristicsValues.FirstOrDefaultAsync(x => x.Value == value);
+            if (characteristicName is null)
+            {
+                characteristicName = new CharacteristicName() { Name = name };
+                await _context.CharacteristicsNames.AddAsync(characteristicName);
+            }
+            if (characteristicValue is null)
+            {
+                characteristicValue = new CharacteristicValue() { Value = value };
+                await _context.CharacteristicsValues.AddAsync(characteristicValue);
+            }
+            product.Characteristics.First(x => x.Id == id).CharacteristicsName = characteristicName;
+            product.Characteristics.First(x => x.Id == id).CharacteristicsValue = characteristicValue;
+            
+            await _context.SaveChangesAsync();
+
+            return LocalRedirect($"/Products/EditProduct/{productId}");
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> DeleteCharacteristic(int productId, int id)
+        {
+            var characteristic = await _context.Characteristics.FirstOrDefaultAsync(x => x.Id == id);
+            if (characteristic is null) return BadRequest("There is no characteristic with given Id");
+            _context.Characteristics.Remove(characteristic);
+            await _context.SaveChangesAsync();
+            return LocalRedirect($"/Products/EditProduct/{productId}");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddCharacteristic(int productId, string name, string value)
+        {
+            var characteristicsName = await _context.CharacteristicsNames.FirstOrDefaultAsync(x => x.Name == name);
+            var characteristicsValue = await _context.CharacteristicsValues.FirstOrDefaultAsync(x => x.Value == value);
+            
+
+            bool isNewCharacteristic = false;
+            if(characteristicsName is null)
+            {
+                characteristicsName = new CharacteristicName() { Name = name };
+                await _context.CharacteristicsNames.AddAsync(characteristicsName);
+                isNewCharacteristic = true;
+            }
+            if (characteristicsValue is null)
+            {
+                characteristicsValue = new CharacteristicValue() { Value = value };
+                await _context.CharacteristicsValues.AddAsync(characteristicsValue);
+                isNewCharacteristic = true;
+            }
+            if(isNewCharacteristic)
+            {
+                await _context.SaveChangesAsync();
+            }
+
+
+            var product = await _context.Products
+                .Include(x => x.Characteristics)
+                .ThenInclude(x => x.CharacteristicsName)
+                .FirstOrDefaultAsync(x => x.Id == productId);
+            if (product is null)
+            {
+                return BadRequest("Product with this id does not exist");
+            }
+            if (product.Characteristics.FirstOrDefault(x => x.CharacteristicsNameId == characteristicsName.Id) is not null)
+            {
+                return BadRequest("This product already has characteristic with this name");
+            }
+
+            
+            var characteristic = new Characteristic()
+            {
+                CharacteristicsNameId = characteristicsName.Id,
+                CharacteristicsValueId = characteristicsValue.Id,
+                ProductId = productId
+            };
+            await _context.Characteristics.AddAsync(characteristic);
+            await _context.SaveChangesAsync();
+
+            return LocalRedirect($"/Products/EditProduct/{productId}");
+        }
 
         public IActionResult CreateBrand()
         {

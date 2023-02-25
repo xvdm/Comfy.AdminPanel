@@ -16,7 +16,6 @@ namespace WebApplication2.Models
         public void Configure(EntityTypeBuilder<CharacteristicName> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.Id).ValueGeneratedNever();
         }
     }
 }

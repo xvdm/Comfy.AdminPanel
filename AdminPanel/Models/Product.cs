@@ -30,14 +30,14 @@ namespace WebApplication2.Models
         public int ModelId { get; set; }
         public Model Model { get; set; } = null!;
 
-        public ICollection<PriceHistory>? PriceHistory { get; set; }
-        public ICollection<Image>? Images { get; set; }
+        public ICollection<PriceHistory> PriceHistory { get; set; } = null!;
+        public ICollection<Image> Images { get; set; } = null!;
 
-        public ICollection<Characteristic>? Characteristics { get; set; }
-        public ICollection<OrderedProduct>? OrderedProducts { get; set; }
-        public ICollection<Question>? Questions { get; set; }
-        public ICollection<Review>? Reviews { get; set; }
-        public ICollection<Wishlist>? WhishLists { get; set; }
+        public ICollection<Characteristic> Characteristics { get; set; } = null!;
+        public ICollection<OrderedProduct> OrderedProducts { get; set; } = null!;
+        public ICollection<Question> Questions { get; set; } = null!;
+        public ICollection<Review> Reviews { get; set; } = null!;
+        public ICollection<Wishlist> WhishLists { get; set; } = null!;
 
 
         public void Configure(EntityTypeBuilder<Product> builder)
