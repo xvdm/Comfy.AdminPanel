@@ -36,7 +36,7 @@ namespace AdminPanel.Controllers
             }
 
             var user = await _mediator.Send(new GetUserByUsernameQuery(model.UserName));
-            if(user == null)
+            if(user is null)
             {
                 ModelState.AddModelError("", "User not found");
                 return View(model);

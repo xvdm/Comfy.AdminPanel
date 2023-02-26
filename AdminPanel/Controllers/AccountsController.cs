@@ -35,16 +35,14 @@ namespace AdminPanel.Controllers
 
         public async Task<IActionResult> ActiveUsers()
         {
-            var query = new GetDTOUsersQuery(false);
-            var result = await _mediator.Send(query);
-            return View(result);
+            var users = await _mediator.Send(new GetDTOUsersQuery(false));
+            return View(users);
         }
 
         public async Task<IActionResult> LockoutedUsers()
         {
-            var query = new GetDTOUsersQuery(true);
-            var result = await _mediator.Send(query);
-            return View(result);
+            var users = await _mediator.Send(new GetDTOUsersQuery(true));
+            return View(users);
         }
 
         [HttpPost]
@@ -52,12 +50,14 @@ namespace AdminPanel.Controllers
         {
             if (ModelState.IsValid)
             {
-                var updateUserCommand = model.Adapt<UpdateUserCommand>();
-                var updateUserCommandResult = await _mediator.Send(updateUserCommand);
-                if(updateUserCommandResult)
+                if(await _mediator.Send(model.Adapt<UpdateUserCommand>()))
                 {
-                    var createUserLogCommand = new CreateUserLogCommand() { User = User, SubjetUserId = model.Id, Action = LoggingActionNames.Update };
-                    var createUserLogCommandResult = await _mediator.Send(createUserLogCommand);
+                    var createUserLogCommand = new CreateUserLogCommand() { 
+                        User = User, 
+                        SubjetUserId = model.Id, 
+                        Action = LoggingActionNames.Update 
+                    };
+                    await _mediator.Send(createUserLogCommand);
                 }
             }
             return View(nameof(Index));
@@ -69,12 +69,15 @@ namespace AdminPanel.Controllers
         {
             if(ModelState.IsValid)
             {
-                var createUserCommand = model.Adapt<CreateUserCommand>();
-                var createUserCommandResult = await _mediator.Send(createUserCommand);
+                var createUserCommandResult = await _mediator.Send(model.Adapt<CreateUserCommand>());
                 if(createUserCommandResult != Guid.Empty)
                 {
-                    var createUserLogCommand = new CreateUserLogCommand() { User = User, SubjetUserId = createUserCommandResult, Action = LoggingActionNames.Create };
-                    var createUserLogCommandResult = await _mediator.Send(createUserLogCommand);
+                    var createUserLogCommand = new CreateUserLogCommand() { 
+                        User = User, 
+                        SubjetUserId = createUserCommandResult, 
+                        Action = LoggingActionNames.Create 
+                    };
+                    await _mediator.Send(createUserLogCommand);
                 }
             }
             return View(nameof(Create), model);
@@ -83,33 +86,45 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> LockoutUser(Guid id)
         {
-            var lockoutUserCommand = new ChangeUserLockoutStatusCommand() { CurrentUser = User, UserId = id, IsLockout = true };
-            var lockoutUserCommandResult = await _mediator.Send(lockoutUserCommand);
-            if (lockoutUserCommandResult)
+            var lockoutUserCommand = new ChangeUserLockoutStatusCommand() { 
+                CurrentUser = User, 
+                UserId = id, 
+                IsLockout = true 
+            };
+            if (await _mediator.Send(lockoutUserCommand))
             {
-                var createUserLogCommand = new CreateUserLogCommand() { User = User, SubjetUserId = id, Action = LoggingActionNames.Lockout };
-                var createUserLogCommandResult = await _mediator.Send(createUserLogCommand);
+                var createUserLogCommand = new CreateUserLogCommand() { 
+                    User = User, 
+                    SubjetUserId = id, 
+                    Action = LoggingActionNames.Lockout 
+                };
+                await _mediator.Send(createUserLogCommand);
             }
 
-            var query = new GetDTOUsersQuery(false);
-            var result = await _mediator.Send(query);
-            return View(nameof(ActiveUsers), result);
+            var users = await _mediator.Send(new GetDTOUsersQuery(false));
+            return View(nameof(ActiveUsers), users);
         }
 
         [HttpPost]
         public async Task<IActionResult> ActivateUser(Guid id)
         {
-            var activateUserCommand = new ChangeUserLockoutStatusCommand() { CurrentUser = User, UserId = id, IsLockout = false };
-            var activateUserCommandResult = await _mediator.Send(activateUserCommand);
-            if (activateUserCommandResult)
+            var activateUserCommand = new ChangeUserLockoutStatusCommand() { 
+                CurrentUser = User, 
+                UserId = id, 
+                IsLockout = false 
+            };
+            if (await _mediator.Send(activateUserCommand))
             {
-                var createUserLogCommand = new CreateUserLogCommand() { User = User, SubjetUserId = id, Action = LoggingActionNames.Activate };
-                var createUserLogCommandResult = await _mediator.Send(createUserLogCommand);
+                var createUserLogCommand = new CreateUserLogCommand() { 
+                    User = User, 
+                    SubjetUserId = id, 
+                    Action = LoggingActionNames.Activate 
+                };
+                await _mediator.Send(createUserLogCommand);
             }
 
-            var query = new GetDTOUsersQuery(true);
-            var result = await _mediator.Send(query);
-            return View(nameof(LockoutedUsers), result);
+            var users = await _mediator.Send(new GetDTOUsersQuery(true));
+            return View(nameof(LockoutedUsers), users);
         }
 
 

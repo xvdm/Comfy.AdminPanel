@@ -27,9 +27,8 @@ namespace AdminPanel.Controllers
         [Authorize(Policy = PoliciesNames.SeniorManager)]
         public async Task<IActionResult> UserLogs()
         {
-            var getUserLogsQuery = new GetUserLogsQuery();
-            var getUserLogsQueryResult = await _mediator.Send(getUserLogsQuery);
-            return View(getUserLogsQueryResult);
+            var userLogs = await _mediator.Send(new GetUserLogsQuery());
+            return View(userLogs);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

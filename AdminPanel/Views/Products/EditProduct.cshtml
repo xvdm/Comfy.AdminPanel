@@ -89,11 +89,11 @@
 
 @if(Model.IsActive) {
     <h6>Product is activated</h6>
-    <a asp-action="ChangeProductIsActiveStatus" asp-controller="Products" asp-route-productId="@Model.Id" asp-route-isActive="@false">Deactivate it</a>
+    <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Id" asp-route-isActive="@false">Deactivate it</a>
 }
 else {
     <h6>Product is deactivated</h6>
-    <a asp-action="ChangeProductIsActiveStatus" asp-controller="Products" asp-route-productId="@Model.Id" asp-route-isActive="@true">Activate it</a>
+    <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Id" asp-route-isActive="@true">Activate it</a>
 }
 <br /><br />
 
