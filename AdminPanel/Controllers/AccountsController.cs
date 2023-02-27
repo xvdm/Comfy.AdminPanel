@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using AdminPanel.Models.ViewModels;
-using AdminPanel.Commands.Users;
 using Microsoft.AspNetCore.Mvc;
-using AdminPanel.Commands.Logs;
-using AdminPanel.Queries.Users;
 using AdminPanel.Models.DTO;
 using System.Diagnostics;
 using AdminPanel.Helpers;
 using Mapster;
 using MediatR;
+using AdminPanel.Handlers.Users;
+using AdminPanel.Handlers.Logging;
 
 namespace AdminPanel.Controllers
 {

@@ -1,8 +1,8 @@
-﻿using AdminPanel.Queries.Authorization;
-using AdminPanel.Models.ViewModels;
+﻿using AdminPanel.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using AdminPanel.Queries.Users;
 using MediatR;
+using AdminPanel.Handlers.Users;
+using AdminPanel.Handlers.Authorization;
 
 namespace AdminPanel.Controllers
 {

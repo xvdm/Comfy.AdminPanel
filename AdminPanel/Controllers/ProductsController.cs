@@ -1,14 +1,9 @@
-﻿using AdminPanel.Commands.Brands;
-using AdminPanel.Commands.Products;
-using AdminPanel.Commands.Products.Categories;
-using AdminPanel.Commands.Products.Models;
-using AdminPanel.Data;
+﻿using AdminPanel.Handlers.Products;
+using AdminPanel.Handlers.Products.Brands;
+using AdminPanel.Handlers.Products.Categories;
+using AdminPanel.Handlers.Products.Models;
 using AdminPanel.Helpers;
 using AdminPanel.Models.DTO;
-using AdminPanel.Queries.Products;
-using AdminPanel.Queries.Products.Brands;
-using AdminPanel.Queries.Products.Categories;
-using AdminPanel.Queries.Products.Models;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -23,12 +18,10 @@ namespace AdminPanel.Controllers
     public class ProductsController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly ApplicationDbContext _context;
 
-        public ProductsController(IMediator mediator, ApplicationDbContext context)
+        public ProductsController(IMediator mediator)
         {
             _mediator = mediator;
-            _context = context;
         }
 
         public IActionResult Index()
