@@ -1,0 +1,51 @@
+﻿@using WebApplication2.Models
+@*@model IEnumerable<Product>*@
+@model ProductListViewModel
+
+@{
+    ViewData["Title"] = "Products";
+    string ampersand = Model.Query is null ? "" : "&";
+}
+
+<h1>Products: </h1>
+
+<h6>Categories</h6>
+@foreach (var x in Model.Categories)
+{
+    <a asp-controller="AdminPanel" asp-route-query="@(Model.Query+ampersand)category=@x.Id">@x.Name</a>
+}
+<br />
+<br />
+
+<h6>Brands</h6>
+@foreach (var x in Model.Brands)
+{
+    <a asp-controller="AdminPanel" asp-route-query="@(Model.Query+ampersand)brand=@x.Id">@x.Name</a>
+}
+<br />
+<br />
+
+<h6>Models</h6>
+@foreach (var x in Model.Models)
+{
+    <a asp-controller="AdminPanel" asp-route-query="@(Model.Query+ampersand)model=@x.Id">@x.Name</a>
+}
+<br />
+<br />
+<br />
+
+
+
+@foreach (var product in Model.Products)
+{
+    <h6>Name: @product.Name</h6>
+    <h6>Code: @product.Code</h6>
+    <h6>Url: @product.Url</h6>
+    <h6>Brand: @product.Brand.Name</h6>
+    <h6>Model: @product.Model.Name</h6>
+    <h6>Category: @product.Category.Name</h6>
+    <h6>Is active: @product.IsActive</h6>
+    <a asp-action="EditProduct" asp-controller="AdminPanel" asp-route-id="@product.Id">Edit</a>
+    <br />
+    <br />
+}

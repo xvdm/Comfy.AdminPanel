@@ -9,10 +9,12 @@ namespace AdminPanel.Handlers.Products
     {
         public int Skip { get; set; }
         public int Take { get; set; }
-        public GetProductsQuery(int skip, int take)
+        public Dictionary<string, List<string>> QueryDictionary { get; set; }
+        public GetProductsQuery(int skip, int take, Dictionary<string, List<string>> queryDictionary)
         {
             Skip = skip;
             Take = take;
+            QueryDictionary = queryDictionary;
         }
     }
 
@@ -28,7 +30,32 @@ namespace AdminPanel.Handlers.Products
 
         public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Products.Skip(request.Skip).Take(request.Take).ToListAsync();
+            var products = _context.Products
+                .Include(p => p.Model)
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .AsNoTracking()
+                .AsQueryable();
+            foreach (var pair in request.QueryDictionary)
+            {
+                if (pair.Value.Any())
+                {
+                    var ids = pair.Value.Where(x => int.TryParse(x, out int id)).Select(x => int.Parse(x)).ToArray();
+                    if (pair.Key == "brand")
+                    {
+                        products = products.Where(x => ids.Contains(x.Brand.Id));
+                    }
+                    else if (pair.Key == "model")
+                    {
+                        products = products.Where(x => ids.Contains(x.Model.Id));
+                    }
+                    else if (pair.Key == "category")
+                    {
+                        products = products.Where(x => ids.Contains(x.Category.Id));
+                    }
+                }
+            }
+            return await products.Skip(request.Skip).Take(request.Take).ToListAsync();
         }
     }
 }
