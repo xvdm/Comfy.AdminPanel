@@ -1,0 +1,12 @@
+﻿@model IEnumerable<MainCategory>
+@{
+    ViewData["Title"] = "Main categories";
+}
+
+<h6>Main categories</h6>
+
+@foreach(var x in Model) {
+    <a asp-action="Category" asp-controller="Categories" asp-route-id="@x.Id">@x.Id | @x.Name</a>
+    <br />
+}
+

@@ -39,7 +39,7 @@ namespace AdminPanel.Handlers.Products
             var model = await _context.Models.Where(x => x.Name == request.Model).FirstOrDefaultAsync();
             if(model is null) throw new HttpRequestException($"There is no model {request.Brand}");
 
-            var category = await _context.Categories.Where(x => x.Name == request.Category).FirstOrDefaultAsync();
+            var category = await _context.Subcategories.Where(x => x.Name == request.Category).FirstOrDefaultAsync();
             if(category is null) throw new HttpRequestException($"There is no category {request.Brand}");
             
             product.BrandId = brand.Id;

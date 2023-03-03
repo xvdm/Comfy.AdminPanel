@@ -25,7 +25,7 @@ namespace WebApplication2.Models
         public Brand Brand { get; set; } = null!;
 
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = null!;
+        public Subcategory Category { get; set; } = null!;
 
         public int ModelId { get; set; }
         public Model Model { get; set; } = null!;
@@ -51,22 +51,19 @@ namespace WebApplication2.Models
             builder.HasIndex(x => x.Url).IsUnique();
 
             builder.HasOne(x => x.Brand)
-                    .WithMany(x => x.Products)
-                    .HasForeignKey(x => x.BrandId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Products_Brands");
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.BrandId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(x => x.Category)
                 .WithMany(x => x.Products)
                 .HasForeignKey(x => x.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Products_Categories");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(x => x.Model)
                 .WithMany(x => x.Products)
                 .HasForeignKey(x => x.ModelId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Products_Models");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Create subcategory";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Create subcategory</h1>
+    <form method="post" asp-controller="AdminPanel" asp-action="CreateSubCategory">
+        <div asp-validation-summary="All"></div>
+        <input type="number" name="MainCategoryId" placeholder="Main category id" />
+        <input type="text" name="Name" placeholder="Subcategory name" />
+        <button type="submit">Create</button>
+    </form>
+</div>

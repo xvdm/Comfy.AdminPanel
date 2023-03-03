@@ -1,0 +1,13 @@
+﻿@using WebApplication2.Models
+@model IEnumerable<Subcategory>
+@{
+    ViewData["Title"] = "Subcategories";
+}
+
+<h6>Subcategories</h6>
+
+@foreach (var x in Model)
+{
+    <a asp-action="Products" asp-controller="Products" asp-route-categoryId="@x.Id">@x.Id | @x.Name</a>
+    <br />
+}

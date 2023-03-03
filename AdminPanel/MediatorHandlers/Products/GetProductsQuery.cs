@@ -7,11 +7,13 @@ namespace AdminPanel.Handlers.Products
 {
     public class GetProductsQuery : IRequest<IEnumerable<Product>>
     {
+        public int CategoryId { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
         public Dictionary<string, List<string>> QueryDictionary { get; set; }
-        public GetProductsQuery(int skip, int take, Dictionary<string, List<string>> queryDictionary)
+        public GetProductsQuery(int categoryId, int skip, int take, Dictionary<string, List<string>> queryDictionary)
         {
+            CategoryId = categoryId;
             Skip = skip;
             Take = take;
             QueryDictionary = queryDictionary;
@@ -31,6 +33,7 @@ namespace AdminPanel.Handlers.Products
         public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
             var products = _context.Products
+                .Where(x => x.CategoryId == request.CategoryId)
                 .Include(p => p.Model)
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
@@ -48,10 +51,6 @@ namespace AdminPanel.Handlers.Products
                     else if (pair.Key == "model")
                     {
                         products = products.Where(x => ids.Contains(x.Model.Id));
-                    }
-                    else if (pair.Key == "category")
-                    {
-                        products = products.Where(x => ids.Contains(x.Category.Id));
                     }
                 }
             }

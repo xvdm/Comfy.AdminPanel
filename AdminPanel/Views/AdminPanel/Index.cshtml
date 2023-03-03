@@ -1,13 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Poducts";
+    ViewData["Title"] = "Admin panel";
 }
 
 <div class="text-center">
-    <h3 class="display-4"><a asp-action="GetProducts" asp-controller="AdminPanel">Products</a></h3>
-</div>
-
-<div class="text-center">
-    <h3 class="display-4"><a asp-action="CreateProduct" asp-controller="AdminPanel">Create product</a></h3>
+    <h3 class="display-4"><a asp-action="CreateProduct" asp-controller="Products">Create product</a></h3>
 </div>
 
 
@@ -20,5 +16,9 @@
 </div>
 
 <div class="text-center">
-    <h3 class="display-4"><a asp-action="CreateCategory" asp-controller="AdminPanel">Create category</a></h3>
+    <h3 class="display-4"><a asp-action="CreateMainCategory" asp-controller="AdminPanel">Create main category</a></h3>
+</div>
+
+<div class="text-center">
+    <h3 class="display-4"><a asp-action="CreateSubcategory" asp-controller="AdminPanel">Create subcategory</a></h3>
 </div>

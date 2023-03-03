@@ -21,6 +21,7 @@
             <div class="container-fluid">
                 @if((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Administrator)).Succeeded) {
                     <a class="navbar-brand" asp-area="" asp-controller="AdminPanel" asp-action="Index">AdminPanel</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Categories" asp-action="Index">Products</a>
                 }
                 @if((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Manager)).Succeeded) {
                     <a class="navbar-brand" asp-area="" asp-controller="Accounts" asp-action="Index">Accounts</a>

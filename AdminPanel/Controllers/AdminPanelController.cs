@@ -3,21 +3,14 @@ using AdminPanel.Handlers.Products.Brands;
 using AdminPanel.Handlers.Products.Categories;
 using AdminPanel.Handlers.Products.Models;
 using AdminPanel.Helpers;
-using AdminPanel.MediatorHandlers.Products.Brands;
-using AdminPanel.MediatorHandlers.Products.Categories;
-using AdminPanel.MediatorHandlers.Products.Models;
+using AdminPanel.Migrations.ApplicationDb;
+using AdminPanel.Models;
 using AdminPanel.Models.DTO;
-using AdminPanel.Models.ViewModels;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Net;
-using System.Text;
-using System.Web;
 using WebApplication2.Models;
 
 namespace AdminPanel.Controllers
@@ -33,13 +26,7 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        [Route("[controller]/[action]")]
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult CreateProduct()
         {
             return View();
         }
@@ -53,80 +40,17 @@ namespace AdminPanel.Controllers
         {
             return View();
         }
-        public IActionResult CreateCategory()
+
+        [Authorize(Policy = PoliciesNames.Owner)]
+        public IActionResult CreateMainCategory()
         {
             return View();
         }
 
-        public async Task<IActionResult> EditProduct(int id)
+        [Authorize(Policy = PoliciesNames.Owner)]
+        public IActionResult CreateSubcategory()
         {
-            var product = await _mediator.Send(new GetProductByIdQuery(id));
-
-            if (product is null)
-            {
-                return NotFound(product);
-            }
-            return View(product);
-        }
-
-        public async Task<IActionResult> GetProducts(string? query)
-        {
-            if(ProductUrl.TryRemoveEmptyAndDuplicatesFromQuery(query, out Dictionary<string, List<string>> queryDictionary))
-            {
-                return LocalRedirect($"/AdminPanel/{WebUtility.UrlEncode(ProductUrl.GetUrlQuery(queryDictionary))}");
-            }
-            
-
-            var products = await _mediator.Send(new GetProductsQuery(0, 10, queryDictionary));
-            var categories = await _mediator.Send(new GetCategoriesQuery());
-            var brands = await _mediator.Send(new GetBrandsQuery());
-            var models = await _mediator.Send(new GetModelsQuery());
-
-            var viewModel = new ProductListViewModel()
-            {
-                Query = query,
-                Products = products,
-                Brands = brands,
-                Models = models,
-                Categories = categories
-            };
-
-            return View(viewModel);
-        }
-
-        public async Task<IActionResult> ChangeProductActivityStatus(int productId, bool isActive)
-        {
-            await _mediator.Send(new ChangeProductActivityStatusCommand(productId, isActive));
-
-            return LocalRedirect($"/AdminPanel/EditProduct/{productId}");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductDTO productDto)
-        {
-            if(!ModelState.IsValid)
-            {
-                return View(productDto);
-            }
-
-            var command = productDto.Adapt<CreateProductCommand>();
-            var productId = await _mediator.Send(command);
-
-            return LocalRedirect($"/AdminPanel/EditProduct/{productId}");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditProduct(EditProductDTO productDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Incorrect data was passed");
-            }
-
-            var command = productDto.Adapt<EditProductCommand>();
-            var productId = await _mediator.Send(command);
-
-            return LocalRedirect($"/Products/EditProduct/{productId}");
+            return View();
         }
 
         [HttpPost]
@@ -182,11 +106,22 @@ namespace AdminPanel.Controllers
             return View(model);
         }
 
+        [Authorize(Policy = PoliciesNames.Owner)]
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(Category category)
+        public async Task<IActionResult> CreateMainCategory(CreateMainCategoryDTO categoryDTO)
         {
-            await _mediator.Send(new CreateCategoryCommand(category));
-            return View(category);
+            var category = categoryDTO.Adapt<MainCategory>();
+            await _mediator.Send(new CreateMainCategoryCommand(category));
+            return View(categoryDTO);
+        }
+
+        [Authorize(Policy = PoliciesNames.Owner)]
+        [HttpPost]
+        public async Task<IActionResult> CreateSubcategory(CreateSubcategoryDTO categoryDTO)
+        {
+            var category = categoryDTO.Adapt<Subcategory>();
+            await _mediator.Send(new CreateSubcategoryCommand(category));
+            return View(categoryDTO);
         }
 
         public IActionResult GetAutocompleteBrands(string input)
@@ -197,7 +132,7 @@ namespace AdminPanel.Controllers
 
         public IActionResult GetAutocompleteCategories(string input)
         {
-            var items = _mediator.Send(new GetAutocompleteCategoriesQuery(input, 5));
+            var items = _mediator.Send(new GetAutocompleteSubcategoriesQuery(input, 5));
             return Content(string.Join("", items.Result.Select(item => $"<option class='autocomplete-item'>{item.Name}</option>")));
         }
 

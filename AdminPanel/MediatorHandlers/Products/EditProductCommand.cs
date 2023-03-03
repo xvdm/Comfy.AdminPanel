@@ -46,7 +46,7 @@ namespace AdminPanel.Handlers.Products
             }
             if (product.Category.Name != request.Category)
             {
-                var br = await _context.Categories.FirstOrDefaultAsync(x => x.Name == request.Category);
+                var br = await _context.Subcategories.FirstOrDefaultAsync(x => x.Name == request.Category);
                 if (br is null) throw new HttpRequestException("This category does not exist");
             }
             if (product.Model.Name != request.Model)
