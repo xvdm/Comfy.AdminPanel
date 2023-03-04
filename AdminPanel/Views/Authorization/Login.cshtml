@@ -1,10 +1,10 @@
 ﻿@model LoginViewModel
 
 
-<div class="body-container-authorization">
+<div id="body-container-authorization" class="body-container-authorization">
     <div class="container-authorization">
         <div class="authorization">
-            <span class="auth-lable"> Авторізація</span>
+            <span class="auth-lable"> Авторизація</span>
         <div asp-validation-summary="All" class="Errors"></div>
             <form method="post" asp-controller="Authorization" asp-action="Login" onsubmit="return validateAuth()" class="auth-form">
              

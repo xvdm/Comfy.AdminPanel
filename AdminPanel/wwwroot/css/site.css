@@ -2,10 +2,18 @@ html {
     font-size: 18px;
 }
 
-.body-container{
+.body-container-auth {
     margin: 0;
     padding: 0;
 }
+
+.body-container {
+    margin: 0;
+    margin-left: 285px;
+    padding: 0;
+}
+
+
 
 .body-container-authorization {
     width: 100%;
@@ -150,4 +158,27 @@ html {
 
 .modal-footer{
     border:none;
+}
+
+.AdminPanel {
+    position: fixed;
+    height:100%;
+    z-index: 1;
+}
+
+.AdminPanel ul.nav li a{
+    color:lightgray;
+}
+
+.AdminPanel ul.nav li a:hover {
+    color: white;
+}
+
+.AdminPanel ul.nav li {
+        padding:10px;
+}
+
+.AP-Logo{
+    font-size:35px;
+    text-align:center;
 }
