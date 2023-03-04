@@ -54,45 +54,6 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCharacteristic(int productId, int id, string name, string value)
-        {
-            var product = await _mediator.Send(new GetProductByIdQuery(productId));
-            if (product is null) return NotFound("No product with given Id was found");
-
-            var editCharacteristicCommand = new EditProductCharacteristicCommand()
-            {
-                Product = product,
-                CharacteristicId = id,
-                Name = name,
-                Value = value
-            };
-            await _mediator.Send(editCharacteristicCommand);
-
-            return LocalRedirect($"/AdminPanel/EditProduct/{productId}");
-        }
-        
-        [HttpPost]
-        public async Task<IActionResult> DeleteCharacteristic(int productId, int id)
-        {
-            await _mediator.Send(new DeleteProductCharacteristicCommand(id));
-            return LocalRedirect($"/AdminPanel/EditProduct/{productId}");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCharacteristic(int productId, string name, string value)
-        {
-            var command = new AddProductCharacteristicCommand()
-            {
-                ProductId = productId,
-                Name = name,
-                Value = value
-            };
-            await _mediator.Send(command);
-
-            return LocalRedirect($"/AdminPanel/EditProduct/{productId}");
-        }
-
-        [HttpPost]
         public async Task<IActionResult> CreateBrand(Brand brand)
         {
             await _mediator.Send(new CreateBrandCommand(brand));

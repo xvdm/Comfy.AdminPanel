@@ -47,7 +47,9 @@ namespace AdminPanel.Handlers.Products
 
             var product = await _context.Products
                 .Include(x => x.Characteristics)
-                .ThenInclude(x => x.CharacteristicsName)
+                    .ThenInclude(x => x.CharacteristicsName)
+                .Include(x => x.Category)
+                    .ThenInclude(x => x.UniqueCharacteristics)
                 .FirstOrDefaultAsync(x => x.Id == request.ProductId);
             if (product is null)
             {
@@ -66,6 +68,7 @@ namespace AdminPanel.Handlers.Products
                 ProductId = request.ProductId
             };
             await _context.Characteristics.AddAsync(characteristic);
+            product.Category.UniqueCharacteristics.Add(characteristic);
             await _context.SaveChangesAsync();
         }
     }

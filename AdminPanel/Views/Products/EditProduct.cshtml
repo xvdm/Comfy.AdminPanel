@@ -126,7 +126,7 @@ else
 <br />
 
 <h3>Add characteristics</h3>
-<form method="post" asp-action="AddCharacteristic" asp-controller="AdminPanel">
+<form method="post" asp-action="AddCharacteristic" asp-controller="Products">
     <input hidden required name="ProductId" value="@Model.Id" />
     <input required name="Name" placeholder="Name" />
     <input required name="Value" placeholder="Value" />
@@ -145,14 +145,14 @@ else
         @foreach (var x in Model.Characteristics)
         {
             <tr>
-                <form method="post" asp-controller="AdminPanel" asp-action="EditCharacteristic">
+                <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
                     <input required hidden name="ProductId" value="@Model.Id" />
                     <input required hidden name="Id" value="@x.Id" />
                 <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
                 <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
                 <td><button type="submit">Update</button></td>
                 </form>
-                <form method="post" asp-controller="AdminPanel" asp-action="DeleteCharacteristic">
+                <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
                     <input required hidden name="ProductId" value="@Model.Id" />
                     <input required hidden name="Id" value="@x.Id" />
                 <td><button type="submit">Delete</button></td>

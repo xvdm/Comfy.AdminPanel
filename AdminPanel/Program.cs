@@ -110,7 +110,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Authorization}/{action=Login}/{id?}");
+    pattern: "{controller=AdminPanel}/{action=Index}/{id?}");
 
 app.Run();
 

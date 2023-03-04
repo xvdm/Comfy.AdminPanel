@@ -39,9 +39,13 @@ namespace AdminPanel.Handlers.Products
             var model = await _context.Models.Where(x => x.Name == request.Model).FirstOrDefaultAsync();
             if(model is null) throw new HttpRequestException($"There is no model {request.Brand}");
 
-            var category = await _context.Subcategories.Where(x => x.Name == request.Category).FirstOrDefaultAsync();
+            var category = await _context.Subcategories
+                .Where(x => x.Name == request.Category)
+                .Include(x => x.UniqueBrands)
+                .FirstOrDefaultAsync();
             if(category is null) throw new HttpRequestException($"There is no category {request.Brand}");
-            
+
+
             product.BrandId = brand.Id;
             product.Brand = brand;
 
@@ -58,6 +62,8 @@ namespace AdminPanel.Handlers.Products
 
             // после получения id товара инициализируется артикул и история цен
             product.Code = product.Id + 1000000;
+            
+            category.UniqueBrands.Add(brand);
 
             product.PriceHistory = new List<PriceHistory>();
             var priceHistory = new PriceHistory

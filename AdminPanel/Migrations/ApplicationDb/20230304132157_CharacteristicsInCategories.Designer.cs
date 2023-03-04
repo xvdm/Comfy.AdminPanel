@@ -3,6 +3,7 @@ using System;
 using AdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdminPanel.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230304132157_CharacteristicsInCategories")]
+    partial class CharacteristicsInCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,12 +373,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("SubcategoryId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubcategoryId");
 
                     b.ToTable("Brands");
                 });
@@ -892,13 +889,6 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Navigation("TargetReview");
                 });
 
-            modelBuilder.Entity("WebApplication2.Models.Brand", b =>
-                {
-                    b.HasOne("WebApplication2.Models.Subcategory", null)
-                        .WithMany("UniqueBrands")
-                        .HasForeignKey("SubcategoryId");
-                });
-
             modelBuilder.Entity("WebApplication2.Models.Characteristic", b =>
                 {
                     b.HasOne("WebApplication2.Models.CharacteristicName", "CharacteristicsName")
@@ -1142,8 +1132,6 @@ namespace AdminPanel.Migrations.ApplicationDb
             modelBuilder.Entity("WebApplication2.Models.Subcategory", b =>
                 {
                     b.Navigation("Products");
-
-                    b.Navigation("UniqueBrands");
 
                     b.Navigation("UniqueCharacteristics");
                 });

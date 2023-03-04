@@ -14,6 +14,9 @@ namespace WebApplication2.Models
 
         public ICollection<Product> Products { get; set; } = null!;
 
+        public ISet<Characteristic> UniqueCharacteristics { get; set; } = null!;
+        public ISet<Brand> UniqueBrands { get; set; } = null!;
+
         public void Configure(EntityTypeBuilder<Subcategory> builder)
         {
             builder.HasKey(e => e.Id);
@@ -23,6 +26,9 @@ namespace WebApplication2.Models
                 .WithMany(x => x.Categories)
                 .HasForeignKey(x => x.MainCategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.HasMany(x => x.UniqueCharacteristics);
+            builder.HasMany(x => x.UniqueBrands);
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using AdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdminPanel.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230304151151_UniqueBrandsInCategory")]
+    partial class UniqueBrandsInCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,12 +373,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("SubcategoryId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubcategoryId");
 
                     b.ToTable("Brands");
                 });
@@ -399,6 +396,9 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Property<int?>("SubcategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SubcategoryId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CharacteristicsNameId");
@@ -408,6 +408,8 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.HasIndex("ProductId");
 
                     b.HasIndex("SubcategoryId");
+
+                    b.HasIndex("SubcategoryId1");
 
                     b.ToTable("Characteristics");
                 });
@@ -892,13 +894,6 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Navigation("TargetReview");
                 });
 
-            modelBuilder.Entity("WebApplication2.Models.Brand", b =>
-                {
-                    b.HasOne("WebApplication2.Models.Subcategory", null)
-                        .WithMany("UniqueBrands")
-                        .HasForeignKey("SubcategoryId");
-                });
-
             modelBuilder.Entity("WebApplication2.Models.Characteristic", b =>
                 {
                     b.HasOne("WebApplication2.Models.CharacteristicName", "CharacteristicsName")
@@ -918,8 +913,12 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .HasConstraintName("FK_Characteristics_Products");
 
                     b.HasOne("WebApplication2.Models.Subcategory", null)
-                        .WithMany("UniqueCharacteristics")
+                        .WithMany("UniqueBrands")
                         .HasForeignKey("SubcategoryId");
+
+                    b.HasOne("WebApplication2.Models.Subcategory", null)
+                        .WithMany("UniqueCharacteristics")
+                        .HasForeignKey("SubcategoryId1");
 
                     b.Navigation("CharacteristicsName");
 

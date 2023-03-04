@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using WebApplication2.Models;
 
 namespace AdminPanel.Handlers.Products
@@ -37,20 +38,24 @@ namespace AdminPanel.Handlers.Products
                 .Include(p => p.Model)
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
+                .Include(p => p.Characteristics)
                 .AsNoTracking()
                 .AsQueryable();
+
             foreach (var pair in request.QueryDictionary)
             {
                 if (pair.Value.Any())
                 {
                     var ids = pair.Value.Where(x => int.TryParse(x, out int id)).Select(x => int.Parse(x)).ToArray();
+
                     if (pair.Key == "brand")
                     {
                         products = products.Where(x => ids.Contains(x.Brand.Id));
                     }
-                    else if (pair.Key == "model")
+
+                    if(int.TryParse(pair.Key, out int nameId))
                     {
-                        products = products.Where(x => ids.Contains(x.Model.Id));
+                        products = products.Where(x => x.Characteristics.Any(c => ids.Contains(c.CharacteristicsValueId)));                    
                     }
                 }
             }
