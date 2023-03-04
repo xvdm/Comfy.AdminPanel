@@ -1,3 +1,4 @@
+
 using AdminPanel.Models.SeedInitializers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +18,8 @@ using System.Web;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
     throw new InvalidOperationException("Connection string 'AdminPanelContextConnection' not found.");
+
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(config => config.UseMySql(connectionString, new MySqlServerVersion(new Version(10, 4, 25))));
 
@@ -74,6 +77,7 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 builder.Services.AddSingleton(GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
+
 
 builder.Services.AddTransient<DatabaseLoggerService>();
 

@@ -1,28 +1,48 @@
 ﻿@model LoginViewModel
-@{
-    ViewData["Title"] = "Login";
-}
 
-<style>
-    li {
-        list-style-type: none;
-    }
-</style>
 
-<div class="text-center">
-    <div asp-validation-summary="All"></div>
-    <form method="post" asp-controller="Authorization" asp-action="Login">
+<div class="body-container-authorization">
+    <div class="container-authorization">
+        <div class="authorization">
+            <span class="auth-lable"> Авторізація</span>
+        <div asp-validation-summary="All" class="Errors"></div>
+            <form method="post" asp-controller="Authorization" asp-action="Login" onsubmit="return validateAuth()" class="auth-form">
+             
+            <input hidden asp-for="ReturnUrl" value="@ViewBag.ReturnUrl" />
+             
+            <div class="authInput">
+                <input asp-for="UserName" type="text" placeholder="Ім'я користувача'" id="authNameField" class="UsernameField" />
+            </div>
+            <div class="authInput">
+                    <input asp-for="Password" type="password" placeholder="Пароль" id="authPasswordField" class="PasswordField" />
+            </div>
+          
+            <div class="container-auth-btn">
+                    <button class="btnAuth" type="submit">Увійти</button>
+             </div>
 
-        <input hidden asp-for="ReturnUrl" value="@ViewBag.ReturnUrl" />
-        <div>
-            <input asp-for="UserName" type="text" placeholder="UserName" />
-            <br />
-        </div>
-        <div>
-            <input asp-for="Password" type="password" placeholder="Password"/>
-            <br />
-        </div>
-        <button type="submit">Login</button>
-    </form>
+            <div class="container-auth-help">
+                    <button type="button" class="btnAuthHelp" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Забули пароль?</button>
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Допомога у відновленні пароля</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Якщо ви забули свій пароль або він з якоїсь причини не працює. Ви можете звернутися до свого менеджера, який видавав вам пароль та запросити у нього новий.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btnAuthHelpOK" data-bs-dismiss="modal">Зрозуміло</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </form>
+    </div>
+    </div>
 </div>
 

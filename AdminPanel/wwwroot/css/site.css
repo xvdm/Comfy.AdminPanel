@@ -1,18 +1,153 @@
 html {
-  font-size: 14px;
+    font-size: 18px;
 }
 
-@media (min-width: 768px) {
-  html {
+.body-container{
+    margin: 0;
+    padding: 0;
+}
+
+.body-container-authorization {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background: #ebebeb;
+}
+
+.container-authorization {
+    background: white;
+    width: 560px;
+    border-radius: 10px;
+    position: relative;
+    padding: 55px 85px 55px 85px;
+}
+
+.authorization {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.auth-form {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.Errors{
+    width:100%;
+}
+
+    .Errors ul {
+        padding:0px;
+    }
+
+.Errors ul li{
+    list-style-type:none;
+    color:red;
+    text-align:center;
+    font-weight:500;
+}
+
+.container-auth-btn {
+    width: 100%;
+    margin-top:10px;
+    text-align: center;
+}
+
+.auth-lable {
+    font-size: 30px;
+    width:100%;
+    display:block;
+    padding-bottom: 20px;
+}
+
+.authInput {
+    width: 100%;
+    display: block;
+}
+
+.UsernameField, .PasswordField {
+    width: 100%;
+    display: block;
+    height: 55px;
+    padding-left:20px;
+    margin-bottom:20px;
+    border: solid #ebebeb 1px;
+    border-radius:5px;
+}
+
+.PasswordField :focus {
+        border: solid green 1px;
+}
+
+.container-auth-help{
+    display:block;
+    width:100%;
+    text-align:center;
+    margin-top: 20px;
+}
+
+.btnAuth {
     font-size: 16px;
-  }
+    font-weight: bold;
+    background: black;
+    width: 155px;
+    height: 55px;
+    color: white;
+    border: solid black 1px;
+    border-radius: 30px;
+    padding: 10px 30px;
+    transition: all 0.25s;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.btnAuth:hover {
+     background: green;
+     border: solid green 1px;
 }
 
-body {
-  margin-bottom: 60px;
+.btnAuth:active {
+     background: black;
+     border: solid black 1px;
+}
+
+.btnAuthHelp {
+    color: gray;
+    background: none;
+    border: none;
+}
+
+.btnAuthHelp:hover {
+    color: black;
+    background: none;
+    border: none;
+}
+
+ .btnAuthHelp:active {
+   color: black;
+   background: none;
+   border: none;
+}
+
+.btnAuthHelpOK{
+    border: none;
+    color: white;
+    background:black;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.modal-header {
+    border: none;
+}
+
+.modal-footer{
+    border:none;
 }
