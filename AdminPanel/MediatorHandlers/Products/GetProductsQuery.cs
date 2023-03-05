@@ -1,7 +1,6 @@
 ﻿using AdminPanel.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using WebApplication2.Models;
 
 namespace AdminPanel.Handlers.Products
@@ -53,10 +52,7 @@ namespace AdminPanel.Handlers.Products
                         products = products.Where(x => ids.Contains(x.Brand.Id));
                     }
 
-                    if(int.TryParse(pair.Key, out int nameId))
-                    {
-                        products = products.Where(x => x.Characteristics.Any(c => ids.Contains(c.CharacteristicsValueId)));                    
-                    }
+                    products = products.Where(x => x.Characteristics.Any(c => ids.Contains(c.CharacteristicsValueId)));                    
                 }
             }
             return await products.Skip(request.Skip).Take(request.Take).ToListAsync();

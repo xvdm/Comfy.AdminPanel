@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using AdminPanel.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using AdminPanel.Helpers;
 using MediatR;
 using AdminPanel.Handlers.Logging;
@@ -29,12 +27,6 @@ namespace AdminPanel.Controllers
         {
             var userLogs = await _mediator.Send(new GetUserLogsQuery());
             return View(userLogs);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

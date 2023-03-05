@@ -1,4 +1,5 @@
-﻿using WebApplication2.Models;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using WebApplication2.Models;
 
 namespace AdminPanel.Models.ViewModels
 {

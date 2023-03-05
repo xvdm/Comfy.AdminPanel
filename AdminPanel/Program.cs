@@ -1,4 +1,3 @@
-
 using AdminPanel.Models.SeedInitializers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +12,6 @@ using AdminPanel.Data;
 using MapsterMapper;
 using Mapster;
 using MediatR;
-using System.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 

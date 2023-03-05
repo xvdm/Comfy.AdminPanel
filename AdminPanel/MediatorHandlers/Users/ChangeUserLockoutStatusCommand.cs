@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using AdminPanel.Exceptions;
 using MediatR;
 using AdminPanel.Models.Identity;
 using System.Security.Claims;
@@ -11,6 +10,13 @@ namespace AdminPanel.Handlers.Users
         public ClaimsPrincipal CurrentUser { get; set; } = null!;
         public Guid UserId { get; set; }
         public bool IsLockout { get; set; }
+
+        public ChangeUserLockoutStatusCommand(ClaimsPrincipal currentUser, Guid userId, bool isLockout)
+        {
+            CurrentUser = currentUser;
+            UserId = userId;
+            IsLockout = isLockout;
+        }
     }
 
 
@@ -28,7 +34,7 @@ namespace AdminPanel.Handlers.Users
             var user = await _userManager.FindByIdAsync(request.UserId.ToString());
             if (user == null)
             {
-                throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+                throw new HttpRequestException("User with given id was not found");
             }
 
             if (request.CurrentUser.Identity?.Name != user.UserName)

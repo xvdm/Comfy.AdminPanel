@@ -11,6 +11,14 @@ namespace AdminPanel.Handlers.Products
         public int CharacteristicId { get; set; }
         public string Name { get; set; } = null!;
         public string Value { get; set; } = null!;
+
+        public EditProductCharacteristicCommand(Product product, int characteristicId, string name, string value)
+        {
+            Product = product;
+            CharacteristicId = characteristicId;
+            Name = name;
+            Value = value;
+        }
     }
 
 

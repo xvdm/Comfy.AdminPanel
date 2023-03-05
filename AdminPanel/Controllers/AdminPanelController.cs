@@ -1,9 +1,7 @@
-﻿using AdminPanel.Handlers.Products;
-using AdminPanel.Handlers.Products.Brands;
+﻿using AdminPanel.Handlers.Products.Brands;
 using AdminPanel.Handlers.Products.Categories;
 using AdminPanel.Handlers.Products.Models;
 using AdminPanel.Helpers;
-using AdminPanel.Migrations.ApplicationDb;
 using AdminPanel.Models;
 using AdminPanel.Models.DTO;
 using Mapster;

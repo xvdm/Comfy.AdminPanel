@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using AdminPanel.Exceptions;
-using AdminPanel.Data;
 using MediatR;
 using AdminPanel.Models.Identity;
 
@@ -19,12 +17,10 @@ namespace AdminPanel.Handlers.Users
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
 
-        public UpdateUserCommandHandler(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public UpdateUserCommandHandler(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _context = context;
         }
 
         public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -32,7 +28,7 @@ namespace AdminPanel.Handlers.Users
             var user = await _userManager.FindByIdAsync(request.Id.ToString());
             if (user == null)
             {
-                throw new NotFoundException(nameof(ApplicationUser), request.Id);
+                throw new HttpRequestException("User with given id was not found");
             }
 
             user.UserName = request.UserName;

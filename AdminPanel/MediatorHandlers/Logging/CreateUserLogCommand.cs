@@ -9,6 +9,12 @@ namespace AdminPanel.Handlers.Logging
         public ClaimsPrincipal User { get; set; } = null!;
         public Guid SubjetUserId { get; set; }
         public string Action { get; set; } = null!;
+        public CreateUserLogCommand(ClaimsPrincipal user, Guid subjetUserId, string action)
+        {
+            User = user;
+            SubjetUserId = subjetUserId;
+            Action = action;
+        }
     }
 
 

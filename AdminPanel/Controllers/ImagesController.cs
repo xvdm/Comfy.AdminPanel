@@ -3,7 +3,6 @@ using AdminPanel.MediatorHandlers.Product.Images;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Controllers
 {
@@ -21,20 +20,17 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadImage(int productId, IFormFile file)
         {
-            if (file is not null)
+            if (file is null)
             {
-                await _mediator.Send(new UploadProductImageCommand(productId, file));
-
-                return LocalRedirect($"/Products/EditProduct/{productId}");
+                return BadRequest("No file was uploaded.");
             }
-
-            return BadRequest("No file was uploaded.");
+            await _mediator.Send(new UploadProductImageCommand(productId, file));
+            return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
         public async Task<IActionResult> DeleteImage(int imageId, int productId)
         {
             await _mediator.Send(new DeleteProductImageCommand(imageId));
-
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
     }

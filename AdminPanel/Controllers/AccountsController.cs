@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using AdminPanel.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using AdminPanel.Models.DTO;
-using System.Diagnostics;
 using AdminPanel.Helpers;
 using Mapster;
 using MediatR;
@@ -51,11 +49,7 @@ namespace AdminPanel.Controllers
             {
                 if(await _mediator.Send(model.Adapt<UpdateUserCommand>()))
                 {
-                    var createUserLogCommand = new CreateUserLogCommand() { 
-                        User = User, 
-                        SubjetUserId = model.Id, 
-                        Action = LoggingActionNames.Update 
-                    };
+                    var createUserLogCommand = new CreateUserLogCommand(User, model.Id, LoggingActionNames.Update);
                     await _mediator.Send(createUserLogCommand);
                 }
             }
@@ -68,14 +62,10 @@ namespace AdminPanel.Controllers
         {
             if(ModelState.IsValid)
             {
-                var createUserCommandResult = await _mediator.Send(model.Adapt<CreateUserCommand>());
-                if(createUserCommandResult != Guid.Empty)
+                var id = await _mediator.Send(model.Adapt<CreateUserCommand>());
+                if(id != Guid.Empty)
                 {
-                    var createUserLogCommand = new CreateUserLogCommand() { 
-                        User = User, 
-                        SubjetUserId = createUserCommandResult, 
-                        Action = LoggingActionNames.Create 
-                    };
+                    var createUserLogCommand = new CreateUserLogCommand(User, id, LoggingActionNames.Create);
                     await _mediator.Send(createUserLogCommand);
                 }
             }
@@ -85,18 +75,10 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> LockoutUser(Guid id)
         {
-            var lockoutUserCommand = new ChangeUserLockoutStatusCommand() { 
-                CurrentUser = User, 
-                UserId = id, 
-                IsLockout = true 
-            };
+            var lockoutUserCommand = new ChangeUserLockoutStatusCommand(User, id, true);
             if (await _mediator.Send(lockoutUserCommand))
             {
-                var createUserLogCommand = new CreateUserLogCommand() { 
-                    User = User, 
-                    SubjetUserId = id, 
-                    Action = LoggingActionNames.Lockout 
-                };
+                var createUserLogCommand = new CreateUserLogCommand(User, id, LoggingActionNames.Lockout);
                 await _mediator.Send(createUserLogCommand);
             }
 
@@ -107,30 +89,15 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> ActivateUser(Guid id)
         {
-            var activateUserCommand = new ChangeUserLockoutStatusCommand() { 
-                CurrentUser = User, 
-                UserId = id, 
-                IsLockout = false 
-            };
+            var activateUserCommand = new ChangeUserLockoutStatusCommand(User, id, false);
             if (await _mediator.Send(activateUserCommand))
             {
-                var createUserLogCommand = new CreateUserLogCommand() { 
-                    User = User, 
-                    SubjetUserId = id, 
-                    Action = LoggingActionNames.Activate 
-                };
+                var createUserLogCommand = new CreateUserLogCommand(User, id, LoggingActionNames.Activate);
                 await _mediator.Send(createUserLogCommand);
             }
 
             var users = await _mediator.Send(new GetDTOUsersQuery(true));
             return View(nameof(LockoutedUsers), users);
-        }
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

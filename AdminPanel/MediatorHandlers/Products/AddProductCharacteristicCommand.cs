@@ -10,6 +10,13 @@ namespace AdminPanel.Handlers.Products
         public int ProductId { get; set; }
         public string Name { get; set; } = null!;
         public string Value { get; set; } = null!;
+
+        public AddProductCharacteristicCommand(int productId, string name, string value)
+        {
+            ProductId = productId;
+            Name = name;
+            Value = value;
+        }
     }
 
 
