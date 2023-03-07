@@ -37,8 +37,7 @@ namespace WebApplication2.Models
             builder.HasOne(d => d.Product)
                 .WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Reviews_Products");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

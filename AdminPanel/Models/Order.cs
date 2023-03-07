@@ -40,20 +40,17 @@ namespace WebApplication2.Models
             builder.HasOne(d => d.Address)
                 .WithMany(p => p.Orders)
                 .HasForeignKey(d => d.AddressId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Orders_Addresses");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(d => d.PaymentType)
                 .WithMany(p => p.Orders)
                 .HasForeignKey(d => d.PaymentTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Orders_PaymentTypes");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(d => d.Status)
                 .WithMany(p => p.Orders)
                 .HasForeignKey(d => d.StatusId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Orders_OrderStatuses");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

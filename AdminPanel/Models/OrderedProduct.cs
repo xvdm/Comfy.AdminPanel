@@ -23,14 +23,12 @@ namespace WebApplication2.Models
             builder.HasOne(d => d.Order)
                     .WithMany(p => p.OrderedProducts)
                     .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderedProducts_Orders");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(d => d.Product)
                 .WithMany(p => p.OrderedProducts)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OrderedProducts_Products");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

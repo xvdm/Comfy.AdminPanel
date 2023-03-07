@@ -26,14 +26,12 @@ namespace WebApplication2.Models
             builder.HasOne(d => d.TargetQuestion)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.TargetId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Answers_Questions");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(d => d.TargetReview)
                 .WithMany(p => p.Answers)
                 .HasForeignKey(d => d.TargetId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Answers_Reviews");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

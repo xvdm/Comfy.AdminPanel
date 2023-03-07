@@ -31,8 +31,7 @@ namespace WebApplication2.Models
             builder.HasOne(d => d.AddressType)
                 .WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.AddressTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Addresses_AddressTypes");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

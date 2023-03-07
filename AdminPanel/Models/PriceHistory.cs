@@ -24,8 +24,7 @@ namespace WebApplication2.Models
             builder.HasOne(d => d.Product)
                 .WithMany(p => p.PriceHistory)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PriceHistory_Products");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }
