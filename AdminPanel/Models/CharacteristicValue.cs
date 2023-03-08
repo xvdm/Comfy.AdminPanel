@@ -10,8 +10,6 @@ namespace WebApplication2.Models
         public int Id { get; set; }
         public string Value { get; set; } = null!;
 
-        public ICollection<Characteristic>? Characteristics { get; set; }
-
 
         public void Configure(EntityTypeBuilder<CharacteristicValue> builder)
         {

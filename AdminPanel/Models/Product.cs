@@ -50,20 +50,11 @@ namespace WebApplication2.Models
 
             builder.HasIndex(x => x.Url).IsUnique();
 
-            builder.HasOne(x => x.Brand)
-                .WithMany(x => x.Products)
-                .HasForeignKey(x => x.BrandId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            builder.HasOne(x => x.Brand);
 
-            builder.HasOne(x => x.Category)
-                .WithMany(x => x.Products)
-                .HasForeignKey(x => x.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            builder.HasOne(x => x.Category);
 
-            builder.HasOne(x => x.Model)
-                .WithMany(x => x.Products)
-                .HasForeignKey(x => x.ModelId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            builder.HasOne(x => x.Model);
         }
     }
 }

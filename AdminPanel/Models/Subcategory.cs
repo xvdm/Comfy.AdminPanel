@@ -12,8 +12,6 @@ namespace WebApplication2.Models
         public int MainCategoryId { get; set; }
         public MainCategory MainCategory { get; set; } = null!;
 
-        public ICollection<Product> Products { get; set; } = null!;
-
         public ISet<Characteristic> UniqueCharacteristics { get; set; } = null!;
         public ISet<Brand> UniqueBrands { get; set; } = null!;
 
