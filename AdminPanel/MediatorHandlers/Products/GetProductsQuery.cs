@@ -51,8 +51,10 @@ namespace AdminPanel.Handlers.Products
                     {
                         products = products.Where(x => ids.Contains(x.Brand.Id));
                     }
-
-                    products = products.Where(x => x.Characteristics.Any(c => ids.Contains(c.CharacteristicsValueId)));                    
+                    else
+                    {
+                        products = products.Where(x => x.Characteristics.Any(c => ids.Contains(c.CharacteristicsValueId)));                    
+                    }
                 }
             }
             return await products.Skip(request.Skip).Take(request.Take).ToListAsync();
