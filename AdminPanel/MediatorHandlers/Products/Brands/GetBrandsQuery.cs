@@ -5,16 +5,16 @@ using WebApplication2.Models;
 
 namespace AdminPanel.MediatorHandlers.Products.Brands
 {
-    public class GetBrandsQuery : IRequest<IEnumerable<Brand>>
+    public class GetBrandsQuery : IRequest<IEnumerable<Brand>?>
     {
-        public int CategoryId { get; set; }
-        public GetBrandsQuery(int categoryId)
+        public int? CategoryId { get; set; }
+        public GetBrandsQuery(int? categoryId)
         {
             CategoryId = categoryId;
         }
     }
 
-    public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, IEnumerable<Brand>>
+    public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, IEnumerable<Brand>?>
     {
         private readonly ApplicationDbContext _context;
 
@@ -23,8 +23,10 @@ namespace AdminPanel.MediatorHandlers.Products.Brands
             _context = context;
         }
 
-        public async Task<IEnumerable<Brand>> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Brand>?> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
         {
+            if (request.CategoryId is null) return null;
+
             var category = await _context.Subcategories
                 .Include(x => x.UniqueBrands)
                 .FirstOrDefaultAsync(x => x.Id == request.CategoryId);

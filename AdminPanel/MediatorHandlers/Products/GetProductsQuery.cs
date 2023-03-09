@@ -7,11 +7,11 @@ namespace AdminPanel.Handlers.Products
 {
     public class GetProductsQuery : IRequest<IEnumerable<Product>>
     {
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
         public Dictionary<string, List<string>> QueryDictionary { get; set; }
-        public GetProductsQuery(int categoryId, int skip, int take, Dictionary<string, List<string>> queryDictionary)
+        public GetProductsQuery(int? categoryId, int skip, int take, Dictionary<string, List<string>> queryDictionary)
         {
             CategoryId = categoryId;
             Skip = skip;
@@ -33,13 +33,21 @@ namespace AdminPanel.Handlers.Products
         public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
             var products = _context.Products
-                .Where(x => x.CategoryId == request.CategoryId)
-                .Include(p => p.Model)
-                .Include(p => p.Category)
-                .Include(p => p.Brand)
-                .Include(p => p.Characteristics)
                 .AsNoTracking()
                 .AsQueryable();
+
+            if (request.CategoryId is not null)
+            {
+                products = products
+                    .Where(x => x.CategoryId == request.CategoryId);
+            }
+
+            products = products
+                    .Include(p => p.Model)
+                    .Include(p => p.Category)
+                    .Include(p => p.Brand)
+                    .Include(p => p.Characteristics);
+
 
             foreach (var pair in request.QueryDictionary)
             {

@@ -7,8 +7,8 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
 {
     public class GetSubcategoryByIdQuery : IRequest<Subcategory?>
     {
-        public int CategoryId { get; set; }
-        public GetSubcategoryByIdQuery(int categoryId)
+        public int? CategoryId { get; set; }
+        public GetSubcategoryByIdQuery(int? categoryId)
         {
             CategoryId = categoryId;
         }
@@ -25,6 +25,8 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
 
         public async Task<Subcategory?> Handle(GetSubcategoryByIdQuery request, CancellationToken cancellationToken)
         {
+            if (request.CategoryId is null) return null;
+
             var category = await _context.Subcategories
                 .Where(x => x.Id == request.CategoryId)
                 .Include(x => x.UniqueCharacteristics)

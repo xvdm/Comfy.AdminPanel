@@ -26,25 +26,31 @@ namespace AdminPanel.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Products(int categoryId, string filterQuery)
+        public async Task<IActionResult> Products(int? categoryId, string filterQuery)
         {
             if (ProductUrl.TryRemoveEmptyAndDuplicatesFromQuery(filterQuery, out Dictionary<string, List<string>> queryDictionary))
             {
                 return LocalRedirect($"/Products/Products?categoryId={categoryId}&filterQuery={WebUtility.UrlEncode(ProductUrl.GetUrlQuery(queryDictionary))}");
             }
 
-            var category = await _mediator.Send(new GetSubcategoryByIdQuery(categoryId));
-            if (category is null)
+            Subcategory? category = null;
+            IEnumerable<Brand>? brands = null;
+            Dictionary<CharacteristicName, List<CharacteristicValue>>? characteristicsDictionary = null;
+            if (categoryId is not null)
             {
-                return NotFound(category);
+                category = await _mediator.Send(new GetSubcategoryByIdQuery(categoryId));
+                brands = await _mediator.Send(new GetBrandsQuery(categoryId));
+                if (category is null)
+                {
+                    return NotFound(category);
+                }
+                characteristicsDictionary = GetCharacteristicsInCategory(category);
             }
-            var characteristicsDictionary = GetCharacteristicsInCategory(category);
             var products = await _mediator.Send(new GetProductsQuery(categoryId, 0, 10, queryDictionary));
-            var brands = await _mediator.Send(new GetBrandsQuery(categoryId));
 
             var viewModel = new ProductsViewModel()
             {
-                CategoryId = category.Id,
+                CategoryId = categoryId,
                 Characteristics = characteristicsDictionary,
                 Query = filterQuery,
                 Products = products,
@@ -121,8 +127,10 @@ namespace AdminPanel.Controllers
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
-        private Dictionary<CharacteristicName, List<CharacteristicValue>> GetCharacteristicsInCategory(Subcategory category)
+        private Dictionary<CharacteristicName, List<CharacteristicValue>>? GetCharacteristicsInCategory(Subcategory? category)
         {
+            if (category is null) return null;
+
             var characteristicsDictionary = new Dictionary<CharacteristicName, List<CharacteristicValue>>();
             foreach (var characteristic in category.UniqueCharacteristics)
             {

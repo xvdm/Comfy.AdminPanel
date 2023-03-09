@@ -34,7 +34,7 @@
                         <div class="MenuItemDiv"><a class="navbar-brand menu-link" asp-area="" asp-controller="AdminPanel" asp-action="Index" target="_self">Головна</a> </div>
                     </li>
                 <li id="Goods">
-                        <div class="MenuItemDiv"> <a class="navbar-brand " asp-area="" asp-controller="Categories" asp-action="Index" target="_self">Товари та послуги</a></div>
+                        <div class="MenuItemDiv"> <a class="navbar-brand " asp-area="" asp-controller="Products" asp-action="Products" target="_self">Товари та послуги</a></div>
                 </li>
                 }
                 @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Manager)).Succeeded)
