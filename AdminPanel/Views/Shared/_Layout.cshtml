@@ -22,28 +22,29 @@
     @if(SignInManager.IsSignedIn(User))
         {
 
-        <div class="AdminPanel d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+        <div id="MenuPanel" class="MenuPanel d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
             <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="AP-Logo">LOGO</span>
             </a>
             <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
+            <ul class="nav nav-pills flex-column mb-auto unselectable">
                 @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Administrator)).Succeeded)
                 {
-                <li>
-                        <a class="navbar-brand" asp-area="" asp-controller="AdminPanel" asp-action="Index">Головна</a>
-                </li>
-                <li>
-                        <a class="navbar-brand" asp-area="" asp-controller="Categories" asp-action="Index">Товари</a>
+                <li id="Main">
+                        <div class="MenuItemDiv"><a class="navbar-brand menu-link" asp-area="" asp-controller="AdminPanel" asp-action="Index" target="_self">Головна</a> </div>
+                    </li>
+                <li id="Goods">
+                        <div class="MenuItemDiv"> <a class="navbar-brand " asp-area="" asp-controller="Categories" asp-action="Index" target="_self">Товари та послуги</a></div>
                 </li>
                 }
                 @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Manager)).Succeeded)
                 {
-                    <li>
-                        <a class="navbar-brand" asp-area="" asp-controller="Accounts" asp-action="Index">Аккаунти</a>
+                    <li id="Accounts">
+                        <div class="MenuItemDiv"><a class="navbar-brand menu-link" asp-area="" asp-controller="Accounts" asp-action="Index" target="_self">Аккаунти</a></div>
+
                     </li>
-                    <li>
-                        <a class="navbar-brand" asp-area="" asp-controller="Logging" asp-action="Index">Журнал</a>
+                    <li id="Logging">
+                        <div class="MenuItemDiv">  <a class="navbar-brand menu-link" asp-area="" asp-controller="Logging" asp-action="Index" target="_self">Журнал</a></div>
                     </li>
                 }
             </ul>
@@ -81,6 +82,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/Validation.js"></script>
     <script src="~/js/SwapClassContainer.js"></script>
+    <script src="~/js/AdminPanel.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
