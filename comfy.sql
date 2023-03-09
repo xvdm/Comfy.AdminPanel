@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2023 at 06:10 PM
+-- Generation Time: Mar 09, 2023 at 12:55 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -176,7 +176,7 @@ INSERT INTO `aspnetusers` (`Id`, `UserName`, `NormalizedUserName`, `Email`, `Nor
 ('08db0064-5aa1-43aa-8082-f7869dddf20e', 'manager', 'MANAGER', 'email@gmail.com', 'EMAIL@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEC7Eo7nw1dmGou/cGWo/5y1BSXWrkrDHrciwYt/BzU6z0IvrTGGZOG0Ijki9MxbS3w==', 'LLV6PL2CMNVCS2WFGDRVM7Z76XBNN3KO', 'e1cdb862-2d1e-4671-85e5-e3a7f5249639', '88005553535', 0, 0, NULL, 1, 0),
 ('08db0551-5f33-4c69-8e48-689074a90b2b', 'owner', 'OWNER', 'owner@gmail.com', 'OWNER@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEKX7Vt/FGMDGkFAEDuDD6qeW+N1pR5mDpxL1+5mPn6J8uPpFVSSOuZbKb9WGVajr7w==', 'HJPDGWIJK3C73PWBGRJNCWLH7LGVGWL7', '3e81562c-927e-4725-acf8-5ee682fdd967', '88005553535', 0, 0, NULL, 1, 0),
 ('08db093b-7f4d-47a7-8a8e-100e9ac3ff9c', 'smanager', 'SMANAGER', 'smanager@mail', 'SMANAGER@MAIL', 0, 'AQAAAAEAACcQAAAAELu5lWpM16TrlOLIxzfqD2Zl8H9V28kpGTlrTRdvzeZiqnxtxAobM2e8pu3wnuvTmw==', '3D3HKR54BM52DAK2HVB6PYHFMYD3PWL2', '0507974e-b343-4718-95dd-0fa0da00fe7f', '274628746', 0, 0, NULL, 1, 0),
-('08db093b-93f2-4610-8d56-14cccccc04c8', 'admin', 'ADMIN', 'admin@email.com', 'ADMIN@EMAIL.COM', 0, 'AQAAAAEAACcQAAAAELHX4s5CLRSKmVgZUuzzY/sYlycq/dCh54/GXJ6SOeyMup8ioWDZiN7h0tKp5igeiA==', 'SAYYOYGHFKOB2YBWX3BUSUDDYGKNHX6Q', '1a0e1c52-bc34-4a25-b99c-85558fd5b045', '12344215464', 0, 0, '2999-02-28 22:00:00.000000', 1, 0),
+('08db093b-93f2-4610-8d56-14cccccc04c8', 'admin', 'ADMIN', 'admin@email.com', 'ADMIN@EMAIL.COM', 0, 'AQAAAAEAACcQAAAAELHX4s5CLRSKmVgZUuzzY/sYlycq/dCh54/GXJ6SOeyMup8ioWDZiN7h0tKp5igeiA==', 'SAYYOYGHFKOB2YBWX3BUSUDDYGKNHX6Q', '9a2e45eb-7d91-4947-bcf4-6f44f3546802', '12344215464', 0, 0, NULL, 1, 0),
 ('08db0a15-6a72-4ba6-8ab5-3ce352cefee9', 'manager1', 'MANAGER1', 'manager@gmail.com', 'MANAGER@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEBAIdUqhgy7W7CTZf7p/PY2ZfPYcmxfYrj15dZang7MxPryZqRuwCJG+HnAY3sWfgg==', '44AUKDYIKRJMMPHMOIUUCHKG3RST6RW4', 'aaaf4fad-4f6a-4049-8c81-3587f5796565', '88005553535', 0, 0, '2999-02-28 22:00:00.000000', 1, 0),
 ('08db0a15-cdfb-41b3-87fa-b7c65148a7d9', 'manager2', 'MANAGER2', 'manager@gmail.com', 'MANAGER@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAELcOwWMx/FBNNH8uel22VmyLNw4aeDMy9cIpLpPy2G7TwcOQKQsyWcVpYGenHri7Sg==', '3CFADOUT727QHN4DD5CUG7BAKIIHQERT', '7f8de556-2ce2-4f58-ac16-31341f69dbbc', '88005553535', 0, 0, '2999-02-28 22:00:00.000000', 1, 0),
 ('08db0a16-be64-48d5-8167-24c990fd892c', 'testadmin', 'TESTADMIN', 'testadmin@gmail.com', 'TESTADMIN@GMAIL.COM', 0, 'AQAAAAEAACcQAAAAEC2IGk3Av3Rn4W6hwv36vseUXXEVjz7gUQXwdgGX1RLOri0ucJY+7c/sbemwcEJVVw==', 'GDHH3RODL4I5VZNXFZVCEYLNL6L2AR4K', '6cc7b91f-f83d-4cd9-aacc-1123bc032a28', '13212312', 0, 0, '2999-02-28 22:00:00.000000', 1, 0),
@@ -204,53 +204,17 @@ CREATE TABLE `aspnetusertokens` (
 
 CREATE TABLE `brands` (
   `Id` int(11) NOT NULL,
-  `Name` varchar(50) NOT NULL
+  `Name` varchar(50) NOT NULL,
+  `SubcategoryId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `brands`
 --
 
-INSERT INTO `brands` (`Id`, `Name`) VALUES
-(1, 'test_brand1'),
-(2, 'test_brand2'),
-(3, 'test_brand3'),
-(4, 'test_brand4'),
-(5, 'test_brand5'),
-(6, 'test_brand6'),
-(7, 'test_brand7'),
-(8, 'test_brand8'),
-(9, 'brand1'),
-(10, 'brand2'),
-(11, 'brand3'),
-(12, 'brand4');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `categories`
---
-
-CREATE TABLE `categories` (
-  `Id` int(11) NOT NULL,
-  `Name` longtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `categories`
---
-
-INSERT INTO `categories` (`Id`, `Name`) VALUES
-(1, 'category1'),
-(2, 'category1'),
-(3, 'category2'),
-(4, 'category2'),
-(5, 'category4'),
-(6, 'category5'),
-(7, 'category6'),
-(8, 'category_test1'),
-(9, 'category_test2'),
-(10, 'category_test3');
+INSERT INTO `brands` (`Id`, `Name`, `SubcategoryId`) VALUES
+(17, 'Samsung', 2),
+(18, 'Apple', 2);
 
 -- --------------------------------------------------------
 
@@ -262,18 +226,20 @@ CREATE TABLE `characteristics` (
   `Id` int(11) NOT NULL,
   `ProductId` int(11) NOT NULL,
   `CharacteristicsNameId` int(11) NOT NULL,
-  `CharacteristicsValueId` int(11) NOT NULL
+  `CharacteristicsValueId` int(11) NOT NULL,
+  `SubcategoryId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `characteristics`
 --
 
-INSERT INTO `characteristics` (`Id`, `ProductId`, `CharacteristicsNameId`, `CharacteristicsValueId`) VALUES
-(4, 21, 1, 1),
-(5, 21, 2, 2),
-(7, 20, 1, 5),
-(8, 21, 3, 3);
+INSERT INTO `characteristics` (`Id`, `ProductId`, `CharacteristicsNameId`, `CharacteristicsValueId`, `SubcategoryId`) VALUES
+(15, 31, 10, 13, 2),
+(16, 31, 11, 14, 2),
+(17, 32, 10, 15, 2),
+(18, 32, 12, 16, 2),
+(19, 35, 10, 17, 2);
 
 -- --------------------------------------------------------
 
@@ -291,12 +257,9 @@ CREATE TABLE `characteristicsnames` (
 --
 
 INSERT INTO `characteristicsnames` (`Id`, `Name`) VALUES
-(1, 'color'),
-(2, 'size'),
-(3, 'weight'),
-(4, 'sizex'),
-(5, 'test'),
-(6, 'test2');
+(10, 'Цвет'),
+(11, 'Диагональ дисплея'),
+(12, 'Операционная система');
 
 -- --------------------------------------------------------
 
@@ -314,14 +277,11 @@ CREATE TABLE `characteristicsvalues` (
 --
 
 INSERT INTO `characteristicsvalues` (`Id`, `Value`) VALUES
-(1, 'red'),
-(2, 'big'),
-(3, '30'),
-(4, 'blue'),
-(5, 'black'),
-(6, 'large'),
-(7, 'test2'),
-(8, 'test');
+(13, 'Green'),
+(14, '6.6\"'),
+(15, 'Midnight'),
+(16, 'Apple iOS 15'),
+(17, 'Violet ');
 
 -- --------------------------------------------------------
 
@@ -359,22 +319,49 @@ INSERT INTO `loggingactions` (`Id`, `Action`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `maincategories`
+--
+
+CREATE TABLE `maincategories` (
+  `Id` int(11) NOT NULL,
+  `Name` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `maincategories`
+--
+
+INSERT INTO `maincategories` (`Id`, `Name`) VALUES
+(1, 'Смартфоны и телефоны'),
+(2, 'Ноутбуки, планшеты и компьютерная техника'),
+(3, 'Техника для кухни'),
+(4, 'Техника для дома'),
+(5, 'Телевизоры и мультимедиа'),
+(6, 'Смарт-часы и гаджеты'),
+(7, 'Аудио'),
+(8, 'Игровые консоли и гейминг'),
+(9, 'Фото и видео'),
+(10, 'Главная');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `models`
 --
 
 CREATE TABLE `models` (
   `Id` int(11) NOT NULL,
-  `Model` longtext NOT NULL
+  `Name` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `models`
 --
 
-INSERT INTO `models` (`Id`, `Model`) VALUES
-(1, 'model1'),
-(2, 'model2'),
-(3, 'model3');
+INSERT INTO `models` (`Id`, `Name`) VALUES
+(6, 'Galaxy M33'),
+(7, 'iPhone 13'),
+(8, 'Galaxy S23');
 
 -- --------------------------------------------------------
 
@@ -447,14 +434,9 @@ CREATE TABLE `pricehistory` (
 --
 
 INSERT INTO `pricehistory` (`Id`, `Price`, `Date`, `ProductId`) VALUES
-(1, 228, '2023-02-23', 19),
-(2, 1337, '2023-02-23', 19),
-(3, 569, '2023-02-23', 19),
-(4, 57999, '2023-02-23', 20),
-(5, 58, '2023-02-23', 21),
-(6, 60, '2023-02-23', 21),
-(7, 61, '2023-02-23', 21),
-(8, 100, '2023-02-25', 21);
+(13, 9999, '2023-03-04', 31),
+(14, 35999, '2023-03-04', 32),
+(16, 57999, '2023-03-08', 35);
 
 -- --------------------------------------------------------
 
@@ -483,10 +465,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`Id`, `Price`, `DiscountAmmount`, `Amount`, `Code`, `Rating`, `IsActive`, `BrandId`, `CategoryId`, `ModelId`, `Description`, `Name`, `Url`) VALUES
-(17, 23, 0, 0, 1000017, 0, 0, 9, 1, 1, 'yellow banana', 'banana', 'banana-1000017'),
-(19, 569, 0, 0, 1000019, 0, 0, 9, 1, 1, 'Test Description', 'Test product4', 'test-product4-1000019'),
-(20, 57999, 0, 0, 1000020, 0, 0, 9, 1, 1, 'Смартфон Samsung Galaxy S23 Ultra 12/256Gb Green', 'Смартфон Samsung Galaxy S23 Ultra 12/256Gb Green (SM-S918BZGGSEK)', 'smartfon-samsung-galaxy-s23-ultra-12-256gb-green-sm-s918bzggsek-1000020'),
-(21, 100, 0, 0, 1000021, 0, 1, 9, 1, 1, 'обычное яблоко', 'красное яблоко в хлебопечке', 'krasnoe-yabloko-v-xlebopechke-1000021');
+(31, 9999, 0, 0, 1000031, 0, 0, 17, 2, 6, 'классный телефон', 'Смартфон Samsung Galaxy M33 5G 6/128Gb Green (SM-M336BZGGSEK)', 'smartfon-samsung-galaxy-m33-5g-6-128gb-green-sm-m336bzggsek-1000031'),
+(32, 35999, 10, 0, 1000032, 0, 0, 18, 2, 7, 'крутой телефон', 'Смартфон Apple iPhone 13 128Gb Midnight', 'smartfon-apple-iphone-13-128gb-midnight-1000032'),
+(35, 57999, 0, 0, 1000035, 0, 0, 17, 2, 8, 'дорогой телефон', 'Смартфон Samsung Galaxy S23 Ultra 12/256Gb Violet (SM-S918BLIGSEK)', 'smartfon-samsung-galaxy-s23-ultra-12-256gb-violet-sm-s918bligsek-1000035');
 
 -- --------------------------------------------------------
 
@@ -524,6 +505,27 @@ CREATE TABLE `reviews` (
   `IsActive` tinyint(1) NOT NULL,
   `ProductId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subcategories`
+--
+
+CREATE TABLE `subcategories` (
+  `Id` int(11) NOT NULL,
+  `Name` longtext NOT NULL,
+  `MainCategoryId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `subcategories`
+--
+
+INSERT INTO `subcategories` (`Id`, `Name`, `MainCategoryId`) VALUES
+(2, 'Смартфоны', 1),
+(3, 'Телефоны', 1),
+(4, 'Подкатегория', 10);
 
 -- --------------------------------------------------------
 
@@ -606,7 +608,10 @@ INSERT INTO `userlogs` (`Id`, `UserId`, `LoggingActionId`, `SubjectUserId`) VALU
 (64, '08db0551-5f33-4c69-8e48-689074a90b2b', 2, '08db093b-93f2-4610-8d56-14cccccc04c8'),
 (65, '08db0551-5f33-4c69-8e48-689074a90b2b', 3, '08db093b-93f2-4610-8d56-14cccccc04c8'),
 (66, '08db0551-5f33-4c69-8e48-689074a90b2b', 4, '08db093b-93f2-4610-8d56-14cccccc04c8'),
-(67, '08db0551-5f33-4c69-8e48-689074a90b2b', 3, '08db093b-93f2-4610-8d56-14cccccc04c8');
+(67, '08db0551-5f33-4c69-8e48-689074a90b2b', 3, '08db093b-93f2-4610-8d56-14cccccc04c8'),
+(68, '08db0551-5f33-4c69-8e48-689074a90b2b', 4, '08db093b-93f2-4610-8d56-14cccccc04c8'),
+(69, '08db0551-5f33-4c69-8e48-689074a90b2b', 3, '08db093b-93f2-4610-8d56-14cccccc04c8'),
+(70, '08db0551-5f33-4c69-8e48-689074a90b2b', 4, '08db093b-93f2-4610-8d56-14cccccc04c8');
 
 -- --------------------------------------------------------
 
@@ -653,7 +658,18 @@ INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 ('20230222204535_onetmanyrelationship1', '6.0.14'),
 ('20230223131237_ProductUpdate8', '6.0.14'),
 ('20230223172459_ProductUpdate9', '6.0.14'),
-('20230225105829_FixForCharacteristicsId', '6.0.14');
+('20230225105829_FixForCharacteristicsId', '6.0.14'),
+('20230303162550_MainCategoriesAndSubcategories', '6.0.14'),
+('20230304132157_CharacteristicsInCategories', '6.0.14'),
+('20230304151151_UniqueBrandsInCategory', '6.0.14'),
+('20230304151602_UniqueBrandsInCategoryFix', '6.0.14'),
+('20230307182137_DeletedConstraintsNames', '6.0.14'),
+('20230308164427_DeletedCharacteristicsFromCharacteristicsNameAndCharacteristicsValue', '6.0.14'),
+('20230308180155_DeletedProductFromCharacteristic', '6.0.14'),
+('20230308180431_DeletedProductsFromBrand', '6.0.14'),
+('20230308180740_DeletedProductsFromModel', '6.0.14'),
+('20230308181919_DeletedProductsFromCategory', '6.0.14'),
+('20230308184758_ChangedModelModelToModelName', '6.0.14');
 
 --
 -- Indexes for dumped tables
@@ -732,13 +748,8 @@ ALTER TABLE `aspnetusertokens`
 -- Indexes for table `brands`
 --
 ALTER TABLE `brands`
-  ADD PRIMARY KEY (`Id`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `IX_Brands_SubcategoryId` (`SubcategoryId`);
 
 --
 -- Indexes for table `characteristics`
@@ -747,7 +758,8 @@ ALTER TABLE `characteristics`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `IX_Characteristics_CharacteristicsNameId` (`CharacteristicsNameId`),
   ADD KEY `IX_Characteristics_CharacteristicsValueId` (`CharacteristicsValueId`),
-  ADD KEY `IX_Characteristics_ProductId` (`ProductId`);
+  ADD KEY `IX_Characteristics_ProductId` (`ProductId`),
+  ADD KEY `IX_Characteristics_SubcategoryId` (`SubcategoryId`);
 
 --
 -- Indexes for table `characteristicsnames`
@@ -774,6 +786,12 @@ ALTER TABLE `images`
 ALTER TABLE `loggingactions`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `UC_LoggingActions_Action` (`Action`) USING HASH;
+
+--
+-- Indexes for table `maincategories`
+--
+ALTER TABLE `maincategories`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `models`
@@ -844,6 +862,13 @@ ALTER TABLE `reviews`
   ADD KEY `IX_Reviews_ProductId` (`ProductId`);
 
 --
+-- Indexes for table `subcategories`
+--
+ALTER TABLE `subcategories`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `IX_Subcategories_MainCategoryId` (`MainCategoryId`);
+
+--
 -- Indexes for table `userlogs`
 --
 ALTER TABLE `userlogs`
@@ -903,37 +928,31 @@ ALTER TABLE `aspnetuserclaims`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `characteristics`
 --
 ALTER TABLE `characteristics`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `characteristicsnames`
 --
 ALTER TABLE `characteristicsnames`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `characteristicsvalues`
 --
 ALTER TABLE `characteristicsvalues`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `loggingactions`
@@ -942,10 +961,16 @@ ALTER TABLE `loggingactions`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `maincategories`
+--
+ALTER TABLE `maincategories`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `models`
 --
 ALTER TABLE `models`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `orderedproducts`
@@ -975,13 +1000,13 @@ ALTER TABLE `paymenttypes`
 -- AUTO_INCREMENT for table `pricehistory`
 --
 ALTER TABLE `pricehistory`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `questions`
@@ -996,10 +1021,16 @@ ALTER TABLE `reviews`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `subcategories`
+--
+ALTER TABLE `subcategories`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `userlogs`
 --
 ALTER TABLE `userlogs`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `whishlists`
@@ -1015,14 +1046,14 @@ ALTER TABLE `whishlists`
 -- Constraints for table `addresses`
 --
 ALTER TABLE `addresses`
-  ADD CONSTRAINT `FK_Addresses_AddressTypes` FOREIGN KEY (`AddressTypeId`) REFERENCES `addresstypes` (`Id`);
+  ADD CONSTRAINT `FK_Addresses_AddressTypes_AddressTypeId` FOREIGN KEY (`AddressTypeId`) REFERENCES `addresstypes` (`Id`);
 
 --
 -- Constraints for table `answers`
 --
 ALTER TABLE `answers`
-  ADD CONSTRAINT `FK_Answers_Questions` FOREIGN KEY (`TargetId`) REFERENCES `questions` (`Id`),
-  ADD CONSTRAINT `FK_Answers_Reviews` FOREIGN KEY (`TargetId`) REFERENCES `reviews` (`Id`);
+  ADD CONSTRAINT `FK_Answers_Questions_TargetId` FOREIGN KEY (`TargetId`) REFERENCES `questions` (`Id`),
+  ADD CONSTRAINT `FK_Answers_Reviews_TargetId` FOREIGN KEY (`TargetId`) REFERENCES `reviews` (`Id`);
 
 --
 -- Constraints for table `aspnetroleclaims`
@@ -1056,12 +1087,19 @@ ALTER TABLE `aspnetusertokens`
   ADD CONSTRAINT `FK_AspNetUserTokens_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `brands`
+--
+ALTER TABLE `brands`
+  ADD CONSTRAINT `FK_Brands_Subcategories_SubcategoryId` FOREIGN KEY (`SubcategoryId`) REFERENCES `subcategories` (`Id`);
+
+--
 -- Constraints for table `characteristics`
 --
 ALTER TABLE `characteristics`
-  ADD CONSTRAINT `FK_Characteristics_CharacteristicsNames_CharacteristicsNameId` FOREIGN KEY (`CharacteristicsNameId`) REFERENCES `characteristicsnames` (`Id`),
-  ADD CONSTRAINT `FK_Characteristics_CharacteristicsValues_CharacteristicsValueId` FOREIGN KEY (`CharacteristicsValueId`) REFERENCES `characteristicsvalues` (`Id`),
-  ADD CONSTRAINT `FK_Characteristics_Products` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
+  ADD CONSTRAINT `FK_Characteristics_CharacteristicsNames_CharacteristicsNameId` FOREIGN KEY (`CharacteristicsNameId`) REFERENCES `characteristicsnames` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Characteristics_CharacteristicsValues_CharacteristicsValueId` FOREIGN KEY (`CharacteristicsValueId`) REFERENCES `characteristicsvalues` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Characteristics_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Characteristics_Subcategories_SubcategoryId` FOREIGN KEY (`SubcategoryId`) REFERENCES `subcategories` (`Id`);
 
 --
 -- Constraints for table `images`
@@ -1073,42 +1111,48 @@ ALTER TABLE `images`
 -- Constraints for table `orderedproducts`
 --
 ALTER TABLE `orderedproducts`
-  ADD CONSTRAINT `FK_OrderedProducts_Orders` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`Id`),
-  ADD CONSTRAINT `FK_OrderedProducts_Products` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
+  ADD CONSTRAINT `FK_OrderedProducts_Orders_OrderId` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`Id`),
+  ADD CONSTRAINT `FK_OrderedProducts_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
 
 --
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `FK_Orders_Addresses` FOREIGN KEY (`AddressId`) REFERENCES `addresses` (`Id`),
-  ADD CONSTRAINT `FK_Orders_OrderStatuses` FOREIGN KEY (`StatusId`) REFERENCES `orderstatuses` (`Id`),
-  ADD CONSTRAINT `FK_Orders_PaymentTypes` FOREIGN KEY (`PaymentTypeId`) REFERENCES `paymenttypes` (`Id`);
+  ADD CONSTRAINT `FK_Orders_Addresses_AddressId` FOREIGN KEY (`AddressId`) REFERENCES `addresses` (`Id`),
+  ADD CONSTRAINT `FK_Orders_OrderStatuses_StatusId` FOREIGN KEY (`StatusId`) REFERENCES `orderstatuses` (`Id`),
+  ADD CONSTRAINT `FK_Orders_PaymentTypes_PaymentTypeId` FOREIGN KEY (`PaymentTypeId`) REFERENCES `paymenttypes` (`Id`);
 
 --
 -- Constraints for table `pricehistory`
 --
 ALTER TABLE `pricehistory`
-  ADD CONSTRAINT `FK_PriceHistory_Products` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
+  ADD CONSTRAINT `FK_PriceHistory_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
 
 --
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `FK_Products_Brands` FOREIGN KEY (`BrandId`) REFERENCES `brands` (`Id`),
-  ADD CONSTRAINT `FK_Products_Categories` FOREIGN KEY (`CategoryId`) REFERENCES `categories` (`Id`),
-  ADD CONSTRAINT `FK_Products_Models` FOREIGN KEY (`ModelId`) REFERENCES `models` (`Id`);
+  ADD CONSTRAINT `FK_Products_Brands_BrandId` FOREIGN KEY (`BrandId`) REFERENCES `brands` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Products_Models_ModelId` FOREIGN KEY (`ModelId`) REFERENCES `models` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Products_Subcategories_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `subcategories` (`Id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `questions`
 --
 ALTER TABLE `questions`
-  ADD CONSTRAINT `FK_Questions_Products` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
+  ADD CONSTRAINT `FK_Questions_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
 
 --
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `FK_Reviews_Products` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
+  ADD CONSTRAINT `FK_Reviews_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
+
+--
+-- Constraints for table `subcategories`
+--
+ALTER TABLE `subcategories`
+  ADD CONSTRAINT `FK_Subcategories_MainCategories_MainCategoryId` FOREIGN KEY (`MainCategoryId`) REFERENCES `maincategories` (`Id`);
 
 --
 -- Constraints for table `userlogs`
@@ -1122,7 +1166,7 @@ ALTER TABLE `userlogs`
 -- Constraints for table `whishlists`
 --
 ALTER TABLE `whishlists`
-  ADD CONSTRAINT `FK_WhishLists_Products` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
+  ADD CONSTRAINT `FK_WhishLists_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
