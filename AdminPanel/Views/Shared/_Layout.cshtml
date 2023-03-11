@@ -34,17 +34,17 @@
                         <div class="MenuItemDiv"><a class="navbar-brand menu-link" asp-area="" asp-controller="AdminPanel" asp-action="Index" target="_self">Головна</a> </div>
                     </li>
                 <li id="Goods">
-                        <div class="MenuItemDiv"> <a class="navbar-brand " asp-area="" asp-controller="Products" asp-action="Products" target="_self">Товари та послуги</a></div>
+                        <div class="MenuItemDiv"> <a class="navbar-brand menu-link " asp-area="" asp-controller="Products" asp-action="Products" target="_self">Товари та послуги</a></div>
                 </li>
                 }
                 @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Manager)).Succeeded)
                 {
                     <li id="Accounts">
-                        <div class="MenuItemDiv"><a class="navbar-brand menu-link" asp-area="" asp-controller="Accounts" asp-action="Index" target="_self">Аккаунти</a></div>
+                        <div class="MenuItemDiv"><a class="navbar-brand menu-link" asp-area="" asp-controller="Accounts" asp-action="ActiveUsers" target="_self">Аккаунти</a></div>
 
                     </li>
                     <li id="Logging">
-                        <div class="MenuItemDiv">  <a class="navbar-brand menu-link" asp-area="" asp-controller="Logging" asp-action="Index" target="_self">Журнал</a></div>
+                        <div class="MenuItemDiv">  <a class="navbar-brand menu-link" asp-area="" asp-controller="Logging" asp-action="UserLogs" target="_self">Журнал</a></div>
                     </li>
                 }
             </ul>
@@ -73,10 +73,6 @@
 
 
 
-
-    <footer class="border-top footer text-muted">
-        <div class="container"> </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

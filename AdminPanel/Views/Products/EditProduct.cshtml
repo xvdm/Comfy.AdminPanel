@@ -4,69 +4,160 @@
     ViewData["Title"] = "Edit product";
 }
 
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Редагування товару</p>
+        </div>
+        <div class="btn-header">
+            <button id="btn-header" type="submit">Зберегти зміни</button>
+        </div>
+    </div>
+    <div class="body body-product">
+        <div class="main-section">
+            <div class="left-section">
+                 <div class="name-block">
+                    <p>Основна інформація</p>
+                </div>
+                <div class="info-block">
+                    <form method="post" asp-action="EditProduct" asp-controller="Products">
+                        <input required hidden type="number" name="Id" value="@Model.Id" />
+                        <div class="name">
+                            <div class="product-lable">
+                                <label for="Name">Назва позиції</label>
+                            </div>
+                            <input type="text" name="Name" placeholder="Name" value="@Model.Name" />
+                        </div>
+                        <div class="description">
+                            <div class="product-lable">
+                                <label for="Description">Опис</label>
+                            </div>
+                            <textarea type="text" name="Description" placeholder="Description">@Model.Description</textarea>
+                        </div>
 
-<style>
-    table {
-        border: 1px solid black;
-    }
+                        <div class="price-div">
+                            <div class="price">
+                                <div class="product-lable">
+                                    <label for="Price">Ціна, грн</label>
+                                </div>
+                                <input type="number" name="Price" placeholder="Price" value="@Model.Price" />
+                            </div>
 
-    th {
-        border: 1px solid grey;
-    }
+                            <div class="discount">
+                                <div class="product-lable">
+                                    <label for="DiscountAmount">Розмір знижки</label>
+                                </div>
+                                <input type="number" name="DiscountAmount" placeholder="Discount amount" value="@Model.DiscountAmmount" />
+                            </div>
+                        </div>
+                        <button id="btnMainForm"  class="h-hidden" type="submit">Send</button>
+                    </form>
+                </div>
+                <div class="catecories-block">
+                    <div class="main-categories">
+                        <div class="product-lable">
+                            <span>Головна категорія</span>
+                        </div>
+                        <div class="categories-list">
+                            <select name="categories-select">
 
-    td {
-        border: 1px solid grey;
-    }
-</style>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="sub-categories">
+                        <div class="product-lable">
+                            <span>Підкатегорія</span>
+                        </div>
+                        <div class="subcategories-list">
+                            <select name="subcategories-select">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-section">
+                <div class="name-block">
+                    <p>Основна інформація</p>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+        <div class="second-section">
+            <div class="name-block">
+                <p>Характеристики товару</p>
+            </div>
+            <div class="characteristics-section">
+                <div class="add-characteristics">
+                    <div class="product-lable">
+                        <span>Створити характеристику</span>
+                    </div>
+                    <form method="post" asp-action="AddCharacteristic" asp-controller="Products">
+                        <input hidden required name="ProductId" value="@Model.Id" />
+                        <input required name="Name" placeholder="Name" />
+                        <input required name="Value" placeholder="Value" />
+                        <button type="submit">Add</button>
+                    </form>
+                </div>
+                <div class="characteristics-table">
+                    <div class="product-lable">
+                        <span>Список характеристик</span>
+                    </div>
+                    @if (Model.Characteristics.Count > 0)
+                    {
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var x in Model.Characteristics)
+                            {
+                                <tr>
+                                    <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
+                                        <input required hidden name="ProductId" value="@Model.Id" />
+                                        <input required hidden name="Id" value="@x.Id" />
+                                    <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
+                                    <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
+                                    <td><button type="submit">Update</button></td>
+                                    </form>
+                                    <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
+                                        <input required hidden name="ProductId" value="@Model.Id" />
+                                        <input required hidden name="Id" value="@x.Id" />
+                                    <td><button type="submit">Delete</button></td>
+                                    </form>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/FormBtn.js"></script>
 
 
-<h1>Edit product</h1>
+@*<label for="Brand">Brand</label>
+<input type="text" name="Brand" placeholder="Brand" value="@Model.Brand.Name" />
 
-<form method="post" asp-action="EditProduct" asp-controller="Products">
-    <input required hidden type="number" name="Id" value="@Model.Id" />
+<label for="Category">Category</label>
+<input type="text" name="Category" placeholder="Category" value="@Model.Category.Name" />
 
-    <label for="Name">Name</label>
-    <br />
-    <input type="text" name="Name" placeholder="Name" value="@Model.Name" size="100" />
-    <br /><br />
-
-    <label for="Price">Price</label>
-    <br />
-    <input type="number" name="Price" placeholder="Price" value="@Model.Price" />
-    <br /><br />
-
-    <label for="Brand">Brand</label>
-    <br />
-    <input type="text" name="Brand" placeholder="Brand" value="@Model.Brand.Name" />
-    <br /><br />
-
-    <label for="Category">Category</label>
-    <br />
-    <input type="text" name="Category" placeholder="Category" value="@Model.Category.Name" />
-    <br /><br />
-
-    <label for="Model">Model</label>
-    <br />
-    <input type="text" name="Model" placeholder="Model" value="@Model.Model.Name" />
-    <br /><br />
-
-    <label for="Description">Description</label>
-    <br />
-    <input type="text" name="Description" placeholder="Description" value="@Model.Description" />
-    <br /><br />
-
-    <label for="DiscountAmount">Discount amount</label>
-    <br />
-    <input type="number" name="DiscountAmount" placeholder="Discount amount" value="@Model.DiscountAmmount" />
-    <br /><br />
-
-    <button type="submit">Save changes</button>
-</form>
-
-<br />
+<label for="Model">Model</label>
+<input type="text" name="Model" placeholder="Model" value="@Model.Model.Name" />*@
 
 
-<label for="Url">Url</label>
+
+@*<label for="Url">Url</label>
 <br />
 <input disabled readonly type="text" name="Url" placeholder="Url" value="@Model.Url" size="100" />
 <br />
@@ -87,11 +178,9 @@
 <label for="Code">Code</label>
 <br />
 <input disabled readonly type="number" name="Code" placeholder="Code" value="@Model.Code" />
-<br />
-<br />
+<br />*@
 
-
-@if (Model.IsActive)
+@*@if (Model.IsActive)
 {
     <h6>Product is activated</h6>
     <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Id" asp-route-isActive="@false">Deactivate it</a>
@@ -123,46 +212,6 @@ else
     </table>
 }
 
-<br />
-
-<h3>Add characteristics</h3>
-<form method="post" asp-action="AddCharacteristic" asp-controller="Products">
-    <input hidden required name="ProductId" value="@Model.Id" />
-    <input required name="Name" placeholder="Name" />
-    <input required name="Value" placeholder="Value" />
-    <button type="submit">Add</button>
-</form>
-
-@if (Model.Characteristics.Count > 0)
-{
-    <h3>Characteristics</h3>
-
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Value</th>
-        </tr>
-        @foreach (var x in Model.Characteristics)
-        {
-            <tr>
-                <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
-                    <input required hidden name="ProductId" value="@Model.Id" />
-                    <input required hidden name="Id" value="@x.Id" />
-                <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
-                <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
-                <td><button type="submit">Update</button></td>
-                </form>
-                <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
-                    <input required hidden name="ProductId" value="@Model.Id" />
-                    <input required hidden name="Id" value="@x.Id" />
-                <td><button type="submit">Delete</button></td>
-                </form>
-            </tr>
-        }
-    </table>
-}
-<br />
-
 <h3>Upload image</h3>
 <form method="post" asp-action="UploadImage" asp-controller="Images" enctype="multipart/form-data">
     <input hidden readonly type="number" name="productId" value="@Model.Id" />
@@ -184,4 +233,4 @@ else
         <a asp-action="DeleteImage" asp-controller="Images" asp-route-imageId="@image.Id" asp-route-productId="@Model.Id">Delete image</a>
         <br />
     }
-}
+}*@

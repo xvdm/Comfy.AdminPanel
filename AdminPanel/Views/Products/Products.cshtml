@@ -6,52 +6,68 @@
     string ampersand = Model.Query is null ? "" : "&";
 }
 
-<h1>Products: </h1>
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+             <p>Список позицій</p>
+        </div>
+        <div class="btn-header">
+            <a asp-action="CreateProduct" asp-controller="Products">Додати товар</a>
+        </div>
+    </div>
+    
+    <div class="body">
+         @if (Model is not null)
+        {
+            <div class="searchProducts">
+            </div>
 
-@if(Model is not null) {
-    @if(Model.Brands is not null && Model.Brands.Count() > 0) {
-        <h6>Brands</h6>
-        @foreach (var x in Model.Brands)
-        {
-            <a asp-controller="Products" asp-route-categoryId="@Model.CategoryId" asp-route-filterQuery="@(Model.Query+ampersand)brand=@x.Id">@x.Name</a>
-        }
-        <br />
-        <br />
-    }
-    
-    
-    @if (Model.Characteristics is not null && Model.Characteristics.Count > 0)
-    {
-        @foreach (var characteristic in Model.Characteristics)
-        {
-            <h6>@characteristic.Key.Name</h6>
-            @foreach (var characteristicValue in characteristic.Value) {
-                <a asp-controller="Products" asp-route-categoryId="@Model.CategoryId" asp-route-filterQuery="@(Model.Query+ampersand)@characteristic.Key.Id=@characteristicValue.Id">@characteristicValue.Value</a>
+            <div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th></th>
+                            <th scope="col">Ім'я</th>
+                            <th scope="col">Код</th>
+                            <th scope="col">Статус</th>
+                            <th scope="col">Ціна</th>
+                            <th scope="col">Замовлення</th>
+                        </tr>
+                    </thead>
+                    <tbody class="productsTable">
+                        @foreach (var product in Model.Products)
+                        {
+                            <tr>
+                                <td><img alt="productImg" /></td>
+                                <td><a asp-action="EditProduct" asp-controller="Products" asp-route-id="@product.Id">@product.Name</a></td>
+                                <td>@product.Code</td>
+                                @if (@product.IsActive)
+                                {
+                                    <td>Активовано</td>
+                                }
+                                else
+                                {
+                                    <td>Вимкнено</td>
+                                }
+                                <td>@product.Price</td>
+                                @if (@product.OrderedProducts == null)
+                                {
+                                    <td>0</td>
+                                }
+                                else
+                                {
+                                    <td>@product.OrderedProducts.Count</td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
             }
-            <br />
-            <br />
-        }
-        <br />
-        <br />
-        <br />
-    }
-
-
-
-    @foreach (var product in Model.Products)
-    {
-        <h6>Name: @product.Name</h6>
-        <h6>Code: @product.Code</h6>
-        <h6>Url: @product.Url</h6>
-        <h6>Brand: @product.Brand.Name</h6>
-        <h6>Model: @product.Model.Name</h6>
-        <h6>Category: @product.Category.Name</h6>
-        <h6>Is active: @product.IsActive</h6>
-        <a asp-action="EditProduct" asp-controller="Products" asp-route-id="@product.Id">Edit</a>
-        <br />
-        <br />
-    }
-}
+    </div>
+</div>
 
 
 

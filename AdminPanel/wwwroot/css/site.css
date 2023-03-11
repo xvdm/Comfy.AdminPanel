@@ -17,7 +17,7 @@ html {
 
 .body-container {
     margin: 0;
-    margin-left: 285px;
+    margin-left: 280px;
     padding: 0;
 }
 
@@ -171,8 +171,9 @@ html {
 
 .MenuPanel {
     position: fixed;
+    top:0;
     height: 100%;
-    z-index: 1;
+    z-index: 4;
 }
 
 .AP-Logo {
@@ -207,7 +208,7 @@ html {
     pointer-events: none;
 }
 
-#Goods, #Accounts {
+#Goods, #Accounts,#Main {
     padding-bottom: 0;
 }
 
@@ -218,3 +219,188 @@ html {
 .subLink ul li{
     list-style-type: none;
 }
+
+.subLink ul li a{
+    text-decoration: none;
+}
+
+
+.Page {
+    min-height: 100vh;
+    border: none;
+    background: #e6e8ec;
+    color: #212529;
+}
+
+.Page .header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 2;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    width: 100%;
+    height: 80px;
+    margin-bottom: 1em;
+    box-shadow: 0 2px 3px 0 rgb(0 0 0 / 10%);
+}
+
+.namePage p {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.namePage, .btn-header{
+    padding: 0 25px;
+}
+
+.btn-header a, button {
+    color: white !important;
+    background: #31363b;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+}
+
+.btn-header a:hover, .btn-header button:hover {
+    background: black;
+}
+
+.btn-in-modal {
+    border: none;
+    color: white;
+    background: black;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.Page .body {
+    
+    margin: 20px 20px 0px 20px;
+    background: white;
+    padding: 20px;
+}
+
+.Page .body-product {
+
+    padding: 0;
+    background: #e6e8ec;
+}
+
+.Page .body-product input{
+    padding:5px;
+    border: 1px solid #dddddd  ;
+    border-radius: 4px;
+}
+
+.productsTable tr {
+    cursor: pointer;
+}
+
+.productsTable tr:hover {
+    background:#f8f8f8;
+}
+
+.Page .body .main-section{
+    background:white;
+    display:table;
+    width:100%;
+}
+
+.Page .body .second-section {
+    margin-top: 20px;
+    background: white;
+    width: 100%;
+    padding: 20px;
+}
+
+.main-section .name-block, .second-section .name-block {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.name-block p{
+    margin-bottom:5px;
+}
+
+.main-section .info-block{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.main-section .left-section {
+    padding:20px;
+    display: table-cell;
+}
+
+.main-section .right-section {
+    padding: 20px;
+    display: table-cell;
+    background: #f3f5f6;
+    width: 280px;
+}
+
+.left-section .info-block, .catecories-block, .characteristics-section  {
+    font-size: 14px;
+}
+
+.info-block div {
+    width: 100%;
+    margin-bottom:20px;
+}
+
+.info-block .product-lable, .catecories-block .product-lable, .characteristics-section .product-lable {
+    font-weight: 500;
+    margin: 8px 0;
+}
+
+.info-block .name input{
+    min-width:100%;
+}
+
+.info-block .price-div {
+    width: 300px;
+    display: flex;
+    flex-grow: 2;
+    justify-content: flex-start;
+    margin-bottom:0;
+}
+
+.info-block .price-div input {
+    width: 100px;
+    min-width:100px;
+}
+
+.info-block .description textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 5px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+}
+
+.second-section .catecories-block {
+    display: flex;
+    flex-direction:column;
+}
+
+.catecories-block select {
+    min-width: 160px;
+    height: 28px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+}
+
+.second-section .characteristics-section button{
+    margin-left: 5px;
+    padding: 5px 15px;
+}
+
+.add-characteristics {
+    margin-bottom: 20px;
+}
+

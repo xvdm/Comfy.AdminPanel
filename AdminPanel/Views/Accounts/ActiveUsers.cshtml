@@ -4,36 +4,50 @@
     ViewData["Title"] = "Active users";
 }
 
-<div class="text-center">
-    <h3 class="display-4">Active users</h3>
-</div>
 
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Користувачі</p>
+        </div>
+        <div class="btn-header">
+            <a asp-area="" asp-controller="Accounts" asp-action="Create">Створити користувача</a>
+        </div>
+    </div>
+    <div class="body">
+        <div asp-validation-summary="All"></div>
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Позиція</th>
+                    <th>Ім'я користувача</th>
+                    <th>Електронна пошта</th>
+                    <th>Номер телефону</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <form method="post" asp-controller="Accounts" asp-action="UpdateUser">
+                            <input hidden name="Id" value="@user.Id" />
+                        <td><input type="text" name="Position" value="@user.Position" readonly /></td>
+                        <td><input type="text" name="UserName" value="@user.UserName" /></td>
+                        <td><input type="text" name="Email" value="@user.Email" /></td>
+                        <td><input type="text" name="PhoneNumber" value="@user.PhoneNumber" /></td>
+                        <td><button type="submit">Update</button></td>
+                        </form>
+                        <form method="post" asp-controller="Accounts" asp-action="LockoutUser">
+                            <input hidden type="text" name="Id" value="@user.Id" />
+                        <td><button type="submit">Lockout</button></td>
+                        </form>
+                    </tr>
+                }
 
-<div class="text-center">
-    <div asp-validation-summary="All"></div>
-    <table>
-        <tr>
-            <th>Position</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Phone number</th>
-        </tr>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <form method="post" asp-controller="Accounts" asp-action="UpdateUser">
-                    <input hidden name="Id" value="@user.Id" />
-                    <td><input type="text" name="Position" value="@user.Position" readonly /></td>
-                    <td><input type="text" name="UserName" value="@user.UserName" /></td>
-                    <td><input type="text" name="Email" value="@user.Email" /></td>
-                    <td><input type="text" name="PhoneNumber" value="@user.PhoneNumber" /></td>
-                    <td><button type="submit">Update</button></td>
-                </form>
-                <form method="post" asp-controller="Accounts" asp-action="LockoutUser">
-                    <input hidden type="text" name="Id" value="@user.Id" />
-                    <td><button type="submit">Lockout</button></td>
-                </form>
-            </tr>
-        }
-    </table>
+            </tbody>
+
+        </table>
+    </div>
 </div>

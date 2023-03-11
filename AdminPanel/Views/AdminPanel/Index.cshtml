@@ -2,23 +2,31 @@
     ViewData["Title"] = "Admin panel";
 }
 
-<div class="text-center">
-    <h3 class="display-4"><a asp-action="CreateProduct" asp-controller="Products">Create product</a></h3>
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Головна</p>
+        </div>
+    </div>
+
+    <div class="body">
+        <div>
+            <h3>
+                <a asp-action="CreateBrand" asp-controller="AdminPanel">Create brand</a>
+            </h3>
+        </div>
+
+        <div >
+            <h3>
+                <a asp-action="CreateModel" asp-controller="AdminPanel">Create model</a>
+            </h3>
+        </div>
+
+        <div>
+            <h3>
+                <a asp-action="CreateSubcategory" asp-controller="AdminPanel">Create subcategory</a>
+            </h3>
+        </div>
+    </div>
 </div>
 
-
-<div class="text-center">
-    <h3 class="display-4"><a asp-action="CreateBrand" asp-controller="AdminPanel">Create brand</a></h3>
-</div>
-
-<div class="text-center">
-    <h3 class="display-4"><a asp-action="CreateModel" asp-controller="AdminPanel">Create model</a></h3>
-</div>
-
-<div class="text-center">
-    <h3 class="display-4"><a asp-action="CreateMainCategory" asp-controller="AdminPanel">Create main category</a></h3>
-</div>
-
-<div class="text-center">
-    <h3 class="display-4"><a asp-action="CreateSubcategory" asp-controller="AdminPanel">Create subcategory</a></h3>
-</div>

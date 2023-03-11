@@ -4,36 +4,33 @@
     ViewData["Title"] = "User logs";
 }
 
-<style>
-    table {
-        border: 1px solid black;
-    }
-
-    th {
-        border: 1px solid grey;
-    }
-
-    td {
-        border: 1px solid grey;
-    }
-</style>
-
-<div class="text-center">
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>UserId</th>
-            <th>Action</th>
-            <th>SubjectUserId</th>
-        </tr>
-        @foreach (var log in Model)
-        {
-            <tr>
-                <td>@log.Id</td>
-                <td>@log.UserId</td>
-                <td>@log.LoggingAction.Action</td>
-                <td>@log.SubjectUserId</td>
-            </tr>
-        }
-    </table>
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Журнал користувачів</p>
+        </div>
+    </div>
+    <div class="body">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>UserId</th>
+                    <th>Action</th>
+                    <th>SubjectUserId</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in Model)
+                {
+                    <tr>
+                        <td>@log.Id</td>
+                        <td>@log.UserId</td>
+                        <td>@log.LoggingAction.Action</td>
+                        <td>@log.SubjectUserId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

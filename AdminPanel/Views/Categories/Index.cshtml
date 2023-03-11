@@ -3,10 +3,30 @@
     ViewData["Title"] = "Main categories";
 }
 
-<h6>Main categories</h6>
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Список категорій</p>
+        </div>
+        <div class="btn-header">
+            <a asp-action="CreateMainCategory" asp-controller="AdminPanel">Додати категорию</a>
+        </div>
+    </div>
 
-@foreach(var x in Model) {
-    <a asp-action="Category" asp-controller="Categories" asp-route-id="@x.Id">@x.Id | @x.Name</a>
-    <br />
-}
+        <div class="body">
+            @foreach (var x in Model)
+            {
+                <div>
+                    <div>
+                        <p>@x.Name</p>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            }
+        </div>
+
+</div>
+
+
 
