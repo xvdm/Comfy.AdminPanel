@@ -14,18 +14,23 @@
     </div>
 
         <div class="body">
-            @foreach (var x in Model)
+            @foreach (var x in Model.MainCategories)
             {
                 <div>
                     <div>
-                        <p>@x.Name</p>
+                    <p><b>@x.Name</b></p>
                     </div>
                     <div>
+                    @foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == x.Id ))
+                    {
+                        <div>
+                            <p>@y.Name</p>
+                        </div>
+                    }
                     </div>
                 </div>
             }
         </div>
-
 </div>
 
 

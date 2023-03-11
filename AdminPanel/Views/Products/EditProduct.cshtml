@@ -21,18 +21,18 @@
                 </div>
                 <div class="info-block">
                     <form method="post" asp-action="EditProduct" asp-controller="Products">
-                        <input required hidden type="number" name="Id" value="@Model.Id" />
+                        <input required hidden type="number" name="Id" value="@Model.Product.Id" />
                         <div class="name">
                             <div class="product-lable">
                                 <label for="Name">Назва позиції</label>
                             </div>
-                            <input type="text" name="Name" placeholder="Name" value="@Model.Name" />
+                            <input type="text" name="Name" placeholder="Name" value="@Model.Product.Name" />
                         </div>
                         <div class="description">
                             <div class="product-lable">
                                 <label for="Description">Опис</label>
                             </div>
-                            <textarea type="text" name="Description" placeholder="Description">@Model.Description</textarea>
+                            <textarea type="text" name="Description" placeholder="Description">@Model.Product.Description</textarea>
                         </div>
 
                         <div class="price-div">
@@ -40,17 +40,17 @@
                                 <div class="product-lable">
                                     <label for="Price">Ціна, грн</label>
                                 </div>
-                                <input type="number" name="Price" placeholder="Price" value="@Model.Price" />
+                                <input type="number" name="Price" placeholder="Price" value="@Model.Product.Price" />
                             </div>
 
                             <div class="discount">
                                 <div class="product-lable">
                                     <label for="DiscountAmount">Розмір знижки</label>
                                 </div>
-                                <input type="number" name="DiscountAmount" placeholder="Discount amount" value="@Model.DiscountAmmount" />
+                                <input type="number" name="DiscountAmount" placeholder="Discount amount" value="@Model.Product.DiscountAmmount" />
                             </div>
                         </div>
-                        <button id="btnMainForm"  class="h-hidden" type="submit">Send</button>
+                        <button hidden id="btnMainForm" type="submit">Send</button>
                     </form>
                 </div>
                 <div class="catecories-block">
@@ -95,7 +95,7 @@
                         <span>Створити характеристику</span>
                     </div>
                     <form method="post" asp-action="AddCharacteristic" asp-controller="Products">
-                        <input hidden required name="ProductId" value="@Model.Id" />
+                        <input hidden required name="ProductId" value="@Model.Product.Id" />
                         <input required name="Name" placeholder="Name" />
                         <input required name="Value" placeholder="Value" />
                         <button type="submit">Add</button>
@@ -105,7 +105,7 @@
                     <div class="product-lable">
                         <span>Список характеристик</span>
                     </div>
-                    @if (Model.Characteristics.Count > 0)
+                    @if (Model.Product.Characteristics.Count > 0)
                     {
                         <table>
                             <thead>
@@ -117,18 +117,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach (var x in Model.Characteristics)
+                                @foreach (var x in Model.Product.Characteristics)
                             {
                                 <tr>
                                     <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
-                                        <input required hidden name="ProductId" value="@Model.Id" />
+                                        <input required hidden name="ProductId" value="@Model.Product.Id" />
                                         <input required hidden name="Id" value="@x.Id" />
                                     <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
                                     <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
                                     <td><button type="submit">Update</button></td>
                                     </form>
                                     <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
-                                        <input required hidden name="ProductId" value="@Model.Id" />
+                                            <input required hidden name="ProductId" value="@Model.Product.Id" />
                                         <input required hidden name="Id" value="@x.Id" />
                                     <td><button type="submit">Delete</button></td>
                                     </form>
@@ -145,10 +145,7 @@
 
 <script src="~/js/FormBtn.js"></script>
 
-    <label for="Price">Price</label>
-    <br />
-    <input type="number" name="Price" placeholder="Price" value="@Model.Price" />
-    <br /><br />
+
 
 @*<label for="Brand">Brand</label>
 <input type="text" name="Brand" placeholder="Brand" value="@Model.Brand.Name" />
