@@ -1,4 +1,5 @@
-﻿using AdminPanel.Helpers;
+﻿using AdminPanel.Handlers.Products.Models;
+using AdminPanel.Helpers;
 using AdminPanel.MediatorHandlers.Products.Categories;
 using AdminPanel.Models.ViewModels;
 using MediatR;
@@ -30,6 +31,12 @@ namespace AdminPanel.Controllers
         {
             var subcategories = await _mediator.Send(new GetSubcategoriesQuery(id));
             return View(subcategories);
+        }
+
+        public IActionResult GetSubcategoriesForMainCategory(int mainCategoryId)
+        {
+            var items = _mediator.Send(new GetSubcategoriesForMainCategoryQuery(mainCategoryId));
+            return Content(string.Join("", items.Result.Select(item => $"<option class='autocomplete-item'>{item.Name}</option>")));
         }
     }
 }
