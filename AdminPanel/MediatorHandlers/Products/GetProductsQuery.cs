@@ -7,16 +7,37 @@ namespace AdminPanel.Handlers.Products
 {
     public class GetProductsQuery : IRequest<IEnumerable<Product>>
     {
+        private const int _maxPageSize = 15;
+        private int _pageSize = _maxPageSize;
+        private int _pageNumber = 1;
+
         public int? CategoryId { get; set; }
-        public int Skip { get; set; }
-        public int Take { get; set; }
+
+        public int PageSize
+        {
+            get { return _pageSize; }
+            set
+            {
+                _pageSize = (value > _maxPageSize || value < 0) ? _maxPageSize : value;
+            }
+        }
+        public int PageNumber
+        {
+            get { return _pageNumber; }
+            set
+            {
+                _pageNumber = (value < 1) ? 1 : value;
+            }
+        }
+
         public Dictionary<string, List<string>> QueryDictionary { get; set; }
-        public GetProductsQuery(int? categoryId, int skip, int take, Dictionary<string, List<string>> queryDictionary)
+
+        public GetProductsQuery(int? pageSize, int? pageNumber, int? categoryId, Dictionary<string, List<string>> queryDictionary)
         {
             CategoryId = categoryId;
-            Skip = skip;
-            Take = take;
             QueryDictionary = queryDictionary;
+            if (pageSize is not null) PageSize = (int)pageSize;
+            if (pageNumber is not null) PageNumber = (int)pageNumber;
         }
     }
 
@@ -65,7 +86,10 @@ namespace AdminPanel.Handlers.Products
                     }
                 }
             }
-            return await products.Skip(request.Skip).Take(request.Take).ToListAsync();
+            return await products
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
         }
     }
 }
