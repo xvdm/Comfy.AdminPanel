@@ -297,9 +297,19 @@ html {
     border-radius: 4px;
 }
 
+.products-img {
+    width: 140px;
+}
+
+.products-img img{
+    width:140px;
+    height:100px;
+}
+
 .productsTable tr {
     cursor: pointer;
 }
+
 
 .productsTable tr:hover {
     background:#f8f8f8;

@@ -38,7 +38,15 @@
                         @foreach (var product in Model.Products)
                         {
                             <tr>
-                                <td><img alt="productImg" /></td>
+                                <td class="products-img">
+                                    @if (product.Images != null)
+                                    {
+
+                                    }
+                                    else{
+                                     <img src="~/img/nophoto.png" alt="productImg" />
+                                    }
+                                </td>
                                 <td><a asp-action="EditProduct" asp-controller="Products" asp-route-id="@product.Id">@product.Name</a></td>
                                 <td>@product.Code</td>
                                 @if (@product.IsActive)

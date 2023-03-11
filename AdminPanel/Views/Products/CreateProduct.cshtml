@@ -5,134 +5,164 @@
     ViewData["Title"] = "Create product";
 }
 
-<div class="createProductPage">
-    <form method="post" asp-controller="Products" asp-action="CreateProduct">
-    <div class="headerCreateProducts">
+<div class="Page">
+    <div class="header">
         <div class="namePage">
             <p>Створення товару</p>
         </div>
-            <div class="btn-header">
-                <button type="submit">Створити товар</button>
+        <div class="btn-header">
+            <button id="btn-header" type="submit">Створити товар</button>
         </div>
     </div>
-    <div class="bodyCreateProducts">
-            <div asp-validation-summary="All"></div>
-            <input type="text" name="Name" placeholder="Name" />
-            <br />
-            <input type="number" name="Price" placeholder="Price in UAH" />
-            <div>
-                <input id="brandInput" type="text" name="Brand" placeholder="Brand" />
-                <br />
-                <select id="autocomplete-list-brands" style="display:none"></select>
+    <div class="body body-product">
+        <div class="main-section">
+            <div class="left-section">
+                <div class="name-block">
+                    <p>Основна інформація</p>
+                </div>
+                <div class="info-block">
+                    <form method="post" asp-action="CreateProduct" asp-controller="Products">
+                        <input required hidden type="number" name="Id" value="" />
+                        <div class="name">
+                            <div class="product-lable">
+                                <label for="Name">Назва позиції</label>
+                            </div>
+                            <input type="text" name="Name" placeholder="Name" value="" />
+                        </div>
+                        <div class="description">
+                            <div class="product-lable">
+                                <label for="Description">Опис</label>
+                            </div>
+                            <textarea type="text" name="Description" placeholder="Description"></textarea>
+                        </div>
+
+                        <div class="price-div">
+                            <div class="price">
+                                <div class="product-lable">
+                                    <label for="Price">Ціна, грн</label>
+                                </div>
+                                <input type="number" name="Price" placeholder="Price" value="" />
+                            </div>
+
+                            <div class="discount">
+                                <div class="product-lable">
+                                    <label for="DiscountAmount">Розмір знижки</label>
+                                </div>
+                                <input type="number" name="DiscountAmount" placeholder="Discount amount" value="" />
+                            </div>
+                        </div>
+                        <button id="btnMainForm" hidden type="submit">Send</button>
+                    </form>
+                </div>
+                <div class="catecories-block">
+                    <div class="main-categories">
+                        <div class="product-lable">
+                            <span>Головна категорія</span>
+                        </div>
+                        <div class="categories-list">
+                            <select id="categories-select" name="categories">
+                                <option value="-1" disabled="disabled" selected="selected">Оберіть категорію</option>
+                                @*@foreach (var x in Model.MainCategories)
+                                {
+                                    @if (x.Name == Model.Product.Category.MainCategory.Name)
+                                    {
+                                        <option selected="selected" value="@x.Id">@x.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@x.Id">@x.Name</option>
+                                    }
+                                }*@
+                            </select>
+                        </div>
+                    </div>
+                    <div id="subcategories-div" class="subcategories h-hidden">
+                        <div class="product-lable">
+                            <span>Підкатегорія</span>
+                        </div>
+                        <div class="subcategories-list">
+                            <select id="subcategories-select" name="subcategories">
+                                <option value="-1" disabled="disabled" selected="selected">Виберіть підкатегорію</option>
+                                @*@foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == Model.Product.Category.MainCategory.Id))
+                                {
+                                    @if (y.Name == Model.Product.Category.Name)
+                                    {
+                                        <option selected="selected" value="@y.Id">@y.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@y.Id">@y.Name</option>
+                                    }
+                                }*@
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <input id="categoryInput" type="text" name="Category" placeholder="Category" />
-                <br />
-                <select id="autocomplete-list-categories" style="display:none"></select>
+            <div class="right-section">
+                <div class="name-block">
+                    <p>Основна інформація</p>
+                </div>
+                <div>
+                </div>
             </div>
-            <div>
-                <input id="modelInput" type="text" name="Model" placeholder="Model" />
-                <br />
-                <select id="autocomplete-list-models" style="display:none"></select>
+        </div>
+        <div class="second-section">
+            <div class="name-block">
+                <p>Характеристики товару</p>
             </div>
+            <div class="characteristics-section">
+                <div class="add-characteristics">
+                    <div class="product-lable">
+                        <span>Створити характеристику</span>
+                    </div>
+                    <form method="post" asp-action="AddCharacteristic" asp-controller="Products">
+                        <input hidden required name="ProductId" value="" />
+                        <input required name="Name" placeholder="Name" />
+                        <input required name="Value" placeholder="Value" />
+                        <button type="submit">Add</button>
+                    </form>
+                </div>
+                <div class="characteristics-table">
+                    <div class="product-lable">
+                        <span>Список характеристик</span>
+                    </div>
+                @*    @if (Model.Product.Characteristics.Count > 0)
+                    {
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var x in Model.Product.Characteristics)
+                                {
+                                    <tr>
+                                        <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
+                                            <input required hidden name="ProductId" value="@Model.Product.Id" />
+                                            <input required hidden name="Id" value="@x.Id" />
+                                        <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
+                                        <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
+                                        <td><button type="submit">Update</button></td>
+                                        </form>
+                                        <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
+                                            <input required hidden name="ProductId" value="@Model.Product.Id" />
+                                            <input required hidden name="Id" value="@x.Id" />
+                                        <td><button type="submit">Delete</button></td>
+                                        </form>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }*@
+                </div>
+            </div>
+        </div>
     </div>
-    </form>
 </div>
 
 
-
-
-
-@section scripts {
-    <script>
-        $(document).ready(function () {
-            $('#brandInput').on('input', function () {
-                var input = $(this).val();
-                if (input.length >= 1) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '/AdminPanel/GetAutocompleteBrands',
-                        data: { input: input },
-                        success: function (data) {
-                            if (data.length == 0) {
-                                $('#autocomplete-list-brands').hide();
-                            }
-                            else {
-                                $('#autocomplete-list-brands').html(data);
-                                $('#autocomplete-list-brands').show();
-                            }
-                        }
-                    });
-                }
-                else {
-                    $('#autocomplete-list-brands').hide();
-                }
-            });
-
-            $(document).on('change', '#autocomplete-list-brands', function () {
-                $('#brandInput').val($(this).val());
-                $('#autocomplete-list-brands').hide();
-            });
-        });
-
-        $(document).ready(function () {
-            $('#categoryInput').on('input', function () {
-                var input = $(this).val();
-                if (input.length >= 1) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '/AdminPanel/GetAutocompleteCategories',
-                        data: { input: input },
-                        success: function (data) {
-                            if (data.length == 0) {
-                                $('#autocomplete-list-categories').hide();
-                            }
-                            else {
-                                $('#autocomplete-list-categories').html(data);
-                                $('#autocomplete-list-categories').show();
-                            }
-                        }
-                    });
-                }
-                else {
-                    $('#autocomplete-list-categories').hide();
-                }
-            });
-
-            $(document).on('change', '#autocomplete-list-categories', function () {
-                $('#categoryInput').val($(this).val());
-                $('#autocomplete-list-categories').hide();
-            });
-        });
-
-        $(document).ready(function () {
-            $('#modelInput').on('input', function () {
-                var input = $(this).val();
-                if (input.length >= 1) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '/AdminPanel/GetAutocompleteModels',
-                        data: { input: input },
-                        success: function (data) {
-                            if (data.length == 0) {
-                                $('#autocomplete-list-models').hide();
-                            }
-                            else {
-                                $('#autocomplete-list-models').html(data);
-                                $('#autocomplete-list-models').show();
-                            }
-                        }
-                    });
-                }
-                else {
-                    $('#autocomplete-list-models').hide();
-                }
-            });
-
-            $(document).on('change', '#autocomplete-list-models', function () {
-                $('#modelInput').val($(this).val());
-                $('#autocomplete-list-models').hide();
-            });
-        });
-    </script>
-}
