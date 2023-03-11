@@ -43,16 +43,19 @@ namespace AdminPanel.Handlers.Products
             {
                 var br = await _context.Brands.FirstOrDefaultAsync(x => x.Name == request.Brand);
                 if (br is null) throw new HttpRequestException("This brand does not exist");
+                product.Brand = br;
             }
             if (product.Category.Name != request.Category)
             {
                 var br = await _context.Subcategories.FirstOrDefaultAsync(x => x.Name == request.Category);
                 if (br is null) throw new HttpRequestException("This category does not exist");
+                product.Category = br;
             }
             if (product.Model.Name != request.Model)
             {
                 var br = await _context.Models.FirstOrDefaultAsync(x => x.Name == request.Model);
                 if (br is null) throw new HttpRequestException("This model does not exist");
+                product.Model = br;
             }
 
 
