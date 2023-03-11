@@ -1,6 +1,6 @@
 ﻿using AdminPanel.Data;
 using MediatR;
-using WebApplication2.Models;
+using AdminPanel.Models;
 
 namespace AdminPanel.Handlers.Products.Brands
 {

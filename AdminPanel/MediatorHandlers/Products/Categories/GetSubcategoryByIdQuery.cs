@@ -1,7 +1,7 @@
 ﻿using AdminPanel.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Models;
+using AdminPanel.Models;
 
 namespace AdminPanel.MediatorHandlers.Products.Categories
 {

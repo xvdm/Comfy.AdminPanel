@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
 
-namespace WebApplication2.Models
+namespace AdminPanel.Models
 {
     public partial class Brand : IEntityTypeConfiguration<Brand>
     {

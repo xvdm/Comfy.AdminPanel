@@ -1,5 +1,6 @@
 ﻿using AdminPanel.Helpers;
 using AdminPanel.MediatorHandlers.Products.Categories;
+using AdminPanel.Models.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,9 @@ namespace AdminPanel.Controllers
         public async Task<IActionResult> Index()
         {
             var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
-            return View(mainCategories);
+            var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
+            var viewModel = new CategoriesViewModel() { MainCategories = mainCategories, Subcategories = subcategories };
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Category(int id)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace WebApplication2.Models
+namespace AdminPanel.Models
 {
     public partial class Characteristic : IEntityTypeConfiguration<Characteristic>
     {

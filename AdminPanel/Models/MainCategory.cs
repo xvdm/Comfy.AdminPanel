@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Models;
+using AdminPanel.Models;
 
 namespace AdminPanel.Models
 {

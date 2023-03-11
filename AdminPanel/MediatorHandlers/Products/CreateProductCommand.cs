@@ -2,7 +2,7 @@
 using AdminPanel.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Models;
+using AdminPanel.Models;
 
 namespace AdminPanel.Handlers.Products
 {

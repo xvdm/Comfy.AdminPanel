@@ -7,7 +7,7 @@ using System.Net;
 using MediatR;
 using AdminPanel.Models.DTO;
 using Mapster;
-using WebApplication2.Models;
+using AdminPanel.Models;
 using AdminPanel.MediatorHandlers.Products.Categories;
 
 namespace AdminPanel.Controllers
@@ -66,7 +66,17 @@ namespace AdminPanel.Controllers
             {
                 return NotFound(product);
             }
-            return View(product);
+
+            var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
+            var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
+
+            var viewModel = new EditProductViewModel()
+            {
+                Product = product,
+                MainCategories = mainCategories,
+                Subcategories = subcategories
+            };
+            return View(viewModel);
         }
 
         public async Task<IActionResult> ChangeProductActivityStatus(int productId, bool isActive)
