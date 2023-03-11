@@ -7,7 +7,7 @@ using System.Net;
 using MediatR;
 using AdminPanel.Models.DTO;
 using Mapster;
-using WebApplication2.Models;
+using AdminPanel.Models;
 using AdminPanel.MediatorHandlers.Products.Categories;
 
 namespace AdminPanel.Controllers

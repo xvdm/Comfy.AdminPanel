@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApplication2.Models
+namespace AdminPanel.Models
 {
     public partial class Address : IEntityTypeConfiguration<Address>
     {

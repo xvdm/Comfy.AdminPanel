@@ -9,7 +9,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
-using WebApplication2.Models;
 
 namespace AdminPanel.Controllers
 {

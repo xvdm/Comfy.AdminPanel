@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using AdminPanel.Models;
 
-namespace WebApplication2.Models
+namespace AdminPanel.Models
 {
     public partial class Subcategory : IEntityTypeConfiguration<Subcategory>
     {

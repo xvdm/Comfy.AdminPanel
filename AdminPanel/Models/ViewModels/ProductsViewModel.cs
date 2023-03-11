@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using WebApplication2.Models;
-
-namespace AdminPanel.Models.ViewModels
+﻿namespace AdminPanel.Models.ViewModels
 {
     public class ProductsViewModel
     {

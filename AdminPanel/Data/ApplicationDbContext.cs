@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using AdminPanel.Models.Logging;
-using WebApplication2.Models;
 using System.Reflection;
 using AdminPanel.Models.Identity;
 using AdminPanel.Models;

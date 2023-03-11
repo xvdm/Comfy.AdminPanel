@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Emit;
 
-namespace WebApplication2.Models
+namespace AdminPanel.Models
 {
     public partial class Product : IEntityTypeConfiguration<Product>
     {
