@@ -1,5 +1,5 @@
 ﻿@using AdminPanel.Models
-@model Product
+@model EditProductViewModel
 @{
     ViewData["Title"] = "Edit product";
 }
@@ -23,41 +23,41 @@
 <h1>Edit product</h1>
 
 <form method="post" asp-action="EditProduct" asp-controller="Products">
-    <input required hidden type="number" name="Id" value="@Model.Id" />
+    <input required hidden type="number" name="Id" value="@Model.Product.Id" />
 
     <label for="Name">Name</label>
     <br />
-    <input type="text" name="Name" placeholder="Name" value="@Model.Name" size="100" />
+    <input type="text" name="Name" placeholder="Name" value="@Model.Product.Name" size="100" />
     <br /><br />
 
     <label for="Price">Price</label>
     <br />
-    <input type="number" name="Price" placeholder="Price" value="@Model.Price" />
+    <input type="number" name="Price" placeholder="Price" value="@Model.Product.Price" />
     <br /><br />
 
     <label for="Brand">Brand</label>
     <br />
-    <input type="text" name="Brand" placeholder="Brand" value="@Model.Brand.Name" />
+    <input type="text" name="Brand" placeholder="Brand" value="@Model.Product.Brand.Name" />
     <br /><br />
 
     <label for="Category">Category</label>
     <br />
-    <input type="text" name="Category" placeholder="Category" value="@Model.Category.Name" />
+    <input type="text" name="Category" placeholder="Category" value="@Model.Product.Category.Name" />
     <br /><br />
 
     <label for="Model">Model</label>
     <br />
-    <input type="text" name="Model" placeholder="Model" value="@Model.Model.Name" />
+    <input type="text" name="Model" placeholder="Model" value="@Model.Product.Model.Name" />
     <br /><br />
 
     <label for="Description">Description</label>
     <br />
-    <input type="text" name="Description" placeholder="Description" value="@Model.Description" />
+    <input type="text" name="Description" placeholder="Description" value="@Model.Product.Description" />
     <br /><br />
 
     <label for="DiscountAmount">Discount amount</label>
     <br />
-    <input type="number" name="DiscountAmount" placeholder="Discount amount" value="@Model.DiscountAmmount" />
+    <input type="number" name="DiscountAmount" placeholder="Discount amount" value="@Model.Product.DiscountAmmount" />
     <br /><br />
 
     <button type="submit">Save changes</button>
@@ -68,43 +68,43 @@
 
 <label for="Url">Url</label>
 <br />
-<input disabled readonly type="text" name="Url" placeholder="Url" value="@Model.Url" size="100" />
+<input disabled readonly type="text" name="Url" placeholder="Url" value="@Model.Product.Url" size="100" />
 <br />
 <br />
 
 <label for="Rating">Rating</label>
 <br />
-<input disabled readonly type="text" name="Rating" placeholder="Rating" value="@Model.Rating" />
+<input disabled readonly type="text" name="Rating" placeholder="Rating" value="@Model.Product.Rating" />
 <br />
 <br />
 
 <label for="Amount">Amount</label>
 <br />
-<input disabled readonly type="number" name="Amount" placeholder="Amount" value="@Model.Amount" />
+<input disabled readonly type="number" name="Amount" placeholder="Amount" value="@Model.Product.Amount" />
 <br />
 <br />
 
 <label for="Code">Code</label>
 <br />
-<input disabled readonly type="number" name="Code" placeholder="Code" value="@Model.Code" />
+<input disabled readonly type="number" name="Code" placeholder="Code" value="@Model.Product.Code" />
 <br />
 <br />
 
 
-@if (Model.IsActive)
+@if (Model.Product.IsActive)
 {
     <h6>Product is activated</h6>
-    <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Id" asp-route-isActive="@false">Deactivate it</a>
+    <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
 }
 else
 {
     <h6>Product is deactivated</h6>
-    <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Id" asp-route-isActive="@true">Activate it</a>
+    <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
 }
 <br />
 <br />
 
-@if (Model.PriceHistory.Count > 0)
+@if (Model.Product.PriceHistory.Count > 0)
 {
     <h3>Price history</h3>
 
@@ -113,7 +113,7 @@ else
             <th>Date</th>
             <th>Price</th>
         </tr>
-        @foreach (var price in Model.PriceHistory)
+        @foreach (var price in Model.Product.PriceHistory)
         {
             <tr>
                 <td>@price.Date.ToString("dd.MM.yyyy")</td>
@@ -127,13 +127,13 @@ else
 
 <h3>Add characteristics</h3>
 <form method="post" asp-action="AddCharacteristic" asp-controller="Products">
-    <input hidden required name="ProductId" value="@Model.Id" />
+    <input hidden required name="ProductId" value="@Model.Product.Id" />
     <input required name="Name" placeholder="Name" />
     <input required name="Value" placeholder="Value" />
     <button type="submit">Add</button>
 </form>
 
-@if (Model.Characteristics.Count > 0)
+@if (Model.Product.Characteristics.Count > 0)
 {
     <h3>Characteristics</h3>
 
@@ -142,18 +142,18 @@ else
             <th>Name</th>
             <th>Value</th>
         </tr>
-        @foreach (var x in Model.Characteristics)
+        @foreach (var x in Model.Product.Characteristics)
         {
             <tr>
                 <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
-                    <input required hidden name="ProductId" value="@Model.Id" />
+                    <input required hidden name="ProductId" value="@Model.Product.Id" />
                     <input required hidden name="Id" value="@x.Id" />
                 <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
                 <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
                 <td><button type="submit">Update</button></td>
                 </form>
                 <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
-                    <input required hidden name="ProductId" value="@Model.Id" />
+                    <input required hidden name="ProductId" value="@Model.Product.Id" />
                     <input required hidden name="Id" value="@x.Id" />
                 <td><button type="submit">Delete</button></td>
                 </form>
@@ -165,7 +165,7 @@ else
 
 <h3>Upload image</h3>
 <form method="post" asp-action="UploadImage" asp-controller="Images" enctype="multipart/form-data">
-    <input hidden readonly type="number" name="productId" value="@Model.Id" />
+    <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
     <div class="form-group">
         <label for="image">Select Image</label>
         <input accept="image/*" type="file" name="file" id="image" class="form-control-file" required>
@@ -175,13 +175,13 @@ else
 
 <br />
 
-@if (Model.Images?.Count > 0)
+@if (Model.Product.Images?.Count > 0)
 {
     <h1>Images</h1>
-    @foreach (var image in Model.Images)
+    @foreach (var image in Model.Product.Images)
     {
         <img src="@image.Url" width="300" height="200" />
-        <a asp-action="DeleteImage" asp-controller="Images" asp-route-imageId="@image.Id" asp-route-productId="@Model.Id">Delete image</a>
+        <a asp-action="DeleteImage" asp-controller="Images" asp-route-imageId="@image.Id" asp-route-productId="@Model.Product.Id">Delete image</a>
         <br />
     }
 }

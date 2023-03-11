@@ -66,7 +66,17 @@ namespace AdminPanel.Controllers
             {
                 return NotFound(product);
             }
-            return View(product);
+
+            var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
+            var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
+
+            var viewModel = new EditProductViewModel()
+            {
+                Product = product,
+                MainCategories = mainCategories,
+                Subcategories = subcategories
+            };
+            return View(viewModel);
         }
 
         public async Task<IActionResult> ChangeProductActivityStatus(int productId, bool isActive)
