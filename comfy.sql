@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2023 at 01:19 PM
+-- Generation Time: Mar 12, 2023 at 02:19 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `addresses` (
   `Id` int(11) NOT NULL,
-  `UserId` int(11) NOT NULL,
+  `UserId` char(36) CHARACTER SET ascii NOT NULL,
   `Country` varchar(50) NOT NULL,
   `City` varchar(50) NOT NULL,
   `Street` varchar(50) NOT NULL,
@@ -354,18 +354,6 @@ INSERT INTO `models` (`Id`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orderedproducts`
---
-
-CREATE TABLE `orderedproducts` (
-  `Id` int(11) NOT NULL,
-  `OrderId` int(11) NOT NULL,
-  `ProductId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `orders`
 --
 
@@ -375,8 +363,7 @@ CREATE TABLE `orders` (
   `TotalSum` int(11) NOT NULL,
   `CreatingDate` date NOT NULL,
   `ReceivingDate` date NOT NULL,
-  `ProductCount` int(11) NOT NULL,
-  `UserId` int(11) NOT NULL,
+  `UserId` char(36) CHARACTER SET ascii NOT NULL,
   `AddressId` int(11) NOT NULL,
   `PaymentTypeId` int(11) NOT NULL,
   `StatusId` int(11) NOT NULL
@@ -446,18 +433,20 @@ CREATE TABLE `products` (
   `ModelId` int(11) NOT NULL,
   `Description` longtext DEFAULT NULL,
   `Name` varchar(255) NOT NULL,
-  `Url` varchar(255) DEFAULT NULL
+  `Url` varchar(255) DEFAULT NULL,
+  `OrderId` int(11) DEFAULT NULL,
+  `WishlistId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`Id`, `Price`, `DiscountAmmount`, `Amount`, `Code`, `Rating`, `IsActive`, `BrandId`, `CategoryId`, `ModelId`, `Description`, `Name`, `Url`) VALUES
-(31, 9999, 0, 0, 1000031, 0, 0, 17, 2, 6, 'классный телефон', 'Смартфон Samsung Galaxy M33 5G 6/128Gb Green (SM-M336BZGGSEK)', 'smartfon-samsung-galaxy-m33-5g-6-128gb-green-sm-m336bzggsek-1000031'),
-(32, 35999, 10, 0, 1000032, 0, 0, 18, 2, 7, 'крутой телефон', 'Смартфон Apple iPhone 13 128Gb Midnight', 'smartfon-apple-iphone-13-128gb-midnight-1000032'),
-(35, 57999, 0, 0, 1000035, 0, 0, 17, 2, 8, 'дорогой телефон', 'Смартфон Samsung Galaxy S23 Ultra 12/256Gb Violet (SM-S918BLIGSEK)', 'smartfon-samsung-galaxy-s23-ultra-12-256gb-violet-sm-s918bligsek-1000035'),
-(36, 1135, 0, 0, 1000036, 0, 0, 20, 3, 9, 'сигма телефон', 'Мобильный телефон Sigma mobile Comfort 50 Optima Dual Sim Black', 'mobilnyj-telefon-sigma-mobile-comfort-50-optima-dual-sim-black-1000036');
+INSERT INTO `products` (`Id`, `Price`, `DiscountAmmount`, `Amount`, `Code`, `Rating`, `IsActive`, `BrandId`, `CategoryId`, `ModelId`, `Description`, `Name`, `Url`, `OrderId`, `WishlistId`) VALUES
+(31, 9999, 0, 0, 1000031, 0, 0, 17, 2, 6, 'классный телефон', 'Смартфон Samsung Galaxy M33 5G 6/128Gb Green (SM-M336BZGGSEK)', 'smartfon-samsung-galaxy-m33-5g-6-128gb-green-sm-m336bzggsek-1000031', NULL, NULL),
+(32, 35999, 10, 0, 1000032, 0, 0, 18, 2, 7, 'крутой телефон', 'Смартфон Apple iPhone 13 128Gb Midnight', 'smartfon-apple-iphone-13-128gb-midnight-1000032', NULL, NULL),
+(35, 57999, 0, 0, 1000035, 0, 0, 17, 2, 8, 'дорогой телефон', 'Смартфон Samsung Galaxy S23 Ultra 12/256Gb Violet (SM-S918BLIGSEK)', 'smartfon-samsung-galaxy-s23-ultra-12-256gb-violet-sm-s918bligsek-1000035', NULL, NULL),
+(36, 1135, 0, 0, 1000036, 0, 0, 20, 3, 9, 'сигма телефон', 'Мобильный телефон Sigma mobile Comfort 50 Optima Dual Sim Black', 'mobilnyj-telefon-sigma-mobile-comfort-50-optima-dual-sim-black-1000036', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -488,9 +477,8 @@ CREATE TABLE `questions` (
   `UsefullQuestionCount` int(11) NOT NULL,
   `NeedlessQuestionCount` int(11) DEFAULT NULL,
   `IsActive` tinyint(1) NOT NULL,
-  `UserId` int(11) NOT NULL,
-  `ProductId` int(11) NOT NULL,
-  `UserId1` char(36) CHARACTER SET ascii NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
+  `UserId` char(36) CHARACTER SET ascii NOT NULL,
+  `ProductId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -517,7 +505,7 @@ CREATE TABLE `reviewanswers` (
 
 CREATE TABLE `reviews` (
   `Id` int(11) NOT NULL,
-  `UserId` int(11) NOT NULL,
+  `UserId` char(36) CHARACTER SET ascii NOT NULL,
   `Text` longtext NOT NULL,
   `Advantages` varchar(50) NOT NULL,
   `Disadvantages` varchar(50) NOT NULL,
@@ -526,8 +514,7 @@ CREATE TABLE `reviews` (
   `UsefullReviewCount` int(11) NOT NULL,
   `NeedlessReviewCount` int(11) DEFAULT NULL,
   `IsActive` tinyint(1) NOT NULL,
-  `ProductId` int(11) NOT NULL,
-  `UserId1` char(36) CHARACTER SET ascii NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
+  `ProductId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -645,8 +632,7 @@ INSERT INTO `userlogs` (`Id`, `UserId`, `LoggingActionId`, `SubjectUserId`) VALU
 
 CREATE TABLE `whishlists` (
   `Id` int(11) NOT NULL,
-  `UserId` int(11) NOT NULL,
-  `ProductId` int(11) NOT NULL
+  `UserId` char(36) CHARACTER SET ascii NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -694,7 +680,8 @@ INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 ('20230308180740_DeletedProductsFromModel', '6.0.14'),
 ('20230308181919_DeletedProductsFromCategory', '6.0.14'),
 ('20230308184758_ChangedModelModelToModelName', '6.0.14'),
-('20230312121017_QuestionsAndReviewsUpdate', '6.0.14');
+('20230312121017_QuestionsAndReviewsUpdate', '6.0.14'),
+('20230312131712_BugFixes', '6.0.14');
 
 --
 -- Indexes for dumped tables
@@ -705,7 +692,8 @@ INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 --
 ALTER TABLE `addresses`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `IX_Addresses_AddressTypeId` (`AddressTypeId`);
+  ADD KEY `IX_Addresses_AddressTypeId` (`AddressTypeId`),
+  ADD KEY `IX_Addresses_UserId` (`UserId`);
 
 --
 -- Indexes for table `addresstypes`
@@ -818,21 +806,14 @@ ALTER TABLE `models`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `orderedproducts`
---
-ALTER TABLE `orderedproducts`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `IX_OrderedProducts_OrderId` (`OrderId`),
-  ADD KEY `IX_OrderedProducts_ProductId` (`ProductId`);
-
---
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `IX_Orders_AddressId` (`AddressId`),
   ADD KEY `IX_Orders_PaymentTypeId` (`PaymentTypeId`),
-  ADD KEY `IX_Orders_StatusId` (`StatusId`);
+  ADD KEY `IX_Orders_StatusId` (`StatusId`),
+  ADD KEY `IX_Orders_UserId` (`UserId`);
 
 --
 -- Indexes for table `orderstatuses`
@@ -863,7 +844,9 @@ ALTER TABLE `products`
   ADD KEY `IX_Products_BrandId` (`BrandId`),
   ADD KEY `IX_Products_CategoryId` (`CategoryId`),
   ADD KEY `IX_Products_ModelId` (`ModelId`),
-  ADD KEY `IX_Products_Name` (`Name`);
+  ADD KEY `IX_Products_Name` (`Name`),
+  ADD KEY `IX_Products_OrderId` (`OrderId`),
+  ADD KEY `IX_Products_WishlistId` (`WishlistId`);
 
 --
 -- Indexes for table `questionanswers`
@@ -879,7 +862,7 @@ ALTER TABLE `questionanswers`
 ALTER TABLE `questions`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `IX_Questions_ProductId` (`ProductId`),
-  ADD KEY `IX_Questions_UserId1` (`UserId1`);
+  ADD KEY `IX_Questions_UserId` (`UserId`);
 
 --
 -- Indexes for table `reviewanswers`
@@ -895,7 +878,7 @@ ALTER TABLE `reviewanswers`
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `IX_Reviews_ProductId` (`ProductId`),
-  ADD KEY `IX_Reviews_UserId1` (`UserId1`);
+  ADD KEY `IX_Reviews_UserId` (`UserId`);
 
 --
 -- Indexes for table `subcategories`
@@ -918,7 +901,7 @@ ALTER TABLE `userlogs`
 --
 ALTER TABLE `whishlists`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `IX_WhishLists_ProductId` (`ProductId`);
+  ADD KEY `IX_WhishLists_UserId` (`UserId`);
 
 --
 -- Indexes for table `__efmigrationshistory`
@@ -1003,12 +986,6 @@ ALTER TABLE `models`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `orderedproducts`
---
-ALTER TABLE `orderedproducts`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
@@ -1088,7 +1065,8 @@ ALTER TABLE `whishlists`
 -- Constraints for table `addresses`
 --
 ALTER TABLE `addresses`
-  ADD CONSTRAINT `FK_Addresses_AddressTypes_AddressTypeId` FOREIGN KEY (`AddressTypeId`) REFERENCES `addresstypes` (`Id`);
+  ADD CONSTRAINT `FK_Addresses_AddressTypes_AddressTypeId` FOREIGN KEY (`AddressTypeId`) REFERENCES `addresstypes` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Addresses_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `aspnetroleclaims`
@@ -1143,19 +1121,13 @@ ALTER TABLE `images`
   ADD CONSTRAINT `FK_Images_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
 
 --
--- Constraints for table `orderedproducts`
---
-ALTER TABLE `orderedproducts`
-  ADD CONSTRAINT `FK_OrderedProducts_Orders_OrderId` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`Id`),
-  ADD CONSTRAINT `FK_OrderedProducts_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
-
---
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `FK_Orders_Addresses_AddressId` FOREIGN KEY (`AddressId`) REFERENCES `addresses` (`Id`),
-  ADD CONSTRAINT `FK_Orders_OrderStatuses_StatusId` FOREIGN KEY (`StatusId`) REFERENCES `orderstatuses` (`Id`),
-  ADD CONSTRAINT `FK_Orders_PaymentTypes_PaymentTypeId` FOREIGN KEY (`PaymentTypeId`) REFERENCES `paymenttypes` (`Id`);
+  ADD CONSTRAINT `FK_Orders_Addresses_AddressId` FOREIGN KEY (`AddressId`) REFERENCES `addresses` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Orders_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Orders_OrderStatuses_StatusId` FOREIGN KEY (`StatusId`) REFERENCES `orderstatuses` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Orders_PaymentTypes_PaymentTypeId` FOREIGN KEY (`PaymentTypeId`) REFERENCES `paymenttypes` (`Id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `pricehistory`
@@ -1169,7 +1141,9 @@ ALTER TABLE `pricehistory`
 ALTER TABLE `products`
   ADD CONSTRAINT `FK_Products_Brands_BrandId` FOREIGN KEY (`BrandId`) REFERENCES `brands` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Products_Models_ModelId` FOREIGN KEY (`ModelId`) REFERENCES `models` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_Products_Subcategories_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `subcategories` (`Id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_Products_Orders_OrderId` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`Id`),
+  ADD CONSTRAINT `FK_Products_Subcategories_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `subcategories` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Products_WhishLists_WishlistId` FOREIGN KEY (`WishlistId`) REFERENCES `whishlists` (`Id`);
 
 --
 -- Constraints for table `questionanswers`
@@ -1182,7 +1156,7 @@ ALTER TABLE `questionanswers`
 -- Constraints for table `questions`
 --
 ALTER TABLE `questions`
-  ADD CONSTRAINT `FK_Questions_AspNetUsers_UserId1` FOREIGN KEY (`UserId1`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Questions_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Questions_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
 
 --
@@ -1196,7 +1170,7 @@ ALTER TABLE `reviewanswers`
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `FK_Reviews_AspNetUsers_UserId1` FOREIGN KEY (`UserId1`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Reviews_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Reviews_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
 
 --
@@ -1217,7 +1191,7 @@ ALTER TABLE `userlogs`
 -- Constraints for table `whishlists`
 --
 ALTER TABLE `whishlists`
-  ADD CONSTRAINT `FK_WhishLists_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
+  ADD CONSTRAINT `FK_WhishLists_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
