@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2023 at 02:19 PM
+-- Generation Time: Mar 12, 2023 at 02:26 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -379,6 +379,16 @@ CREATE TABLE `orderstatuses` (
   `Id` int(11) NOT NULL,
   `Status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `orderstatuses`
+--
+
+INSERT INTO `orderstatuses` (`Id`, `Status`) VALUES
+(1, 'Active'),
+(2, 'Accepted'),
+(3, 'Completed'),
+(4, 'Cancelled');
 
 -- --------------------------------------------------------
 
@@ -995,7 +1005,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `orderstatuses`
 --
 ALTER TABLE `orderstatuses`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `paymenttypes`
