@@ -28,7 +28,6 @@ namespace AdminPanel.Data
         public DbSet<Model> Models { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderStatus> OrderStatuses { get; set; } = null!;
-        public DbSet<OrderedProduct> OrderedProducts { get; set; } = null!;
         public DbSet<PaymentType> PaymentTypes { get; set; } = null!;
         public DbSet<PriceHistory> PriceHistories { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;

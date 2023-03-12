@@ -8,8 +8,6 @@ namespace AdminPanel.Models
         public int Id { get; set; }
         public string Type { get; set; } = null!;
 
-        public ICollection<Address>? Addresses { get; set; }
-
 
         public void Configure(EntityTypeBuilder<AddressType> builder)
         {

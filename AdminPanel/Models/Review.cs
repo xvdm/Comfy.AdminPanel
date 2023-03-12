@@ -16,7 +16,7 @@ namespace AdminPanel.Models
         public int NeedlessReviewCount { get; set; }
         public bool IsActive { get; set; }
 
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public ApplicationUser User { get; set; } = null!;
         
         public int ProductId { get; set; }

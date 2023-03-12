@@ -12,6 +12,7 @@ using AdminPanel.MediatorHandlers.Products.Categories;
 
 namespace AdminPanel.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class ProductsController : Controller
     {
         private readonly IMediator _mediator;
