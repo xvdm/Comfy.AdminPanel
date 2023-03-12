@@ -22,9 +22,20 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        public IActionResult CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
-            return View();
+            var viewModel = await GetCategoriesViewModel();
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> EditProduct(int id)
+        {
+            var viewModel = await GetProductCategoriesViewModel(id);
+            if(viewModel.Product is null)
+            {
+                return NotFound(viewModel.Product);
+            }
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Products(int? pageSize, int? pageNumber, int? categoryId, string? filterQuery)
@@ -66,26 +77,6 @@ namespace AdminPanel.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> EditProduct(int id)
-        {
-            var product = await _mediator.Send(new GetProductByIdQuery(id));
-            if (product is null)
-            {
-                return NotFound(product);
-            }
-
-            var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
-            var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
-
-            var viewModel = new EditProductViewModel()
-            {
-                Product = product,
-                MainCategories = mainCategories,
-                Subcategories = subcategories
-            };
-            return View(viewModel);
-        }
-
         public async Task<IActionResult> ChangeProductActivityStatus(int productId, bool isActive)
         {
             await _mediator.Send(new ChangeProductActivityStatusCommand(productId, isActive));
@@ -97,7 +88,8 @@ namespace AdminPanel.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(productDto);
+                var viewModel = await GetCategoriesViewModel();
+                return View(viewModel);
             }
             var command = productDto.Adapt<CreateProductCommand>();
             var productId = await _mediator.Send(command);
@@ -164,5 +156,34 @@ namespace AdminPanel.Controllers
             }
             return characteristicsDictionary;
         }
+
+        private async Task<ProductCategoriesViewModel> GetProductCategoriesViewModel(int productId)
+        {
+            var product = await _mediator.Send(new GetProductByIdQuery(productId));
+            var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
+            var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
+            var viewModel = new ProductCategoriesViewModel()
+            {
+                Product = product,
+                MainCategories = mainCategories,
+                Subcategories = subcategories
+            };
+            return viewModel;
+        }
+
+        private async Task<CategoriesViewModel> GetCategoriesViewModel()
+        {
+            var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
+            var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
+
+            var viewModel = new CategoriesViewModel()
+            {
+                MainCategories = mainCategories,
+                Subcategories = subcategories
+            };
+            return viewModel;
+        }
+
+        
     }
 }
