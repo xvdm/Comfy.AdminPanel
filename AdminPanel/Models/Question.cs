@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AdminPanel.Models.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models
@@ -9,22 +10,24 @@ namespace AdminPanel.Models
         public string Text { get; set; } = null!;
         public DateTime CreateDate { get; set; }
         public int UsefullQuestionCount { get; set; }
-        public int NeedlesslyCount { get; set; }
+        public int NeedlessQuestionCount { get; set; }
         public bool IsActive { get; set; }
 
         public int UserId { get; set; }
-        //public ApplicationUser User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
 
         public int ProductId { get; set; }
         public Product Product { get; set; } = null!;
 
-        public ICollection<Answer>? Answers { get; set; }
+        public ICollection<QuestionAnswer> Answers { get; set; } = null!;
 
 
         public void Configure(EntityTypeBuilder<Question> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.CreateDate).HasColumnType("date");
+
+            builder.Property(e => e.CreateDate)
+                .HasColumnType("date");
 
             builder.HasOne(d => d.Product)
                 .WithMany(p => p.Questions)
