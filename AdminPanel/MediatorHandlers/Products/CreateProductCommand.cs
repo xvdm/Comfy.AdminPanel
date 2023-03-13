@@ -13,6 +13,7 @@ namespace AdminPanel.Handlers.Products
         public string Brand { get; set; } = null!;
         public string Category { get; set; } = null!;
         public string Model { get; set; } = null!;
+        public string Description { get; set; } = null!;
     }
 
 
@@ -54,6 +55,8 @@ namespace AdminPanel.Handlers.Products
 
             product.CategoryId = category.Id;
             product.Category = category;
+
+            product.Description = request.Description;
 
             product.IsActive = false;
 

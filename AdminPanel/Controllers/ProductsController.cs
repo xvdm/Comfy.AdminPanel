@@ -183,7 +183,5 @@ namespace AdminPanel.Controllers
             };
             return viewModel;
         }
-
-        
     }
 }

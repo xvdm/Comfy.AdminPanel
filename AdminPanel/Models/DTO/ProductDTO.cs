@@ -19,5 +19,8 @@ namespace AdminPanel.Models.DTO
 
         [Required]
         public string Model { get; set; } = null!;
+
+        [Required]
+        public string Description { get; set; } = null!;
     }
 }
