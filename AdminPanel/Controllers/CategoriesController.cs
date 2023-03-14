@@ -43,7 +43,8 @@ namespace AdminPanel.Controllers
                 return BadRequest($"{mainCategoryId} is not int");
             }
             var items = _mediator.Send(new GetSubcategoriesForMainCategoryQuery(categoryId));
-            return Content(string.Join("", items.Result.Select(item => $"<option class='autocomplete-item'>{item.Name}</option>")));
+            string result = string.Join("", items.Result.Select(item => $"<option class='autocomplete-item'>{item.Name}</option>"));
+            return Content(result);
         }
     }
 }

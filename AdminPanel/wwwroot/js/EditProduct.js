@@ -24,17 +24,17 @@ $(document).ready(function () {
     $('#categories-select').on('change', function () {
         var select = $(this).val()
             if(select != -1) {
-            $.ajax({
-                type: 'GET',
-                url: '/Categories/GetSubcategoriesForMainCategory',
-                data: select,
-                success: function (data) {
-                    if (data.length == 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Categories/GetSubcategoriesForMainCategory/',
+                    data: { "mainCategoryId" : select },
+                success: function (result) {
+                    if (result.length == 0) {
                         $('#subcategories-div').hide();
                     }
                     else {
-                        $('#subcategories-select').html(data);
-                        $('#subcategories-select').show();
+                        $('#subcategories-select').html(result);
+                        $('#subcategories-div').show();
                     }
                 }
             });
