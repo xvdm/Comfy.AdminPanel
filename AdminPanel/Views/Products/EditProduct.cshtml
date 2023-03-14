@@ -5,6 +5,11 @@
 }
 
 <div class="Page">
+
+    <div hidden>
+        <input required id="ProductId"  name="ProductId" value="@Model.Product.Id" />
+    </div>
+
     <div class="header">
         <div class="namePage">
             <p>Редагування товару</p>
@@ -82,17 +87,6 @@
                         <div class="subcategories-list">
                             <select id="subcategories-select" name="subcategories">
                                 <option value="-1"  disabled="disabled" selected="selected">Виберіть підкатегорію</option>
-                                @foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == Model.Product.Category.MainCategory.Id))
-                                    {
-                                        @if (y.Name == Model.Product.Category.Name)
-                                        {
-                                            <option selected="selected" value="@y.Id">@y.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@y.Id">@y.Name</option>
-                                        }
-                                     }
                             </select>
                         </div>
                     </div>
@@ -100,10 +94,21 @@
             </div>
             <div class="right-section">
                 <div class="name-block">
-                    <p>Основна інформація</p>
+                    <p>Видимість</p>
                 </div>
-                <div>
+                <div class="visibility-switcher">
 
+                    <input id="visibility-status" type="text" value="@Model.Product.IsActive.ToString()" hidden/>
+
+                    <div>
+                        <input type="radio" id="visibility-on" name="product-visibility" value="on">
+                        <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
+                    </div>
+                    <div>
+                        <input type="radio" id="visibility-off" name="product-visibility" value="off">
+                        <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
+                     </div
+                     >
                 </div>
             </div>
         </div>
@@ -117,7 +122,7 @@
                         <span>Створити характеристику</span>
                     </div>
                     <form method="post" asp-action="AddCharacteristic" asp-controller="Products">
-                        <input hidden required name="ProductId" value="@Model.Product.Id" />
+    
                         <input required name="Name" placeholder="Name" />
                         <input required name="Value" placeholder="Value" />
                         <button type="submit">Add</button>
@@ -143,7 +148,6 @@
                             {
                                 <tr>
                                     <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
-                                        <input required hidden name="ProductId" value="@Model.Product.Id" />
                                         <input required hidden name="Id" value="@x.Id" />
                                     <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
                                     <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
@@ -168,43 +172,7 @@
 
 
 @section scripts {
-    <script>
-        document.getElementById("btn-header").onclick = function () {
-            document.getElementById("btnMainForm").click()
-        }
-
-        let categoriesSelect = document.getElementById("categories-select")
-        let divSubcategories = document.getElementById("subcategories-div")
-
-        if (categoriesSelect.options[categoriesSelect.selectedIndex].value != -1) {
-            divSubcategories.classList.remove("h-hidden")
-        }
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('#categories-select').on('change', function () {
-                var select = $(this).val()
-                alert(select);
-                //if(select != -1){
-                //    $.ajax({
-                //        type: 'GET',
-                //        url: '/AdminPanel/GetAutocompleteBrands',
-                //        data: { input: input },
-                //        success: function (data) {
-                //            if (data.length == 0) {
-                //                $('#autocomplete-list-brands').hide();
-                //            }
-                //            else {
-                //                $('#autocomplete-list-brands').html(data);
-                //                $('#autocomplete-list-brands').show();
-                //            }
-                //        }
-                //    });
-                //}
-            });
-        });
-    </script>
+    <script src="~/js/EditProduct.js"></script>
 }
 
 

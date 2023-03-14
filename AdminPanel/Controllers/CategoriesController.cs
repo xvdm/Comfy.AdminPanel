@@ -33,8 +33,11 @@ namespace AdminPanel.Controllers
             return View(subcategories);
         }
 
+
         public IActionResult GetSubcategoriesForMainCategory(string mainCategoryId)
         {
+            Console.WriteLine($"{mainCategoryId}");
+
             if(int.TryParse(mainCategoryId, out int categoryId) == false)
             {
                 return BadRequest($"{mainCategoryId} is not int");
