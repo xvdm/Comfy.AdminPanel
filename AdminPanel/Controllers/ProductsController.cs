@@ -77,13 +77,17 @@ namespace AdminPanel.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> ChangeProductActivityStatus(int productId, string isActive)
+        public async Task<IActionResult> ChangeProductActivityStatus(string productId, string isActive)
         {
-            if(bool.TryParse(isActive, out bool isActiveBool) == false)
+            if (int.TryParse(productId, out int productIdInt) == false)
+            {
+                return BadRequest($"{productId} is not int");
+            }
+            if (bool.TryParse(isActive, out bool isActiveBool) == false)
             {
                 return BadRequest($"{isActive} is not 0 or 1");
             }
-            await _mediator.Send(new ChangeProductActivityStatusCommand(productId, isActiveBool));
+            await _mediator.Send(new ChangeProductActivityStatusCommand(productIdInt, isActiveBool));
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
