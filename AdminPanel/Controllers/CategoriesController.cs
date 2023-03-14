@@ -33,9 +33,13 @@ namespace AdminPanel.Controllers
             return View(subcategories);
         }
 
-        public IActionResult GetSubcategoriesForMainCategory(int mainCategoryId)
+        public IActionResult GetSubcategoriesForMainCategory(string mainCategoryId)
         {
-            var items = _mediator.Send(new GetSubcategoriesForMainCategoryQuery(mainCategoryId));
+            if(int.TryParse(mainCategoryId, out int categoryId) == false)
+            {
+                return BadRequest($"{mainCategoryId} is not int");
+            }
+            var items = _mediator.Send(new GetSubcategoriesForMainCategoryQuery(categoryId));
             return Content(string.Join("", items.Result.Select(item => $"<option class='autocomplete-item'>{item.Name}</option>")));
         }
     }

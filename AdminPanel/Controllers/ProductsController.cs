@@ -77,9 +77,13 @@ namespace AdminPanel.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> ChangeProductActivityStatus(int productId, bool isActive)
+        public async Task<IActionResult> ChangeProductActivityStatus(int productId, string isActive)
         {
-            await _mediator.Send(new ChangeProductActivityStatusCommand(productId, isActive));
+            if(bool.TryParse(isActive, out bool isActiveBool) == false)
+            {
+                return BadRequest($"{isActive} is not 0 or 1");
+            }
+            await _mediator.Send(new ChangeProductActivityStatusCommand(productId, isActiveBool));
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
@@ -109,29 +113,50 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCharacteristic(int productId, int id, string name, string value)
+        public async Task<IActionResult> EditCharacteristic(string productId, string id, string name, string value)
         {
-            var product = await _mediator.Send(new GetProductByIdQuery(productId));
+            if (int.TryParse(productId, out int productIdInt) == false)
+            {
+                return BadRequest($"{productId} is not int");
+            }
+            if (int.TryParse(id, out int idInt) == false)
+            {
+                return BadRequest($"{idInt} is not int");
+            }
+
+            var product = await _mediator.Send(new GetProductByIdQuery(productIdInt));
             if (product is null)
             {
                 return NotFound("No product with given Id was found");
             }
-            var editCharacteristicCommand = new EditProductCharacteristicCommand(product, id, name, value);
+            var editCharacteristicCommand = new EditProductCharacteristicCommand(product, idInt, name, value);
             await _mediator.Send(editCharacteristicCommand);
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteCharacteristic(int productId, int id)
+        public async Task<IActionResult> DeleteCharacteristic(string productId, string id)
         {
-            await _mediator.Send(new DeleteProductCharacteristicCommand(id));
+            if (int.TryParse(productId, out int productIdInt) == false)
+            {
+                return BadRequest($"{productId} is not int");
+            }
+            if (int.TryParse(id, out int idInt) == false)
+            {
+                return BadRequest($"{idInt} is not int");
+            }
+            await _mediator.Send(new DeleteProductCharacteristicCommand(idInt));
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCharacteristic(int productId, string name, string value)
+        public async Task<IActionResult> AddCharacteristic(string productId, string name, string value)
         {
-            var addCharacteristic = new AddProductCharacteristicCommand(productId, name, value);
+            if (int.TryParse(productId, out int productIdInt) == false)
+            {
+                return BadRequest($"{productId} is not int");
+            }
+            var addCharacteristic = new AddProductCharacteristicCommand(productIdInt, name, value);
             await _mediator.Send(addCharacteristic);
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
