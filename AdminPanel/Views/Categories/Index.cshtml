@@ -10,13 +10,16 @@
         </div>
         <div class="btn-header">
             <a asp-action="CreateMainCategory" asp-controller="AdminPanel">Додати категорию</a>
-        </div>
+        </div>  
     </div>
 
     <div class="body">
         <div>
-            <input name="categoryName" type="text" class="categoryTextInput" placeholder="Ім'я категорії" />
-            <input name="parentCategoryName" type="text" class="categoryTextInput" placeholder="Батьківська категорія" />
+            <input name="categoryName" type="text" class="categoryInput" placeholder="Ім'я категорії" /> 
+            <select class="categoryInput" id="categoriesSelect" name="categories">
+
+                                        <option value="1" selected="selected">Категорія</option>
+                            </select>
         </div>
         <div class="imageSelector">
         <div class="main-image">

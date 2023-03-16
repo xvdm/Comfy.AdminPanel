@@ -495,14 +495,7 @@
     cursor: pointer;
 }
 
-.searchButton span{
-    color:white;
-    .searchButton::before {
-        margin-right: -4px;
-        content: "🔍";
-    }
-
-.categoryTextInput {
+.categoryInput {
     width: 20%;
     height: 42px;
     padding-left: 10px;
