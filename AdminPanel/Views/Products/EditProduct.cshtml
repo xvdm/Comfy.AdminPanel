@@ -141,9 +141,9 @@
                                 <tr>
                                     <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
                                         <input required hidden name="Id" value="@x.Id" />
-                                    <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
-                                    <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
-                                    <td><button type="submit">Update</button></td>
+                                        <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
+                                        <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
+                                        <td><button type="submit">Update</button></td>
                                     </form>
                                     <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
                                             <input required hidden name="ProductId" value="@Model.Product.Id" />
@@ -235,7 +235,7 @@ else
     </table>
 }
 <h3>Upload image</h3>
-<form method="post" asp-action="UploadImage" asp-controller="Images" enctype="multipart/form-data">
+<form method="post" asp-action="UploadProductImage" asp-controller="Images" enctype="multipart/form-data">
     <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
     <div class="form-group">
         <label for="image">Select Image</label>
@@ -252,7 +252,7 @@ else
     @foreach (var image in Model.Product.Images)
     {
         <img src="@image.Url" width="300" height="200" />
-        <a asp-action="DeleteImage" asp-controller="Images" asp-route-imageId="@image.Id" asp-route-productId="@Model.Product.Id">Delete image</a>
+        <a asp-action="DeleteProductImage" asp-controller="Images" asp-route-imageId="@image.Id" asp-route-productId="@Model.Product.Id">Delete image</a>
         <br />
     }
 }*@

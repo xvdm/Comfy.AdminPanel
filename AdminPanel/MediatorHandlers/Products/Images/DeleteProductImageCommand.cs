@@ -1,9 +1,9 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Plugins;
 
-namespace AdminPanel.MediatorHandlers.Product.Images
+namespace AdminPanel.MediatorHandlers.Products.Images
 {
     public class DeleteProductImageCommand : IRequest
     {
@@ -18,12 +18,12 @@ namespace AdminPanel.MediatorHandlers.Product.Images
     public class DeleteProductImageCommandHandler : IRequestHandler<DeleteProductImageCommand>
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _env;
+        private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
 
-        public DeleteProductImageCommandHandler(ApplicationDbContext context, IWebHostEnvironment env)
+        public DeleteProductImageCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService)
         {
             _context = context;
-            _env = env;
+            _removeImageFromFileSystemService = removeImageFromFileSystemService;
         }
 
         public async Task Handle(DeleteProductImageCommand request, CancellationToken cancellationToken)
@@ -36,22 +36,7 @@ namespace AdminPanel.MediatorHandlers.Product.Images
             _context.Images.Remove(image);
             await _context.SaveChangesAsync();
 
-
-            //  Path.Combine возвращает значение второго параметра, если в нем указан абсолютный путь (начинающийся на /)
-            string fullPath = Path.Combine(_env.WebRootPath, image.Url);
-            if (fullPath == image.Url) fullPath = _env.WebRootPath + image.Url;
-
-            if (File.Exists(fullPath))
-            {
-                try
-                {
-                    File.Delete(fullPath);
-                }
-                catch (Exception e)
-                {
-                    //Debug.WriteLine(e.Message);
-                }
-            }
+            _removeImageFromFileSystemService.RemoveImage(image.Url);
         }
     }
 }
