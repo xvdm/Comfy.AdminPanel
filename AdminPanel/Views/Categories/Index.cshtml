@@ -13,6 +13,22 @@
         </div>
     </div>
 
+    <div class="body">
+        <div>
+            <input name="categoryName" type="text" class="categoryTextInput" placeholder="Ім'я категорії" />
+            <input name="parentCategoryName" type="text" class="categoryTextInput" placeholder="Батьківська категорія" />
+        </div>
+        <div class="imageSelector">
+        <div class="main-image">
+             <span class="material-icons add-icon unselectable">add</span>
+             <input type="file" name="uploads" multiple />
+            </div>
+        </div>
+        <div class="categoryButton">
+            <button type="submit">Додати</button>
+        </div>
+    </div>
+
         <div class="body">
             @foreach (var x in Model.MainCategories)
             {
