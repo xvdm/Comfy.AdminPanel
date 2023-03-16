@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2023 at 02:26 PM
+-- Generation Time: Mar 16, 2023 at 06:10 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -311,24 +311,36 @@ INSERT INTO `loggingactions` (`Id`, `Action`) VALUES
 
 CREATE TABLE `maincategories` (
   `Id` int(11) NOT NULL,
-  `Name` longtext NOT NULL
+  `Name` longtext NOT NULL,
+  `ImageId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `maincategories`
 --
 
-INSERT INTO `maincategories` (`Id`, `Name`) VALUES
-(1, 'Смартфоны и телефоны'),
-(2, 'Ноутбуки, планшеты и компьютерная техника'),
-(3, 'Техника для кухни'),
-(4, 'Техника для дома'),
-(5, 'Телевизоры и мультимедиа'),
-(6, 'Смарт-часы и гаджеты'),
-(7, 'Аудио'),
-(8, 'Игровые консоли и гейминг'),
-(9, 'Фото и видео'),
-(10, 'Главная');
+INSERT INTO `maincategories` (`Id`, `Name`, `ImageId`) VALUES
+(1, 'Смартфоны и телефоны', NULL),
+(2, 'Ноутбуки, планшеты и компьютерная техника', NULL),
+(3, 'Техника для кухни', NULL),
+(4, 'Техника для дома', NULL),
+(5, 'Телевизоры и мультимедиа', NULL),
+(6, 'Смарт-часы и гаджеты', NULL),
+(7, 'Аудио', NULL),
+(8, 'Игровые консоли и гейминг', NULL),
+(9, 'Фото и видео', NULL),
+(10, 'Главная', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `maincategoryimages`
+--
+
+CREATE TABLE `maincategoryimages` (
+  `Id` int(11) NOT NULL,
+  `Url` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -536,17 +548,29 @@ CREATE TABLE `reviews` (
 CREATE TABLE `subcategories` (
   `Id` int(11) NOT NULL,
   `Name` longtext NOT NULL,
-  `MainCategoryId` int(11) NOT NULL
+  `MainCategoryId` int(11) NOT NULL,
+  `ImageId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `subcategories`
 --
 
-INSERT INTO `subcategories` (`Id`, `Name`, `MainCategoryId`) VALUES
-(2, 'Смартфоны', 1),
-(3, 'Телефоны', 1),
-(4, 'Подкатегория', 10);
+INSERT INTO `subcategories` (`Id`, `Name`, `MainCategoryId`, `ImageId`) VALUES
+(2, 'Смартфоны', 1, NULL),
+(3, 'Телефоны', 1, NULL),
+(4, 'Подкатегория', 10, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subcategoryimages`
+--
+
+CREATE TABLE `subcategoryimages` (
+  `Id` int(11) NOT NULL,
+  `Url` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -691,7 +715,8 @@ INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 ('20230308181919_DeletedProductsFromCategory', '6.0.14'),
 ('20230308184758_ChangedModelModelToModelName', '6.0.14'),
 ('20230312121017_QuestionsAndReviewsUpdate', '6.0.14'),
-('20230312131712_BugFixes', '6.0.14');
+('20230312131712_BugFixes', '6.0.14'),
+('20230316165936_CategoryImage', '6.0.14');
 
 --
 -- Indexes for dumped tables
@@ -807,6 +832,13 @@ ALTER TABLE `loggingactions`
 -- Indexes for table `maincategories`
 --
 ALTER TABLE `maincategories`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `IX_MainCategories_ImageId` (`ImageId`);
+
+--
+-- Indexes for table `maincategoryimages`
+--
+ALTER TABLE `maincategoryimages`
   ADD PRIMARY KEY (`Id`);
 
 --
@@ -895,7 +927,14 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `subcategories`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `IX_Subcategories_MainCategoryId` (`MainCategoryId`);
+  ADD KEY `IX_Subcategories_MainCategoryId` (`MainCategoryId`),
+  ADD KEY `IX_Subcategories_ImageId` (`ImageId`);
+
+--
+-- Indexes for table `subcategoryimages`
+--
+ALTER TABLE `subcategoryimages`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `userlogs`
@@ -990,6 +1029,12 @@ ALTER TABLE `maincategories`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `maincategoryimages`
+--
+ALTER TABLE `maincategoryimages`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `models`
 --
 ALTER TABLE `models`
@@ -1054,6 +1099,12 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `subcategories`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `subcategoryimages`
+--
+ALTER TABLE `subcategoryimages`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `userlogs`
@@ -1131,6 +1182,12 @@ ALTER TABLE `images`
   ADD CONSTRAINT `FK_Images_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`);
 
 --
+-- Constraints for table `maincategories`
+--
+ALTER TABLE `maincategories`
+  ADD CONSTRAINT `FK_MainCategories_MainCategoryImages_ImageId` FOREIGN KEY (`ImageId`) REFERENCES `maincategoryimages` (`Id`);
+
+--
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
@@ -1187,7 +1244,8 @@ ALTER TABLE `reviews`
 -- Constraints for table `subcategories`
 --
 ALTER TABLE `subcategories`
-  ADD CONSTRAINT `FK_Subcategories_MainCategories_MainCategoryId` FOREIGN KEY (`MainCategoryId`) REFERENCES `maincategories` (`Id`);
+  ADD CONSTRAINT `FK_Subcategories_MainCategories_MainCategoryId` FOREIGN KEY (`MainCategoryId`) REFERENCES `maincategories` (`Id`),
+  ADD CONSTRAINT `FK_Subcategories_SubcategoryImages_ImageId` FOREIGN KEY (`ImageId`) REFERENCES `subcategoryimages` (`Id`);
 
 --
 -- Constraints for table `userlogs`

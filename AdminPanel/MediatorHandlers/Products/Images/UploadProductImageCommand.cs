@@ -1,8 +1,9 @@
 ﻿using AdminPanel.Data;
 using MediatR;
 using AdminPanel.Models;
+using AdminPanel.Services;
 
-namespace AdminPanel.MediatorHandlers.Product.Images
+namespace AdminPanel.MediatorHandlers.Products.Images
 {
     public class UploadProductImageCommand : IRequest
     {
@@ -18,23 +19,17 @@ namespace AdminPanel.MediatorHandlers.Product.Images
     public class UploadProductImageCommandHandler : IRequestHandler<UploadProductImageCommand>
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _env;
+        private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
 
-        public UploadProductImageCommandHandler(ApplicationDbContext context, IWebHostEnvironment env)
+        public UploadProductImageCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService)
         {
             _context = context;
-            _env = env;
+            _uploadImageToFileSystemService = uploadImageToFileSystemService;
         }
 
         public async Task Handle(UploadProductImageCommand request, CancellationToken cancellationToken)
         {
-            string filetype = request.ImageFile.FileName.Substring(request.ImageFile.FileName.LastIndexOf('.') + 1);
-            Guid guid = Guid.NewGuid();
-            string path = $"/images/{guid}.{filetype}";
-            using (var fileStream = new FileStream(_env.WebRootPath + path, FileMode.Create))
-            {
-                await request.ImageFile.CopyToAsync(fileStream);
-            }
+            var path = await _uploadImageToFileSystemService.UploadImage(request.ImageFile);
 
             var image = new Image();
             image.ProductId = request.ProductId;

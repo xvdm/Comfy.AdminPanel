@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using AdminPanel.Models;
 
 namespace AdminPanel.Models
 {
@@ -9,12 +8,17 @@ namespace AdminPanel.Models
         public int Id { get; set; }
         public string Name { get; set; } = null!;
 
+        public int? ImageId { get; set; }
+        public MainCategoryImage? Image { get; set; } = null!;
+
         public ICollection<Subcategory> Categories { get; set; } = null!;
 
         public void Configure(EntityTypeBuilder<MainCategory> builder)
         {
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.Name).IsUnicode(false);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Name).IsUnicode(false);
+
+            builder.HasOne(x => x.Image);
         }
     }
 }

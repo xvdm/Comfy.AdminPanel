@@ -76,6 +76,8 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddSingleton(GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 
+builder.Services.AddScoped<IRemoveImageFromFileSystemService, RemoveImageFromWwwRootService>();
+builder.Services.AddScoped<IUploadImageToFileSystemService, UploadImageToWwwRootService>();
 
 builder.Services.AddTransient<DatabaseLoggerService>();
 

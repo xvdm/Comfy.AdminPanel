@@ -11,6 +11,9 @@ namespace AdminPanel.Models
         public int MainCategoryId { get; set; }
         public MainCategory MainCategory { get; set; } = null!;
 
+        public int? ImageId { get; set; }
+        public SubcategoryImage? Image { get; set; } = null!;
+
         public ISet<Characteristic> UniqueCharacteristics { get; set; } = null!;
         public ISet<Brand> UniqueBrands { get; set; } = null!;
 
@@ -26,6 +29,8 @@ namespace AdminPanel.Models
 
             builder.HasMany(x => x.UniqueCharacteristics);
             builder.HasMany(x => x.UniqueBrands);
+
+            builder.HasOne(x => x.Image);
         }
     }
 }

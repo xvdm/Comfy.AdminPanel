@@ -82,14 +82,14 @@ namespace AdminPanel.Controllers
         {
             if (int.TryParse(productId, out int productIdInt) == false)
             {
-                return BadRequest($"{productId} is not int");
+                return BadRequest("ChangeProductActivityStatus :: Parsing error :: productId");
             }
             if (bool.TryParse(isActive, out bool isActiveBool) == false)
             {
-                return BadRequest($"{isActive} is not 0 or 1");
+                return BadRequest("ChangeProductActivityStatus :: Parsing error :: isActive");
             }
             await _mediator.Send(new ChangeProductActivityStatusCommand(productIdInt, isActiveBool));
-            return LocalRedirect($"/Products/EditProduct/{productId}");
+            return Ok();
         }
 
         [HttpPost]
@@ -120,13 +120,14 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCharacteristic(string productId, string id, string name, string value)
         {
+            Console.WriteLine($"productId = {productId}");
             if (int.TryParse(productId, out int productIdInt) == false)
             {
-                return BadRequest($"{productId} is not int");
+                return BadRequest("EditCharacteristic :: Parsing error :: productId");
             }
             if (int.TryParse(id, out int idInt) == false)
             {
-                return BadRequest($"{idInt} is not int");
+                return BadRequest("EditCharacteristic :: Parsing error :: id");
             }
 
             var product = await _mediator.Send(new GetProductByIdQuery(productIdInt));
@@ -144,11 +145,11 @@ namespace AdminPanel.Controllers
         {
             if (int.TryParse(productId, out int productIdInt) == false)
             {
-                return BadRequest($"{productId} is not int");
+                return BadRequest("DeleteCharacteristic :: Parsing error :: productId");
             }
             if (int.TryParse(id, out int idInt) == false)
             {
-                return BadRequest($"{idInt} is not int");
+                return BadRequest("DeleteCharacteristic :: Parsing error :: id");
             }
             await _mediator.Send(new DeleteProductCharacteristicCommand(idInt));
             return LocalRedirect($"/Products/EditProduct/{productId}");
@@ -159,7 +160,7 @@ namespace AdminPanel.Controllers
         {
             if (int.TryParse(productId, out int productIdInt) == false)
             {
-                return BadRequest($"{productId} is not int");
+                return BadRequest("AddCharacteristic :: Parsing error :: productId");
             }
             var addCharacteristic = new AddProductCharacteristicCommand(productIdInt, name, value);
             await _mediator.Send(addCharacteristic);
@@ -190,7 +191,7 @@ namespace AdminPanel.Controllers
         private async Task<ProductCategoriesViewModel> GetProductCategoriesViewModel(int productId)
         {
             var product = await _mediator.Send(new GetProductByIdQuery(productId));
-            if (product is null)
+            if(product is null)
             {
                 throw new HttpRequestException($"No product with id {productId} was found");
             }

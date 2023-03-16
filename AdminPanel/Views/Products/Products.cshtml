@@ -17,6 +17,16 @@
     </div>
     
     <div class="body">
+        <div class="searchForm" asp-controller="Products" asp-action="SearchProduct">
+            <div>
+                <input class="textInput" type="text" name="SearchString" />
+                <button class="searchButton" type="submit" value="Пошук" />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="body">
          @if (Model is not null)
         {
             <div class="searchProducts">

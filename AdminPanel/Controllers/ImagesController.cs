@@ -1,5 +1,5 @@
 ﻿using AdminPanel.Helpers;
-using AdminPanel.MediatorHandlers.Product.Images;
+using AdminPanel.MediatorHandlers.Products.Images;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,7 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadImage(int productId, IFormFile file)
+        public async Task<IActionResult> UploadProductImage(int productId, IFormFile file)
         {
             if (file is null)
             {
@@ -28,10 +28,32 @@ namespace AdminPanel.Controllers
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
-        public async Task<IActionResult> DeleteImage(int imageId, int productId)
+        public async Task<IActionResult> DeleteProductImage(int imageId, int productId)
         {
             await _mediator.Send(new DeleteProductImageCommand(imageId));
             return LocalRedirect($"/Products/EditProduct/{productId}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateMainCategoryImage(int categoryId, IFormFile file)
+        {
+            if (file is null)
+            {
+                return BadRequest("No file was uploaded.");
+            }
+            await _mediator.Send(new UpdateMainCategoryImageCommand(categoryId, file));
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateSubcategoryImage(int categoryId, IFormFile file)
+        {
+            if (file is null)
+            {
+                return BadRequest("No file was uploaded.");
+            }
+            await _mediator.Send(new UpdateSubcategoryImageCommand(categoryId, file));
+            return Ok();
         }
     }
 }
