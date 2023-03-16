@@ -17,7 +17,7 @@
             <button id="btn-header" type="submit">Зберегти зміни</button>
         </div>
     </div>
-    <div class="body body-product">
+    <div class="body body-with-sections">
         <div class="main-section">
             <div class="left-section">
                  <div class="name-block">
@@ -101,20 +101,43 @@
                 </div>
             </div>
             <div class="right-section">
-                <div class="name-block">
-                    <p>Видимість</p>
-                </div>
-                <div class="visibility-switcher">
-
-                    <input id="visibility-status" type="text" class="h-hidden" value="@Model.Product.IsActive.ToString()"/>
-                    <div>
-                        <label class="unselectable"><input type="radio" id="visibility-on" name="product-visibility" value="on">Активовано</label>
-                        <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
+                <div class="visibility-section">
+                    <div class="name-block">
+                        <p>Видимість</p>
                     </div>
-                    <div>
-                        <label class="unselectable"><input type="radio" id="visibility-off" name="product-visibility" value="off">Деактивовано</label>
-                        <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
-                     </div>
+                    <div class="visibility-switcher">
+
+                        <input id="visibility-status" type="text" class="h-hidden" value="@Model.Product.IsActive.ToString()" />
+                        <div>
+                            <label class="unselectable"><input type="radio" id="visibility-on" name="product-visibility" value="on">Активовано</label>
+                            <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
+                        </div>
+                        <div>
+                            <label class="unselectable"><input type="radio" id="visibility-off" name="product-visibility" value="off">Деактивовано</label>
+                            <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="images-section">
+                    <div class="name-block">
+                        <p>Зображення</p>
+                    </div>
+                    <div class="images">
+                        <div class="main-image">
+                            <span class="material-icons add-icon ">
+                                add
+                            </span>
+                        </div>
+                        <ul class="list-images">
+                            @for(int i= 1; i < 10; i++){
+                                <li class="item-image">
+                                    <span class="material-icons add-icon unselectable">
+                                        add
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
