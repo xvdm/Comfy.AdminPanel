@@ -190,8 +190,12 @@ namespace AdminPanel.Controllers
         private async Task<ProductCategoriesViewModel> GetProductCategoriesViewModel(int productId)
         {
             var product = await _mediator.Send(new GetProductByIdQuery(productId));
+            if (product is null)
+            {
+                throw new HttpRequestException($"No product with id {productId} was found");
+            }
             var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
-            var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
+            var subcategories = await _mediator.Send(new GetSubcategoriesForMainCategoryQuery(product.Category.MainCategoryId));
             var viewModel = new ProductCategoriesViewModel()
             {
                 Product = product,

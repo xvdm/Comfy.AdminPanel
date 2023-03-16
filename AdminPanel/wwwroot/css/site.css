@@ -2,6 +2,10 @@ html {
     font-size: 18px;
 }
 
+.h-hidden {
+    display: none !important
+}
+
 .unselectable {
     -webkit-touch-callout: none; 
     -webkit-user-select: none; 
@@ -200,9 +204,7 @@ html {
     cursor:pointer;
 }
 
-.h-hidden{
-    display:none;
-}
+
 
 .noperehod {
     pointer-events: none;
@@ -259,7 +261,7 @@ html {
 }
 
 .btn-header a, button {
-    color: white !important;
+    color: white;
     background: #31363b;
     text-decoration: none;
     padding: 10px 20px;
@@ -414,3 +416,7 @@ html {
     margin-bottom: 20px;
 }
 
+.visibility-switcher input{
+    margin-right:5px;
+    border:none;
+}
