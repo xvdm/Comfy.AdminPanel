@@ -495,10 +495,8 @@
     cursor: pointer;
 }
 
-    .searchButton::before {
-        margin-right: -4px;
-        content: "🔍";
-    }
+.searchButton span{
+    color:white;
 }
 
 .images input {

@@ -14,6 +14,21 @@
             <a asp-area="" asp-controller="Accounts" asp-action="Create">Створити користувача</a>
         </div>
     </div>
+
+
+    <div class="body">
+        <div class="searchForm">
+            <div>
+                <input class="textInput" type="text" name="SearchString" />
+                <button class="searchButton" type="submit" value="Пошук">
+                    <span class="material-icons ">
+                        search
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="body">
         <div asp-validation-summary="All"></div>
         <table class="table">

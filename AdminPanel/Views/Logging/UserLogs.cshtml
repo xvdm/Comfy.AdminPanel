@@ -10,11 +10,16 @@
             <p>Журнал користувачів</p>
         </div>
     </div>
+
     <div class="body">
-        <div class="searchForm" asp-controller="Products" asp-action="SearchProduct">
+        <div class="searchForm">
             <div>
                 <input class="textInput" type="text" name="SearchString" />
-                <button class="searchButton" type="submit" value="Пошук" />
+                <button class="searchButton" type="submit" value="Пошук">
+                    <span class="material-icons ">
+                        search
+                    </span>
+                </button>
             </div>
         </div>
     </div>
