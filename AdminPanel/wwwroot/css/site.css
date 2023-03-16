@@ -499,6 +499,25 @@
         margin-right: -4px;
         content: "🔍";
     }
+
+.categoryTextInput {
+    width: 20%;
+    height: 42px;
+    padding-left: 10px;
+    border: 2px groove;
+    border-radius: 5px;
+    outline: none;
+}
+
+.imageSelector {
+    display: flex;
+    justify-content: right;
+}
+.categoryButton {
+    margin-top:15px;
+    display: flex;
+    justify-content: right;
+}
 }
 
 .images input {
