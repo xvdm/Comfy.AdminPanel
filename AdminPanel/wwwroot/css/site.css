@@ -1,4 +1,4 @@
-html {
+﻿html {
     font-size: 18px;
 }
 
@@ -460,3 +460,34 @@ html {
 .add-icon {
     color: #bcbec5;
 }
+
+.searchForm {
+    position: relative;
+    width: auto;
+    margin: 0;
+}
+
+.textInput {
+    width: 100%;
+    height: 42px;
+    padding-left: 10px;
+    border: 2px groove;
+    border-radius: 5px;
+    outline: none;
+}
+
+.searchButton {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    width: 65px;
+    height: 41px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+    .searchButton::before {
+        margin-right: -4px;
+        content: "🔍";
+    }
