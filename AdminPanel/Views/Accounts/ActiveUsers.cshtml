@@ -18,14 +18,14 @@
 
     <div class="body">
         <div class="searchForm">
-            <div>
-                <input class="textInput" type="text" name="SearchString" />
-                <button class="searchButton" type="submit" value="Пошук">
+            <form asp-controller="Accounts" asp-action="ActiveUsers">
+                <input class="textInput" type="text" name="searchString" />
+                <button class="searchButton" type="submit" value="Пошук" >
                     <span class="material-icons ">
                         search
                     </span>
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
                         </form>
                         <form method="post" asp-controller="Accounts" asp-action="LockoutUser">
                             <input hidden type="text" name="Id" value="@user.Id" />
-                        <td><button type="submit">Lockout</button></td>
+                            <td><button type="submit">Lockout</button></td>
                         </form>
                     </tr>
                 }

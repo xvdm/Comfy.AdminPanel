@@ -20,7 +20,11 @@
         <div class="searchForm">
             <form asp-controller="Products" asp-action="Products" asp-route-categoryId="@Model.CategoryId">
                 <input class="textInput" type="text" name="searchString" />
-                <button class="searchButton" type="submit" value="Пошук" />
+                <button class="searchButton" type="submit" value="Пошук">
+                    <span class="material-icons ">
+                        search
+                    </span>
+                </button>
             </form>
         </div>
     </div>

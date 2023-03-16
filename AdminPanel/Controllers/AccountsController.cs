@@ -30,15 +30,15 @@ namespace AdminPanel.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ActiveUsers()
+        public async Task<IActionResult> ActiveUsers(string? searchString)
         {
-            var users = await _mediator.Send(new GetDTOUsersQuery(false));
+            var users = await _mediator.Send(new GetDTOUsersQuery(searchString, false));
             return View(users);
         }
 
-        public async Task<IActionResult> LockoutedUsers()
+        public async Task<IActionResult> LockoutedUsers(string? searchString)
         {
-            var users = await _mediator.Send(new GetDTOUsersQuery(true));
+            var users = await _mediator.Send(new GetDTOUsersQuery(searchString, true));
             return View(users);
         }
 
@@ -73,7 +73,7 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LockoutUser(Guid id)
+        public async Task<IActionResult> LockoutUser(Guid id, string? searchString)
         {
             var lockoutUserCommand = new ChangeUserLockoutStatusCommand(User, id, true);
             if (await _mediator.Send(lockoutUserCommand))
@@ -82,12 +82,12 @@ namespace AdminPanel.Controllers
                 await _mediator.Send(createUserLogCommand);
             }
 
-            var users = await _mediator.Send(new GetDTOUsersQuery(false));
+            var users = await _mediator.Send(new GetDTOUsersQuery(searchString, false));
             return View(nameof(ActiveUsers), users);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ActivateUser(Guid id)
+        public async Task<IActionResult> ActivateUser(Guid id, string? searchString)
         {
             var activateUserCommand = new ChangeUserLockoutStatusCommand(User, id, false);
             if (await _mediator.Send(activateUserCommand))
@@ -96,7 +96,7 @@ namespace AdminPanel.Controllers
                 await _mediator.Send(createUserLogCommand);
             }
 
-            var users = await _mediator.Send(new GetDTOUsersQuery(true));
+            var users = await _mediator.Send(new GetDTOUsersQuery(searchString, true));
             return View(nameof(LockoutedUsers), users);
         }
     }

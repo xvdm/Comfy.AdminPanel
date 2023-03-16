@@ -10,9 +10,11 @@ namespace AdminPanel.Handlers.Users
 {
     public class GetDTOUsersQuery : IRequest<IEnumerable<UserDTO>>
     {
+        public string? SearchString { get; set; }
         public bool GetLockoutUsers { get; }
-        public GetDTOUsersQuery(bool getLockoutUsers)
+        public GetDTOUsersQuery(string? searchString, bool getLockoutUsers)
         {
+            SearchString = searchString;
             GetLockoutUsers = getLockoutUsers;
         }
     }
@@ -33,7 +35,7 @@ namespace AdminPanel.Handlers.Users
 
         public async Task<IEnumerable<UserDTO>> Handle(GetDTOUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = _usersRepository.GetUsers();
+            var users = _usersRepository.GetUsers(request.SearchString);
             var usersDTO = await _mapper
                 .From(users.Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null))
                 .ProjectToType<UserDTO>()
