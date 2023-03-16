@@ -10,6 +10,25 @@
         </div>
         <div class="btn-header">
             <a asp-action="CreateMainCategory" asp-controller="AdminPanel">Додати категорию</a>
+        </div>  
+    </div>
+
+    <div class="body">
+        <div>
+            <input name="categoryName" type="text" class="categoryInput" placeholder="Ім'я категорії" /> 
+            <select class="categoryInput" id="categoriesSelect" name="categories">
+
+                                        <option value="1" selected="selected">Категорія</option>
+                            </select>
+        </div>
+        <div class="imageSelector">
+            <div class="main-image">
+                <span class="material-icons add-icon unselectable">add</span>
+                <input type="file" name="uploads" multiple /> 
+            </div>
+        </div>
+        <div class="categoryButton">
+            <button type="submit">Додати</button>
         </div>
     </div>
 

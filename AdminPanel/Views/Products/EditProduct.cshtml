@@ -123,17 +123,46 @@
                         <p>Зображення</p>
                     </div>
                     <div class="images">
+
+                        @*<h3>Upload image</h3>
+                        <form method="post" asp-action="UploadImage" asp-controller="Images" enctype="multipart/form-data">
+                            <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
+                            <div class="form-group">
+                                <label for="image">Select Image</label>
+                                <input accept="image/*" type="file" name="file" id="image" class="form-control-file" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </form>
+
+                        <br />
+
+                        @if (Model.Product.Images?.Count > 0)
+                        {
+                            <h1>Images</h1>
+                            @foreach (var image in Model.Product.Images)
+                            {
+                                <img src="@image.Url" width="300" height="200" />
+                                <a asp-action="DeleteImage" asp-controller="Images" asp-route-imageId="@image.Id" asp-route-productId="@Model.Product.Id">Delete image</a>
+                                <br />
+                            }
+                        }*@
+
                         <div class="main-image">
-                            <span class="material-icons add-icon ">
-                                add
-                            </span>
+                            <span class="material-icons add-icon unselectable">add</span>
+                             <input type="file" name="uploads" multiple /> 
                         </div>
                         <ul class="list-images">
-                            @for(int i= 1; i < 10; i++){
+                            @for(int i= 1; i < 10; i++)
+                            {
                                 <li class="item-image">
-                                    <span class="material-icons add-icon unselectable">
-                                        add
-                                    </span>
+                                    @if (Model.Product.Images is null){
+                                       
+                                    }
+                                    else
+                                    {
+                                        <span class="material-icons add-icon unselectable">add</span>
+                                        <input type="file" name="uploads" multiple/>
+                                    }
                                 </li>
                             }
                         </ul>
