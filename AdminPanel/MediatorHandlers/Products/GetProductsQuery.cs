@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using AdminPanel.Models;
+using System.Xml.Linq;
 
 namespace AdminPanel.Handlers.Products
 {
@@ -11,6 +12,7 @@ namespace AdminPanel.Handlers.Products
         private int _pageSize = _maxPageSize;
         private int _pageNumber = 1;
 
+        public string? SearchString { get; set; }
         public int? CategoryId { get; set; }
 
         public int PageSize
@@ -32,8 +34,9 @@ namespace AdminPanel.Handlers.Products
 
         public Dictionary<string, List<string>> QueryDictionary { get; set; }
 
-        public GetProductsQuery(int? pageSize, int? pageNumber, int? categoryId, Dictionary<string, List<string>> queryDictionary)
+        public GetProductsQuery(string? searchString, int? pageSize, int? pageNumber, int? categoryId, Dictionary<string, List<string>> queryDictionary)
         {
+            SearchString = searchString;
             CategoryId = categoryId;
             QueryDictionary = queryDictionary;
             if (pageSize is not null) PageSize = (int)pageSize;
@@ -56,6 +59,11 @@ namespace AdminPanel.Handlers.Products
             var products = _context.Products
                 .AsNoTracking()
                 .AsQueryable();
+
+            if (request.SearchString is not null)
+            {
+                products = products.Where(p => p.Name.Contains(request.SearchString));
+            }
 
             if (request.CategoryId is not null)
             {

@@ -11,11 +11,11 @@
         </div>
     </div>
     <div class="body">
-        <div class="searchForm" asp-controller="Products" asp-action="SearchProduct">
-            <div>
-                <input class="textInput" type="text" name="SearchString" />
+        <div class="searchForm">
+            <form asp-controller="Logging" asp-action="UserLogs">
+                <input class="textInput" type="text" name="searchString" />
                 <button class="searchButton" type="submit" value="Пошук" />
-            </div>
+            </form>
         </div>
     </div>
 

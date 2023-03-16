@@ -38,16 +38,16 @@ namespace AdminPanel.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Products(int? pageSize, int? pageNumber, int? categoryId, string? filterQuery)
+        public async Task<IActionResult> Products(string? searchString, int? pageSize, int? pageNumber, int? categoryId, string? filterQuery)
         {
             if (ProductUrl.TryRemoveEmptyAndDuplicatesFromQuery(filterQuery, out Dictionary<string, List<string>> queryDictionary))
             {
                 string redirectUrl = $"/Products/Products?";
+                if (searchString is not null) redirectUrl += $"name={searchString}&";
                 if (pageSize is not null) redirectUrl += $"pageSize={pageSize}&";
                 if (pageNumber is not null) redirectUrl += $"pageNumber={pageNumber}&";
                 if (categoryId is not null) redirectUrl += $"categoryId={categoryId}&";
                 if (filterQuery is not null) redirectUrl += $"filterQuery={WebUtility.UrlEncode(ProductUrl.GetUrlQuery(queryDictionary))}";
-
                 return LocalRedirect(redirectUrl);
             }
 
@@ -64,7 +64,7 @@ namespace AdminPanel.Controllers
                 }
                 characteristicsDictionary = GetCharacteristicsInCategory(category);
             }
-            var products = await _mediator.Send(new GetProductsQuery(pageSize, pageNumber, categoryId, queryDictionary));
+            var products = await _mediator.Send(new GetProductsQuery(searchString, pageSize, pageNumber, categoryId, queryDictionary));
 
             var viewModel = new ProductsViewModel()
             {
