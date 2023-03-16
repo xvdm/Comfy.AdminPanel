@@ -10,17 +10,51 @@ if (categoriesSelect.options[categoriesSelect.selectedIndex].value != -1) {
     divSubcategories.classList.remove("h-hidden")
 }
 
-let visibility = document.getElementById("visibility-status").value
-let switcherON = document.getElementById("visibility-on")
-let switcherOFF = document.getElementById("visibility-off")
-
-if (visibility) {
-    switcherON.setAttribute('checked', 'true');
-} else {
-    switcherOFF.setAttribute('checked', 'true');
-}
-
 $(document).ready(function () {
+
+    // Visibility
+
+    let visibilityStatus = $('#visibility-status').val()
+    let switcherON = $('#visibility-on')
+    let switcherOFF = $('#visibility-off')
+
+    if (visibilityStatus == "True") {
+        switcherON.attr('checked', true)
+    } else {
+        switcherOFF.attr('checked', true)
+    }
+
+    switcherON.on('click', function () {
+        if ($(this).attr('checked') === undefined) {
+            changeVisibility("True")
+
+            $(this).attr('checked', true)
+            switcherOFF.attr('checked', false)
+        }
+    });
+    switcherOFF.on('click', function () {
+        if ($(this).attr('checked') === undefined) {
+            changeVisibility("False")
+
+            $(this).attr('checked', true)
+            switcherON.attr('checked', false)
+        }
+    });
+
+    function changeVisibility(param) {
+        let id = $('#product-id').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Products/ChangeProductActivityStatus/',
+            data: { "productId": id, "isActive": param },
+            success: function (result) {
+                $('#visibility-status').val(param)
+            }
+        })
+    }
+
+    // Categories
     $('#categories-select').on('change', function () {
         var select = $(this).val()
             if(select != -1) {

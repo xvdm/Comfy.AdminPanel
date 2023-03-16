@@ -5,9 +5,8 @@
 }
 
 <div class="Page">
-
-    <div hidden>
-        <input required id="ProductId"  name="ProductId" value="@Model.Product.Id" />
+    <div class="h-hidden">
+        <input id="product-id" value="@Model.Product.Id" />
     </div>
 
     <div class="header">
@@ -18,7 +17,7 @@
             <button id="btn-header" type="submit">Зберегти зміни</button>
         </div>
     </div>
-    <div class="body body-product">
+    <div class="body body-with-sections">
         <div class="main-section">
             <div class="left-section">
                  <div class="name-block">
@@ -65,10 +64,16 @@
                         </div>
                         <div class="categories-list">
                             <select id="categories-select" name="categories">
-                                <option value="-1" disabled="disabled" selected="selected">Оберіть категорію</option>
                                 @foreach (var x in Model.MainCategories)
                                 {
-                                    <option value="@x.Id">@x.Name</option>
+                                    if (@x.Id == @Model.Product.Category.MainCategory.Id)
+                                    {
+                                        <option value="@x.Id" selected="selected">@x.Name</option>
+                                    }
+                                    else{
+                                        <option value="@x.Id">@x.Name</option>
+                                    }
+                                    
                                 }
                             </select>
                         </div>
@@ -79,28 +84,60 @@
                         </div>
                         <div class="subcategories-list">
                             <select id="subcategories-select" name="subcategories">
+                                @foreach (var x in @Model.Subcategories)
+                                {
+                                    if (@x.Id == @Model.Product.CategoryId)
+                                    {
+                                        <option value="@x.Id" selected="selected">@x.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@x.Id">@x.Name</option>
+                                    }
+                                }
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="right-section">
-                <div class="name-block">
-                    <p>Видимість</p>
-                </div>
-                <div class="visibility-switcher">
-
-                    <input id="visibility-status" type="text" value="@Model.Product.IsActive.ToString()" hidden/>
-
-                    <div>
-                        <input type="radio" id="visibility-on" name="product-visibility" value="on">
-                        <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
+                <div class="visibility-section">
+                    <div class="name-block">
+                        <p>Видимість</p>
                     </div>
-                    <div>
-                        <input type="radio" id="visibility-off" name="product-visibility" value="off">
-                        <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
-                     </div
-                     >
+                    <div class="visibility-switcher">
+
+                        <input id="visibility-status" type="text" class="h-hidden" value="@Model.Product.IsActive.ToString()" />
+                        <div>
+                            <label class="unselectable"><input type="radio" id="visibility-on" name="product-visibility" value="on">Активовано</label>
+                            <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
+                        </div>
+                        <div>
+                            <label class="unselectable"><input type="radio" id="visibility-off" name="product-visibility" value="off">Деактивовано</label>
+                            <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="images-section">
+                    <div class="name-block">
+                        <p>Зображення</p>
+                    </div>
+                    <div class="images">
+                        <div class="main-image">
+                            <span class="material-icons add-icon ">
+                                add
+                            </span>
+                        </div>
+                        <ul class="list-images">
+                            @for(int i= 1; i < 10; i++){
+                                <li class="item-image">
+                                    <span class="material-icons add-icon unselectable">
+                                        add
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,6 +182,7 @@
                                         <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
                                         <td><button type="submit">Update</button></td>
                                     </form>
+
                                     <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
                                             <input required hidden name="ProductId" value="@Model.Product.Id" />
                                         <input required hidden name="Id" value="@x.Id" />
@@ -203,18 +241,7 @@
 <input disabled readonly type="number" name="Code" placeholder="Code" value="@Model.Code" />
 <br />*@
 
-@*@if (Model.IsActive)
-{
-    <h6>Product is activated</h6>
-    <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
-}
-else
-{
-    <h6>Product is deactivated</h6>
-    <a asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
-}
-<br />
-<br />
+@*
 
 @if (Model.Product.PriceHistory.Count > 0)
 {
