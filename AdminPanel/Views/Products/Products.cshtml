@@ -3,7 +3,6 @@
 
 @{
     ViewData["Title"] = "Products";
-    string ampersand = Model.Query is null ? "" : "&";
 }
 
 <div class="Page">
@@ -93,3 +92,6 @@
 
 
 
+@section scripts {
+    <script src="~/js/Products.js"></script>
+}

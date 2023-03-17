@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using AdminPanel.Models;
+using System.Xml.Linq;
 
 namespace AdminPanel.Handlers.Products
 {
@@ -11,7 +12,7 @@ namespace AdminPanel.Handlers.Products
         private int _pageSize = _maxPageSize;
         private int _pageNumber = 1;
 
-        public int? CategoryId { get; set; }
+        public string? SearchString { get; set; }
 
         public int PageSize
         {
@@ -30,12 +31,9 @@ namespace AdminPanel.Handlers.Products
             }
         }
 
-        public Dictionary<string, List<string>> QueryDictionary { get; set; }
-
-        public GetProductsQuery(int? pageSize, int? pageNumber, int? categoryId, Dictionary<string, List<string>> queryDictionary)
+        public GetProductsQuery(string? searchString, int? pageSize, int? pageNumber)
         {
-            CategoryId = categoryId;
-            QueryDictionary = queryDictionary;
+            SearchString = searchString;
             if (pageSize is not null) PageSize = (int)pageSize;
             if (pageNumber is not null) PageNumber = (int)pageNumber;
         }
@@ -57,10 +55,9 @@ namespace AdminPanel.Handlers.Products
                 .AsNoTracking()
                 .AsQueryable();
 
-            if (request.CategoryId is not null)
+            if (request.SearchString is not null)
             {
-                products = products
-                    .Where(x => x.CategoryId == request.CategoryId);
+                products = products.Where(p => p.Name.Contains(request.SearchString));
             }
 
             products = products
@@ -69,23 +66,6 @@ namespace AdminPanel.Handlers.Products
                     .Include(p => p.Brand)
                     .Include(p => p.Characteristics);
 
-
-            foreach (var pair in request.QueryDictionary)
-            {
-                if (pair.Value.Any())
-                {
-                    var ids = pair.Value.Where(x => int.TryParse(x, out int id)).Select(x => int.Parse(x)).ToArray();
-
-                    if (pair.Key == "brand")
-                    {
-                        products = products.Where(x => ids.Contains(x.Brand.Id));
-                    }
-                    else
-                    {
-                        products = products.Where(x => x.Characteristics.Any(c => ids.Contains(c.CharacteristicsValueId)));                    
-                    }
-                }
-            }
             return await products
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)

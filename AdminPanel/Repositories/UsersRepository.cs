@@ -1,5 +1,6 @@
 ﻿using AdminPanel.Models.Identity;
 using AdminPanel.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Repositories
 {
@@ -11,14 +12,22 @@ namespace AdminPanel.Repositories
             _context = context;
         }
 
-        public IQueryable<ApplicationUser> GetUsers()
+        public IQueryable<ApplicationUser> GetUsers(string? searchString)
         {
-            return _context.Users;
-        }
+            var users = _context.Users
+                .AsNoTracking()
+                .AsQueryable();
 
-        public IQueryable<ApplicationUser> GetUsers(int page, int amountOnPage = 10)
-        {
-            return _context.Users.Skip(page * amountOnPage).Take(amountOnPage);
+            if(searchString is not null)
+            {
+                users = users.Where(x => 
+                    x.UserName.Contains(searchString) ||
+                    x.Email.Contains(searchString) ||
+                    x.PhoneNumber.Contains(searchString)
+                    );
+            }
+
+            return users;
         }
     }
 }

@@ -4,7 +4,6 @@ namespace AdminPanel.Repositories
 {
     public interface IUsersRepository
     {
-        public IQueryable<ApplicationUser> GetUsers();
-        public IQueryable<ApplicationUser> GetUsers(int page, int amountOnPage);
+        public IQueryable<ApplicationUser> GetUsers(string? searchString);
     }
 }

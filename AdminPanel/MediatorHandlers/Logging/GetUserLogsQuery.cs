@@ -11,6 +11,8 @@ namespace AdminPanel.Handlers.Logging
         private int _pageSize = _maxPageSize;
         private int _pageNumber = 1;
 
+        public string? SearchString { get; set; }
+
         public int PageSize
         {
             get { return _pageSize; }
@@ -28,10 +30,11 @@ namespace AdminPanel.Handlers.Logging
             }
         }
 
-        public GetUserLogsQuery(int? pageSize, int? pageNumber)
+        public GetUserLogsQuery(string? searchString, int? pageSize, int? pageNumber)
         {
-            if(pageSize is not null) PageSize = (int)pageSize;
-            if(pageNumber is not null) PageNumber = (int)pageNumber;
+            SearchString = searchString;
+            if (pageSize is not null) PageSize = (int)pageSize;
+            if (pageNumber is not null) PageNumber = (int)pageNumber;
         }
     }
 
@@ -47,13 +50,26 @@ namespace AdminPanel.Handlers.Logging
 
         public async Task<IEnumerable<UserLog>> Handle(GetUserLogsQuery request, CancellationToken cancellationToken)
         {
-            var logs = await _context.UserLogs
+            var logs = _context.UserLogs
+                .AsNoTracking()
+                .AsQueryable();
+
+
+            if(request.SearchString is not null)
+            {
+                logs = logs.Where(x => 
+                    x.UserId.ToString().Contains(request.SearchString) ||
+                    x.SubjectUserId.ToString().Contains(request.SearchString) ||
+                    x.LoggingAction.Action.Contains(request.SearchString));
+            }
+
+
+            return await logs
                 .Include(x => x.LoggingAction)
                 .OrderByDescending(x => x.Id)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
-            return logs;
         }
     }
 }

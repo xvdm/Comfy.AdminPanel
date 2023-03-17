@@ -23,9 +23,9 @@ namespace AdminPanel.Controllers
         }
 
         [Authorize(Policy = PoliciesNames.SeniorManager)]
-        public async Task<IActionResult> UserLogs(int? pageSize, int? pageNumber)
+        public async Task<IActionResult> UserLogs(string? searchString, int? pageSize, int? pageNumber)
         {
-            var userLogs = await _mediator.Send(new GetUserLogsQuery(pageSize, pageNumber));
+            var userLogs = await _mediator.Send(new GetUserLogsQuery(searchString, pageSize, pageNumber));
             return View(userLogs);
         }
     }
