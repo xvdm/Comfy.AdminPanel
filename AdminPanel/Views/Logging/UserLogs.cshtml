@@ -11,40 +11,40 @@
         </div>
     </div>
 
-    <div class="body">
-        <div class="searchForm">
-            <form asp-controller="Logging" asp-action="UserLogs">
-                <input class="textInput" type="text" name="searchString" />
-                <button class="searchButton" type="submit" value="Пошук">
-                    <span class="material-icons ">
-                        search
-                    </span>
-                </button>
-            </form>
-        </div>
-    </div>
 
-    <div class="body">
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th>Id</th>
-                    <th>UserId</th>
-                    <th>Action</th>
-                    <th>SubjectUserId</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var log in Model)
-                {
+    <div class="body body-with-sections">
+
+        <div class="section">
+            <div class="search-block">
+                <input class="search-block-input" type="text" name="SearchString" />
+                <button class="search-block-btn" type="submit" value="Пошук">
+                    <span class="material-icons "> search </span>
+                </button>
+        </div>
+
+        <div class="section">
+            <table class="table">
+                <thead class="thead-light">
                     <tr>
-                        <td>@log.Id</td>
-                        <td>@log.UserId</td>
-                        <td>@log.LoggingAction.Action</td>
-                        <td>@log.SubjectUserId</td>
+                        <th>Id</th>
+                        <th>UserId</th>
+                        <th>Action</th>
+                        <th>SubjectUserId</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var log in Model)
+                    {
+                        <tr>
+                            <td>@log.Id</td>
+                            <td>@log.UserId</td>
+                            <td>@log.LoggingAction.Action</td>
+                            <td>@log.SubjectUserId</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>

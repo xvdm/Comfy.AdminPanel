@@ -1,5 +1,5 @@
 ﻿
-document.getElementById("btn-header").onclick = function () {
+document.getElementById("save-btn").onclick = function () {
     document.getElementById("btnMainForm").click()
 }
 
@@ -11,7 +11,7 @@ if (categoriesSelect.options[categoriesSelect.selectedIndex].value != -1) {
 }
 
 $(document).ready(function () {
-
+    let id = $('#product-id').val();
     // Visibility
 
     let visibilityStatus = $('#visibility-status').val()
@@ -42,8 +42,6 @@ $(document).ready(function () {
     });
 
     function changeVisibility(param) {
-        let id = $('#product-id').val();
-
         $.ajax({
             type: 'GET',
             url: '/Products/ChangeProductActivityStatus/',
@@ -56,7 +54,7 @@ $(document).ready(function () {
 
     // Categories
     $('#categories-select').on('change', function () {
-        var select = $(this).val()
+        let select = $(this).val()
             if(select != -1) {
                 $.ajax({
                     type: 'GET',
@@ -74,4 +72,28 @@ $(document).ready(function () {
             });
         }
     });
+
+    // Characteristics
+    // Add
+
+    $('#add-characteristic-btn').on('click', function () {
+        let name = $('#addC-input-name');
+        let value = $('#addC-input-value');
+        
+        if (name.val().trim() !== '' && value.val().trim() !== '') {
+            $.ajax({
+                type: 'POST',
+                url: '/Products/AddCharacteristic/',
+                data: { "productId": id, "name":name.val(), "value":value.val() },
+                success: function (result) {
+                    
+                }
+            });
+            }
+        else {
+            name.css('border', '1px solid red')
+            value.css('border', '1px solid red')
+        }
+    });
+
 });

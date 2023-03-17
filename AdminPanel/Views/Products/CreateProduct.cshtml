@@ -62,17 +62,10 @@
                         <div class="categories-list">
                             <select id="categories-select" name="categories">
                                 <option value="-1" disabled="disabled" selected="selected">Оберіть категорію</option>
-                                @*@foreach (var x in Model.MainCategories)
+                                @foreach (var x in Model.MainCategories)
                                 {
-                                    @if (x.Name == Model.Product.Category.MainCategory.Name)
-                                    {
-                                        <option selected="selected" value="@x.Id">@x.Name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@x.Id">@x.Name</option>
-                                    }
-                                }*@
+                                    <option value="@x.Id">@x.Name</option>
+                                }
                             </select>
                         </div>
                     </div>
@@ -83,17 +76,6 @@
                         <div class="subcategories-list">
                             <select id="subcategories-select" name="subcategories">
                                 <option value="-1" disabled="disabled" selected="selected">Виберіть підкатегорію</option>
-                                @*@foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == Model.Product.Category.MainCategory.Id))
-                                {
-                                    @if (y.Name == Model.Product.Category.Name)
-                                    {
-                                        <option selected="selected" value="@y.Id">@y.Name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@y.Id">@y.Name</option>
-                                    }
-                                }*@
                             </select>
                         </div>
                     </div>
@@ -104,61 +86,6 @@
                     <p>Основна інформація</p>
                 </div>
                 <div>
-                </div>
-            </div>
-        </div>
-        <div class="second-section">
-            <div class="name-block">
-                <p>Характеристики товару</p>
-            </div>
-            <div class="characteristics-section">
-                <div class="add-characteristics">
-                    <div class="product-lable">
-                        <span>Створити характеристику</span>
-                    </div>
-                    <form method="post" asp-action="AddCharacteristic" asp-controller="Products">
-                        <input hidden required name="ProductId" value="" />
-                        <input required name="Name" placeholder="Name" />
-                        <input required name="Value" placeholder="Value" />
-                        <button type="submit">Add</button>
-                    </form>
-                </div>
-                <div class="characteristics-table">
-                    <div class="product-lable">
-                        <span>Список характеристик</span>
-                    </div>
-                @*    @if (Model.Product.Characteristics.Count > 0)
-                    {
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Value</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var x in Model.Product.Characteristics)
-                                {
-                                    <tr>
-                                        <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
-                                            <input required hidden name="ProductId" value="@Model.Product.Id" />
-                                            <input required hidden name="Id" value="@x.Id" />
-                                        <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
-                                        <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
-                                        <td><button type="submit">Update</button></td>
-                                        </form>
-                                        <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
-                                            <input required hidden name="ProductId" value="@Model.Product.Id" />
-                                            <input required hidden name="Id" value="@x.Id" />
-                                        <td><button type="submit">Delete</button></td>
-                                        </form>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }*@
                 </div>
             </div>
         </div>

@@ -8,47 +8,61 @@
         <div class="namePage">
             <p>Список категорій</p>
         </div>
-        <div class="btn-header">
-            <a asp-action="CreateMainCategory" asp-controller="AdminPanel">Додати категорию</a>
-        </div>  
     </div>
 
-    <div class="body">
-        <div>
-            <input name="categoryName" type="text" class="categoryInput" placeholder="Ім'я категорії" /> 
-            <select class="categoryInput" id="categoriesSelect" name="categories">
+    <div class="body body-with-sections">
 
-                                        <option value="1" selected="selected">Категорія</option>
-                            </select>
-        </div>
-        <div class="imageSelector">
-            <div class="main-image">
-                <span class="material-icons add-icon unselectable">add</span>
-                <input type="file" name="uploads" multiple /> 
-            </div>
-        </div>
-        <div class="categoryButton">
-            <button type="submit">Додати</button>
-        </div>
-    </div>
-
-        <div class="body">
-            @foreach (var x in Model.MainCategories)
-            {
-                <div>
-                    <div>
-                    <p><b>@x.Name</b></p>
-                    </div>
-                    <div>
-                    @foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == x.Id ))
+            <div class="sections">
+                <div class="left-section-categories">
+                    <div class="list-categories-block">
+                    @foreach (var x in Model.MainCategories)
                     {
                         <div>
-                            <p>@y.Name</p>
+                            <div class="maincategories-name">
+                                <p>@x.Name</p>
+                            </div>
+                            <div>
+                                @foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == x.Id))
+                                {
+                                    <div class="subcategories-name">
+                                        <p>@y.Name</p>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     }
                     </div>
                 </div>
-            }
+
+
+                <div class="right-section-categories">
+                    <div class="change-catecories-block">
+                        <div class="name-block">
+                            <p name="add">Створити</p>
+                        </div>
+                        <div class="categories-img">
+                            <div class="main-image">
+                                <span class="material-icons add-icon unselectable">add</span>
+                                <input type="file" name="uploads" />
+                            </div>
+                        </div>
+                        <div class="categories-inputs">
+                            <input required type="text" class="categoryTextInput" placeholder="Ім'я категорії" />
+                        <select>
+                            <option selected="selected" value="-1">Батьківська категорія</option>
+                            @foreach (var x in Model.MainCategories)
+                            {
+                                <option value=@x.Id>@x.Name</option>
+                            }
+                        </select>
+                        </div>
+                        <div class="category-btn">
+                            <button id="category-btn" type="submit">Додати</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
 </div>
 
