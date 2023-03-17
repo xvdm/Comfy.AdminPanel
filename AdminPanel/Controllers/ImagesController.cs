@@ -36,7 +36,7 @@ namespace AdminPanel.Controllers
                 paths.Add(filePath);
             }
             
-            return Ok();
+            return Ok(paths);
         }
 
         public async Task<IActionResult> DeleteProductImage(int imageId, int productId)
