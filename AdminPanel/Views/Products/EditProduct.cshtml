@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div id="subcategories-div" class="subcategories h-hidden">
-                        <div class="product-lable">
+                        <div class="product-lable"> 
                             <span>Підкатегорія</span>
                         </div>
                         <div class="subcategories-list">
@@ -162,9 +162,9 @@
                         <span>Створити характеристику</span>
                     </div>
                     <div>
-                        <input required id="addC-input-name" name="Name" placeholder="Name" />
-                        <input required id="addC-input-value" name="Value" placeholder="Value" />
-                        <button id="add-characteristic-btn">Add</button>
+                        <input required id="addC-input-name" name="Name" placeholder="Назва" />
+                        <input required id="addC-input-value" name="Value" placeholder="Значення" />
+                        <button id="add-characteristic-btn">Додати</button>
                     </div>
                 </div>
                 <div class="characteristics-table">
@@ -176,8 +176,9 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Value</th>
+                                    <th>ID</th>
+                                    <th>Назва</th>
+                                    <th>Значення</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -185,14 +186,37 @@
                                 @foreach (var x in Model.Product.Characteristics)
                             {
                                 <tr>
-                                     <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
-                                     <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
-                                     <td><button id="edit-characteristic">Edit</button></td>
+                                        <td><p>@x.Id</p></td> 
+                                        <td><p>@x.CharacteristicsName.Name</p></td> 
+                                        <td><p>@x.CharacteristicsValue.Value</p></td>
+                                        <td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>
+                                        <td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>
                                 </tr>
                             }
                             </tbody>
                         </table>
                     }
+
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Редагування</h5>
+                          </div>
+                          <div class="modal-body">
+                              <p>Назва</p>
+                              <input class="modal-input" name="edit-name" value="" placeholder="" />
+                              <p>Значення</p>
+                              <input class="modal-input" name="edit-value" value="" placeholder="" />
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" data-bs-dismiss="modal">Закрити</button>
+                            <button type="button" >Зберігти</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                 </div>
             </div>
         </div>
