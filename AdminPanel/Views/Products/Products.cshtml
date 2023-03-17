@@ -3,7 +3,6 @@
 
 @{
     ViewData["Title"] = "Products";
-    string ampersand = Model.Query is null ? "" : "&";
 }
 
 <div class="Page">
@@ -18,7 +17,7 @@
     
     <div class="body">
         <div class="searchForm">
-            <form asp-controller="Products" asp-action="Products" asp-route-categoryId="@Model.CategoryId">
+            <form asp-controller="Products" asp-action="Products">
                 <input class="textInput" type="text" name="searchString" />
                 <button class="searchButton" type="submit" value="Пошук">
                     <span class="material-icons ">
