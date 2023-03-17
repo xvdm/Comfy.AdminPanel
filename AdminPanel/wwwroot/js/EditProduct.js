@@ -52,6 +52,35 @@ $(document).ready(function () {
         })
     }
 
+    // Images
+
+    $('input[name="uploads"]').change(function () {
+
+        var input = $(this);
+        var files = input[0].files;
+        var formData = new FormData();
+
+        formData.append("productId", id);
+        for (var i = 0; i < files.length; i++) {
+            formData.append("files", files[i]);
+        }
+
+        if (files.length > 0)
+        {
+            $.ajax({
+                url: "/Images/UploadProductImage",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (result) {
+                    alert(result);
+                }
+            });
+        }
+    });
+
+
     // Categories
     $('#categories-select').on('change', function () {
         let select = $(this).val()
