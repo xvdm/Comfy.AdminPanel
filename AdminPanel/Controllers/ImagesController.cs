@@ -18,14 +18,25 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadProductImage(int productId, IFormFile file)
+        public async Task<IActionResult> UploadProductImage(string productId, IList<IFormFile> files)
         {
-            if (file is null)
+            if(int.TryParse(productId, out int productIdInt) == false)
             {
-                return BadRequest("No file was uploaded.");
+                return BadRequest("UploadProductImage :: parseError :: productId");
             }
-            await _mediator.Send(new UploadProductImageCommand(productId, file));
-            return LocalRedirect($"/Products/EditProduct/{productId}");
+
+            var paths = new List<string>();
+
+            foreach(var file in files) {
+                if (file is null)
+                {
+                    return BadRequest("No file was uploaded.");
+                }
+                var filePath = await _mediator.Send(new UploadProductImageCommand(productIdInt, file));
+                paths.Add(filePath);
+            }
+            
+            return Ok();
         }
 
         public async Task<IActionResult> DeleteProductImage(int imageId, int productId)

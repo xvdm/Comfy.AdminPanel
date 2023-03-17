@@ -5,7 +5,7 @@ using AdminPanel.Services;
 
 namespace AdminPanel.MediatorHandlers.Products.Images
 {
-    public class UploadProductImageCommand : IRequest
+    public class UploadProductImageCommand : IRequest<string>
     {
         public int ProductId { get; set; }
         public IFormFile ImageFile { get; set; } = null!;
@@ -16,7 +16,7 @@ namespace AdminPanel.MediatorHandlers.Products.Images
         }
     }
 
-    public class UploadProductImageCommandHandler : IRequestHandler<UploadProductImageCommand>
+    public class UploadProductImageCommandHandler : IRequestHandler<UploadProductImageCommand, string>
     {
         private readonly ApplicationDbContext _context;
         private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
@@ -27,7 +27,7 @@ namespace AdminPanel.MediatorHandlers.Products.Images
             _uploadImageToFileSystemService = uploadImageToFileSystemService;
         }
 
-        public async Task Handle(UploadProductImageCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(UploadProductImageCommand request, CancellationToken cancellationToken)
         {
             var path = await _uploadImageToFileSystemService.UploadImage(request.ImageFile);
 
@@ -36,6 +36,8 @@ namespace AdminPanel.MediatorHandlers.Products.Images
             image.Url = path;
             await _context.Images.AddAsync(image);
             await _context.SaveChangesAsync();
+
+            return path;
         }
     }
 }
