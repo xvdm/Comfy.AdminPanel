@@ -136,4 +136,24 @@ $(document).ready(function () {
         }
     });
 
+    // Characteristics
+    // Edit
+    $('button[name="edit-characteristic"]').on('click', function () {
+        const value = $(this).val().split(",");
+        $('input[name="edit-name"]').val(value[0]);
+        $('input[name="edit-value"]').val(value[1]);
+    });
+
+    $('button[name="delete-characteristic"]').on('click', function () {
+        const value = $(this);
+        result = confirm("Підтвердіть видалення  (ID = " + value.val() + ")");
+        if (result) {
+            alert("Видалено")
+        }
+        else {
+
+        }
+
+    });
+
 });

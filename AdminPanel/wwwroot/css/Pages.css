@@ -12,7 +12,7 @@
         color: white;
     background: #31363b;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 5px 20px;
     border-radius: 3px;
 }
 
@@ -272,7 +272,6 @@
     justify-content:right;
 }
 
-
 .second-section .characteristics-section button {
     margin-left: 5px;
     padding: 5px 15px;
@@ -348,6 +347,31 @@
     opacity: 0;
   
 }
+.characteristics-table thead th {
+    padding: 0 10px;
+}
+
+.characteristics-table tbody td p {
+    margin: 0;
+    padding: 0 10px;
+}
+
+.characteristics-table tbody button {
+    padding: 5px 10px;
+}
+
+.modal-backdrop {
+    z-index: 5;
+}
+
+.modal{
+    z-index:10;
+}
+
+.modal-input{
+    width:100%;
+}
+
 /*#endregion*/
 
 
