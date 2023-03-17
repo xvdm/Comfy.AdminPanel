@@ -21,7 +21,6 @@ namespace AdminPanel.Handlers.Authorization
         public async Task Handle(SignOutQuery request, CancellationToken cancellationToken)
         {
             await _signInManager.SignOutAsync();
-            return;
         }
     }
 }

@@ -7,10 +7,25 @@ namespace AdminPanel.MediatorHandlers.Products.Brands
 {
     public class GetBrandsQuery : IRequest<IEnumerable<Brand>?>
     {
-        public int? CategoryId { get; set; }
-        public GetBrandsQuery(int? categoryId)
+        private const int MaxPageSize = 15;
+        private int _pageSize = MaxPageSize;
+        private int _pageNumber = 1;
+
+        public int PageSize
         {
-            CategoryId = categoryId;
+            get => _pageSize;
+            set => _pageSize = value is > MaxPageSize or < 1 ? MaxPageSize : value;
+        }
+        public int PageNumber
+        {
+            get => _pageNumber;
+            set => _pageNumber = (value < 1) ? 1 : value;
+        }
+
+        public GetBrandsQuery(int? pageSize, int? pageNumber)
+        {
+            if (pageSize is not null) PageSize = (int)pageSize;
+            if (pageNumber is not null) PageNumber = (int)pageNumber;
         }
     }
 
@@ -25,19 +40,11 @@ namespace AdminPanel.MediatorHandlers.Products.Brands
 
         public async Task<IEnumerable<Brand>?> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
         {
-            if (request.CategoryId is null) return null;
-
-            var category = await _context.Subcategories
-                .Include(x => x.UniqueBrands)
-                .FirstOrDefaultAsync(x => x.Id == request.CategoryId);
-
-            if (category is null) throw new HttpRequestException("There is no category with given id");
-
-            var brands = new List<Brand>();
-            if(category.UniqueBrands is not null)
-            {
-                brands = category.UniqueBrands.ToList();
-            }
+            var brands = await _context.Brands
+                .AsNoTracking()
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync(cancellationToken);
 
             return brands;
         }

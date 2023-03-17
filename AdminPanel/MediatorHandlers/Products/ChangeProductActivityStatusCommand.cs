@@ -27,10 +27,10 @@ namespace AdminPanel.Handlers.Products
 
         public async Task Handle(ChangeProductActivityStatusCommand request, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId);
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
             if (product is null) throw new HttpRequestException("Product was not found");
             product.IsActive = request.IsActive;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

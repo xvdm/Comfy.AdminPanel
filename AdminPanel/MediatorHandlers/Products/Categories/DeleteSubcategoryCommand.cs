@@ -15,7 +15,7 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
 
     public class DeleteSubcategoryCommandHandler : IRequestHandler<DeleteSubcategoryCommand, bool>
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public DeleteSubcategoryCommandHandler(ApplicationDbContext context)
         {

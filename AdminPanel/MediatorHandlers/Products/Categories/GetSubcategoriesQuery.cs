@@ -25,7 +25,9 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
 
         public async Task<IEnumerable<Subcategory>> Handle(GetSubcategoriesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Subcategories.Where(x => x.MainCategoryId == request.MainCategoryId).ToListAsync();
+            return await _context.Subcategories
+                .Where(x => x.MainCategoryId == request.MainCategoryId)
+                .ToListAsync(cancellationToken);
         }
     }
 }

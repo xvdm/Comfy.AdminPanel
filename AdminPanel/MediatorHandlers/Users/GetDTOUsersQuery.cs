@@ -36,20 +36,20 @@ namespace AdminPanel.Handlers.Users
         public async Task<IEnumerable<UserDTO>> Handle(GetDTOUsersQuery request, CancellationToken cancellationToken)
         {
             var users = _usersRepository.GetUsers(request.SearchString);
-            var usersDTO = await _mapper
+            var usersDto = await _mapper
                 .From(users.Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null))
                 .ProjectToType<UserDTO>()
                 .ToListAsync(cancellationToken);
 
-            foreach (var user in usersDTO)
+            foreach (var user in usersDto)
             {
-                var claim = _context.UserClaims.FirstOrDefault(x => x.UserId == user.Id);
+                var claim = await _context.UserClaims.FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
                 if (claim is not null)
                 {
                     user.Position = claim.ClaimValue;
                 }
             }
-            return usersDTO;
+            return usersDto;
         }
     }
 }

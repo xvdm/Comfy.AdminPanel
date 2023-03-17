@@ -6,7 +6,7 @@ namespace AdminPanel.Handlers.Products.Models
 {
     public class CreateModelCommand : IRequest
     {
-        public Model Model { get; set; } = null!;
+        public Model Model { get; set; }
         public CreateModelCommand(Model model)
         {
             Model = model;
@@ -25,8 +25,8 @@ namespace AdminPanel.Handlers.Products.Models
 
         public async Task Handle(CreateModelCommand request, CancellationToken cancellationToken)
         {
-            await _context.Models.AddAsync(request.Model);
-            await _context.SaveChangesAsync();
+            await _context.Models.AddAsync(request.Model, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

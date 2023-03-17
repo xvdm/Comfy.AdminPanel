@@ -18,21 +18,25 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadProductImage(string productId, IList<IFormFile> files)
+        //public async Task<IActionResult> UploadProductImage(string productId, IList<IFormFile> files)
+        public async Task<IActionResult> UploadProductImage(IFormFile file)
         {
-            if(int.TryParse(productId, out var productIdInt) == false)
-            {
-                return BadRequest("UploadProductImage :: parseError :: productId");
-            }
+            Console.WriteLine("");
 
-            var paths = new List<string>();
-
-            foreach(var file in files) {
-                var filePath = await _mediator.Send(new UploadProductImageCommand(productIdInt, file));
-                paths.Add(filePath);
-            }
-            
-            return Ok(paths);
+            //if(int.TryParse(productId, out var productIdInt) == false)
+            //{
+            //    return BadRequest("UploadProductImage :: parseError :: productId");
+            //}
+            //
+            //var paths = new List<string>();
+            //
+            //foreach(var file in files) {
+            //    var filePath = await _mediator.Send(new UploadProductImageCommand(productIdInt, file));
+            //    paths.Add(filePath);
+            //}
+            //
+            //return Ok(paths);
+            return Ok();
         }
 
         public async Task<IActionResult> DeleteProductImage(int imageId, int productId)

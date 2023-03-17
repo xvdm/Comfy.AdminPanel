@@ -54,27 +54,38 @@ $(document).ready(function () {
 
     // Images
 
-    $('input[name="uploads"]').change(function () {
+    // huinia
 
+    $('input[name="uploads"]').change(function () {
         var input = $(this);
         var files = input[0].files;
-        var formData = new FormData();
 
-        formData.append("productId", id);
+        var formData = new FormData();
         for (var i = 0; i < files.length; i++) {
             formData.append("files", files[i]);
         }
 
+
         if (files.length > 0)
         {
+            console.log(id);
             $.ajax({
-                url: "/Images/UploadProductImage",
-                data: formData,
-                processData: false,
-                contentType: false,
+                url: "/Images/UploadProductImage/",
                 type: "POST",
+                contentType: false,
+                processData: false,
+                //data: {
+                //    //"productId": id,
+                //    "file": files[0]
+                //},
+                data: { formData },
+                dataType: 'json',
+                cache: false,
                 success: function (result) {
-                    alert(result);
+                    console.log(result);
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error");
                 }
             });
         }
@@ -89,7 +100,7 @@ $(document).ready(function () {
                     type: 'GET',
                     url: '/Categories/GetSubcategoriesForMainCategory/',
                     data: { "mainCategoryId" : select },
-                success: function (result) {
+                    success: function (result) {
                     if (result.length == 0) {
                         $('#subcategories-div').hide();
                     }

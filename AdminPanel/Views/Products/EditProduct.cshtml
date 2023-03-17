@@ -130,7 +130,9 @@
                             else
                             {
                                 <span class="material-icons add-icon unselectable">add</span>
-                                <input type="file" name="uploads" multiple accept="image/*" />
+                                <form enctype="multipart/form-data">
+                                    <input type="file" name="uploads" multiple accept="image/*" />
+                                </form>
                             }
                         </div>
                         <ul class="list-images">

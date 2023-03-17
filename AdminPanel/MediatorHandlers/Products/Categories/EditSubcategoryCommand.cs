@@ -7,7 +7,7 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
     public class EditSubcategoryCommand : IRequest
     {
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
         public EditSubcategoryCommand(int id, string name)
         {
             Id = id;
@@ -17,7 +17,7 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
 
     public class EditSubcategoryCommandHandler : IRequestHandler<EditSubcategoryCommand>
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public EditSubcategoryCommandHandler(ApplicationDbContext context)
         {

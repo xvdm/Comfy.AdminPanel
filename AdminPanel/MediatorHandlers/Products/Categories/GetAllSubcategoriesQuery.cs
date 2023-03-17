@@ -20,7 +20,7 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
 
         public async Task<IEnumerable<Subcategory>> Handle(GetAllSubcategoriesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Subcategories.ToListAsync();
+            return await _context.Subcategories.ToListAsync(cancellationToken);
         }
     }
 }

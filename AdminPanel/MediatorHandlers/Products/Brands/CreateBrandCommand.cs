@@ -6,7 +6,8 @@ namespace AdminPanel.Handlers.Products.Brands
 {
     public class CreateBrandCommand : IRequest
     {
-        public Brand Brand { get; set; } = null!;
+        public Brand Brand { get; set; }
+
         public CreateBrandCommand(Brand brand)
         {
             Brand = brand;
@@ -25,8 +26,8 @@ namespace AdminPanel.Handlers.Products.Brands
 
         public async Task Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
-            await _context.Brands.AddAsync(request.Brand);
-            await _context.SaveChangesAsync();
+            await _context.Brands.AddAsync(request.Brand, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }
