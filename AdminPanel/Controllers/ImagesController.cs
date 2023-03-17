@@ -20,7 +20,7 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadProductImage(string productId, IList<IFormFile> files)
         {
-            if(int.TryParse(productId, out int productIdInt) == false)
+            if(int.TryParse(productId, out var productIdInt) == false)
             {
                 return BadRequest("UploadProductImage :: parseError :: productId");
             }
@@ -28,10 +28,6 @@ namespace AdminPanel.Controllers
             var paths = new List<string>();
 
             foreach(var file in files) {
-                if (file is null)
-                {
-                    return BadRequest("No file was uploaded.");
-                }
                 var filePath = await _mediator.Send(new UploadProductImageCommand(productIdInt, file));
                 paths.Add(filePath);
             }
@@ -48,10 +44,6 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateMainCategoryImage(int categoryId, IFormFile file)
         {
-            if (file is null)
-            {
-                return BadRequest("No file was uploaded.");
-            }
             await _mediator.Send(new UpdateMainCategoryImageCommand(categoryId, file));
             return Ok();
         }
@@ -59,10 +51,6 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateSubcategoryImage(int categoryId, IFormFile file)
         {
-            if (file is null)
-            {
-                return BadRequest("No file was uploaded.");
-            }
             await _mediator.Send(new UpdateSubcategoryImageCommand(categoryId, file));
             return Ok();
         }

@@ -114,11 +114,11 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteCharacteristic(string productId, string id)
         {
-            if (int.TryParse(productId, out int productIdInt) == false)
+            if (int.TryParse(productId, out var _) == false)
             {
                 return BadRequest("DeleteCharacteristic :: Parsing error :: productId");
             }
-            if (int.TryParse(id, out int idInt) == false)
+            if (int.TryParse(id, out var idInt) == false)
             {
                 return BadRequest("DeleteCharacteristic :: Parsing error :: id");
             }
