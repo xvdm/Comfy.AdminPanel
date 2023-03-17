@@ -13,13 +13,10 @@
         <div class="namePage">
             <p>Редагування товару</p>
         </div>
-        <div class="btn-header">
-            <button id="btn-header" type="submit">Зберегти зміни</button>
-        </div>
     </div>
     <div class="body body-with-sections">
-        <div class="main-section">
-            <div class="left-section">
+        <div class="sections">
+            <div class="left-section-editproduct">
                  <div class="name-block">
                     <p>Основна інформація</p>
                 </div>
@@ -30,28 +27,27 @@
                             <div class="product-lable">
                                 <label for="Name">Назва позиції</label>
                             </div>
-                            <input type="text" name="Name" placeholder="Name" value="@Model.Product.Name" />
+                            <input type="text" name="Name" placeholder="Введіть назву позиції..." value="@Model.Product.Name" />
                         </div>
                         <div class="description">
                             <div class="product-lable">
                                 <label for="Description">Опис</label>
                             </div>
-                            <textarea type="text" name="Description" placeholder="Description">@Model.Product.Description</textarea>
+                            <textarea type="text" name="Description" placeholder="Введіть опис...">@Model.Product.Description</textarea>
                         </div>
-
                         <div class="price-div">
                             <div class="price">
                                 <div class="product-lable">
                                     <label for="Price">Ціна, грн</label>
                                 </div>
-                                <input type="number" name="Price" placeholder="Price" value="@Model.Product.Price" />
+                                <input type="number" name="Price" placeholder="Ціна" value="@Model.Product.Price" />
                             </div>
 
                             <div class="discount">
                                 <div class="product-lable">
                                     <label for="DiscountAmount">Розмір знижки</label>
                                 </div>
-                                <input type="number" name="DiscountAmount" placeholder="Discount amount" value="@Model.Product.DiscountAmmount" />
+                                <input type="number" name="DiscountAmount" placeholder="Знижка" value="@Model.Product.DiscountAmmount" />
                             </div>
                         </div>
                         <button id="btnMainForm" hidden type="submit">Send</button>
@@ -99,9 +95,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="save-btn">
+                    <button id="save-btn" type="submit">Зберегти зміни</button>
+                </div>
             </div>
-            <div class="right-section">
-                <div class="visibility-section">
+            <div class="right-section-editproduct">
+                <div class="visibility-block">
                     <div class="name-block">
                         <p>Видимість</p>
                     </div>
@@ -118,7 +117,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="images-section">
+                <div class="images-block">
                     <div class="name-block">
                         <p>Зображення</p>
                     </div>
@@ -170,7 +169,7 @@
                 </div>
             </div>
         </div>
-        <div class="second-section">
+        <div class="section">
             <div class="name-block">
                 <p>Характеристики товару</p>
             </div>
@@ -179,12 +178,11 @@
                     <div class="product-lable">
                         <span>Створити характеристику</span>
                     </div>
-                    <form method="post" asp-action="AddCharacteristic" asp-controller="Products">
-    
-                        <input required name="Name" placeholder="Name" />
-                        <input required name="Value" placeholder="Value" />
-                        <button type="submit">Add</button>
-                    </form>
+                    <div>
+                        <input required id="addC-input-name" name="Name" placeholder="Name" />
+                        <input required id="addC-input-value" name="Value" placeholder="Value" />
+                        <button id="add-characteristic-btn">Add</button>
+                    </div>
                 </div>
                 <div class="characteristics-table">
                     <div class="product-lable">
@@ -198,25 +196,15 @@
                                     <th>Name</th>
                                     <th>Value</th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="list-characteristics">
                                 @foreach (var x in Model.Product.Characteristics)
                             {
                                 <tr>
-                                    <form method="post" asp-controller="Products" asp-action="EditCharacteristic">
-                                        <input required hidden name="Id" value="@x.Id" />
-                                        <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
-                                        <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
-                                        <td><button type="submit">Update</button></td>
-                                    </form>
-
-                                    <form method="post" asp-controller="Products" asp-action="DeleteCharacteristic">
-                                            <input required hidden name="ProductId" value="@Model.Product.Id" />
-                                        <input required hidden name="Id" value="@x.Id" />
-                                    <td><button type="submit">Delete</button></td>
-                                    </form>
+                                     <td><input required name="Name" value="@x.CharacteristicsName.Name" placeholder="Name" /></td>
+                                     <td><input required name="Value" value="@x.CharacteristicsValue.Value" placeholder="Value" /></td>
+                                     <td><button id="edit-characteristic">Edit</button></td>
                                 </tr>
                             }
                             </tbody>

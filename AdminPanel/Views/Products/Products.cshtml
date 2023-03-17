@@ -15,70 +15,79 @@
             <a asp-action="CreateProduct" asp-controller="Products">Додати товар</a>
         </div>
     </div>
-    
-    <div class="body">
-        <div class="searchForm">
-            <div>
-                <input class="textInput" type="text" name="SearchString" />
-                <button class="searchButton" type="submit" value="Пошук" >
-                    <span class="material-icons ">
-                        search
-                    </span>
-                </button>
+
+    <div class="body body-with-sections">
+
+        <div class="section">
+            <div class="search-block">
+                 <input class="search-block-input" type="text" name="SearchString" />
+                 <button class="search-block-btn" type="submit" value="Пошук" >
+                    <span class="material-icons "> search </span>
+                 </button>
             </div>
         </div>
-    </div>
 
-    <div class="body">
-         @if (Model is not null)
-        {
-            <div class="searchProducts">
-            </div>
+        <div class="sections">
+            <div class="products-list-block">
+                    @if (Model is not null)
+                    {
+                        <div class="searchProducts">
+                        </div>
 
-            <div>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th></th>
-                            <th scope="col">Ім'я</th>
-                            <th scope="col">Код</th>
-                            <th scope="col">Статус</th>
-                            <th scope="col">Ціна</th>
-                            <th scope="col">Замовлення</th>
-                        </tr>
-                    </thead>
-                    <tbody class="productsTable">
-                        @foreach (var product in Model.Products)
-                        {
-                            <tr>
-                                <td class="products-img">
-                                    @if (product.Images != null)
+                        <div>
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th></th>
+                                        <th scope="col">Ім'я</th>
+                                        <th scope="col">Код</th>
+                                        <th scope="col">Статус</th>
+                                        <th scope="col">Ціна</th>
+                                        <th scope="col">Замовлення</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="productsTable">
+                                    @foreach (var product in Model.Products)
                                     {
+                                        <tr>
+                                            <td class="products-img">
+                                                @if (product.Images != null)
+                                                {
 
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/img/nophoto.png" alt="productImg" />
+                                                }
+                                            </td>
+                                            <td><a asp-action="EditProduct" asp-controller="Products" asp-route-id="@product.Id">@product.Name</a></td>
+                                            <td>@product.Code</td>
+                                            @if (@product.IsActive)
+                                            {
+                                                <td>Активовано</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Вимкнено</td>
+                                            }
+                                            <td>@product.Price</td>
+                                            <td>@product.Amount</td>
+                                        </tr>
                                     }
-                                    else{
-                                     <img src="~/img/nophoto.png" alt="productImg" />
-                                    }
-                                </td>
-                                <td><a asp-action="EditProduct" asp-controller="Products" asp-route-id="@product.Id">@product.Name</a></td>
-                                <td>@product.Code</td>
-                                @if (@product.IsActive)
-                                {
-                                    <td>Активовано</td>
-                                }
-                                else
-                                {
-                                    <td>Вимкнено</td>
-                                }
-                                <td>@product.Price</td>
-                                <td>@product.Amount</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    }
+                </div>
+        </div>
+
+        <div class="sections">
+            <div class="pagination-block">
 
             </div>
-            }
+        </div>
+
     </div>
 </div>
 
