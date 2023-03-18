@@ -125,27 +125,24 @@ $(document).ready(function () {
 
     // Characteristics
     // Add
-
     $('#add-characteristic-btn').on('click', function () {
-        let name = $('#addC-input-name');
-        let value = $('#addC-input-value');
-        
-        if (name.val().trim() !== '' && value.val().trim() !== '') {
+        const name = $('#addC-input-name').val();
+        const value = $('#addC-input-value').val();
+        if (name.trim() !== '' && value.trim() !== '') {
             $.ajax({
                 type: 'POST',
                 url: '/Products/AddCharacteristic/',
                 headers: {
                     RequestVerificationToken: $('#RequestVerificationToken').val()
                 },
-                data: { "productId": id, "name":name.val(), "value":value.val() },
+                data: { "productId": id, "name": name,"value": value },
                 success: function (result) {
-                    
+                    location.reload();
                 }
             });
             }
         else {
-            name.css('border', '1px solid red')
-            value.css('border', '1px solid red')
+            alert("Помилка!");
         }
     });
 
@@ -155,14 +152,28 @@ $(document).ready(function () {
         const value = $(this).val().split(",");
         $('#edit-name').val(value[0]);
         $('#edit-value').val(value[1]);
+        $('#edit-value-id').val(value[2]); 
+        alert(value[2]);
     });
 
     //Save
     $('#save-changes-modal').click(function () {
         const newName = $('#edit-name').val();
         const newValue = $('#edit-value').val();
-        if ((newName.length > 1 && newValue.length > 1) && (newName.length < 50 && newValue.length < 50)) {
+        const characteristicId = $('#edit-value-id').val();
 
+        if ((newName.length > 1 && newValue.length > 1) && (newName.length < 50 && newValue.length < 50)) {
+            $.ajax({
+                type: 'POST',
+                url: '/Products/EditCharacteristic/',
+                headers: {
+                    RequestVerificationToken: $('#RequestVerificationToken').val()
+                },
+                data: { "productId": id, "id": characteristicId, "name":newName, "value":newValue},
+                success: function (result) {
+                    location.reload();
+                }
+            });
             alert("Збережено!");
         } else {
             alert("Помилка!");
