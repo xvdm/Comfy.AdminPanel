@@ -1,15 +1,15 @@
-﻿using AdminPanel.Models.Identity;
+﻿using AdminPanel.Models.Base;
+using AdminPanel.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models
 {
-    public partial class Order : IEntityTypeConfiguration<Order>
+    public partial class Order : /*Auditable, */IEntityTypeConfiguration<Order>
     {
         public int Id { get; set; }
         public string Description { get; set; } = null!;
         public int TotalSum { get; set; }
-        public DateTime CreatingDate { get; set; }
         public DateTime ReceivingDate { get; set; }
 
         public Guid UserId { get; set; }
@@ -30,7 +30,6 @@ namespace AdminPanel.Models
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.CreatingDate).HasColumnType("date");
             builder.Property(e => e.Description).HasMaxLength(50);
             builder.Property(e => e.ReceivingDate).HasColumnType("date");
 

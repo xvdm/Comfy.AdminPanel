@@ -4,6 +4,7 @@ using AdminPanel.Models.Logging;
 using System.Reflection;
 using AdminPanel.Models.Identity;
 using AdminPanel.Models;
+using AdminPanel.Models.Base;
 
 namespace AdminPanel.Data
 {
@@ -43,6 +44,53 @@ namespace AdminPanel.Data
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            DbSaveChanges();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        public override int SaveChanges()
+        {
+            DbSaveChanges();
+            return base.SaveChanges();
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            DbSaveChanges();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = new CancellationToken())
+        {
+            DbSaveChanges();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        private void DbSaveChanges()
+        {
+            var addedEntries = ChangeTracker.Entries().Where(x => x.State == EntityState.Added);
+
+            foreach (var entry in addedEntries)
+            {
+                if (entry.Entity is not Auditable) continue;
+
+                //var createdBy = entry.Property(nameof(Auditable.CreatedBy)).CurrentValue;
+                //if (createdBy is null || (Guid)createdBy == Guid.Empty)
+                //{
+                //    createdBy = userId;
+                //}
+
+                var createdAt = entry.Property(nameof(Auditable.CreatedAt)).CurrentValue;
+                var defaultDate = DateTime.UtcNow;
+                if (createdAt is null)
+                {
+                    entry.Property(nameof(Auditable.CreatedAt)).CurrentValue = defaultDate;
+                }
+            }
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AdminPanel.Models.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models
 {
-    public partial class Product : IEntityTypeConfiguration<Product>
+    public partial class Product : /*Auditable, */IEntityTypeConfiguration<Product>
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

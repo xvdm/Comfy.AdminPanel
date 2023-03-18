@@ -120,7 +120,7 @@ namespace AdminPanel.Controllers
         }
 
         [Authorize(Policy = PoliciesNames.Owner)]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> CreateMainCategory(string name)
         {
             var category = new MainCategory()
@@ -129,11 +129,10 @@ namespace AdminPanel.Controllers
             };
             await _mediator.Send(new CreateMainCategoryCommand(category));
             return Ok();
-            //return LocalRedirect();
         }
 
         [Authorize(Policy = PoliciesNames.Owner)]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> CreateSubcategory(string mainCategoryId, string name)
         {
             if (int.TryParse(mainCategoryId, out var mainCategoryIdInt) == false)
@@ -146,7 +145,6 @@ namespace AdminPanel.Controllers
                 Name = name
             };
             await _mediator.Send(new CreateSubcategoryCommand(category));
-            //return LocalRedirect();
             return Ok();
         }
 
