@@ -1,9 +1,6 @@
-﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
-@model CategoriesViewModel
+﻿@model CategoriesViewModel
 @{
     ViewData["Title"] = "Main categories";
-
-    var requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
 }
 
 <div class="Page">
@@ -13,7 +10,7 @@
         </div>
     </div>
 
-    <input id="RequestVerificationToken" hidden value="@requestToken" />
+
 
     <div class="body body-with-sections">
 

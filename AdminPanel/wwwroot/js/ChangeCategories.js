@@ -85,7 +85,7 @@ $(document).ready(function () {
                 let message = $('#message')
                 $('#message-body-text').text("Неможливо видалити категорію, яка має підкатегорії.")
                 message.show();
-                setTimeout(function () { message.hide('slow'); }, 4000);
+                setTimeout(function () { message.hide('900'); }, 4000);
             }
             else {
                 let id = $('#categories-name').attr("value")
