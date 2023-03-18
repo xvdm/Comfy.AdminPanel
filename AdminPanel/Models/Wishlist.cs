@@ -18,7 +18,9 @@ namespace AdminPanel.Models
         {
             builder.HasKey(e => e.Id);
 
-            builder.HasMany(d => d.Products);
+            builder
+                .HasMany(d => d.Products)
+                .WithMany(x => x.WishLists);
         }
     }
 }

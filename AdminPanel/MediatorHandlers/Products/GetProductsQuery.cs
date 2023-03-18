@@ -51,19 +51,19 @@ namespace AdminPanel.Handlers.Products
 
             if (request.SearchString is not null)
             {
-                products = products.Where(p => p.Name.Contains(request.SearchString));
+                products = products.Where(x => x.Name.Contains(request.SearchString));
             }
 
             products = products
-                    .Include(p => p.Model)
-                    .Include(p => p.Category)
-                    .Include(p => p.Brand)
-                    .Include(p => p.Characteristics);
+                    .Include(x => x.Model)
+                    .Include(x => x.Category)
+                    .Include(x => x.Brand)
+                    .Include(x => x.Characteristics);
 
             return await products
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }

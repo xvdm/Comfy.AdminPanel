@@ -39,6 +39,10 @@ namespace AdminPanel.Models
             builder.HasOne(d => d.PaymentType);
 
             builder.HasOne(d => d.Status);
+
+            builder
+                .HasMany(x => x.OrderedProducts)
+                .WithMany(x => x.Orders);
         }
     }
 }
