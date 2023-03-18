@@ -33,7 +33,7 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
                     .ThenInclude(x => x.CharacteristicsName)
                 .Include(x => x.UniqueCharacteristics)
                     .ThenInclude(x => x.CharacteristicsValue)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
 
             return category;
         }

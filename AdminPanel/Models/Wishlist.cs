@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models
 {
-    public partial class Wishlist : IEntityTypeConfiguration<Wishlist>
+    public partial class WishList : IEntityTypeConfiguration<WishList>
     {
         public int Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace AdminPanel.Models
         public ICollection<Product> Products { get; set; } = null!;
 
 
-        public void Configure(EntityTypeBuilder<Wishlist> builder)
+        public void Configure(EntityTypeBuilder<WishList> builder)
         {
             builder.HasKey(e => e.Id);
 

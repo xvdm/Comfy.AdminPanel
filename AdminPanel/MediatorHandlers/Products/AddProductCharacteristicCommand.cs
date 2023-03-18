@@ -8,8 +8,8 @@ namespace AdminPanel.Handlers.Products
     public class AddProductCharacteristicCommand : IRequest
     {
         public int ProductId { get; set; }
-        public string Name { get; set; } = null!;
-        public string Value { get; set; } = null!;
+        public string Name { get; set; }
+        public string Value { get; set; }
 
         public AddProductCharacteristicCommand(int productId, string name, string value)
         {
@@ -31,25 +31,25 @@ namespace AdminPanel.Handlers.Products
 
         public async Task Handle(AddProductCharacteristicCommand request, CancellationToken cancellationToken)
         {
-            var characteristicsName = await _context.CharacteristicsNames.FirstOrDefaultAsync(x => x.Name == request.Name);
-            var characteristicsValue = await _context.CharacteristicsValues.FirstOrDefaultAsync(x => x.Value == request.Value);
+            var characteristicsName = await _context.CharacteristicsNames.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
+            var characteristicsValue = await _context.CharacteristicsValues.FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);
 
             bool isNewCharacteristic = false;
             if (characteristicsName is null)
             {
                 characteristicsName = new CharacteristicName() { Name = request.Name };
-                await _context.CharacteristicsNames.AddAsync(characteristicsName);
+                await _context.CharacteristicsNames.AddAsync(characteristicsName, cancellationToken);
                 isNewCharacteristic = true;
             }
             if (characteristicsValue is null)
             {
                 characteristicsValue = new CharacteristicValue() { Value = request.Value };
-                await _context.CharacteristicsValues.AddAsync(characteristicsValue);
+                await _context.CharacteristicsValues.AddAsync(characteristicsValue, cancellationToken);
                 isNewCharacteristic = true;
             }
             if (isNewCharacteristic)
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
 
             var product = await _context.Products
@@ -57,7 +57,7 @@ namespace AdminPanel.Handlers.Products
                     .ThenInclude(x => x.CharacteristicsName)
                 .Include(x => x.Category)
                     .ThenInclude(x => x.UniqueCharacteristics)
-                .FirstOrDefaultAsync(x => x.Id == request.ProductId);
+                .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
             if (product is null)
             {
                 throw new HttpRequestException("Product with this id does not exist");
@@ -74,9 +74,9 @@ namespace AdminPanel.Handlers.Products
                 CharacteristicsValueId = characteristicsValue.Id,
                 ProductId = request.ProductId
             };
-            await _context.Characteristics.AddAsync(characteristic);
+            await _context.Characteristics.AddAsync(characteristic, cancellationToken);
             product.Category.UniqueCharacteristics.Add(characteristic);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -25,10 +25,10 @@ namespace AdminPanel.Handlers.Products
 
         public async Task Handle(DeleteProductCharacteristicCommand request, CancellationToken cancellationToken)
         {
-            var characteristic = await _context.Characteristics.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var characteristic = await _context.Characteristics.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (characteristic is null) throw new HttpRequestException("There is no characteristic with given Id");
             _context.Characteristics.Remove(characteristic);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

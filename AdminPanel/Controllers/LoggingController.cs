@@ -17,11 +17,6 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [Authorize(Policy = PoliciesNames.SeniorManager)]
         public async Task<IActionResult> UserLogs(string? searchString, int? pageSize, int? pageNumber)
         {

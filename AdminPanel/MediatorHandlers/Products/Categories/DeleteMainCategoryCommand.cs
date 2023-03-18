@@ -15,7 +15,7 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
 
     public class DeleteMainCategoryCommandHandler : IRequestHandler<DeleteMainCategoryCommand, bool>
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public DeleteMainCategoryCommandHandler(ApplicationDbContext context)
         {
@@ -32,7 +32,7 @@ namespace AdminPanel.MediatorHandlers.Products.Categories
             if (category.Categories.Count > 0) return false; // нельзя удалять главную категорию, пока в ней есть подкатегории
 
             _context.MainCategories.Remove(category);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return true;
         }

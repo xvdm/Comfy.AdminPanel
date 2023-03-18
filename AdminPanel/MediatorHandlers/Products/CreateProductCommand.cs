@@ -34,16 +34,16 @@ namespace AdminPanel.Handlers.Products
                 Price = request.Price
             };
 
-            var brand = await _context.Brands.Where(x => x.Name == request.Brand).FirstOrDefaultAsync();
+            var brand = await _context.Brands.Where(x => x.Name == request.Brand).FirstOrDefaultAsync(cancellationToken);
             if(brand is null) throw new HttpRequestException($"There is no brand {request.Brand}");
 
-            var model = await _context.Models.Where(x => x.Name == request.Model).FirstOrDefaultAsync();
+            var model = await _context.Models.Where(x => x.Name == request.Model).FirstOrDefaultAsync(cancellationToken);
             if(model is null) throw new HttpRequestException($"There is no model {request.Brand}");
 
             var category = await _context.Subcategories
                 .Where(x => x.Name == request.Category)
                 .Include(x => x.UniqueBrands)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
             if(category is null) throw new HttpRequestException($"There is no category {request.Brand}");
 
 
@@ -60,8 +60,8 @@ namespace AdminPanel.Handlers.Products
 
             product.IsActive = false;
 
-            await _context.Products.AddAsync(product);
-            await _context.SaveChangesAsync();
+            await _context.Products.AddAsync(product, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
             // после получения id товара инициализируется артикул и история цен
             product.Code = product.Id + 1000000;
@@ -79,7 +79,7 @@ namespace AdminPanel.Handlers.Products
 
             product.Url = ProductUrl.Create(product.Name, product.Code);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return product.Id;
         }

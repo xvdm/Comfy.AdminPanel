@@ -16,9 +16,8 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        public IActionResult Login(string? returnUrl)
+        public IActionResult Login()
         {
-            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -32,7 +31,7 @@ namespace AdminPanel.Controllers
 
             if (String.IsNullOrEmpty(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl) == false)
             {
-                model.ReturnUrl = "/Authorization/Login";
+                model.ReturnUrl = "/";
             }
 
             var user = await _mediator.Send(new GetUserByUsernameQuery(model.UserName));

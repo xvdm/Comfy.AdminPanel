@@ -7,7 +7,7 @@ namespace AdminPanel.Handlers.Users
 {
     public class ChangeUserLockoutStatusCommand : IRequest<bool>
     {
-        public ClaimsPrincipal CurrentUser { get; set; } = null!;
+        public ClaimsPrincipal CurrentUser { get; set; }
         public Guid UserId { get; set; }
         public bool IsLockout { get; set; }
 

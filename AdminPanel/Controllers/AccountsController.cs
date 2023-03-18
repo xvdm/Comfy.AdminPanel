@@ -20,11 +20,6 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult Create()
         {
             return View();
@@ -53,7 +48,7 @@ namespace AdminPanel.Controllers
                     await _mediator.Send(createUserLogCommand);
                 }
             }
-            return View(nameof(Index));
+            return View(nameof(ActiveUsers));
         }
 
         [HttpPost]

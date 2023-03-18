@@ -35,25 +35,25 @@ namespace AdminPanel.Handlers.Products
                 .Include(x => x.Category)
                 .Include(x => x.Model)
                 .Include(x => x.PriceHistory)
-                .FirstOrDefaultAsync(x => x.Id == request.Id);
+                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (product is null) throw new HttpRequestException("Product was not found");
 
             if (product.Brand.Name != request.Brand)
             {
-                var br = await _context.Brands.FirstOrDefaultAsync(x => x.Name == request.Brand);
+                var br = await _context.Brands.FirstOrDefaultAsync(x => x.Name == request.Brand, cancellationToken);
                 if (br is null) throw new HttpRequestException("This brand does not exist");
                 product.Brand = br;
             }
             if (product.Category.Name != request.Category)
             {
-                var br = await _context.Subcategories.FirstOrDefaultAsync(x => x.Name == request.Category);
+                var br = await _context.Subcategories.FirstOrDefaultAsync(x => x.Name == request.Category, cancellationToken);
                 if (br is null) throw new HttpRequestException("This category does not exist");
                 product.Category = br;
             }
             if (product.Model.Name != request.Model)
             {
-                var br = await _context.Models.FirstOrDefaultAsync(x => x.Name == request.Model);
+                var br = await _context.Models.FirstOrDefaultAsync(x => x.Name == request.Model, cancellationToken);
                 if (br is null) throw new HttpRequestException("This model does not exist");
                 product.Model = br;
             }
@@ -78,9 +78,9 @@ namespace AdminPanel.Handlers.Products
             }
 
             product.Description = request.Description;
-            product.DiscountAmmount = request.DiscountAmount;
+            product.DiscountAmount = request.DiscountAmount;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return product.Id;
         }

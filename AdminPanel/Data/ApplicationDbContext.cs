@@ -35,7 +35,7 @@ namespace AdminPanel.Data
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<ReviewAnswer> ReviewAnswers { get; set; } = null!;
-        public DbSet<Wishlist> WhishLists { get; set; } = null!;
+        public DbSet<WishList> WishLists { get; set; } = null!;
         public DbSet<MainCategoryImage> MainCategoryImages { get; set; } = null!;
         public DbSet<SubcategoryImage> SubcategoryImages { get; set; } = null!;
 

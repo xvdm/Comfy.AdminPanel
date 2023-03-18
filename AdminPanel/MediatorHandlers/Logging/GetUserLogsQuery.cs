@@ -7,27 +7,21 @@ namespace AdminPanel.Handlers.Logging
 {
     public class GetUserLogsQuery : IRequest<IEnumerable<UserLog>> 
     {
-        private const int _maxPageSize = 15;
-        private int _pageSize = _maxPageSize;
-        private int _pageNumber = 1;
-
         public string? SearchString { get; set; }
+
+        private const int MaxPageSize = 15;
+        private int _pageSize = MaxPageSize;
+        private int _pageNumber = 1;
 
         public int PageSize
         {
-            get { return _pageSize; }
-            set
-            {
-                _pageSize = (value > _maxPageSize || value < 0) ? _maxPageSize : value;
-            }
+            get => _pageSize;
+            set => _pageSize = value is > MaxPageSize or < 1 ? MaxPageSize : value;
         }
         public int PageNumber
         {
-            get { return _pageNumber; }
-            set
-            {
-                _pageNumber = (value < 1) ? 1 : value;
-            }
+            get => _pageNumber;
+            set => _pageNumber = (value < 1) ? 1 : value;
         }
 
         public GetUserLogsQuery(string? searchString, int? pageSize, int? pageNumber)

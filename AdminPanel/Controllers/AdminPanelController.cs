@@ -2,13 +2,12 @@
 using AdminPanel.Handlers.Products.Categories;
 using AdminPanel.Handlers.Products.Models;
 using AdminPanel.Helpers;
+using AdminPanel.MediatorHandlers.Products.Brands;
+using AdminPanel.MediatorHandlers.Products.Models;
 using AdminPanel.Models;
-using AdminPanel.Models.DTO;
-using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 
 namespace AdminPanel.Controllers
 {
@@ -50,6 +49,62 @@ namespace AdminPanel.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Brands(int? pageSize, int? pageNumber)
+        {
+            var brands = await _mediator.Send(new GetBrandsQuery(pageSize, pageNumber));
+            return View(brands);
+        }
+
+        public async Task<IActionResult> Models(int? pageSize, int? pageNumber)
+        {
+            var models = await _mediator.Send(new GetModelsQuery(pageSize, pageNumber));
+            return View(models);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateBrand(string brandId, string newName)
+        {
+            if (int.TryParse(brandId, out var brandIdInt) == false)
+            {
+                return BadRequest("UpdateBrand :: brandId :: parse to int error");
+            }
+            await _mediator.Send(new UpdateBrandCommand(brandIdInt, newName));
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateModel(string modelId, string newName)
+        {
+            if (int.TryParse(modelId, out var modelIdInt) == false)
+            {
+                return BadRequest("UpdateModel :: modelId :: parse to int error");
+            }
+            await _mediator.Send(new UpdateModelCommand(modelIdInt, newName));
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteBrand(string brandId)
+        {
+            if (int.TryParse(brandId, out var brandIdInt) == false)
+            {
+                return BadRequest("UpdateBrand :: brandId :: parse to int error");
+            }
+            await _mediator.Send(new DeleteBrandCommand(brandIdInt));
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteModel(string modelId)
+        {
+            if (int.TryParse(modelId, out var modelIdInt) == false)
+            {
+                return BadRequest("UpdateModel :: modelId :: parse to int error");
+            }
+            await _mediator.Send(new DeleteModelCommand(modelIdInt));
+            return Ok();
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateBrand(Brand brand)
         {
@@ -66,20 +121,31 @@ namespace AdminPanel.Controllers
 
         [Authorize(Policy = PoliciesNames.Owner)]
         [HttpPost]
-        public async Task<IActionResult> CreateMainCategory(CreateMainCategoryDTO categoryDTO)
+        public async Task<IActionResult> CreateMainCategory(string name)
         {
-            var category = categoryDTO.Adapt<MainCategory>();
+            var category = new MainCategory()
+            {
+                Name = name
+            };
             await _mediator.Send(new CreateMainCategoryCommand(category));
-            return View(categoryDTO);
+            return Ok();
         }
 
         [Authorize(Policy = PoliciesNames.Owner)]
         [HttpPost]
-        public async Task<IActionResult> CreateSubcategory(CreateSubcategoryDTO categoryDTO)
+        public async Task<IActionResult> CreateSubcategory(string mainCategoryId, string name)
         {
-            var category = categoryDTO.Adapt<Subcategory>();
+            if (int.TryParse(mainCategoryId, out var mainCategoryIdInt) == false)
+            {
+                return BadRequest("CreateSubcategory :: mainCategoryId :: parse to int error");
+            }
+            var category = new Subcategory()
+            {
+                MainCategoryId = mainCategoryIdInt,
+                Name = name
+            };
             await _mediator.Send(new CreateSubcategoryCommand(category));
-            return View(categoryDTO);
+            return Ok();
         }
 
         public IActionResult GetAutocompleteBrands(string input)

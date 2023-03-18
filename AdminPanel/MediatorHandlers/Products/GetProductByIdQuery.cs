@@ -36,7 +36,7 @@ namespace AdminPanel.Handlers.Products
                 .Include(x => x.Model)
                 .Include(x => x.Images)
                 .Include(x => x.PriceHistory)
-                .SingleOrDefaultAsync(x => x.Id == request.ProductId);
+                .SingleOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
 
             return product;
         }

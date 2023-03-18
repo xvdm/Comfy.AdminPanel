@@ -6,7 +6,7 @@ namespace AdminPanel.Handlers.Products.Categories
 {
     public class CreateMainCategoryCommand : IRequest
     {
-        public MainCategory Category { get; set; } = null!;
+        public MainCategory Category { get; set; }
         public CreateMainCategoryCommand(MainCategory category)
         {
             Category = category;
@@ -25,8 +25,8 @@ namespace AdminPanel.Handlers.Products.Categories
 
         public async Task Handle(CreateMainCategoryCommand request, CancellationToken cancellationToken)
         {
-            await _context.MainCategories.AddAsync(request.Category);
-            await _context.SaveChangesAsync();
+            await _context.MainCategories.AddAsync(request.Category, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

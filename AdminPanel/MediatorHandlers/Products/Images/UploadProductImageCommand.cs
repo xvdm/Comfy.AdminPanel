@@ -8,7 +8,7 @@ namespace AdminPanel.MediatorHandlers.Products.Images
     public class UploadProductImageCommand : IRequest<string>
     {
         public int ProductId { get; set; }
-        public IFormFile ImageFile { get; set; } = null!;
+        public IFormFile ImageFile { get; set; }
         public UploadProductImageCommand(int productId, IFormFile imageFile)
         {
             ProductId = productId;
@@ -34,8 +34,8 @@ namespace AdminPanel.MediatorHandlers.Products.Images
             var image = new Image();
             image.ProductId = request.ProductId;
             image.Url = path;
-            await _context.Images.AddAsync(image);
-            await _context.SaveChangesAsync();
+            await _context.Images.AddAsync(image, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return path;
         }
