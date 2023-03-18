@@ -15,10 +15,12 @@
 
         <div class="section">
             <div class="search-block">
-                <input class="search-block-input" type="text" name="SearchString" />
-                <button class="search-block-btn" type="submit" value="Пошук">
-                    <span class="material-icons "> search </span>
-                </button>
+                <form asp-controller="Logging" asp-action="UserLogs">
+                    <input class="search-block-input" type="text" name="searchString" />
+                    <button class="search-block-btn" type="submit" value="Пошук">
+                        <span class="material-icons "> search </span>
+                    </button>
+                </form>
             </div>
         </div>
         <div class="section">
