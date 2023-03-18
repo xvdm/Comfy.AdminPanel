@@ -122,34 +122,37 @@
                         <p>Зображення</p>
                     </div>
                     <div class="images">
-                        <div class="main-image">
-                            @if (Model.Product.Images.Count != 0)
-                            {
-                                <img src="@Model.Product.Images[0]" name="image"/>
-                            }
-                            else
-                            {
-                                <span class="material-icons add-icon unselectable">add</span>
-                                <form enctype="multipart/form-data">
-                                    <input type="file" name="uploads" multiple accept="image/*" />
-                                </form>
-                            }
-                        </div>
-                        <ul class="list-images">
-                            @for(int i= 1; i < 10; i++)
-                            {
-                                <li class="item-image">
-                                    @if (Model.Product.Images.Count >= i){
-                                        <img src="@Model.Product.Images[i]" name="image"/>
-                                    }
-                                    else
-                                    {
-                                        <span class="material-icons add-icon unselectable">add</span>
-                                        <input type="file" name="uploads" multiple accept="image/*" />
-                                    }
-                                </li>
-                            }
-                        </ul>
+                         <form enctype="multipart/form-data">
+                            <div class="main-image">
+                                @if (Model.Product.Images.Count != 0)
+                                {
+                                    <img src="@Model.Product.Images[0]" name="image"/>
+                                }
+                                else
+                                {
+                                    <span class="material-icons add-icon unselectable">add</span>
+                                     <input type="file" name="uploads" multiple accept="image/*" />
+                                }
+                            </div>
+                            <ul class="list-images">
+                                @for(int i= 1; i < 10; i++)
+                                {
+                                    <li class="item-image">
+                                        <div>
+                                            @if (Model.Product.Images.Count >= i)
+                                            {
+                                                <img src="@Model.Product.Images[i]" name="image" />
+                                            }
+                                            else
+                                            {
+                                                <span class="material-icons add-icon unselectable">add</span>
+                                                <input type="file" name="uploads" multiple accept="image/*" />
+                                            }
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                         </form>
                     </div>
                 </div>
             </div>
@@ -218,7 +221,6 @@
                         </div>
                       </div>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -56,37 +56,50 @@ $(document).ready(function () {
     $('input[name="uploads"]').change(function () {
         var input = $(this);
         var files = input[0].files;
-
-        var formData = new FormData();
+     
         for (var i = 0; i < files.length; i++) {
-            formData.append("files", files[i]);
+            
         }
 
+    })
 
-        if (files.length > 0)
-        {
-            console.log(id);
-            $.ajax({
-                url: "/Images/UploadProductImage/",
-                type: "POST",
-                contentType: false,
-                processData: false,
-                //data: {
-                //    //"productId": id,
-                //    "file": files[0]
-                //},
-                data: { formData },
-                dataType: 'json',
-                cache: false,
-                success: function (result) {
-                    console.log(result);
-                },
-                error: function (xhr, status, error) {
-                    console.log("Error");
-                }
-            });
-        }
-    });
+
+    //#region AjaxImg
+    //$('input[name="uploads"]').change(function () {
+    //    var input = $(this);
+    //    var files = input[0].files;
+
+    //    var formData = new FormData();
+    //    for (var i = 0; i < files.length; i++) {
+    //        formData.append("files", files[i]);
+    //    }
+
+
+    //    if (files.length > 0)
+    //    {
+    //        console.log(id);
+    //        $.ajax({
+    //            url: "/Images/UploadProductImage/",
+    //            type: "POST",
+    //            contentType: false,
+    //            processData: false,
+    //            //data: {
+    //            //    //"productId": id,
+    //            //    "file": files[0]
+    //            //},
+    //            data: { formData },
+    //            dataType: 'json',
+    //            cache: false,
+    //            success: function (result) {
+    //                console.log(result);
+    //            },
+    //            error: function (xhr, status, error) {
+    //                console.log("Error");
+    //            }
+    //        });
+    //    }
+    //});
+    //#endregion
 
 
     // Categories
