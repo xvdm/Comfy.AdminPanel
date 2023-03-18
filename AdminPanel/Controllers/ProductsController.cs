@@ -104,7 +104,7 @@ namespace AdminPanel.Controllers
             }
             var editCharacteristicCommand = new EditProductCharacteristicCommand(product, idInt, name, value);
             await _mediator.Send(editCharacteristicCommand);
-            return LocalRedirect($"/Products/EditProduct/{productId}");
+            return Ok();
         }
 
         [HttpPost]
@@ -119,7 +119,7 @@ namespace AdminPanel.Controllers
                 return BadRequest("DeleteCharacteristic :: id :: parse to int error");
             }
             await _mediator.Send(new DeleteProductCharacteristicCommand(idInt));
-            return LocalRedirect($"/Products/EditProduct/{productId}");
+            return Ok();
         }
 
         [HttpPost]
@@ -131,7 +131,7 @@ namespace AdminPanel.Controllers
             }
             var addCharacteristic = new AddProductCharacteristicCommand(productIdInt, name, value);
             await _mediator.Send(addCharacteristic);
-            return LocalRedirect($"/Products/EditProduct/{productId}");
+            return Ok();
         }
 
         private async Task<ProductCategoriesViewModel> GetProductCategoriesViewModel(int productId)
