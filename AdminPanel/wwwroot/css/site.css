@@ -15,6 +15,36 @@
 }
 
 
+.message {
+    min-width: 400px;
+    position: absolute;
+    right: 0;
+    z-index: 10;
+    margin: 20px;
+    padding: 10px;
+    background: #212529;
+    color: lightgray;
+    display: flex;
+    justify-content:space-between;
+    flex-direction: row;
+}
+
+
+.message-close-btn span{
+    width:10px;
+    height:10px;
+}
+
+.message-body-text, .message-body-btn {
+    display: flex;
+    align-items: center;
+    cursor:default;
+}
+.message-body-btn{
+    margin-left:10px;
+    cursor:pointer;
+}
+
 .search-block {
     position: relative;
     width: auto;
