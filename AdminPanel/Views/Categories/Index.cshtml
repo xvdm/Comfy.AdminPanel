@@ -19,13 +19,13 @@
                     {
                         <div>
                             <div class="maincategories-name">
-                                <p>@x.Name</p>
+                                <p name="maincategories-name" value="@x.Id">@x.Name</p>
                             </div>
                             <div>
                                 @foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == x.Id))
                                 {
                                     <div class="subcategories-name">
-                                        <p>@y.Name</p>
+                                        <p name="subcategories-name" value="@x.Id,@y.Id">@y.Name</p>
                                     </div>
                                 }
                             </div>
@@ -42,13 +42,13 @@
                         </div>
                         <div class="categories-img">
                             <div class="main-image">
-                                <span class="material-icons add-icon unselectable">add</span>
-                                <input type="file" name="uploads" />
+                                <span class="material-icons add-icon unselectable" >add</span>
+                                <input type="file" name="uploads" accept="image/*" />
                             </div>
                         </div>
                         <div class="categories-inputs">
-                            <input required type="text" class="categoryTextInput" placeholder="Ім'я категорії" />
-                        <select>
+                        <input required id="categories-name" type="text" class="categoryTextInput" placeholder="Ім'я категорії" />
+                        <select id="maincategories-selec">
                             <option selected="selected" value="-1">Батьківська категорія</option>
                             @foreach (var x in Model.MainCategories)
                             {
@@ -57,6 +57,10 @@
                         </select>
                         </div>
                         <div class="category-btn">
+                            <div id="change-category-btn" class="h-hidden">
+                                <button id="category-btn-delete" type="submit">Видалити</button>
+                                <button id="category-btn-change" type="submit">Оновити</button>
+                            </div>
                             <button id="category-btn" type="submit">Додати</button>
                         </div>
                     </div>
@@ -65,6 +69,11 @@
             </div>
         </div>
 </div>
+
+@section scripts {
+    <script src="~/js/ChangeCategories.js"></script>
+}
+
 
 
 

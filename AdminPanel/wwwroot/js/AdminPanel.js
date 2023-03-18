@@ -14,7 +14,7 @@ function blockMainLink(elem) {
 }
 
 function createLI(links, href) {
-    for (var i = 0; i <2; i++) {
+    for (var i = 0; i < links.length ; i++) {
       
         li = document.createElement("li")
         a = document.createElement("a")
@@ -29,6 +29,18 @@ function createLI(links, href) {
 /*<a class="navbar-brand " asp-area="" asp-controller="Products" asp-action="Products" target="_self">*/
 
 switch (userMainPosition[1]) {
+
+    case "Orders":
+        let divMain = document.getElementById("Main");
+        blockMainLink(divMain)
+
+        links = ["Активні", "Прийняті", "Виконані", "Скасовані"];
+        href = ["/Orders/ActiveOrders", "/Orders/AcceptedOrders", "/Orders/CompletedOrders", "/Orders/CancelledOrders"]
+        createLI(links, href)
+        div.appendChild(ul)
+        divMain.appendChild(div)
+        break;
+
     case "Products":
         let divGoods = document.getElementById("Goods");
         blockMainLink(divGoods)

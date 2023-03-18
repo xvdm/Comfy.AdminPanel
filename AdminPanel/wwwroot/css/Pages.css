@@ -121,15 +121,17 @@
     width: 280px;
 }
 
-.list-categories-block .maincategories-name p{
-    font-size:20px;
-    font-weight:500;
-    margin-bottom:5px;
+.list-categories-block .maincategories-name p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    cursor: pointer;
 }
 
 .list-categories-block .subcategories-name p {
     margin-bottom: 5px;
     margin-left:20px;
+    cursor:pointer;
 }
 
 .categories-inputs {
@@ -169,10 +171,14 @@
     opacity: 0;
 }
 
+#change-category-btn{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+}
+
 
 /*#endregion */
-
-
 /*#region Edit Product Page*/
 .left-section-editproduct, .characteristics-section {
     font-size: 14px;
@@ -280,6 +286,19 @@
 
 .add-characteristics {
     margin-bottom: 20px;
+}
+
+.characteristics-table thead th {
+    padding: 0 10px;
+}
+
+.characteristics-table tbody td p {
+        margin: 0;
+        padding: 0 10px;
+}
+
+.characteristics-table tbody button {
+    padding: 5px 10px;
 }
 
 .visibility-switcher input {
