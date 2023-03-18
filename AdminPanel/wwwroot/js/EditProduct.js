@@ -153,7 +153,6 @@ $(document).ready(function () {
         $('#edit-name').val(value[0]);
         $('#edit-value').val(value[1]);
         $('#edit-value-id').val(value[2]); 
-        alert(value[2]);
     });
 
     //Save
@@ -174,7 +173,6 @@ $(document).ready(function () {
                     location.reload();
                 }
             });
-            alert("Збережено!");
         } else {
             alert("Помилка!");
         }
