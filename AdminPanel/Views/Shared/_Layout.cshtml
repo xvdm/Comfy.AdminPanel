@@ -1,9 +1,13 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
 @inject IAuthorizationService AuthorizationService
 @inject UserManager<ApplicationUser> UserManager
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using AdminPanel.Helpers
+@{
+    var requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,10 +25,8 @@
     <link rel="stylesheet" href="~/AdminPanel.styles.css" asp-append-version="true" />
 </head>
 <body>
-    
-    <form>
 
-    </form>
+    <input id="RequestVerificationToken" hidden value="@requestToken" />
 
     @if(SignInManager.IsSignedIn(User))
         {
