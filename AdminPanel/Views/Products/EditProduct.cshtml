@@ -175,9 +175,9 @@
                         <span>Створити характеристику</span>
                     </div>
                     <div>
-                        <input required id="addC-input-name" name="Name" placeholder="Назва" />
-                        <input required id="addC-input-value" name="Value" placeholder="Значення" />
-                        <button id="add-characteristic-btn">Додати</button>
+                        <input id="addC-input-name" type="text" value="" placeholder="Назва" />
+                        <input id="addC-input-value" type="text" value="" placeholder="Значення" />
+                        <button type="button" id="add-characteristic-btn">Додати</button>
                     </div>
                 </div>
                 <div class="characteristics-table">
@@ -202,7 +202,7 @@
                                         <td><p>@x.Id</p></td> 
                                         <td><p>@x.CharacteristicsName.Name</p></td>
                                         <td><p>@x.CharacteristicsValue.Value</p></td>
-                                        <td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>
+                                        <td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value,@x.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>
                                         <td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>
                                 </tr>
                             }
@@ -214,12 +214,13 @@
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Редагування</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel" >Редагування</h5>
                           </div>
                           <div class="modal-body">
+                              <input id="edit-value-id" value="" type="hidden"/>
                               <p class="modal-title-input">Назва</p>
                               <input class="modal-input" id="edit-name" value="" placeholder="" />
-                                    <p class="modal-title-input">Значення</p>
+                              <p class="modal-title-input">Значення</p>
                               <input class="modal-input" id="edit-value" value="" placeholder="" />
                           </div>
                           <div class="modal-footer">
