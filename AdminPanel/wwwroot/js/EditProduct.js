@@ -53,9 +53,6 @@ $(document).ready(function () {
     }
 
     // Images
-
-    // huinia
-
     $('input[name="uploads"]').change(function () {
         var input = $(this);
         var files = input[0].files;
@@ -124,6 +121,9 @@ $(document).ready(function () {
             $.ajax({
                 type: 'POST',
                 url: '/Products/AddCharacteristic/',
+                headers: {
+                    RequestVerificationToken: $('#RequestVerificationToken').val()
+                },
                 data: { "productId": id, "name":name.val(), "value":value.val() },
                 success: function (result) {
                     
@@ -140,20 +140,43 @@ $(document).ready(function () {
     // Edit
     $('button[name="edit-characteristic"]').on('click', function () {
         const value = $(this).val().split(",");
-        $('input[name="edit-name"]').val(value[0]);
-        $('input[name="edit-value"]').val(value[1]);
+        $('#edit-name').val(value[0]);
+        $('#edit-value').val(value[1]);
     });
 
+    //Save
+    $('#save-changes-modal').click(function () {
+        const newName = $('#edit-name').val();
+        const newValue = $('#edit-value').val();
+        if ((newName.length > 1 && newValue.length > 1) && (newName.length < 50 && newValue.length < 50)) {
+
+            alert("Збережено!");
+        } else {
+            alert("Помилка!");
+        }
+
+    });
+    
+    // Delete
     $('button[name="delete-characteristic"]').on('click', function () {
-        const value = $(this);
-        result = confirm("Підтвердіть видалення  (ID = " + value.val() + ")");
+        console.log("dsapuohgasd");
+        const characteristicsId = $(this).val();
+        alert(characteristicsId + " " + id);
+        const result = confirm("Підтвердіть видалення  (ID = " + characteristicsId + ")");
         if (result) {
-            alert("Видалено")
+            $.ajax({
+                type: 'POST',
+                url: '/Products/DeleteCharacteristic/',
+                headers: {
+                    RequestVerificationToken: $('#RequestVerificationToken').val()
+                },
+                data: { "productId": id, "id": characteristicsId },
+                success: function (result) {
+                    alert("Видалено");
+                }
+            });
         }
-        else {
-
-        }
-
     });
+
 
 });
