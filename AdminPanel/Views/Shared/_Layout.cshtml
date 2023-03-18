@@ -22,7 +22,9 @@
 </head>
 <body>
     
+    <form>
 
+    </form>
 
     @if(SignInManager.IsSignedIn(User))
         {
@@ -70,6 +72,16 @@
 
 
     <div id="body-container" class="body-container">
+        <div id="message" class="message" style="display:none">
+            <div id="message-body-text" class="message-body-text">
+                
+                </div>
+                <div class="message-body-btn">
+                    <span id="message-close-btn" class="material-icons">
+                        close
+                    </span>
+                </div>
+        </div>
             <main role="main" class="main">
                 @RenderBody()
             </main>

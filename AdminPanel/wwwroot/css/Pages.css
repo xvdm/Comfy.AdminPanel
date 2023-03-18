@@ -102,6 +102,10 @@
 /*#region Products Page*/
 
 
+.productsTable tr:hover {
+    background: #f8f8f8;
+}
+
 /*#endregion */
 
 
@@ -110,7 +114,6 @@
 .sections .left-section-categories {
     display: table-cell;
     min-width:500px;
-    padding: 20px;
 }
 
 .sections .right-section-categories {
@@ -122,17 +125,29 @@
 }
 
 .list-categories-block .maincategories-name p {
+    padding:2px 20px;
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 5px;
     cursor: pointer;
 }
 
-.list-categories-block .subcategories-name p {
-    margin-bottom: 5px;
-    margin-left:20px;
-    cursor:pointer;
+.list-categories-block .maincategories-name p:hover{
+    background: #f8f8f8;
 }
+
+
+.list-categories-block .subcategories-name p {
+    padding: 2px 20px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.list-categories-block .subcategories-name p:hover {
+    background: #f8f8f8;
+}
+
 
 .categories-inputs {
     width:100%;
@@ -179,6 +194,8 @@
 
 
 /*#endregion */
+
+
 /*#region Edit Product Page*/
 .left-section-editproduct, .characteristics-section {
     font-size: 14px;
@@ -207,11 +224,6 @@
     display: table-cell;
     background: #f3f5f6;
     width: 280px;
-}
-
-
-.productsTable tr:hover {
-    background: #f8f8f8;
 }
 
 .sections .name-block {

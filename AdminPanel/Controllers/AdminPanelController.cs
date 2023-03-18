@@ -120,7 +120,7 @@ namespace AdminPanel.Controllers
         }
 
         [Authorize(Policy = PoliciesNames.Owner)]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> CreateMainCategory(string name)
         {
             var category = new MainCategory()
@@ -133,7 +133,7 @@ namespace AdminPanel.Controllers
         }
 
         [Authorize(Policy = PoliciesNames.Owner)]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> CreateSubcategory(string mainCategoryId, string name)
         {
             if (int.TryParse(mainCategoryId, out var mainCategoryIdInt) == false)

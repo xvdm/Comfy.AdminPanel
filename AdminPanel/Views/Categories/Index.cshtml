@@ -1,6 +1,9 @@
-﻿@model CategoriesViewModel
+﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@model CategoriesViewModel
 @{
     ViewData["Title"] = "Main categories";
+
+    var requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
 }
 
 <div class="Page">
@@ -10,18 +13,22 @@
         </div>
     </div>
 
+    <input id="RequestVerificationToken" hidden value="@requestToken" />
+
     <div class="body body-with-sections">
+
+            
 
             <div class="sections">
                 <div class="left-section-categories">
                     <div class="list-categories-block">
                     @foreach (var x in Model.MainCategories)
                     {
-                        <div>
+                        <div name="maincategories-list">
                             <div class="maincategories-name">
                                 <p name="maincategories-name" value="@x.Id">@x.Name</p>
                             </div>
-                            <div>
+                            <div name="subcategories-list">
                                 @foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == x.Id))
                                 {
                                     <div class="subcategories-name">
