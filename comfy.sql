@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2023 at 06:10 PM
+-- Generation Time: Mar 18, 2023 at 11:27 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -445,7 +445,7 @@ INSERT INTO `pricehistory` (`Id`, `Price`, `Date`, `ProductId`) VALUES
 CREATE TABLE `products` (
   `Id` int(11) NOT NULL,
   `Price` int(11) NOT NULL,
-  `DiscountAmmount` int(11) NOT NULL,
+  `DiscountAmount` int(11) NOT NULL,
   `Amount` int(11) NOT NULL,
   `Code` int(11) NOT NULL,
   `Rating` double NOT NULL,
@@ -455,20 +455,18 @@ CREATE TABLE `products` (
   `ModelId` int(11) NOT NULL,
   `Description` longtext DEFAULT NULL,
   `Name` varchar(255) NOT NULL,
-  `Url` varchar(255) DEFAULT NULL,
-  `OrderId` int(11) DEFAULT NULL,
-  `WishlistId` int(11) DEFAULT NULL
+  `Url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`Id`, `Price`, `DiscountAmmount`, `Amount`, `Code`, `Rating`, `IsActive`, `BrandId`, `CategoryId`, `ModelId`, `Description`, `Name`, `Url`, `OrderId`, `WishlistId`) VALUES
-(31, 9999, 0, 0, 1000031, 0, 0, 17, 2, 6, 'классный телефон', 'Смартфон Samsung Galaxy M33 5G 6/128Gb Green (SM-M336BZGGSEK)', 'smartfon-samsung-galaxy-m33-5g-6-128gb-green-sm-m336bzggsek-1000031', NULL, NULL),
-(32, 35999, 10, 0, 1000032, 0, 0, 18, 2, 7, 'крутой телефон', 'Смартфон Apple iPhone 13 128Gb Midnight', 'smartfon-apple-iphone-13-128gb-midnight-1000032', NULL, NULL),
-(35, 57999, 0, 0, 1000035, 0, 0, 17, 2, 8, 'дорогой телефон', 'Смартфон Samsung Galaxy S23 Ultra 12/256Gb Violet (SM-S918BLIGSEK)', 'smartfon-samsung-galaxy-s23-ultra-12-256gb-violet-sm-s918bligsek-1000035', NULL, NULL),
-(36, 1135, 0, 0, 1000036, 0, 0, 20, 3, 9, 'сигма телефон', 'Мобильный телефон Sigma mobile Comfort 50 Optima Dual Sim Black', 'mobilnyj-telefon-sigma-mobile-comfort-50-optima-dual-sim-black-1000036', NULL, NULL);
+INSERT INTO `products` (`Id`, `Price`, `DiscountAmount`, `Amount`, `Code`, `Rating`, `IsActive`, `BrandId`, `CategoryId`, `ModelId`, `Description`, `Name`, `Url`) VALUES
+(31, 9999, 0, 0, 1000031, 0, 0, 17, 2, 6, 'классный телефон', 'Смартфон Samsung Galaxy M33 5G 6/128Gb Green (SM-M336BZGGSEK)', 'smartfon-samsung-galaxy-m33-5g-6-128gb-green-sm-m336bzggsek-1000031'),
+(32, 35999, 10, 0, 1000032, 0, 0, 18, 2, 7, 'крутой телефон', 'Смартфон Apple iPhone 13 128Gb Midnight', 'smartfon-apple-iphone-13-128gb-midnight-1000032'),
+(35, 57999, 0, 0, 1000035, 0, 0, 17, 2, 8, 'дорогой телефон', 'Смартфон Samsung Galaxy S23 Ultra 12/256Gb Violet (SM-S918BLIGSEK)', 'smartfon-samsung-galaxy-s23-ultra-12-256gb-violet-sm-s918bligsek-1000035'),
+(36, 1135, 0, 0, 1000036, 0, 0, 20, 3, 9, 'сигма телефон', 'Мобильный телефон Sigma mobile Comfort 50 Optima Dual Sim Black', 'mobilnyj-telefon-sigma-mobile-comfort-50-optima-dual-sim-black-1000036');
 
 -- --------------------------------------------------------
 
@@ -661,10 +659,10 @@ INSERT INTO `userlogs` (`Id`, `UserId`, `LoggingActionId`, `SubjectUserId`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `whishlists`
+-- Table structure for table `wishlists`
 --
 
-CREATE TABLE `whishlists` (
+CREATE TABLE `wishlists` (
   `Id` int(11) NOT NULL,
   `UserId` char(36) CHARACTER SET ascii NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -716,7 +714,8 @@ INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 ('20230308184758_ChangedModelModelToModelName', '6.0.14'),
 ('20230312121017_QuestionsAndReviewsUpdate', '6.0.14'),
 ('20230312131712_BugFixes', '6.0.14'),
-('20230316165936_CategoryImage', '6.0.14');
+('20230316165936_CategoryImage', '6.0.14'),
+('20230318101300_TypoFix', '6.0.14');
 
 --
 -- Indexes for dumped tables
@@ -886,9 +885,7 @@ ALTER TABLE `products`
   ADD KEY `IX_Products_BrandId` (`BrandId`),
   ADD KEY `IX_Products_CategoryId` (`CategoryId`),
   ADD KEY `IX_Products_ModelId` (`ModelId`),
-  ADD KEY `IX_Products_Name` (`Name`),
-  ADD KEY `IX_Products_OrderId` (`OrderId`),
-  ADD KEY `IX_Products_WishlistId` (`WishlistId`);
+  ADD KEY `IX_Products_Name` (`Name`);
 
 --
 -- Indexes for table `questionanswers`
@@ -946,11 +943,11 @@ ALTER TABLE `userlogs`
   ADD KEY `IX_UserLogs_UserId` (`UserId`);
 
 --
--- Indexes for table `whishlists`
+-- Indexes for table `wishlists`
 --
-ALTER TABLE `whishlists`
+ALTER TABLE `wishlists`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `IX_WhishLists_UserId` (`UserId`);
+  ADD UNIQUE KEY `IX_WishLists_UserId` (`UserId`);
 
 --
 -- Indexes for table `__efmigrationshistory`
@@ -1113,9 +1110,9 @@ ALTER TABLE `userlogs`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
--- AUTO_INCREMENT for table `whishlists`
+-- AUTO_INCREMENT for table `wishlists`
 --
-ALTER TABLE `whishlists`
+ALTER TABLE `wishlists`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1208,9 +1205,7 @@ ALTER TABLE `pricehistory`
 ALTER TABLE `products`
   ADD CONSTRAINT `FK_Products_Brands_BrandId` FOREIGN KEY (`BrandId`) REFERENCES `brands` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Products_Models_ModelId` FOREIGN KEY (`ModelId`) REFERENCES `models` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_Products_Orders_OrderId` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`Id`),
-  ADD CONSTRAINT `FK_Products_Subcategories_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `subcategories` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_Products_WhishLists_WishlistId` FOREIGN KEY (`WishlistId`) REFERENCES `whishlists` (`Id`);
+  ADD CONSTRAINT `FK_Products_Subcategories_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `subcategories` (`Id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `questionanswers`
@@ -1256,9 +1251,9 @@ ALTER TABLE `userlogs`
   ADD CONSTRAINT `FK_UserLogs_LoggingActions_LoggingActionId` FOREIGN KEY (`LoggingActionId`) REFERENCES `loggingactions` (`Id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `whishlists`
+-- Constraints for table `wishlists`
 --
-ALTER TABLE `whishlists`
+ALTER TABLE `wishlists`
   ADD CONSTRAINT `FK_WhishLists_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
 COMMIT;
 
