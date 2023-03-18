@@ -159,23 +159,18 @@ $(document).ready(function () {
     
     // Delete
     $('button[name="delete-characteristic"]').on('click', function () {
-        console.log("dsapuohgasd");
         const characteristicsId = $(this).val();
-        alert(characteristicsId + " " + id);
-        const result = confirm("Підтвердіть видалення  (ID = " + characteristicsId + ")");
-        if (result) {
-            $.ajax({
-                type: 'POST',
-                url: '/Products/DeleteCharacteristic/',
-                headers: {
-                    RequestVerificationToken: $('#RequestVerificationToken').val()
-                },
-                data: { "productId": id, "id": characteristicsId },
-                success: function (result) {
-                    alert("Видалено");
-                }
-            });
-        }
+        $.ajax({
+           type: 'POST',
+           url: '/Products/DeleteCharacteristic/',
+           headers: {
+               RequestVerificationToken: $('#RequestVerificationToken').val()
+           },
+           data: { "productId": id, "id": characteristicsId },
+           success: function (result) {
+               location.reload();
+           }
+        });
     });
 
 
