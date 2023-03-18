@@ -2,7 +2,6 @@
 using AdminPanel.MediatorHandlers.Orders;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Framework;
 
 namespace AdminPanel.Controllers
 {

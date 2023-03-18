@@ -78,7 +78,7 @@ namespace AdminPanel.Handlers.Products
             }
 
             product.Description = request.Description;
-            product.DiscountAmmount = request.DiscountAmount;
+            product.DiscountAmount = request.DiscountAmount;
 
             await _context.SaveChangesAsync(cancellationToken);
 
