@@ -124,21 +124,26 @@
                     <div class="images">
                          <form enctype="multipart/form-data">
                             <div class="main-image">
-                                @if (Model.Product.Images.Count != 0)
-                                {
-                                    <img src="@Model.Product.Images[0]" name="image"/>
-                                }
-                                else
-                                {
-                                    <span class="material-icons add-icon unselectable">add</span>
-                                     <input type="file" name="uploads" multiple accept="image/*" />
-                                }
+                                <div name="load-img">
+                                    @if (Model.Product.Images.Count != 0)
+                                    {
+                                        <img src="@Model.Product.Images[0]" name="image" />
+                                    }
+                                    else
+                                    {
+                                        <span class="material-icons add-icon unselectable">add</span>
+                                        <input type="file" name="uploads" multiple accept="image/*" />
+                                    }
+                                </div>
+                                <div name="preload-img-div" class="h-hidden">
+                                    
+                                </div>
                             </div>
                             <ul class="list-images">
                                 @for(int i= 1; i < 10; i++)
                                 {
                                     <li class="item-image">
-                                        <div>
+                                        <div name="load-img">
                                             @if (Model.Product.Images.Count >= i)
                                             {
                                                 <img src="@Model.Product.Images[i]" name="image" />
@@ -149,6 +154,9 @@
                                                 <input type="file" name="uploads" multiple accept="image/*" />
                                             }
                                         </div>
+                                        <div name="preload-img-div" class="h-hidden">
+                                            
+                                       </div>
                                     </li>
                                 }
                             </ul>
@@ -188,7 +196,7 @@
                                 </tr>
                             </thead>
                             <tbody id="list-characteristics">
-                                @foreach (var x in Model.Product.Characteristics)
+                            @foreach (var x in Model.Product.Characteristics)
                             {
                                 <tr>
                                         <td><p>@x.Id</p></td> 

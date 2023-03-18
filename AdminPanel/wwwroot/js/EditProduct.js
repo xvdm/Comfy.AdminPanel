@@ -54,12 +54,37 @@ $(document).ready(function () {
 
     // Images
     $('input[name="uploads"]').change(function () {
-        var input = $(this);
-        var files = input[0].files;
-     
-        for (var i = 0; i < files.length; i++) {
-            
-        }
+        var input = $(this)[0];
+
+        var files = input.files;
+        var divsImg = $('div[name="load-img"]')
+        var divsPreImg = $('div[name="preload-img-div"]')
+        var imgs = $('img[name="preload-img"]')
+        var reader = [];
+
+        $(input.files).each(function (i, el) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(imgs[i]).attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[i]);
+            $(divsPreImg[i]).removeClass("h-hidden")
+            $(divsImg[i]).addClass("h-hidden")
+        });
+
+        //for (var i = 0; i < files.length; i++) {
+
+        //    reader[i] = new FileReader()
+        //    reader[i].readAsDataURL(files[i]);
+
+        //    reader[i].onload = function (e) {
+        //        $(imgs[i]).attr('src', e.target.result);
+        //    }
+
+        
+        //}
+
+
 
     })
 
