@@ -65,6 +65,8 @@
     right: 0;
     width: 65px;
     height: 42px;
+    display:flex;
+    align-items:center;
     border: 1px solid #31363b;
     border-left: none;
     border-radius: 0 5px 5px 0;

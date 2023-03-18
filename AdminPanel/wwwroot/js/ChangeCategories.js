@@ -77,8 +77,6 @@ $(document).ready(function () {
         let name = $('#categories-name').val().trim()
         let mainCategory = $('#maincategories-selec option:selected').val()
 
-
-
         if (name !== '' && mainCategory === '-1') {
 
             if ($('p[name="maincategories-name"][value="' + $('#categories-name').attr("value") + '"]').closest('div[name="maincategories-list"]').find('div[name="subcategories-list"]').find('p').html() !== undefined) {
@@ -158,12 +156,7 @@ $(document).ready(function () {
                 }
              })
         } 
-
-
-
-     })
-
-
+    })
 
 
 });
