@@ -23,6 +23,48 @@
                 <div class="info-block">
                     <form method="post" asp-action="EditProduct" asp-controller="Products">
                         <input required hidden type="number" name="Id" value="@Model.Product.Id" />
+                        <div class="brand-selector">
+                            <div class="product-lable">
+                                <span>Бренд</span>
+                            </div>
+                            <div class="brand-list">
+                                <select id="brand-select" name="brand">
+@*                                    @foreach (var x in Model.Brand)
+                                    {
+                                        if (@x.Id == @Model.Product.Category.MainCategory.Id)
+                                        {
+                                            <option value="@x.Id" selected="selected">@x.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@x.Id">@x.Name</option>
+                                        }
+
+                                    }*@
+                                </select>
+                            </div>
+                        </div>
+                        <div class="model-selector">
+                            <div class="product-lable">
+                                <span>Модель</span>
+                            </div>
+                            <div class="model-list">
+                                <select id="model-select" name="brand">
+@*                                    @foreach (var x in Model.MainCategories)
+                                    {
+                                        if (@x.Id == @Model.Product.Category.MainCategory.Id)
+                                        {
+                                            <option value="@x.Id" selected="selected">@x.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@x.Id">@x.Name</option>
+                                        }
+
+                                    }*@
+                                </select>
+                            </div>
+                        </div>
                         <div class="name">
                             <div class="product-lable">
                                 <label for="Name">Назва позиції</label>
