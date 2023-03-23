@@ -15,13 +15,13 @@ namespace AdminPanel.Models.DTO
         public int Price { get; set; }
 
         [Required]
-        public string Brand { get; set; } = null!;
+        public int Brand { get; set; }
 
         [Required]
-        public string Category { get; set; } = null!;
+        public int Category { get; set; }
 
         [Required]
-        public string Model { get; set; } = null!;
+        public int Model { get; set; }
 
         [Required]
         public string Description { get; set; } = null!;
