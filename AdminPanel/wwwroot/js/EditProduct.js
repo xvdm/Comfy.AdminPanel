@@ -10,7 +10,7 @@ if (categoriesSelect.options[categoriesSelect.selectedIndex].value != -1) {
     divSubcategories.classList.remove("h-hidden")
 }
 
-$(document).ready(function () {
+$(document).ready(function editProductJS() {
     let id = $('#product-id').val();
     // Visibility
 
@@ -160,18 +160,20 @@ $(document).ready(function () {
                 headers: {
                     RequestVerificationToken: $('#RequestVerificationToken').val()
                 },
-                data: { "productId": id, "name": name,"value": value }, 
+                data: { "productId": id, "name": name, "value": value },
                 success: function (result) {
                     console.log(result);
                     $("#list-characteristics").append($('<tr name=' + result['id'] + '></tr>'));
-                    $('tr[name=' + result['id'] + ']').append('<td><p>' + result['id'] + '</p></td>'
+                    $('tr[name=' + result['id'] + ']').append($('<td><p>' + result['id'] + '</p></td>'
                         + '<td><p>' + result['characteristicsName']['name'] + '</p></td>'
                         + '<td><p>' + result['characteristicsValue']['value'] + '</p></td>'
                         + '<td><button value="' + result['characteristicsName']['name'] + ',' + result['characteristicsValue']['value'] + ',' + result['id'] + '" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>'
-                        + '<td><button value="' + result['id'] + '" type="button" name="delete-characteristic">Видалити</button></td>');
+                        + '<td><button value="' + result['id'] + '" type="button" name="delete-characteristic">Видалити</button></td>'));
+                    editProductJS()
                 }
             });
-            }
+    
+        }
     });
 
     // Characteristics
@@ -198,6 +200,7 @@ $(document).ready(function () {
                 },
                 data: { "productId": id, "id": characteristicId, "name":newName, "value":newValue},
                 success: function (result) {
+
                 }   
             });
         }
