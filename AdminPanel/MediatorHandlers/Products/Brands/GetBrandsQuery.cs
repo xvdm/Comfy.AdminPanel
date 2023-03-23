@@ -5,7 +5,7 @@ using AdminPanel.Models;
 
 namespace AdminPanel.MediatorHandlers.Products.Brands
 {
-    public class GetBrandsQuery : IRequest<IEnumerable<Brand>?>
+    public class GetBrandsQuery : IRequest<IEnumerable<Brand>>
     {
         private const int MaxPageSize = 15;
         private int _pageSize = MaxPageSize;
@@ -29,7 +29,7 @@ namespace AdminPanel.MediatorHandlers.Products.Brands
         }
     }
 
-    public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, IEnumerable<Brand>?>
+    public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, IEnumerable<Brand>>
     {
         private readonly ApplicationDbContext _context;
 
@@ -38,7 +38,7 @@ namespace AdminPanel.MediatorHandlers.Products.Brands
             _context = context;
         }
 
-        public async Task<IEnumerable<Brand>?> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Brand>> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
         {
             var brands = await _context.Brands
                 .AsNoTracking()

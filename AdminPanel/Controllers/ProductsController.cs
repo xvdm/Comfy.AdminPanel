@@ -1,5 +1,8 @@
 ﻿using AdminPanel.Handlers.Products;
+using AdminPanel.MediatorHandlers.Products.Brands;
 using AdminPanel.MediatorHandlers.Products.Categories;
+using AdminPanel.MediatorHandlers.Products.Models;
+using AdminPanel.Models;
 using AdminPanel.Models.DTO;
 using AdminPanel.Models.ViewModels;
 using Mapster;
@@ -143,11 +146,17 @@ namespace AdminPanel.Controllers
             }
             var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
             var subcategories = await _mediator.Send(new GetSubcategoriesForMainCategoryQuery(product.Category.MainCategoryId));
+
+            var models = await _mediator.Send(new GetModelsQuery(null, null));
+            var brands = await _mediator.Send(new GetBrandsQuery(null, null));
+
             var viewModel = new ProductCategoriesViewModel()
             {
                 Product = product,
                 MainCategories = mainCategories,
-                Subcategories = subcategories
+                Subcategories = subcategories,
+                Models = models.OrderBy(x => x.Name),
+                Brands = brands.OrderBy(x => x.Name)
             };
             return viewModel;
         }
@@ -156,11 +165,15 @@ namespace AdminPanel.Controllers
         {
             var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
             var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
+            var models = await _mediator.Send(new GetModelsQuery(null, null));
+            var brands = await _mediator.Send(new GetBrandsQuery(null, null));
 
             var viewModel = new CategoriesViewModel()
             {
                 MainCategories = mainCategories,
-                Subcategories = subcategories
+                Subcategories = subcategories,
+                Models = models.OrderBy(x => x.Name),
+                Brands = brands.OrderBy(x => x.Name)
             };
             return viewModel;
         }
