@@ -162,6 +162,8 @@ $(document).ready(function () {
                 },
                 data: { "productId": id, "name": name,"value": value },
                 success: function (result) {
+                    $('p[value]')
+
                 }
             });
             }
