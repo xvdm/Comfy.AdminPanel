@@ -162,12 +162,13 @@ $(document).ready(function () {
                 },
                 data: { "productId": id, "name": name,"value": value },
                 success: function (result) {
-                    $('p[value]')
-
+                    $('#list-characteristics').append('tr')
                 }
             });
             }
     });
+
+
 
     // Characteristics
     // Edit
@@ -198,7 +199,7 @@ $(document).ready(function () {
         }
     });
     
-    // Delete
+    // Deletse
     $('button[name="delete-characteristic"]').on('click', function () {
         const characteristicsId = $(this).val();
         $.ajax({
@@ -208,7 +209,8 @@ $(document).ready(function () {
                RequestVerificationToken: $('#RequestVerificationToken').val()
            },
            data: { "productId": id, "id": characteristicsId },
-           success: function (result) {
+            success: function (result) {
+                $('tr[name="' + characteristicsId + '"]').remove()
            }
         });
     });
