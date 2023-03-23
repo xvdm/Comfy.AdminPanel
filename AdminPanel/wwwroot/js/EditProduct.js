@@ -162,13 +162,9 @@ $(document).ready(function () {
                 },
                 data: { "productId": id, "name": name,"value": value },
                 success: function (result) {
-                    location.reload();
                 }
             });
             }
-        else {
-            alert("Помилка!");
-        }
     });
 
     // Characteristics
@@ -177,7 +173,7 @@ $(document).ready(function () {
         const value = $(this).val().split(",");
         $('#edit-name').val(value[0]);
         $('#edit-value').val(value[1]);
-        $('#edit-value-id').val(value[2]); 
+        $('#edit-value-id').val(value[2]);
     });
 
     //Save
@@ -195,13 +191,9 @@ $(document).ready(function () {
                 },
                 data: { "productId": id, "id": characteristicId, "name":newName, "value":newValue},
                 success: function (result) {
-                    location.reload();
-                }
+                }   
             });
-        } else {
-            alert("Помилка!");
         }
-
     });
     
     // Delete
@@ -215,7 +207,6 @@ $(document).ready(function () {
            },
            data: { "productId": id, "id": characteristicsId },
            success: function (result) {
-               location.reload();
            }
         });
     });
