@@ -125,7 +125,7 @@
 }
 
 .list-categories-block .maincategories-name p {
-    padding:2px 20px;
+    padding:2px 10px;
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 5px;
@@ -237,7 +237,7 @@
 
 .info-block div {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .info-block .product-lable, .catecories-block .product-lable, .characteristics-section .product-lable {
