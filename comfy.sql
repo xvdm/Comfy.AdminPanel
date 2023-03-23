@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2023 at 06:54 PM
+-- Generation Time: Mar 23, 2023 at 08:06 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -533,7 +533,8 @@ CREATE TABLE `__efmigrationshistory` (
 --
 
 INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
-('20230323173137_Initial', '6.0.15');
+('20230323173137_Initial', '6.0.15'),
+('20230323190540_ProductCharacteristicObjectCycleErrorFix', '6.0.15');
 
 --
 -- Indexes for dumped tables
@@ -988,7 +989,7 @@ ALTER TABLE `brands`
 ALTER TABLE `characteristics`
   ADD CONSTRAINT `FK_Characteristics_CharacteristicsNames_CharacteristicsNameId` FOREIGN KEY (`CharacteristicsNameId`) REFERENCES `characteristicsnames` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Characteristics_CharacteristicsValues_CharacteristicsValueId` FOREIGN KEY (`CharacteristicsValueId`) REFERENCES `characteristicsvalues` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_Characteristics_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`),
+  ADD CONSTRAINT `FK_Characteristics_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Characteristics_Subcategories_SubcategoryId` FOREIGN KEY (`SubcategoryId`) REFERENCES `subcategories` (`Id`);
 
 --
