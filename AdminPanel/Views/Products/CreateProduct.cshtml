@@ -14,82 +14,107 @@
             <button id="btn-header" type="submit">Створити товар</button>
         </div>
     </div>
-    <div class="body body-product">
-        <div class="main-section">
-            <div class="left-section">
-                <div class="name-block">
-                    <p>Основна інформація</p>
-                </div>
-                <div class="info-block">
-                    <form method="post" asp-action="CreateProduct" asp-controller="Products">
-                        <input required hidden type="number" name="Id" value="" />
-                        <div class="name">
-                            <div class="product-lable">
-                                <label for="Name">Назва позиції</label>
-                            </div>
-                            <input type="text" name="Name" placeholder="Name" value="" />
-                        </div>
-                        <div class="description">
-                            <div class="product-lable">
-                                <label for="Description">Опис</label>
-                            </div>
-                            <textarea type="text" name="Description" placeholder="Description"></textarea>
-                        </div>
-
-                        <div class="price-div">
-                            <div class="price">
-                                <div class="product-lable">
-                                    <label for="Price">Ціна, грн</label>
-                                </div>
-                                <input type="number" name="Price" placeholder="Price" value="" />
-                            </div>
-
-                            <div class="discount">
-                                <div class="product-lable">
-                                    <label for="DiscountAmount">Розмір знижки</label>
-                                </div>
-                                <input type="number" name="DiscountAmount" placeholder="Discount amount" value="" />
-                            </div>
-                        </div>
-                        <button id="btnMainForm" hidden type="submit">Send</button>
-                    </form>
-                </div>
-                <div class="catecories-block">
-                    <div class="main-categories">
+    <div class="body">
+        <div class="section">
+            <div class="name-block">
+                <p>Основна інформація</p>
+            </div>
+            <div class="info-block">
+                <form method="post" asp-action="CreateProduct" asp-controller="Products">
+                    <div class="brand-selector">
                         <div class="product-lable">
-                            <span>Головна категорія</span>
+                            <span>Бренд</span>
                         </div>
-                        <div class="categories-list">
-                            <select id="categories-select" name="categories">
-                                <option value="-1" disabled="disabled" selected="selected">Оберіть категорію</option>
-                                @foreach (var x in Model.MainCategories)
+                        <div class="brand-list">
+                            <select id="brand-select" name="Brand">
+                                @foreach (var x in Model.Brands)
                                 {
                                     <option value="@x.Id">@x.Name</option>
                                 }
                             </select>
                         </div>
                     </div>
-                    <div id="subcategories-div" class="subcategories h-hidden">
+                    <div class="model-selector">
                         <div class="product-lable">
-                            <span>Підкатегорія</span>
+                            <span>Модель</span>
                         </div>
-                        <div class="subcategories-list">
-                            <select id="subcategories-select" name="subcategories">
-                                <option value="-1" disabled="disabled" selected="selected">Виберіть підкатегорію</option>
+                        <div class="model-list">
+                            <select id="model-select" name="Model">
+                                @foreach (var x in Model.Models)
+                                {
+                                    <option value="@x.Id">@x.Name</option>
+                                }
                             </select>
                         </div>
                     </div>
-                </div>
+                    <div class="name">
+                        <div class="product-lable">
+                            <label for="Name">Назва позиції</label>
+                        </div>
+                        <input type="text" name="Name" placeholder="Введіть назву позиції..." />
+                    </div>
+                    <div class="description">
+                        <div class="product-lable">
+                            <label for="Description">Опис</label>
+                        </div>
+                        <textarea type="text" name="Description" placeholder="Введіть опис..."> </textarea>
+                    </div>
+                    <div class="price-div">
+                        <div class="price">
+                            <div class="product-lable">
+                                <label for="Price">Ціна, грн</label>
+                            </div>
+                            <input type="number" name="Price" placeholder="Ціна" />
+                        </div>
+
+                        <div class="discount">
+                            <div class="product-lable">
+                                <label for="DiscountAmount">Розмір знижки</label>
+                            </div>
+                            <input type="number" name="DiscountAmount" placeholder="Знижка" />
+                        </div>
+                    </div>
+                    <button id="btnMainForm" hidden type="submit">Send</button>
+
+                    <div class="catecories-block">
+                        <div class="main-categories">
+                            <div class="product-lable">
+                                <span>Головна категорія</span>
+                            </div>
+                            <div class="categories-list">
+                                <select id="categories-select">
+                                    @foreach (var x in Model.MainCategories)
+                                    {
+                                        <option value="@x.Id">@x.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div id="subcategories-div" class="subcategories h-hidden">
+                            <div class="product-lable">
+                                <span>Підкатегорія</span>
+                            </div>
+                            <div class="subcategories-list">
+                                <select id="subcategories-select" name="Category">
+                                    @foreach (var x in @Model.Subcategories)
+                                    {
+                                        <option value="@x.Id">@x.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="right-section">
-                <div class="name-block">
-                    <p>Основна інформація</p>
-                </div>
-                <div>
-                </div>
+
+            <div class="save-btn">
+                <button id="save-btn" type="submit">Створити товар</button>
             </div>
         </div>
     </div>
 </div>
 
 
+@section scripts {
+    <script src="~/js/EditProduct.js"></script>
+}
