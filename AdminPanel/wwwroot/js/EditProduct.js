@@ -176,7 +176,7 @@ $(document).ready(function () {
         $('#edit-value-id').val(value[2]);
     });
 
-    //Save
+    //Save modal
     $('#save-changes-modal').click(function () {
         const newName = $('#edit-name').val();
         const newValue = $('#edit-value').val();

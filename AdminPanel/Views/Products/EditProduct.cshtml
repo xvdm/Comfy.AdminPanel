@@ -28,10 +28,10 @@
                                 <span>Бренд</span>
                             </div>
                             <div class="brand-list">
-                                <select id="brand-select" name="brand">
-@*                                    @foreach (var x in Model)
+                                <select id="brand-select" name="Brand">
+                                    @foreach (var x in Model.Brands)
                                     {
-                                        if (@x.Id == @Model.Product.Category.MainCategory.Id)
+                                        if (@x.Id == @Model.Product.BrandId)
                                         {
                                             <option value="@x.Id" selected="selected">@x.Name</option>
                                         }
@@ -40,7 +40,7 @@
                                             <option value="@x.Id">@x.Name</option>
                                         }
 
-                                    }*@
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -49,10 +49,10 @@
                                 <span>Модель</span>
                             </div>
                             <div class="model-list">
-                                <select id="model-select" name="brand">
-@*                                    @foreach (var x in Model.MainCategories)
+                                <select id="model-select" name="Model">
+                                    @foreach (var x in Model.Models)
                                     {
-                                        if (@x.Id == @Model.Product.Category.MainCategory.Id)
+                                        if (@x.Id == @Model.Product.ModelId)
                                         {
                                             <option value="@x.Id" selected="selected">@x.Name</option>
                                         }
@@ -61,7 +61,7 @@
                                             <option value="@x.Id">@x.Name</option>
                                         }
 
-                                    }*@
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                             <span>Головна категорія</span>
                         </div>
                         <div class="categories-list">
-                            <select id="categories-select" name="categories">
+                            <select id="categories-select">
                                 @foreach (var x in Model.MainCategories)
                                 {
                                     if (@x.Id == @Model.Product.Category.MainCategory.Id)
@@ -121,7 +121,7 @@
                             <span>Підкатегорія</span>
                         </div>
                         <div class="subcategories-list">
-                            <select id="subcategories-select" name="subcategories">
+                            <select id="subcategories-select" name="Category">
                                 @foreach (var x in @Model.Subcategories)
                                 {
                                     if (@x.Id == @Model.Product.CategoryId)
