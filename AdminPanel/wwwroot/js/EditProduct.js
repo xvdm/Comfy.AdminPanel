@@ -160,15 +160,18 @@ $(document).ready(function () {
                 headers: {
                     RequestVerificationToken: $('#RequestVerificationToken').val()
                 },
-                data: { "productId": id, "name": name,"value": value },
+                data: { "productId": id, "name": name,"value": value }, 
                 success: function (result) {
-                    $('#list-characteristics').append('tr')
+                    $("#list-characteristics").append($('<tr name=' + 'id' + '></tr>'));
+                    $('tr[name=' + 'id' + ']').append('<td><p>' + 'id' + '</p></td>'
+                        + '<td><p>' + 'name' + '</p></td>'
+                        + '<td><p>' + 'value' + '</p></td>'
+                        + '<td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value,@x.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>'
+                        + '<td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>')
                 }
             });
             }
     });
-
-
 
     // Characteristics
     // Edit
