@@ -242,7 +242,7 @@
                         <tbody id="list-characteristics">
                         @foreach (var x in Model.Product.Characteristics)
                         {
-                            <tr>
+                            <tr name="@x.Id">
                                 <td><p>@x.Id</p></td> 
                                 <td><p>@x.CharacteristicsName.Name</p></td>
                                 <td><p>@x.CharacteristicsValue.Value</p></td>

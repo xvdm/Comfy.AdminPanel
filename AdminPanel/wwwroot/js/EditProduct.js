@@ -167,7 +167,7 @@ $(document).ready(function () {
                         + '<td><p>' + 'name' + '</p></td>'
                         + '<td><p>' + 'value' + '</p></td>'
                         + '<td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value,@x.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>'
-                        + '<td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>')
+                        + '<td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>');
                 }
             });
             }
