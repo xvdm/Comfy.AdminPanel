@@ -1,10 +1,11 @@
-﻿using AdminPanel.Models.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using AdminPanel.Models.Base;
+using AdminPanel.Models.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models
 {
-    public partial class QuestionAnswer
+    public class QuestionAnswer : Auditable
     {
         public int Id { get; set; }
 
@@ -12,7 +13,7 @@ namespace AdminPanel.Models
         public ApplicationUser User { get; set; } = null!;
 
         public string Text { get; set; } = null!;
-        public int UsefullAnswerCount { get; set; }
+        public int UsefulAnswerCount { get; set; }
         public int NeedlessAnswerCount { get; set; }
         public bool IsActive { get; set; }
 
@@ -21,12 +22,10 @@ namespace AdminPanel.Models
 
         public void Configure(EntityTypeBuilder<QuestionAnswer> builder)
         {
-            builder.HasKey(e => e.Id);
-
             builder.HasOne(d => d.Question)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.QuestionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

@@ -8,17 +8,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AdminPanel.Migrations.ApplicationDb
+namespace AdminPanel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230312131712_BugFixes")]
-    partial class BugFixes
+    [Migration("20230323173137_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("AdminPanel.Models.Address", b =>
@@ -39,21 +39,18 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("PostalCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Street")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -75,8 +72,7 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -91,9 +87,7 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("SubcategoryId")
                         .HasColumnType("int");
@@ -325,14 +319,33 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .IsUnicode(false)
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ImageId");
+
                     b.ToTable("MainCategories");
+                });
+
+            modelBuilder.Entity("AdminPanel.Models.MainCategoryImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MainCategoryImages");
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Model", b =>
@@ -343,7 +356,6 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .IsUnicode(false)
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -360,19 +372,18 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatingDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("PaymentTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReceivingDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
@@ -404,8 +415,7 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -434,19 +444,19 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("PriceHistory", (string)null);
+                    b.ToTable("PriceHistories");
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Product", b =>
@@ -467,10 +477,13 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Property<int>("Code")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("DiscountAmmount")
+                    b.Property<int>("DiscountAmount")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -495,7 +508,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Property<string>("Url")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("WishlistId")
+                    b.Property<int?>("WishListId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -509,14 +522,15 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.HasIndex("ModelId");
 
-                    b.HasIndex("Name");
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("OrderId");
 
                     b.HasIndex("Url")
                         .IsUnique();
 
-                    b.HasIndex("WishlistId");
+                    b.HasIndex("WishListId");
 
                     b.ToTable("Products");
                 });
@@ -527,8 +541,8 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
@@ -543,7 +557,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UsefullQuestionCount")
+                    b.Property<int>("UsefulQuestionCount")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
@@ -564,6 +578,9 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
@@ -577,7 +594,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UsefullAnswerCount")
+                    b.Property<int>("UsefulAnswerCount")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
@@ -600,16 +617,14 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.Property<string>("Advantages")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Disadvantages")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
@@ -627,7 +642,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UsefullReviewCount")
+                    b.Property<int>("UsefulReviewCount")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
@@ -648,6 +663,9 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
@@ -661,7 +679,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UsefullAnswerCount")
+                    b.Property<int>("UsefulAnswerCount")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
@@ -682,22 +700,41 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MainCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .IsUnicode(false)
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("MainCategoryId");
 
                     b.ToTable("Subcategories");
                 });
 
-            modelBuilder.Entity("AdminPanel.Models.Wishlist", b =>
+            modelBuilder.Entity("AdminPanel.Models.SubcategoryImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubcategoryImages");
+                });
+
+            modelBuilder.Entity("AdminPanel.Models.WishList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -710,7 +747,7 @@ namespace AdminPanel.Migrations.ApplicationDb
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WhishLists");
+                    b.ToTable("WishLists");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -852,10 +889,10 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AdminPanel.Models.Product", null)
+                    b.HasOne("AdminPanel.Models.Product", "Product")
                         .WithMany("Characteristics")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("AdminPanel.Models.Subcategory", null)
@@ -865,6 +902,8 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Navigation("CharacteristicsName");
 
                     b.Navigation("CharacteristicsValue");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Image", b =>
@@ -872,6 +911,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.HasOne("AdminPanel.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -902,6 +942,15 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Navigation("SubjectUser");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AdminPanel.Models.MainCategory", b =>
+                {
+                    b.HasOne("AdminPanel.Models.MainCategoryImage", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Order", b =>
@@ -944,7 +993,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.HasOne("AdminPanel.Models.Product", "Product")
                         .WithMany("PriceHistory")
                         .HasForeignKey("ProductId")
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Product");
                 });
@@ -973,9 +1022,9 @@ namespace AdminPanel.Migrations.ApplicationDb
                         .WithMany("OrderedProducts")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("AdminPanel.Models.Wishlist", null)
+                    b.HasOne("AdminPanel.Models.WishList", null)
                         .WithMany("Products")
-                        .HasForeignKey("WishlistId");
+                        .HasForeignKey("WishListId");
 
                     b.Navigation("Brand");
 
@@ -989,6 +1038,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.HasOne("AdminPanel.Models.Product", "Product")
                         .WithMany("Questions")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("AdminPanel.Models.Identity.ApplicationUser", "User")
@@ -1026,6 +1076,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.HasOne("AdminPanel.Models.Product", "Product")
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("AdminPanel.Models.Identity.ApplicationUser", "User")
@@ -1060,15 +1111,22 @@ namespace AdminPanel.Migrations.ApplicationDb
 
             modelBuilder.Entity("AdminPanel.Models.Subcategory", b =>
                 {
+                    b.HasOne("AdminPanel.Models.SubcategoryImage", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
                     b.HasOne("AdminPanel.Models.MainCategory", "MainCategory")
                         .WithMany("Categories")
                         .HasForeignKey("MainCategoryId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Image");
 
                     b.Navigation("MainCategory");
                 });
 
-            modelBuilder.Entity("AdminPanel.Models.Wishlist", b =>
+            modelBuilder.Entity("AdminPanel.Models.WishList", b =>
                 {
                     b.HasOne("AdminPanel.Models.Identity.ApplicationUser", "User")
                         .WithMany()
@@ -1170,7 +1228,7 @@ namespace AdminPanel.Migrations.ApplicationDb
                     b.Navigation("UniqueCharacteristics");
                 });
 
-            modelBuilder.Entity("AdminPanel.Models.Wishlist", b =>
+            modelBuilder.Entity("AdminPanel.Models.WishList", b =>
                 {
                     b.Navigation("Products");
                 });

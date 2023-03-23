@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models
 {
-    public partial class Product : /*Auditable, */IEntityTypeConfiguration<Product>
+    public class Product : Auditable, IEntityTypeConfiguration<Product>
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
@@ -30,28 +30,16 @@ namespace AdminPanel.Models
         public IList<Image> Images { get; set; } = null!;
 
         public ICollection<Characteristic> Characteristics { get; set; } = null!;
+
         public ICollection<Question> Questions { get; set; } = null!;
         public ICollection<Review> Reviews { get; set; } = null!;
-
-        public ICollection<Order> Orders { get; set; } = null!;
-        public ICollection<WishList> WishLists { get; set; } = null!;
 
 
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(x => x.Id);
-
-            builder.HasIndex(x => x.Name);
-
+            builder.HasIndex(x => x.Name).IsUnique();
             builder.HasIndex(x => x.Code).IsUnique();
-
             builder.HasIndex(x => x.Url).IsUnique();
-
-            builder.HasOne(x => x.Brand);
-
-            builder.HasOne(x => x.Category);
-
-            builder.HasOne(x => x.Model);
         }
     }
 }

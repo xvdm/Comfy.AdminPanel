@@ -5,7 +5,7 @@ using AdminPanel.Models;
 
 namespace AdminPanel.Handlers.Products
 {
-    public class AddProductCharacteristicCommand : IRequest
+    public class AddProductCharacteristicCommand : IRequest<Characteristic>
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
@@ -20,7 +20,7 @@ namespace AdminPanel.Handlers.Products
     }
 
 
-    public class AddProductCharacteristicCommandHandler : IRequestHandler<AddProductCharacteristicCommand>
+    public class AddProductCharacteristicCommandHandler : IRequestHandler<AddProductCharacteristicCommand, Characteristic>
     {
         private readonly ApplicationDbContext _context;
 
@@ -29,7 +29,7 @@ namespace AdminPanel.Handlers.Products
             _context = context;
         }
 
-        public async Task Handle(AddProductCharacteristicCommand request, CancellationToken cancellationToken)
+        public async Task<Characteristic> Handle(AddProductCharacteristicCommand request, CancellationToken cancellationToken)
         {
             var characteristicsName = await _context.CharacteristicsNames.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
             var characteristicsValue = await _context.CharacteristicsValues.FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);
@@ -77,6 +77,8 @@ namespace AdminPanel.Handlers.Products
             await _context.Characteristics.AddAsync(characteristic, cancellationToken);
             product.Category.UniqueCharacteristics.Add(characteristic);
             await _context.SaveChangesAsync(cancellationToken);
+
+            return characteristic;
         }
     }
 }

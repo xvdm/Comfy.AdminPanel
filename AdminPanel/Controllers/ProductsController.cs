@@ -1,8 +1,8 @@
 ﻿using AdminPanel.Handlers.Products;
+using AdminPanel.MediatorHandlers.Products;
 using AdminPanel.MediatorHandlers.Products.Brands;
 using AdminPanel.MediatorHandlers.Products.Categories;
 using AdminPanel.MediatorHandlers.Products.Models;
-using AdminPanel.Models;
 using AdminPanel.Models.DTO;
 using AdminPanel.Models.ViewModels;
 using Mapster;
@@ -88,6 +88,14 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var command = new DeleteProductCommand(id);
+            await _mediator.Send(command);
+            return LocalRedirect($"/Products/Products");
+        }
+
+        [HttpPost]
         public async Task<IActionResult> EditCharacteristic(string productId, string id, string name, string value)
         {
             Console.WriteLine($"productId = {productId}");
@@ -133,8 +141,8 @@ namespace AdminPanel.Controllers
                 return BadRequest("AddCharacteristic :: productId :: parse to int error");
             }
             var addCharacteristic = new AddProductCharacteristicCommand(productIdInt, name, value);
-            await _mediator.Send(addCharacteristic);
-            return Ok();
+            var characteristic = await _mediator.Send(addCharacteristic);
+            return Ok(characteristic);
         }
 
         private async Task<ProductCategoriesViewModel> GetProductCategoriesViewModel(int productId)

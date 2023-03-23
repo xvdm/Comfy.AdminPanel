@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using AdminPanel.Models.Identity;
+﻿using AdminPanel.Models.Identity;
 
 namespace AdminPanel.Models
 {
-    public partial class Address : IEntityTypeConfiguration<Address>
+    public class Address
     {
         public int Id { get; set; }
         public string Country { get; set; } = null!;
@@ -19,17 +17,5 @@ namespace AdminPanel.Models
 
         public int AddressTypeId { get; set; }
         public AddressType AddressType { get; set; } = null!;
-
-
-        public void Configure(EntityTypeBuilder<Address> builder)
-        {
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.UserId).IsRequired();
-            builder.Property(e => e.City).HasMaxLength(50);
-            builder.Property(e => e.Country).HasMaxLength(50);
-            builder.Property(e => e.Street).HasMaxLength(50);
-
-            builder.HasOne(d => d.AddressType);
-        }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models
 {
-    public partial class Image : IEntityTypeConfiguration<Image>
+    public class Image : IEntityTypeConfiguration<Image>
     {
         public int Id { get; set; }
         public string Url { get; set; } = null!;
@@ -13,12 +13,10 @@ namespace AdminPanel.Models
 
         public void Configure(EntityTypeBuilder<Image> builder)
         {
-            builder.HasKey(e => e.Id);
-
             builder.HasOne(d => d.Product)
                 .WithMany(p => p.Images)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

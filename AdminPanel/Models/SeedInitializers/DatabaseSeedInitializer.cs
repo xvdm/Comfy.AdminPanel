@@ -3,6 +3,7 @@ using AdminPanel.Models.Logging;
 using System.Security.Claims;
 using AdminPanel.Helpers;
 using AdminPanel.Data;
+using AdminPanel.Models.Identity;
 
 namespace AdminPanel.Models.SeedInitializers
 {
@@ -10,17 +11,17 @@ namespace AdminPanel.Models.SeedInitializers
     {
         public static void Seed(IServiceProvider scopeServiceProvider)
         {
-            //var userManager = scopeServiceProvider.GetService<UserManager<ApplicationUser>>();
+            var userManager = scopeServiceProvider.GetService<UserManager<ApplicationUser>>();
 
-            //var manager = new ApplicationUser
-            //{
-            //    UserName = "manager"
-            //};
-            //var managerResult = userManager?.CreateAsync(manager, "manager").GetAwaiter().GetResult();
-            //if (managerResult!.Succeeded)
-            //{
-            //    userManager?.AddClaimAsync(manager, new Claim(ClaimTypes.Role, RolesNames.Manager)).GetAwaiter().GetResult();
-            //}
+            var owner = new ApplicationUser
+            {
+                UserName = "owner"
+            };
+            var ownerResult = userManager?.CreateAsync(owner, "owner").GetAwaiter().GetResult();
+            if (ownerResult!.Succeeded)
+            {
+                userManager?.AddClaimAsync(owner, new Claim(ClaimTypes.Role, PoliciesNames.Owner)).GetAwaiter().GetResult();
+            }
 
             //var admin = new ApplicationUser
             //{

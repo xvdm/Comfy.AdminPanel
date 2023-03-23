@@ -12,7 +12,7 @@ namespace AdminPanel.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
+            Database.EnsureCreated();
         }
 
         public DbSet<UserLog> UserLogs { get; set; } = null!;

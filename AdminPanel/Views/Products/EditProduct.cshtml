@@ -210,73 +210,81 @@
                 </div>
             </div>
         </div>
-        <div class="section">
-            <div class="name-block">
-                <p>Характеристики товару</p>
-            </div>
-            <div class="characteristics-section">
-                <div class="add-characteristics">
-                    <div class="product-lable">
-                        <span>Створити характеристику</span>
-                    </div>
-                    <div>
-                        <input id="addC-input-name" type="text" value="" placeholder="Назва" />
-                        <input id="addC-input-value" type="text" value="" placeholder="Значення" />
-                        <button type="button" id="add-characteristic-btn">Додати</button>
-                    </div>
+    <div class="section">
+        <div class="name-block">
+            <p>Характеристики товару</p>
+        </div>
+        <div class="characteristics-section">
+            <div class="add-characteristics">
+                <div class="product-lable">
+                    <span>Створити характеристику</span>
                 </div>
-                <div class="characteristics-table">
-                    <div class="product-lable">
-                        <span>Список характеристик</span>
-                    </div>
-                    @if (Model.Product.Characteristics.Count > 0)
-                    {
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Назва</th>
-                                    <th>Значення</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="list-characteristics">
-                            @foreach (var x in Model.Product.Characteristics)
-                            {
-                                <tr>
-                                        <td><p>@x.Id</p></td> 
-                                        <td><p>@x.CharacteristicsName.Name</p></td>
-                                        <td><p>@x.CharacteristicsValue.Value</p></td>
-                                        <td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value,@x.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>
-                                        <td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    }
+                <div>
+                    <input id="addC-input-name" type="text" value="" placeholder="Назва" />
+                    <input id="addC-input-value" type="text" value="" placeholder="Значення" />
+                    <button type="button" id="add-characteristic-btn">Додати</button>
+                </div>
+            </div>
+            <div class="characteristics-table">
+                <div class="product-lable">
+                    <span>Список характеристик</span>
+                </div>
+                @if (Model.Product.Characteristics.Count > 0)
+                {
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Назва</th>
+                            <th>Значення</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="list-characteristics">
+                        @foreach (var x in Model.Product.Characteristics)
+                        {
+                            <tr>
+                                <td><p>@x.Id</p></td> 
+                                <td><p>@x.CharacteristicsName.Name</p></td>
+                                <td><p>@x.CharacteristicsValue.Value</p></td>
+                                <td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value,@x.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>
+                                <td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
 
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered">
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel" >Редагування</h5>
-                          </div>
-                          <div class="modal-body">
-                              <input id="edit-value-id" value="" type="hidden"/>
-                              <p class="modal-title-input">Назва</p>
-                              <input class="modal-input" id="edit-name" value="" placeholder="" />
-                              <p class="modal-title-input">Значення</p>
-                              <input class="modal-input" id="edit-value" value="" placeholder="" />
-                          </div>
-                          <div class="modal-footer">
-                            <button id="close-modal" type="button" data-bs-dismiss="modal">Закрити</button>
-                            <button id="save-changes-modal" type="button" >Зберігти</button>
-                          </div>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel" >Редагування</h5>
+                            </div>
+                            <div class="modal-body">
+                                <input id="edit-value-id" value="" type="hidden"/>
+                                <p class="modal-title-input">Назва</p>
+                                <input class="modal-input" id="edit-name" value="" placeholder="" />
+                                <p class="modal-title-input">Значення</p>
+                                <input class="modal-input" id="edit-value" value="" placeholder="" />
+                            </div>
+                            <div class="modal-footer">
+                                <button id="close-modal" type="button" data-bs-dismiss="modal">Закрити</button>
+                                <button id="save-changes-modal" type="button" >Зберігти</button>
+                            </div>
                         </div>
-                      </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+
+        <div class="section">
+            <form method="post" asp-action="DeleteProduct" asp-controller="Products">
+                <input hidden required name="Id" value="@Model.Product.Id"/>
+                <button type="submit">Видалити товар</button>
+            </form>
         </div>
     </div>
 </div>
