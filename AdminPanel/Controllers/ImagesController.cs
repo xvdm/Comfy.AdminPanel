@@ -18,11 +18,8 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        //public async Task<IActionResult> UploadProductImage(string productId, IList<IFormFile> files)
-        public async Task<IActionResult> UploadProductImage(IFormFile file)
+        public async Task<IActionResult> UploadProductImage(string productId, IList<IFormFile> files)
         {
-            Console.WriteLine("");
-
             //if(int.TryParse(productId, out var productIdInt) == false)
             //{
             //    return BadRequest("UploadProductImage :: parseError :: productId");
