@@ -10,9 +10,6 @@
         <div class="namePage">
             <p>Створення товару</p>
         </div>
-        <div class="btn-header">
-            <button id="btn-header" type="submit">Створити товар</button>
-        </div>
     </div>
     <div class="body">
         <div class="section">
@@ -64,14 +61,7 @@
                             <div class="product-lable">
                                 <label for="Price">Ціна, грн</label>
                             </div>
-                            <input type="number" name="Price" placeholder="Ціна" />
-                        </div>
-
-                        <div class="discount">
-                            <div class="product-lable">
-                                <label for="DiscountAmount">Розмір знижки</label>
-                            </div>
-                            <input type="number" name="DiscountAmount" placeholder="Знижка" />
+                            <input type="number" min="0" name="Price" placeholder="Ціна" />
                         </div>
                     </div>
                     <button id="btnMainForm" hidden type="submit">Send</button>
@@ -83,6 +73,7 @@
                             </div>
                             <div class="categories-list">
                                 <select id="categories-select">
+                                    <option selected disabled hidden >Оберіть категорію</option>
                                     @foreach (var x in Model.MainCategories)
                                     {
                                         <option value="@x.Id">@x.Name</option>
@@ -113,5 +104,5 @@
 
 
 @section scripts {
-    <script src="~/js/CreateProduct.js"></script>
+    <script src="~/js/EditProduct.js"></script>
 }

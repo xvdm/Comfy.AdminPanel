@@ -136,7 +136,6 @@ $(document).ready(function editProductJS() {
                     url: '/Categories/GetSubcategoriesForMainCategory/',
                     data: { "mainCategoryId" : select },
                     success: function (result) {
-                        alert(result);
                     if (result.length == 0) {
                         $('#subcategories-div').hide();
                     }
@@ -163,7 +162,6 @@ $(document).ready(function editProductJS() {
                 },
                 data: { "productId": id, "name": name, "value": value },
                 success: function (result) {
-                    console.log(result);
                     $("#list-characteristics").append($('<tr name=' + result['id'] + '></tr>'));
                     $('tr[name=' + result['id'] + ']').append($('<td><p>' + result['id'] + '</p></td>'
                         + '<td><p>' + result['characteristicsName']['name'] + '</p></td>'
