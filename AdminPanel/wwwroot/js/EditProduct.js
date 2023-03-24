@@ -136,6 +136,7 @@ $(document).ready(function editProductJS() {
                     url: '/Categories/GetSubcategoriesForMainCategory/',
                     data: { "mainCategoryId" : select },
                     success: function (result) {
+                        alert(result);
                     if (result.length == 0) {
                         $('#subcategories-div').hide();
                     }
@@ -209,7 +210,6 @@ $(document).ready(function editProductJS() {
     // Delete
     $('button[name="delete-characteristic"]').on('click', function () {
         const characteristicsId = $(this).val();
-        alert(characteristicsId);
         $.ajax({
            type: 'POST',
            url: '/Products/DeleteCharacteristic/',
