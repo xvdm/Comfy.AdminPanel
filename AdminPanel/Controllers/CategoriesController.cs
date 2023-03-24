@@ -41,7 +41,7 @@ namespace AdminPanel.Controllers
                 return BadRequest($"GetSubcategoriesForMainCategory :: Parsing error :: mainCategoryId");
             }
             var items = _mediator.Send(new GetSubcategoriesForMainCategoryQuery(categoryId));
-            var result = string.Join("", items.Result.Select(item => $"<option class='autocomplete-item'>{item.Name}</option>"));
+            var result = string.Join("", items.Result.Select(item => $"<option value='{item.Id}' class='autocomplete-item'>{item.Name}</option>"));
             return Content(result);
         }
 

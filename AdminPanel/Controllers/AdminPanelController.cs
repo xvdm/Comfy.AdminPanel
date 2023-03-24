@@ -157,7 +157,7 @@ namespace AdminPanel.Controllers
         public IActionResult GetAutocompleteCategories(string input)
         {
             var items = _mediator.Send(new GetAutocompleteSubcategoriesQuery(input, 5));
-            return Content(string.Join("", items.Result.Select(item => $"<option class='autocomplete-item'>{item.Name}</option>")));
+            return Content(string.Join("", items.Result.Select(item => $"<option value='{item.Id}' class='autocomplete-item'>{item.Name}</option>")));
         }
 
         public IActionResult GetAutocompleteModels(string input)
