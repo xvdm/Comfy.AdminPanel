@@ -22,21 +22,6 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult CreateBrand()
-        {
-            return View();
-        }
-
-        public IActionResult CreateModel()
-        {
-            return View();
-        }
-
         [Authorize(Policy = PoliciesNames.Owner)]
         public IActionResult CreateMainCategory()
         {

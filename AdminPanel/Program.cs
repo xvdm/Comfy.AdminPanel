@@ -110,7 +110,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=AdminPanel}/{action=Index}/{id?}");
+    pattern: "{controller=Orders}/{action=ActiveOrders}/{id?}");
 
 app.Run();
 
