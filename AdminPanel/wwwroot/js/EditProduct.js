@@ -163,6 +163,8 @@ $(document).ready(function editProductJS() {
                 },
                 data: { "productId": id, "name": name, "value": value },
                 success: function (result) {
+                    $('#addC-input-name').val('');
+                    $('#addC-input-value').val('');
                     $("#list-characteristics").append($('<tr name=' + result['id'] + '></tr>'));
                     $('tr[name=' + result['id'] + ']').append($('<td><p>' + result['id'] + '</p></td>'
                         + '<td><p>' + result['characteristicsName']['name'] + '</p></td>'
@@ -200,7 +202,7 @@ $(document).ready(function editProductJS() {
                 },
                 data: { "productId": id, "id": characteristicId, "name": newName, "value": newValue },
                 success: function (result) {
-
+                    location.reload();
                 }
             });
         }

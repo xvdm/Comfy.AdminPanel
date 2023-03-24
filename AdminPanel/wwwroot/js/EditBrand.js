@@ -12,12 +12,7 @@
                 },
                 data: { "name": name },
                 success: function (result) {
-                    $('#add-brand-name').val('');
-                    $("#list-brands").append($('<tr name=' + result['id'] + '></tr>'));
-                    $('tr[name=' + result['id'] + ']').append($('<td><p>' + result['name'] + '</p></td>'
-                        + '<td><button value="' + result['id'] + ',' + result['name'] + '" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-brand">Редагувати</button></td>'
-                        + '<td><button value="' + result['id'] + '" type="button" name="delete-brand">Видалити</button></td>'));
-                editBrandJS()
+                    location.reload();
                 }
             });
         }
@@ -25,29 +20,26 @@
 
     // Characteristics 
     // Edit 
-    $('button[name="edit-characteristic"]').on('click', function () {
+    $('button[name="edit-brand"]').on('click', function () {
         const value = $(this).val().split(",");
-        $('#edit-name').val(value[0]);
-        $('#edit-value').val(value[1]);
-        $('#edit-value-id').val(value[2]);
+        $('#edit-value-id').val(value[0]);
+        $('#edit-brand').val(value[1]);
     });
 
     //Save modal 
     $('#save-changes-modal').click(function () {
-        const newName = $('#edit-name').val();
-        const newValue = $('#edit-value').val();
-        const characteristicId = $('#edit-value-id').val();
-
-        if ((newName.length > 1 && newValue.length > 1) && (newName.length < 50 && newValue.length < 50)) {
+        const newName = $('#edit-brand').val();
+        const Id = $('#edit-value-id').val();
+        if (newName.length > 1  && newName.length < 50) {
             $.ajax({
                 type: 'POST',
-                url: '/Products/EditCharacteristic/',
+                url: '/AdminPanel/UpdateBrand/',
                 headers: {
                     RequestVerificationToken: $('#RequestVerificationToken').val()
                 },
-                data: { "productId": id, "id": characteristicId, "name": newName, "value": newValue },
-                success: function (result) {
-
+                data: { "brandId": Id, "newName": newName},
+                success: function () {
+                    location.reload();
                 }
             });
         }
