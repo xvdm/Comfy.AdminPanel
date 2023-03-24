@@ -138,8 +138,10 @@ $(document).ready(function editProductJS() {
                     success: function (result) {
                     if (result.length == 0) {
                         $('#subcategories-div').hide();
+                        $('#subcategories-div').addAttr('hidden');
                     }
                     else {
+                        $('#subcategories-div').removeAttr('hidden');
                         $('#subcategories-select').html(result);
                         $('#subcategories-div').show();
                     }

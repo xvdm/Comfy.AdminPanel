@@ -45,11 +45,22 @@ switch (userMainPosition[1]) {
         let divGoods = document.getElementById("Goods");
         blockMainLink(divGoods)
      
-        links = ["Товари", "Категорії"];
-        href = ["/Products/Products", "/Categories/Index"]
+        links = ["Товари", "Категорії","Бренди","Моделі"];
+        href = ["/Products/Products", "/Categories/Index","/AdminPanel/CreateBrand","/AdminPanel/CreateModel"]
         createLI(links, href)
         div.appendChild(ul)
         divGoods.appendChild(div)
+        break;
+
+    case "AdminPanel":
+        let divApanel = document.getElementById("Goods");
+        blockMainLink(divApanel)
+     
+        links = ["Товари", "Категорії","Бренди","Моделі"];
+        href = ["/Products/Products", "/Categories/Index","/AdminPanel/CreateBrand","/AdminPanel/CreateModel"]
+        createLI(links, href)
+        div.appendChild(ul)
+        divApanel.appendChild(div)
         break;
 
     case "Categories":
@@ -57,8 +68,8 @@ switch (userMainPosition[1]) {
         blockMainLink(divCategories)
   
 
-        links = ["Товари", "Категорії"];
-        href = ["/Products/Products", "/Categories/Index"]
+        links = ["Товари", "Категорії", "Бренди", "Моделі"];
+        href = ["/Products/Products", "/Categories/Index", "/AdminPanel/CreateBrand", "/AdminPanel/CreateModel"]
 
         createLI(links, href)
 
