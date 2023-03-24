@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Data;
 using MediatR;
 using AdminPanel.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Handlers.Products.Brands
 {
@@ -26,6 +27,8 @@ namespace AdminPanel.Handlers.Products.Brands
 
         public async Task<Brand> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
+            var brandWithName = await _context.Brands.FirstOrDefaultAsync(x => x.Name == request.Brand.Name, cancellationToken);
+            if (brandWithName is not null) throw new HttpRequestException($"Brand with name {request.Brand.Name} already exists");
             await _context.Brands.AddAsync(request.Brand, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return request.Brand;
