@@ -4,7 +4,7 @@ using AdminPanel.Models;
 
 namespace AdminPanel.Handlers.Products.Models
 {
-    public class CreateModelCommand : IRequest
+    public class CreateModelCommand : IRequest<Model>
     {
         public Model Model { get; set; }
         public CreateModelCommand(Model model)
@@ -14,7 +14,7 @@ namespace AdminPanel.Handlers.Products.Models
     }
 
 
-    public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand>
+    public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Model>
     {
         private readonly ApplicationDbContext _context;
 
@@ -23,10 +23,11 @@ namespace AdminPanel.Handlers.Products.Models
             _context = context;
         }
 
-        public async Task Handle(CreateModelCommand request, CancellationToken cancellationToken)
+        public async Task<Model> Handle(CreateModelCommand request, CancellationToken cancellationToken)
         {
             await _context.Models.AddAsync(request.Model, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            return request.Model;
         }
     }
 }

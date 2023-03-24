@@ -4,7 +4,7 @@ using AdminPanel.Models;
 
 namespace AdminPanel.Handlers.Products.Brands
 {
-    public class CreateBrandCommand : IRequest
+    public class CreateBrandCommand : IRequest<Brand>
     {
         public Brand Brand { get; set; }
 
@@ -15,7 +15,7 @@ namespace AdminPanel.Handlers.Products.Brands
     }
 
 
-    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand>
+    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Brand>
     {
         private readonly ApplicationDbContext _context;
 
@@ -24,10 +24,11 @@ namespace AdminPanel.Handlers.Products.Brands
             _context = context;
         }
 
-        public async Task Handle(CreateBrandCommand request, CancellationToken cancellationToken)
+        public async Task<Brand> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
             await _context.Brands.AddAsync(request.Brand, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            return request.Brand;
         }
     }
 }

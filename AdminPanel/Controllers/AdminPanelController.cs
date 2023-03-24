@@ -93,15 +93,15 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBrand(Brand brand)
         {
-            await _mediator.Send(new CreateBrandCommand(brand));
-            return View(brand);
+            var result = await _mediator.Send(new CreateBrandCommand(brand));
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateModel(Model model)
         {
-            await _mediator.Send(new CreateModelCommand(model));
-            return View(model);
+            var result = await _mediator.Send(new CreateModelCommand(model));
+            return Ok(result);
         }
 
         [Authorize(Policy = PoliciesNames.Owner)]
