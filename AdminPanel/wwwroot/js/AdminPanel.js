@@ -46,7 +46,7 @@ switch (userMainPosition[1]) {
         blockMainLink(divGoods)
      
         links = ["Товари", "Категорії","Бренди","Моделі"];
-        href = ["/Products/Products", "/Categories/Index","/AdminPanel/CreateBrand","/AdminPanel/CreateModel"]
+        href = ["/Products/Products", "/Categories/Index","/AdminPanel/Brands","/AdminPanel/Models"]
         createLI(links, href)
         div.appendChild(ul)
         divGoods.appendChild(div)
@@ -57,7 +57,7 @@ switch (userMainPosition[1]) {
         blockMainLink(divApanel)
      
         links = ["Товари", "Категорії","Бренди","Моделі"];
-        href = ["/Products/Products", "/Categories/Index","/AdminPanel/CreateBrand","/AdminPanel/CreateModel"]
+        href = ["/Products/Products", "/Categories/Index","/AdminPanel/Brands","/AdminPanel/Models"]
         createLI(links, href)
         div.appendChild(ul)
         divApanel.appendChild(div)
@@ -69,7 +69,7 @@ switch (userMainPosition[1]) {
   
 
         links = ["Товари", "Категорії", "Бренди", "Моделі"];
-        href = ["/Products/Products", "/Categories/Index", "/AdminPanel/CreateBrand", "/AdminPanel/CreateModel"]
+        href = ["/Products/Products", "/Categories/Index", "/AdminPanel/Brands", "/AdminPanel/Models"]
 
         createLI(links, href)
 
