@@ -23,7 +23,7 @@ namespace AdminPanel.Controllers
 
         public async Task<IActionResult> CreateProduct()
         {
-            var viewModel = await GetCategoriesViewModel();
+            var viewModel = await GetMainCategoriesBrandsModelsViewModel();
             return View(viewModel);
         }
 
@@ -67,7 +67,7 @@ namespace AdminPanel.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = await GetCategoriesViewModel();
+                var viewModel = await GetMainCategoriesBrandsModelsViewModel();
                 return View(viewModel);
             }
             var command = productDto.Adapt<CreateProductCommand>();
@@ -169,17 +169,15 @@ namespace AdminPanel.Controllers
             return viewModel;
         }
 
-        private async Task<CategoriesViewModel> GetCategoriesViewModel()
+        private async Task<MainCategoriesBrandsModelsViewModel> GetMainCategoriesBrandsModelsViewModel()
         {
             var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
-            var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
             var models = await _mediator.Send(new GetModelsQuery(null, null));
             var brands = await _mediator.Send(new GetBrandsQuery(null, null));
 
-            var viewModel = new CategoriesViewModel()
+            var viewModel = new MainCategoriesBrandsModelsViewModel()
             {
                 MainCategories = mainCategories,
-                Subcategories = subcategories,
                 Models = models.OrderBy(x => x.Name),
                 Brands = brands.OrderBy(x => x.Name)
             };

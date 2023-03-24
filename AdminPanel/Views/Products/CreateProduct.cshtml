@@ -1,5 +1,5 @@
 ﻿@using AdminPanel.Models.DTO
-@model CategoriesViewModel
+@model MainCategoriesBrandsModelsViewModel
 
 @{
     ViewData["Title"] = "Create product";
@@ -96,10 +96,7 @@
                             </div>
                             <div class="subcategories-list">
                                 <select id="subcategories-select" name="Category">
-                                    @foreach (var x in @Model.Subcategories)
-                                    {
-                                        <option value="@x.Id">@x.Name</option>
-                                    }
+                                    
                                 </select>
                             </div>
                         </div>
