@@ -1,4 +1,4 @@
-﻿$(document).ready(function editProductJS() {
+﻿$(document).ready(function editBrandJS() {
     // Brand 
     // Add 
     $('#add-brand-btn').on('click', function () {
@@ -12,14 +12,14 @@
                 },
                 data: { "name": name },
                 success: function (result) {
+                    $('#add-brand-name').val('');
                     $("#list-brands").append($('<tr name=' + result['id'] + '></tr>'));
                     $('tr[name=' + result['id'] + ']').append($('<td><p>' + result['name'] + '</p></td>'
                         + '<td><button value="' + result['id'] + ',' + result['name'] + '" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-brand">Редагувати</button></td>'
                         + '<td><button value="' + result['id'] + '" type="button" name="delete-brand">Видалити</button></td>'));
-                    editProductJS()
+                editBrandJS()
                 }
             });
-
         }
     });
 
@@ -57,7 +57,6 @@
     // Delete 
     $('button[name="delete-brand"]').on('click', function () {
         const Id = $(this).val();
-        alert(Id);
         $.ajax({
             type: 'POST',
             url: '/AdminPanel/DeleteBrand/',
@@ -67,6 +66,9 @@
             data: { "brandId": Id },
             success: function (result) {
                 $('tr[name="' + Id + '"]').remove()
+            },
+            error: function () {
+                alert("Бренд має наявні товари");
             }
         });
     });
