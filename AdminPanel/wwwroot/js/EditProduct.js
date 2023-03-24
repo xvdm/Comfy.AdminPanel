@@ -1,5 +1,4 @@
-﻿
-document.getElementById("save-btn").onclick = function () {
+﻿document.getElementById("save-btn").onclick = function () {
     document.getElementById("btnMainForm").click()
 }
 
@@ -81,7 +80,7 @@ $(document).ready(function editProductJS() {
         //        $(imgs[i]).attr('src', e.target.result);
         //    }
 
-        
+
         //}
 
 
@@ -130,12 +129,12 @@ $(document).ready(function editProductJS() {
     // Categories
     $('#categories-select').on('change', function () {
         let select = $(this).val()
-            if(select != -1) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/Categories/GetSubcategoriesForMainCategory/',
-                    data: { "mainCategoryId" : select },
-                    success: function (result) {
+        if (select != -1) {
+            $.ajax({
+                type: 'GET',
+                url: '/Categories/GetSubcategoriesForMainCategory/',
+                data: { "mainCategoryId": select },
+                success: function (result) {
                     if (result.length == 0) {
                         $('#subcategories-div').hide();
                         $('#subcategories-div').addAttr('hidden');
@@ -173,7 +172,7 @@ $(document).ready(function editProductJS() {
                     editProductJS()
                 }
             });
-    
+
         }
     });
 
@@ -199,27 +198,27 @@ $(document).ready(function editProductJS() {
                 headers: {
                     RequestVerificationToken: $('#RequestVerificationToken').val()
                 },
-                data: { "productId": id, "id": characteristicId, "name":newName, "value":newValue},
+                data: { "productId": id, "id": characteristicId, "name": newName, "value": newValue },
                 success: function (result) {
 
-                }   
+                }
             });
         }
     });
-    
+
     // Delete
     $('button[name="delete-characteristic"]').on('click', function () {
         const characteristicsId = $(this).val();
         $.ajax({
-           type: 'POST',
-           url: '/Products/DeleteCharacteristic/',
-           headers: {
-               RequestVerificationToken: $('#RequestVerificationToken').val()
-           },
-           data: { "productId": id, "id": characteristicsId },
+            type: 'POST',
+            url: '/Products/DeleteCharacteristic/',
+            headers: {
+                RequestVerificationToken: $('#RequestVerificationToken').val()
+            },
+            data: { "productId": id, "id": characteristicsId },
             success: function (result) {
                 $('tr[name="' + characteristicsId + '"]').remove()
-           }
+            }
         });
     });
 

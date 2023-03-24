@@ -3,12 +3,68 @@
     ViewData["Title"] = "Brands";
 }
 
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Редагування бренду</p>
+        </div>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Create brand</h1>
-    <form method="post" asp-controller="AdminPanel" asp-action="CreateBrand">
-        <div asp-validation-summary="All"></div>
-        <input type="text" name="Name" placeholder="Brand name" />
-        <button type="submit">Create</button>
-    </form>
+    <div class="body body-with-sections">
+        <div class="sections">
+            <div class="left-section-editproduct">
+                <div class="name">
+                    <div class="product-lable">
+                        <label for="Name">Створити бренд</label>
+                    </div>
+                        <input id="add-brand-name" type="text" name="Name" placeholder="Назва" />
+                        <button id="add-brand-btn">Створити</button>
+                </div>
+                <div class="brands-table">
+                    <div class="brand-lable">
+                        <span>Cписок брендів</span>
+                    </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Назва</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-brands">
+                                    @foreach (var x in Model)
+                                    {
+                                        <tr name="@x.Id">
+                                            <td><p>@x.Name</p></td>
+                                            <td><button value="@x.Id,@x.Name" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-brand">Редагувати</button></td>
+                                            <td><button value="@x.Id" type="button" name="delete-brand">Видалити</button></td>
+                                        </tr>
+                                    }
+                            </tbody>
+                        </table>
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Редагування</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <input id="edit-value-id" value="" type="hidden" />
+                                    <p class="modal-title-input">Назва</p>
+                                    <input class="modal-input" id="edit-brand" value="" placeholder="" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="close-modal" type="button" data-bs-dismiss="modal">Закрити</button>
+                                    <button id="save-changes-modal" type="button">Зберігти</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section scripts {
+    <script src="~/js/EditBrand.js"></script>
+}
