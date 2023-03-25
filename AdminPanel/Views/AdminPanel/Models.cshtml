@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody id="list-models">
-                            @foreach (var x in Model)
+                            @foreach (var x in Model.Models)
                             {
                                 <tr name="@x.Id">
                                     <td><p>@x.Name</p></td>
@@ -41,19 +41,15 @@
                         </tbody>
                     </table>
                     <div class="pagination_section">
-                        @if (Model.Count() != 0)
-                        {
+                        
                             <p name="previous-page" value="">Previous</p>
-                            @for (var i = 1; i <= Model.Count()/10;i++)
+                            @for (var i = 1; i <= Model.TotalPages;i++)
                             {
-                                <p name="page-number" value="@i" >@i</p>
+                            <form method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Models">
+                                <button type="submit">@i</button>
+                            </form> 
                             }
                             <p name="next-page" value="">Next</p>
-                        }
-                        else
-                        {
-                        
-                        }
                         
 
                     </div>

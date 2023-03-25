@@ -63,6 +63,7 @@ namespace AdminPanel.Controllers
             return View(viewModel);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> UpdateBrand(string brandId, string newName)
         {
