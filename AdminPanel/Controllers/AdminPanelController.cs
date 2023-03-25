@@ -44,7 +44,8 @@ namespace AdminPanel.Controllers
             var viewModel = new BrandsViewModel()
             {
                 Brands = brands,
-                TotalPages = totalPages
+                TotalPages = totalPages,
+                CurrentPage = query.PageNumber
             };
             return View(viewModel);
         }
@@ -58,7 +59,8 @@ namespace AdminPanel.Controllers
             var viewModel = new ModelsViewModel()
             {
                 Models = models,
-                TotalPages = totalPages
+                TotalPages = totalPages,
+                CurrentPage = query.PageNumber
             };
             return View(viewModel);
         }
