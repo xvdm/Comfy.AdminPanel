@@ -444,3 +444,26 @@
 
 
 /*#endregion*/
+
+/*#region Edit Model Page*/
+.models-table {
+    margin-top:15px;
+}
+.models-table thead th {
+    padding: 5px 5px;
+    margin-top:15px;
+}
+
+.models-table tbody td p {
+    margin: 0;
+    padding:  5px;
+}
+
+.models-table tbody button {
+    padding: 5px 10px;
+}
+.pagination_section p{
+    cursor: pointer;
+}
+
+/*#endregion*/
