@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Handlers.Products;
+using AdminPanel.Helpers;
 using AdminPanel.MediatorHandlers.Products;
 using AdminPanel.MediatorHandlers.Products.Brands;
 using AdminPanel.MediatorHandlers.Products.Categories;
@@ -7,11 +8,13 @@ using AdminPanel.Models.DTO;
 using AdminPanel.Models.ViewModels;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
+    [Authorize(Policy = PoliciesNames.Administrator)]
     public class ProductsController : Controller
     {
         private readonly IMediator _mediator;

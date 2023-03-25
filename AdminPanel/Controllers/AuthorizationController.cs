@@ -29,7 +29,7 @@ namespace AdminPanel.Controllers
                 return View(model);
             }
 
-            if (String.IsNullOrEmpty(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl) == false)
+            if (string.IsNullOrEmpty(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl) == false)
             {
                 model.ReturnUrl = "/";
             }

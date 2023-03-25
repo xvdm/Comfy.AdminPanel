@@ -1,17 +1,17 @@
-using AdminPanel.Models.SeedInitializers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using AdminPanel.Models.Identity;
-using AdminPanel.Repositories;
-using System.Security.Claims;
-using AdminPanel.Services;
-using AdminPanel.Mapping;
-using AdminPanel.Helpers;
-using System.Reflection;
 using AdminPanel.Data;
-using MapsterMapper;
+using AdminPanel.Helpers;
+using AdminPanel.Mapping;
+using AdminPanel.Models.Identity;
+using AdminPanel.Models.SeedInitializers;
+using AdminPanel.Repositories;
+using AdminPanel.Services;
 using Mapster;
+using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 

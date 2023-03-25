@@ -1,11 +1,13 @@
 ﻿using AdminPanel.Helpers;
 using AdminPanel.MediatorHandlers.Orders;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
+    [Authorize(Policy = PoliciesNames.Administrator)]
     public class OrdersController : Controller
     {
         private readonly IMediator _mediator;
