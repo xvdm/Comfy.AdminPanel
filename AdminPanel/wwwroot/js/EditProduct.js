@@ -172,6 +172,7 @@ $(document).ready(function editProductJS() {
                         + '<td><p>' + result['characteristicsValue']['value'] + '</p></td>'
                         + '<td><button value="' + result['characteristicsName']['name'] + ',' + result['characteristicsValue']['value'] + ',' + result['id'] + '" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>'
                         + '<td><button value="' + result['id'] + '" type="button" name="delete-characteristic">Видалити</button></td>'));
+                    location.reload();
                     /*editProductJS()*/
                 }
             });
