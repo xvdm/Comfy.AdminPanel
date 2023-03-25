@@ -5,6 +5,7 @@ using AdminPanel.Helpers;
 using AdminPanel.MediatorHandlers.Products.Brands;
 using AdminPanel.MediatorHandlers.Products.Models;
 using AdminPanel.Models;
+using AdminPanel.Models.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,14 +37,30 @@ namespace AdminPanel.Controllers
 
         public async Task<IActionResult> Brands(int? pageSize, int? pageNumber)
         {
-            var brands = await _mediator.Send(new GetBrandsQuery(pageSize, pageNumber));
-            return View(brands);
+            var query = new GetBrandsQuery(pageSize, pageNumber);
+            var brands = await _mediator.Send(query);
+            var totalCount = await _mediator.Send(new GetBrandsTotalCountQuery());
+            var totalPages = totalCount / query.PageSize + 1;
+            var viewModel = new BrandsViewModel()
+            {
+                Brands = brands,
+                TotalPages = totalPages
+            };
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Models(int? pageSize, int? pageNumber)
         {
-            var models = await _mediator.Send(new GetModelsQuery(pageSize, pageNumber));
-            return View(models);
+            var query = new GetModelsQuery(pageSize, pageNumber);
+            var models = await _mediator.Send(query);
+            var totalCount = await _mediator.Send(new GetModelsTotalCountQuery());
+            var totalPages = totalCount / query.PageSize + 1;
+            var viewModel = new ModelsViewModel()
+            {
+                Models = models,
+                TotalPages = totalPages
+            };
+            return View(viewModel);
         }
 
         [HttpPost]

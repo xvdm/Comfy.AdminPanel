@@ -9,36 +9,6 @@ if (categoriesSelect.options[categoriesSelect.selectedIndex].value != -1) {
     divSubcategories.classList.remove("h-hidden")
 }
 
-$(document).ready(function() {
-    // Characteristics
-    // Add
-    $('#add-characteristic-btn').on('click', function () {
-        const name = $('#addC-input-name').val();
-        const value = $('#addC-input-value').val();
-        if (name.trim() !== '' && value.trim() !== '') {
-            $.ajax({
-                type: 'POST',
-                url: '/Products/AddCharacteristic/',
-                headers: {
-                    RequestVerificationToken: $('#RequestVerificationToken').val()
-                },
-                data: { "productId": id, "name": name, "value": value },
-                success: function (result) {
-                    $('#addC-input-name').val('');
-                    $('#addC-input-value').val('');
-                    $("#list-characteristics").append($('<tr name=' + result['id'] + '></tr>'));
-                    $('tr[name=' + result['id'] + ']').append($('<td><p>' + result['id'] + '</p></td>'
-                        + '<td><p>' + result['characteristicsName']['name'] + '</p></td>'
-                        + '<td><p>' + result['characteristicsValue']['value'] + '</p></td>'
-                        + '<td><button value="' + result['characteristicsName']['name'] + ',' + result['characteristicsValue']['value'] + ',' + result['id'] + '" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>'
-                        + '<td><button value="' + result['id'] + '" type="button" name="delete-characteristic">Видалити</button></td>'));
-                    editProductJS()
-                }
-            });
-
-        }
-    });
-}
 
 $(document).ready(function editProductJS() {
     let id = $('#product-id').val();
@@ -181,6 +151,35 @@ $(document).ready(function editProductJS() {
     });
 
     // Characteristics
+    // Add
+    $('#add-characteristic-btn').on('click', function () {
+        const name = $('#addC-input-name').val();
+        const value = $('#addC-input-value').val();
+        if (name.trim() !== '' && value.trim() !== '') {
+            $.ajax({
+                type: 'POST',
+                url: '/Products/AddCharacteristic/',
+                headers: {
+                    RequestVerificationToken: $('#RequestVerificationToken').val()
+                },
+                data: { "productId": id, "name": name, "value": value },
+                success: function (result) {
+                    $('#addC-input-name').val('');
+                    $('#addC-input-value').val('');
+                    $("#list-characteristics").append($('<tr name=' + result['id'] + '></tr>'));
+                    $('tr[name=' + result['id'] + ']').append($('<td><p>' + result['id'] + '</p></td>'
+                        + '<td><p>' + result['characteristicsName']['name'] + '</p></td>'
+                        + '<td><p>' + result['characteristicsValue']['value'] + '</p></td>'
+                        + '<td><button value="' + result['characteristicsName']['name'] + ',' + result['characteristicsValue']['value'] + ',' + result['id'] + '" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>'
+                        + '<td><button value="' + result['id'] + '" type="button" name="delete-characteristic">Видалити</button></td>'));
+                    /*editProductJS()*/
+                }
+            });
+
+        }
+    });
+
+    // Characteristics
     // Edit
     $('button[name="edit-characteristic"]').on('click', function () {
         const value = $(this).val().split(",");
@@ -210,7 +209,8 @@ $(document).ready(function editProductJS() {
         }
     });
 
-    // Delete
+    
+    //// Delete
     $('button[name="delete-characteristic"]').on('click', function () {
         const characteristicsId = $(this).val();
         $.ajax({
@@ -225,6 +225,4 @@ $(document).ready(function editProductJS() {
             }
         });
     });
-
-
 });
