@@ -40,7 +40,7 @@ namespace AdminPanel.Controllers
             var query = new GetBrandsQuery(pageSize, pageNumber);
             var brands = await _mediator.Send(query);
             var totalCount = await _mediator.Send(new GetBrandsTotalCountQuery());
-            var totalPages = totalCount / query.PageSize + 1;
+            var totalPages = (totalCount-1) / query.PageSize + 1;
             var viewModel = new BrandsViewModel()
             {
                 Brands = brands,
@@ -55,7 +55,7 @@ namespace AdminPanel.Controllers
             var query = new GetModelsQuery(pageSize, pageNumber);
             var models = await _mediator.Send(query);
             var totalCount = await _mediator.Send(new GetModelsTotalCountQuery());
-            var totalPages = totalCount / query.PageSize + 1;
+            var totalPages = (totalCount-1) / query.PageSize + 1;
             var viewModel = new ModelsViewModel()
             {
                 Models = models,

@@ -466,10 +466,15 @@
 
 .pagination-section {
     text-align: center;
+    width:100%;   
 }
 
 .page-num{
-    background-color:none;
+    
+}
+.page-form{
+    width:auto;
+    display:inline;
 }
 
 
