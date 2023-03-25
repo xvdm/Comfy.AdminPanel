@@ -40,18 +40,17 @@
                             }
                         </tbody>
                     </table>
-                    <div class="pagination_section">
-                        
+                    <div class="pagination-section">
+                        <div class="pagination">
                             <p name="previous-page" value="">Previous</p>
                             @for (var i = 1; i <= Model.TotalPages;i++)
                             {
-                            <form method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Models">
-                                <button type="submit">@i</button>
+                            <form  method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Models">
+                                    <button class="page-num" type="submit">@i</button>
                             </form> 
                             }
                             <p name="next-page" value="">Next</p>
-                        
-
+                        </div>
                     </div>
 @*                    <table>
                         <thead>

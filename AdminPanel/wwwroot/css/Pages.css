@@ -462,8 +462,15 @@
 .models-table tbody button {
     padding: 5px 10px;
 }
-.pagination_section p{
-    cursor: pointer;
+
+
+.pagination-section {
+    text-align: center;
 }
+
+.page-num{
+    background-color:none;
+}
+
 
 /*#endregion*/

@@ -64,32 +64,4 @@
             }
         });
     });
-
-
-    // Models
-    // pages 
-    $('p[name="page-number"]').on('click', function () {
-        const pageNum = $(this).text();
-        alert(pageNum);
-        $.ajax({
-            type: 'GET',
-            url: '/AdminPanel/Models/',
-            headers: {
-                RequestVerificationToken: $('#RequestVerificationToken').val()
-            },
-            data: { "pageSize": 10, "pageNumber": pageNum },
-            success: function (result) {
-                console.log(result);
-                alert(result["models"][0][0]);
-                $('p[name="previous-page"]').val(pageNum);
-                $('p[name="next-page"]').val(123);
-                //location.reload();
-            },
-            error: function () {
-                
-            }
-        });
-    });
-
-
 });
