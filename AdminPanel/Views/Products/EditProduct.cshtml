@@ -166,45 +166,34 @@
                         <p>Зображення</p>
                     </div>
                     <div class="images">
-                         <form enctype="multipart/form-data">
-                            <div class="main-image">
-                                <div name="load-img">
-                                    @if (Model.Product.Images.Count != 0)
-                                    {
-                                        <img src="@Model.Product.Images[0]" name="image" />
-                                    }
-                                    else
-                                    {
-                                        <span class="material-icons add-icon unselectable">add</span>
-                                        <input type="file" name="uploads" multiple accept="image/*" />
-                                    }
-                                </div>
-                                <div name="preload-img-div" class="h-hidden">
-                                    <img name="preload-img" />
-                                </div>
+                        <div class="main-image">
+                            <div name="load-img">
+                                @if (Model.Product.Images.Count != 0)
+                                {
+                                    <img src="@Model.Product.Images[0].Url" alt="image"/>
+                                }
+                                else
+                                {
+                                    <span class="material-icons add-icon unselectable">block</span>
+                                }
+                            </div>
                             </div>
                             <ul class="list-images">
-                                @for(int i= 1; i < 10; i++)
+                                @foreach (var image in Model.Product.Images)
                                 {
                                     <li class="item-image">
                                         <div name="load-img">
-                                            @if (Model.Product.Images.Count >= i)
-                                            {
-                                                <img src="@Model.Product.Images[i]" name="image" />
-                                            }
-                                            else
-                                            {
-                                                <span class="material-icons add-icon unselectable">add</span>
-                                                <input type="file" name="uploads" multiple accept="image/*" />
-                                            }
+                                            <form method="post" asp-action="DeleteProductImage" asp-controller="Images">
+                                                <input hidden name="productId" value="@Model.Product.Id" />
+                                                <input hidden name="imageId" value="@image.Id" />
+                                                <button type="submit">
+                                                    <img src="@image.Url" alt="image" onclick="deleteImage(@image.Id)" />
+                                                </button>
+                                            </form>
                                         </div>
-                                        <div name="preload-img-div" class="h-hidden">
-                                            <img name="preload-img" />
-                                       </div>
                                     </li>
                                 }
                             </ul>
-                         </form>
                     </div>
                 </div>
             </div>
@@ -279,13 +268,28 @@
         </div>
     </div>
 
-
         <div class="section">
-            <form method="post" asp-action="DeleteProduct" asp-controller="Products">
-                <input hidden required name="Id" value="@Model.Product.Id"/>
-                <button type="submit">Видалити товар</button>
+            <div class="name-block">
+                <p>Загрузка зображень</p>
+            </div>
+            <form method="post" asp-action="UploadProductImage" asp-controller="Images" enctype="multipart/form-data">
+                <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
+                <div class="form-group">
+                    <label for="image">Оберіть зображення</label>
+                    <input accept="image/*" type="file" name="file" id="image" class="form-control-file" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Загрузити</button>
             </form>
         </div>
+
+    <div class="section">
+        <form method="post" asp-action="DeleteProduct" asp-controller="Products">
+            <input hidden required name="Id" value="@Model.Product.Id"/>
+            <button type="submit">Видалити товар</button>
+        </form>
+    </div>
+    
+    
     </div>
 </div>
 

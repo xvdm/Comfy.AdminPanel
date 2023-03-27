@@ -18,26 +18,19 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadProductImage(string productId, IList<IFormFile> files)
+        public async Task<IActionResult> UploadProductImage(int productId, IFormFile file)
         {
-            //if(int.TryParse(productId, out var productIdInt) == false)
-            //{
-            //    return BadRequest("UploadProductImage :: parseError :: productId");
-            //}
-            //
-            //var paths = new List<string>();
-            //
-            //foreach(var file in files) {
-            //    var filePath = await _mediator.Send(new UploadProductImageCommand(productIdInt, file));
-            //    paths.Add(filePath);
-            //}
-            //
-            //return Ok(paths);
-            return Ok();
+            await _mediator.Send(new UploadProductImageCommand(productId, file));
+            return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
+        [HttpPost]
         public async Task<IActionResult> DeleteProductImage(int imageId, int productId)
         {
+            //if (int.TryParse(imageId, out var imageIdInt) == false)
+            //{
+            //    return BadRequest("DeleteProductImage :: imageId :: parse to int error");
+            //}
             await _mediator.Send(new DeleteProductImageCommand(imageId));
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
