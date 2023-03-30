@@ -56,9 +56,18 @@
                             }
                             @for (var i = 1; i <= Model.TotalPages;i++)
                             {
-                                <form class="page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Models">
-                                        <button class="page-num" type="submit">@i</button>
-                                </form> 
+                                @if (i == Model.CurrentPage)
+                                {
+                                    <form class="current-page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Models">
+                                        <button type="submit">@i</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form class="page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Models">
+                                        <button type="submit">@i</button>
+                                    </form>
+                                }
                             }
                             @if (Model.CurrentPage == Model.TotalPages)
                             {

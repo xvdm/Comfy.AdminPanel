@@ -52,6 +52,17 @@ switch (userMainPosition[1]) {
         divGoods.appendChild(div)
         break;
 
+    case "Reviews":
+        let divGoods = document.getElementById("Reviews");
+        blockMainLink(divGoods)
+     
+        links = ["Активні", "Неактивні"];
+        href = ["/Products/Products", "/Categories/Index"]
+        createLI(links, href)
+        div.appendChild(ul)
+        divGoods.appendChild(div)
+        break;
+
     case "AdminPanel":
         let divApanel = document.getElementById("Goods");
         blockMainLink(divApanel)
