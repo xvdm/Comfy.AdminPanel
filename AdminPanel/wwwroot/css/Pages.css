@@ -473,12 +473,18 @@
     width:100%;   
 }
 
-.page-num{
-    
-}
 .page-form{
     width:auto;
     display:inline;
+}
+
+.current-page-form {
+    width: auto;
+    display: inline;
+}
+
+.current-page-form button {
+    background-color:dimgray;
 }
 
 .image-load-div button {

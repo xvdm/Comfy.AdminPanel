@@ -44,10 +44,9 @@
                     @if (Model.TotalPages > 1)
                     {
                         <div class="pagination-section">
-
                             @if (Model.CurrentPage == 1)
                             {
-                                    <button class="page-num">Previous</button>
+                                        <button class="page-num">Previous</button>
                             }
                             else
                             {
@@ -55,12 +54,22 @@
                                     <button class="page-num" type="submit">Previous</button>
                                 </form>
                             }
+
                             @for (var i = 1; i <= Model.TotalPages; i++)
                             {
-                                <form class="page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Brands">
-                                    <button class="page-num" type="submit">@i</button>
-                                </form>
+                                @if (i == Model.CurrentPage)
+                                {
+                                    <form class="current-page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Brands">
+                                        <button type="submit">@i</button>
+                                    </form>
+                                }
+                                else{
+                                    <form class="page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Brands">
+                                        <button type="submit">@i</button>
+                                    </form>
+                                }
                             }
+
                             @if (Model.CurrentPage == Model.TotalPages)
                             {
                                     <button class="page-num" type="submit">Next</button>
