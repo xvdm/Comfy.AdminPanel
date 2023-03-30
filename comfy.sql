@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2023 at 08:06 PM
+-- Generation Time: Mar 30, 2023 at 03:54 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -182,7 +182,21 @@ CREATE TABLE `brands` (
 
 INSERT INTO `brands` (`Id`, `Name`, `SubcategoryId`) VALUES
 (1, 'Apple', 1),
-(2, 'Lenovo', 3);
+(2, 'Lenovo', 3),
+(18, 'Samsung', NULL),
+(19, 'Xiaomi', NULL),
+(20, 'Huawei', NULL),
+(21, 'Motorolla', NULL),
+(22, 'Nokia', 2),
+(23, 'Panasonic', NULL),
+(24, 'Phillips', NULL),
+(25, 'JBL', NULL),
+(26, 'Oppo', NULL),
+(27, 'Pocco', NULL),
+(28, 'ZTE', NULL),
+(29, 'Asus', NULL),
+(30, 'Acer', 1),
+(31, 'Blackberry', NULL);
 
 -- --------------------------------------------------------
 
@@ -198,6 +212,14 @@ CREATE TABLE `characteristics` (
   `SubcategoryId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `characteristics`
+--
+
+INSERT INTO `characteristics` (`Id`, `ProductId`, `CharacteristicsNameId`, `CharacteristicsValueId`, `SubcategoryId`) VALUES
+(8, 1, 8, 6, 1),
+(9, 1, 9, 17, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -208,6 +230,29 @@ CREATE TABLE `characteristicsnames` (
   `Id` int(11) NOT NULL,
   `Name` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `characteristicsnames`
+--
+
+INSERT INTO `characteristicsnames` (`Id`, `Name`) VALUES
+(1, '1'),
+(2, '3'),
+(3, '23'),
+(4, '2'),
+(5, '11'),
+(6, '12'),
+(7, 'ввес'),
+(8, 'вага'),
+(9, 'вес'),
+(10, 'фыв'),
+(11, '123'),
+(12, '213'),
+(13, '222'),
+(14, 'fdf'),
+(15, 'dsf'),
+(16, 'adf'),
+(17, 'adfs');
 
 -- --------------------------------------------------------
 
@@ -220,6 +265,29 @@ CREATE TABLE `characteristicsvalues` (
   `Value` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `characteristicsvalues`
+--
+
+INSERT INTO `characteristicsvalues` (`Id`, `Value`) VALUES
+(1, '2'),
+(2, '4'),
+(3, '3'),
+(4, '23'),
+(5, '230'),
+(6, '20кг'),
+(7, '30кг'),
+(8, 'фвы'),
+(9, '12'),
+(10, '123'),
+(11, '312'),
+(12, '222'),
+(13, '312sdf'),
+(14, 'dfs'),
+(15, 'das'),
+(16, 'ads'),
+(17, '40кг');
+
 -- --------------------------------------------------------
 
 --
@@ -231,6 +299,17 @@ CREATE TABLE `images` (
   `Url` longtext NOT NULL,
   `ProductId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `images`
+--
+
+INSERT INTO `images` (`Id`, `Url`, `ProductId`) VALUES
+(1, '/images/431c3b3e-c1ed-4a30-9c31-4bf1efac6ae9.png', 1),
+(2, '/images/8a677b14-cc27-4d8d-8911-9e50218e984c.jpg', 1),
+(3, '/images/93d532bd-ce47-4c18-a958-36ec6b892048.jpg', 1),
+(4, '/images/1db0a187-59f0-41e5-94ad-061a7de00846.jpg', 1),
+(6, '/images/a6ce071c-75db-421b-abd6-39977c15e99f.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -343,7 +422,7 @@ CREATE TABLE `pricehistories` (
   `Id` int(11) NOT NULL,
   `Price` int(11) NOT NULL,
   `Date` datetime(6) NOT NULL,
-  `ProductId` int(11) DEFAULT NULL
+  `ProductId` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -352,7 +431,8 @@ CREATE TABLE `pricehistories` (
 
 INSERT INTO `pricehistories` (`Id`, `Price`, `Date`, `ProductId`) VALUES
 (1, 35499, '2023-03-23 19:39:57.458966', 1),
-(3, 40499, '2023-03-23 19:41:44.771029', 3);
+(3, 40499, '2023-03-23 19:41:44.771029', 3),
+(6, 232, '2023-03-30 16:31:41.729105', 6);
 
 -- --------------------------------------------------------
 
@@ -384,8 +464,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`Id`, `Name`, `Description`, `Price`, `DiscountAmount`, `Amount`, `Code`, `Rating`, `IsActive`, `Url`, `BrandId`, `CategoryId`, `ModelId`, `OrderId`, `WishListId`, `CreatedAt`) VALUES
-(1, 'Смартфон Apple iPhone 13 128Gb Starlight', ' Смартфон Apple iPhone 13 128Gb Starlight - классный телефон, ставлю класс', 35499, 0, 0, 1000001, 0, 0, 'smartfon-apple-iphone-13-128gb-starlight-1000001', 1, 1, 1, NULL, NULL, '2023-03-23 17:39:57.367300'),
-(3, 'Смартфон Apple iPhone 13 256Gb Blue', ' Смартфон Apple iPhone 13 256Gb Blue - супер вау', 40499, 0, 0, 1000003, 0, 0, 'smartfon-apple-iphone-13-256gb-blue-1000003', 1, 1, 1, NULL, NULL, '2023-03-23 17:41:44.651365');
+(1, 'Смартфон Apple iPhone 13 128Gb Starlight', ' Смартфон Apple iPhone 13 128Gb Starlight - классный телефон, ставлю класс', 35499, 0, 0, 1000001, 0, 1, 'smartfon-apple-iphone-13-128gb-starlight-1000001', 1, 1, 1, NULL, NULL, '2023-03-23 17:39:57.367300'),
+(3, 'Смартфон Apple iPhone 13 256Gb Blue', ' Смартфон Apple iPhone 13 256Gb Blue - супер вау', 40499, 0, 0, 1000003, 0, 0, 'smartfon-apple-iphone-13-256gb-blue-1000003', 1, 1, 1, NULL, NULL, '2023-03-23 17:41:44.651365'),
+(6, 'Назва позиції', ' Опис', 232, 0, 0, 1000006, 0, 0, 'nazva-poziciji-1000006', 30, 1, 2, NULL, NULL, '2023-03-30 13:31:41.504801');
 
 -- --------------------------------------------------------
 
@@ -534,7 +615,9 @@ CREATE TABLE `__efmigrationshistory` (
 
 INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 ('20230323173137_Initial', '6.0.15'),
-('20230323190540_ProductCharacteristicObjectCycleErrorFix', '6.0.15');
+('20230323190540_ProductCharacteristicObjectCycleErrorFix', '6.0.15'),
+('20230330133046_CharcUpdate', '6.0.15'),
+('20230330135033_UpdateUpdate', '6.0.15');
 
 --
 -- Indexes for dumped tables
@@ -807,31 +890,31 @@ ALTER TABLE `aspnetuserclaims`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `characteristics`
 --
 ALTER TABLE `characteristics`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `characteristicsnames`
 --
 ALTER TABLE `characteristicsnames`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `characteristicsvalues`
 --
 ALTER TABLE `characteristicsvalues`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `loggingactions`
@@ -855,7 +938,7 @@ ALTER TABLE `maincategoryimages`
 -- AUTO_INCREMENT for table `models`
 --
 ALTER TABLE `models`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -879,13 +962,13 @@ ALTER TABLE `paymenttypes`
 -- AUTO_INCREMENT for table `pricehistories`
 --
 ALTER TABLE `pricehistories`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `questionanswers`
@@ -989,7 +1072,7 @@ ALTER TABLE `brands`
 ALTER TABLE `characteristics`
   ADD CONSTRAINT `FK_Characteristics_CharacteristicsNames_CharacteristicsNameId` FOREIGN KEY (`CharacteristicsNameId`) REFERENCES `characteristicsnames` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Characteristics_CharacteristicsValues_CharacteristicsValueId` FOREIGN KEY (`CharacteristicsValueId`) REFERENCES `characteristicsvalues` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_Characteristics_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Characteristics_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `products` (`Id`),
   ADD CONSTRAINT `FK_Characteristics_Subcategories_SubcategoryId` FOREIGN KEY (`SubcategoryId`) REFERENCES `subcategories` (`Id`);
 
 --
