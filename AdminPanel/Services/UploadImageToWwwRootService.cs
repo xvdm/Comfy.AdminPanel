@@ -13,10 +13,11 @@ namespace AdminPanel.Services
 
         public async Task<string> UploadImage(IFormFile imageFile)
         {
-            string filetype = imageFile.FileName.Substring(imageFile.FileName.LastIndexOf('.') + 1);
-            Guid guid = Guid.NewGuid();
-            string path = $"/images/{guid}.{filetype}";
-            using (var fileStream = new FileStream(_env.WebRootPath + path, FileMode.Create))
+            var fileType = imageFile.FileName.Substring(imageFile.FileName.LastIndexOf('.') + 1);
+            var guid = Guid.NewGuid();
+            var path = $"/images/{guid}.{fileType}";
+
+            await using (var fileStream = new FileStream(_env.WebRootPath + path, FileMode.Create))
             {
                 await imageFile.CopyToAsync(fileStream);
             }

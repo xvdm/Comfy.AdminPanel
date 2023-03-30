@@ -25,10 +25,11 @@ namespace AdminPanel.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> UploadProductImage(int productId, List<IFormFile> files)
+        public async Task<IActionResult> UploadProductImage(int productId, ICollection<IFormFile> files)
         {
             foreach (var file in files)
             {
+                if (file.Length <= 0) continue;
                 var result = await _mediator.Send(new UploadProductImageCommand(productId, file));
                 if (result == false) break;
             }

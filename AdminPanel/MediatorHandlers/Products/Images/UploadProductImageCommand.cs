@@ -35,7 +35,6 @@ namespace AdminPanel.MediatorHandlers.Products.Images
                 .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
 
             if (product is null) throw new HttpRequestException("No product with this id");
-
             if (product.Images.Count >= 6) return false;
 
             var path = await _uploadImageToFileSystemService.UploadImage(request.ImageFile);
