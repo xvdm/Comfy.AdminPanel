@@ -17,32 +17,17 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> UploadProductImage(int productId, IFormFile file)
-        //{
-        //    await _mediator.Send(new UploadProductImageCommand(productId, file));
-        //    return LocalRedirect($"/Products/EditProduct/{productId}");
-        //}
 
         [HttpPost]
         public async Task<IActionResult> UploadProductImage(int productId, ICollection<IFormFile> files)
         {
-            foreach (var file in files)
-            {
-                if (file.Length <= 0) continue;
-                var result = await _mediator.Send(new UploadProductImageCommand(productId, file));
-                if (result == false) break;
-            }
+            await _mediator.Send(new UploadProductImagesCommand(productId, files));
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteProductImage(int imageId, int productId)
         {
-            //if (int.TryParse(imageId, out var imageIdInt) == false)
-            //{
-            //    return BadRequest("DeleteProductImage :: imageId :: parse to int error");
-            //}
             await _mediator.Send(new DeleteProductImageCommand(imageId));
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
