@@ -223,7 +223,7 @@
     padding: 20px;
     display: table-cell;
     background: #f3f5f6;
-    width: 280px;
+    width: 259px;
 }
 
 .sections .name-block {
@@ -285,7 +285,7 @@
     border-radius: 4px;
 }
 
-.sections .save-btn {
+.save-btn {
     display: flex;
     justify-content:right;
 }
@@ -330,18 +330,22 @@
     cursor:pointer;
 }
 
+.images-block{
+    margin-top:62px;
+}
+
 .main-image {
     position: relative;
-    width: 258px;
-    height: 258px;
+    width: 261px;
+    height: 259px;
     border: 1px dashed #bcbec5;
     border-radius: 3px;
     line-height: 0;
 }
 
 .main-image img{
-    width: 258px;
-    height: 258px;
+    width: 259px;
+    height: 259px;
 }
 
 .list-images {
@@ -357,8 +361,8 @@
         position: relative;
         display: inline-block;
         vertical-align: top;
-        width: 78px;
-        height: 78px;
+        width: 80px;
+        height: 80px;
         margin-top: 10px;
         border: 1px dashed #bcbec5;
         border-radius: 3px;
@@ -476,6 +480,33 @@
     width:auto;
     display:inline;
 }
+
+.image-load-div button {
+    background: none;
+    border: none;
+    padding: 0px 0px;
+}
+
+    .image-load-div button:hover {
+        background: none;
+        border: none;
+    }
+
+.img-input{
+    margin-top:15px;
+    width:259px;
+}
+
+.load-photo-block {
+    font-size: 14px;
+}
+.load-photo-block button{
+    margin-top:10px;
+}
+.load-photo-block label{
+    margin-top:10px;
+}
+
 
 
 /*#endregion*/

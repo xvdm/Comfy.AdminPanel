@@ -182,11 +182,11 @@
                                 @foreach (var image in Model.Product.Images)
                                 {
                                     <li class="item-image">
-                                        <div name="load-img">
+                                        <div class="image-load-div" name="load-img">
                                             <form method="post" asp-action="DeleteProductImage" asp-controller="Images">
                                                 <input hidden name="productId" value="@Model.Product.Id" />
                                                 <input hidden name="imageId" value="@image.Id" />
-                                                <button type="submit">
+                                                <button  type="submit">
                                                     <img src="@image.Url" alt="image" onclick="deleteImage(@image.Id)" />
                                                 </button>
                                             </form>
@@ -195,6 +195,19 @@
                                 }
                             </ul>
                     </div>
+                </div>
+                <div class="load-photo-block">
+                    <div class="name-block">
+                        <p>Загрузка зображень</p>
+                    </div>
+                    <form method="post" asp-action="UploadProductImage" asp-controller="Images" enctype="multipart/form-data">
+                        <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
+                        <div>
+                            <label>Оберіть зображення</label>
+                            <input class="img-input" accept="image/*" type="file" name="file" id="image" required>
+                        </div>
+                        <button type="submit">Загрузити</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -268,19 +281,7 @@
         </div>
     </div>
 
-        <div class="section">
-            <div class="name-block">
-                <p>Загрузка зображень</p>
-            </div>
-            <form method="post" asp-action="UploadProductImage" asp-controller="Images" enctype="multipart/form-data">
-                <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
-                <div class="form-group">
-                    <label for="image">Оберіть зображення</label>
-                    <input accept="image/*" type="file" name="file" id="image" class="form-control-file" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Загрузити</button>
-            </form>
-        </div>
+
 
     <div class="section">
         <form method="post" asp-action="DeleteProduct" asp-controller="Products">
