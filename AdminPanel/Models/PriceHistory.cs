@@ -9,8 +9,8 @@ namespace AdminPanel.Models
         public int Price { get; set; }
         public DateTime Date { get; set; }
 
-        public int? ProductId { get; set; }
-        public Product? Product { get; set; } = null!;
+        public int ProductId { get; set; }
+        public Product Product { get; set; } = null!;
 
 
         public void Configure(EntityTypeBuilder<PriceHistory> builder)
