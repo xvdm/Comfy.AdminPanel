@@ -17,10 +17,21 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> UploadProductImage(int productId, IFormFile file)
+        //{
+        //    await _mediator.Send(new UploadProductImageCommand(productId, file));
+        //    return LocalRedirect($"/Products/EditProduct/{productId}");
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> UploadProductImage(int productId, IFormFile file)
+        public async Task<IActionResult> UploadProductImage(int productId, List<IFormFile> files)
         {
-            await _mediator.Send(new UploadProductImageCommand(productId, file));
+            foreach (var file in files)
+            {
+                var result = await _mediator.Send(new UploadProductImageCommand(productId, file));
+                if (result == false) break;
+            }
             return LocalRedirect($"/Products/EditProduct/{productId}");
         }
 
