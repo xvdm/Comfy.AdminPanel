@@ -59,7 +59,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.AddressType", b =>
@@ -74,7 +74,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AddressTypes");
+                    b.ToTable("AddressTypes", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Brand", b =>
@@ -94,7 +94,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Characteristic", b =>
@@ -125,7 +125,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("Characteristics");
+                    b.ToTable("Characteristics", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.CharacteristicName", b =>
@@ -140,7 +140,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CharacteristicsNames");
+                    b.ToTable("CharacteristicsNames", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.CharacteristicValue", b =>
@@ -155,7 +155,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CharacteristicsValues");
+                    b.ToTable("CharacteristicsValues", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Identity.ApplicationRole", b =>
@@ -267,7 +267,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Logging.LoggingAction", b =>
@@ -282,7 +282,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoggingActions");
+                    b.ToTable("LoggingActions", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Logging.UserLog", b =>
@@ -308,7 +308,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogs");
+                    b.ToTable("UserLogs", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.MainCategory", b =>
@@ -328,7 +328,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.ToTable("MainCategories");
+                    b.ToTable("MainCategories", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.MainCategoryImage", b =>
@@ -343,7 +343,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MainCategoryImages");
+                    b.ToTable("MainCategoryImages", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Model", b =>
@@ -358,7 +358,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Models");
+                    b.ToTable("Models", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Order", b =>
@@ -402,7 +402,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.OrderStatus", b =>
@@ -417,7 +417,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderStatuses");
+                    b.ToTable("OrderStatuses", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.PaymentType", b =>
@@ -432,7 +432,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes");
+                    b.ToTable("PaymentTypes", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.PriceHistory", b =>
@@ -454,7 +454,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("PriceHistories");
+                    b.ToTable("PriceHistories", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Product", b =>
@@ -530,7 +530,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("WishListId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Question", b =>
@@ -567,7 +567,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.QuestionAnswer", b =>
@@ -604,7 +604,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("QuestionAnswers");
+                    b.ToTable("QuestionAnswers", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Review", b =>
@@ -652,7 +652,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.ReviewAnswer", b =>
@@ -689,7 +689,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ReviewAnswers");
+                    b.ToTable("ReviewAnswers", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Subcategory", b =>
@@ -714,7 +714,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("MainCategoryId");
 
-                    b.ToTable("Subcategories");
+                    b.ToTable("Subcategories", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.SubcategoryImage", b =>
@@ -729,7 +729,7 @@ namespace AdminPanel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SubcategoryImages");
+                    b.ToTable("SubcategoryImages", (string)null);
                 });
 
             modelBuilder.Entity("AdminPanel.Models.WishList", b =>
@@ -745,7 +745,7 @@ namespace AdminPanel.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WishLists");
+                    b.ToTable("WishLists", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
