@@ -46,7 +46,7 @@
                             <div class="MenuItemDiv"> <a class="navbar-brand menu-link " asp-area="" asp-controller="Products" asp-action="Products" target="_self">Товари та послуги</a></div>
                     </li>
                     <li id="Reviews">
-                            <div class="MenuItemDiv"> <a class="navbar-brand menu-link" asp-area="" asp-controller="" asp-action="" target="_self">Відгуки</a></div>
+                                    <div class="MenuItemDiv"> <a class="navbar-brand menu-link" asp-area="" asp-controller="Comments" asp-action="ActiveComments" target="_self">Відгуки</a></div>
                     </li>
                 }
                 @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Manager)).Succeeded)
