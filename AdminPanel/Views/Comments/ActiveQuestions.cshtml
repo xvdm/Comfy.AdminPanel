@@ -7,7 +7,7 @@
 <div class="Page">
     <div class="header">
         <div class="namePage">
-            <p>Редагування питань</p>
+            <p>Редагування активних питань</p>
         </div>
     </div>
 
@@ -29,16 +29,13 @@
                                     {
                                         <tr name="@x.Id">
                                             <td class="question-text-width"><p>@x.Text</p></td>
-                                            <td><p>@x.Product.Name</p></td>
+                                            <td class="question-product-width"><p>@x.Product.Name</p></td>
                                             <td><p>@x.User.UserName</p></td>
                                             <td><p>@x.IsActive</p></td>
                                         <td class="question-buttons-width">
-                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-id="1" asp-action="ChangeQuestionActivityStatus">
-                                                    <button class="page-num" type="submit">Показати</button>
-                                             </form>
-                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-id="0" asp-action="ChangeQuestionActivityStatus">
-                                                    <button class="page-num" type="submit">Скрити</button>
-                                            </form>
+                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="1" asp-action="ChangeQuestionActivityStatus">
+                                                    <button class="page-num" type="submit">Приховати</button>
+                                        </form>
                                             </td>
                                         </tr>
                                     }

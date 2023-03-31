@@ -535,6 +535,9 @@
     .comments-table .question-text-width {
         width:50%;
     }
+    .comments-table .question-product-width {
+        width:20%;
+    }
 
 .question-buttons-width button {
     width: 100%;
