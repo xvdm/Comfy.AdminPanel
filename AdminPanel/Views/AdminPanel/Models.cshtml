@@ -12,30 +12,20 @@
     <div class="body body-with-sections">
         <div class="sections">
             <div class="left-section-editproduct">
-                <div class="name">
-                    <div class="product-lable">
-                        <label for="Name">Створити модель</label>
-                    </div>
-                    <input id="add-model-name" type="text" name="Name" placeholder="Назва" />
-                    <button id="add-model-btn">Створити</button>
-                </div>
-                <div class="models-table">
-                    <div class="product-lable">
-                        <span>Cписок моделей</span>
-                    </div>
+                <div class="comments-table">
                     <table>
                         <thead>
                             <tr>
-                                <th>Назва</th>
+                                <th>Відповідь</th>
                             </tr>
                         </thead>
-                        <tbody id="list-models">
-                            @foreach (var x in Model.Models)
+                        <tbody id="list-brands">
+                            @foreach (var x in Model.Questions)
                             {
                                 <tr name="@x.Id">
-                                    <td><p>@x.Name</p></td>
-                                    <td><button value="@x.Id,@x.Name" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-model">Редагувати</button></td>
-                                    <td><button value="@x.Id" type="button" name="delete-model">Видалити</button></td>
+                                    <td><p>@x.Text</p></td>
+                                 @*   <td><button value="@x.Id,@x.Name" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-brand">Редагувати</button></td>
+                                    <td><button value="@x.Id" type="button" name="delete-brand">Видалити</button></td>*@
                                 </tr>
                             }
                         </tbody>
@@ -50,7 +40,7 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="Models">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="ActiveComments">
                                     <button class="page-num" type="submit">Previous</button>
                                 </form>
                             }
@@ -58,13 +48,13 @@
                             {
                                 @if (i == Model.CurrentPage)
                                 {
-                                    <form class="current-page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Models">
+                                    <form class="current-page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="ActiveComments">
                                         <button type="submit">@i</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form class="page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@i" asp-action="Models">
+                                    <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="ActiveComments">
                                         <button type="submit">@i</button>
                                     </form>
                                 }
@@ -74,7 +64,7 @@
                                     <button class="page-num" type="submit">Next</button>
                             }else
                             {
-                                <form class="page-form" method="post" asp-controller="AdminPanel" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="Models">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="ActiveComments">
                                     <button class="page-num" type="submit">Next</button>
                                 </form>
                             }
