@@ -532,14 +532,18 @@
         padding: 5px 10px;
     }
 
-    .comments-table .question-text-width {
+    .comments-table .comments-text-width {
         width:50%;
     }
-    .comments-table .question-product-width {
+    .comments-table .comments-product-width {
         width:20%;
     }
 
-.question-buttons-width button {
+.table-comments-width{
+    width:100%;
+}
+
+.comments-buttons-width button {
     width: 100%;
 }
 

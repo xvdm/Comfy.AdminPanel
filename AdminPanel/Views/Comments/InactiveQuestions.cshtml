@@ -15,7 +15,7 @@
         <div class="sections">
             <div class="left-section-editproduct">
                 <div class="comments-table">
-                    <table>
+                    <table class="table-comments-width">
                         <thead>
                             <tr>
                                 <th>Зміст</th>
@@ -28,12 +28,12 @@
                             @foreach (var x in Model.Questions)
                             {
                                 <tr name="@x.Id">
-                                    <td class="question-text-width"><p>@x.Text</p></td>
-                                    <td class="question-product-width"><p>@x.Product.Name</p></td>
+                                    <td class="comments-text-width"><p>@x.Text</p></td>
+                                    <td class="comments-product-width"><p>@x.Product.Name</p></td>
                                     <td><p>@x.User.UserName</p></td>
                                     <td><p>@x.IsActive</p></td>
-                                    <td class="question-buttons-width">
-                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="0" asp-action="ChangeQuestionActivityStatus">
+                                    <td class="comments-buttons-width">
+                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="@true" asp-action="ChangeQuestionActivityStatus">
                                             <button class="page-num" type="submit">Активувати</button>
                                         </form>
                                     </td>
