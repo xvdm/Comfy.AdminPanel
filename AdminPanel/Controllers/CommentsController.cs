@@ -1,11 +1,9 @@
-﻿using AdminPanel.MediatorHandlers.Products.Models;
-using AdminPanel.MediatorHandlers.Questions;
+﻿using AdminPanel.MediatorHandlers.Questions;
 using AdminPanel.MediatorHandlers.Reviews;
 using AdminPanel.Models.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace AdminPanel.Controllers
 {
@@ -20,46 +18,70 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IActionResult> ActiveComments(int? pageSize, int? pageNumber)
+        public async Task<IActionResult> ActiveQuestions(int? pageSize, int? pageNumber)
         {
-            var questionsQuery = new GetQuestionsQuery(true, pageSize, pageNumber);
-            var reviewsQuery = new GetReviewsQuery(true, pageSize, pageNumber);
-            var questions = await _mediator.Send(questionsQuery);
-            var reviews = await _mediator.Send(reviewsQuery);
+            var query = new GetQuestionsQuery(true, pageSize, pageNumber);
+            var questions = await _mediator.Send(query);
 
+            var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
+            var totalPages = (totalCount - 1) / (query.PageSize + 1);
 
-            var totalQuestionsCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
-            var totalReviewsCount = await _mediator.Send(new GetReviewsTotalCountQuery());
-            var totalPages = (totalQuestionsCount + totalReviewsCount - 1) / (questionsQuery.PageSize + 1);
-
-            var viewModel = new CommentsViewModel()
+            var viewModel = new QuestionsViewModel()
             {
                 Questions = questions,
-                Reviews = reviews,
                 TotalPages = totalPages,
-                CurrentPage = questionsQuery.PageNumber
+                CurrentPage = query.PageNumber
             };
             return View(viewModel);
         }
 
-        public async Task<IActionResult> InactiveComments(int? pageSize, int? pageNumber)
+        public async Task<IActionResult> ActiveReviews(int? pageSize, int? pageNumber)
         {
-            var questionsQuery = new GetQuestionsQuery(false, pageSize, pageNumber);
-            var reviewsQuery = new GetReviewsQuery(false, pageSize, pageNumber);
-            var questions = await _mediator.Send(questionsQuery);
-            var reviews = await _mediator.Send(reviewsQuery);
+            var query = new GetReviewsQuery(true, pageSize, pageNumber);
+            var reviews = await _mediator.Send(query);
 
+            var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
+            var totalPages = (totalCount - 1) / (query.PageSize + 1);
 
-            var totalQuestionsCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
-            var totalReviewsCount = await _mediator.Send(new GetReviewsTotalCountQuery());
-            var totalPages = (totalQuestionsCount + totalReviewsCount - 1) / (questionsQuery.PageSize + 1);
-
-            var viewModel = new CommentsViewModel()
+            var viewModel = new ReviewsViewModel()
             {
-                Questions = questions,
                 Reviews = reviews,
                 TotalPages = totalPages,
-                CurrentPage = questionsQuery.PageNumber
+                CurrentPage = query.PageNumber
+            };
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> InactiveQuestions(int? pageSize, int? pageNumber)
+        {
+            var query = new GetQuestionsQuery(false, pageSize, pageNumber);
+            var questions = await _mediator.Send(query);
+
+            var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
+            var totalPages = (totalCount - 1) / (query.PageSize + 1);
+
+            var viewModel = new QuestionsViewModel()
+            {
+                Questions = questions,
+                TotalPages = totalPages,
+                CurrentPage = query.PageNumber
+            };
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> InactiveReviews(int? pageSize, int? pageNumber)
+        {
+            var query = new GetReviewsQuery(false, pageSize, pageNumber);
+            var reviews = await _mediator.Send(query);
+
+            var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
+            var totalPages = (totalCount - 1) / (query.PageSize + 1);
+
+            var viewModel = new ReviewsViewModel()
+            {
+                Reviews = reviews,
+                TotalPages = totalPages,
+                CurrentPage = query.PageNumber
             };
             return View(viewModel);
         }
