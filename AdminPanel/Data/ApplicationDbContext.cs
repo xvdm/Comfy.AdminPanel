@@ -78,14 +78,9 @@ namespace AdminPanel.Data
             {
                 if (entry.Entity is not Auditable) continue;
 
-                //var createdBy = entry.Property(nameof(Auditable.CreatedBy)).CurrentValue;
-                //if (createdBy is null || (Guid)createdBy == Guid.Empty)
-                //{
-                //    createdBy = userId;
-                //}
+                var defaultDate = DateTime.UtcNow;
 
                 var createdAt = entry.Property(nameof(Auditable.CreatedAt)).CurrentValue;
-                var defaultDate = DateTime.UtcNow;
                 if (createdAt is null)
                 {
                     entry.Property(nameof(Auditable.CreatedAt)).CurrentValue = defaultDate;
