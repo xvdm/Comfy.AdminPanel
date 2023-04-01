@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2023 at 01:20 PM
+-- Generation Time: Apr 01, 2023 at 01:30 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -207,6 +207,13 @@ CREATE TABLE `brandsubcategory` (
   `SubcategoriesId` int(11) NOT NULL,
   `UniqueBrandsId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `brandsubcategory`
+--
+
+INSERT INTO `brandsubcategory` (`SubcategoriesId`, `UniqueBrandsId`) VALUES
+(2, 21);
 
 -- --------------------------------------------------------
 
@@ -442,7 +449,8 @@ CREATE TABLE `pricehistories` (
 INSERT INTO `pricehistories` (`Id`, `Price`, `Date`, `ProductId`) VALUES
 (1, 35499, '2023-03-23 19:39:57.458966', 1),
 (3, 40499, '2023-03-23 19:41:44.771029', 3),
-(6, 232, '2023-03-30 16:31:41.729105', 6);
+(6, 232, '2023-03-30 16:31:41.729105', 6),
+(7, 222, '2023-04-01 14:29:13.747055', 7);
 
 -- --------------------------------------------------------
 
@@ -453,14 +461,14 @@ INSERT INTO `pricehistories` (`Id`, `Price`, `Date`, `ProductId`) VALUES
 CREATE TABLE `products` (
   `Id` int(11) NOT NULL,
   `Name` varchar(255) NOT NULL,
-  `Description` longtext DEFAULT NULL,
+  `Description` longtext NOT NULL,
   `Price` int(11) NOT NULL,
   `DiscountAmount` int(11) NOT NULL,
   `Amount` int(11) NOT NULL,
   `Code` int(11) NOT NULL,
   `Rating` double NOT NULL,
   `IsActive` tinyint(1) NOT NULL,
-  `Url` varchar(255) DEFAULT NULL,
+  `Url` varchar(255) NOT NULL,
   `BrandId` int(11) NOT NULL,
   `CategoryId` int(11) NOT NULL,
   `ModelId` int(11) NOT NULL,
@@ -474,7 +482,8 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`Id`, `Name`, `Description`, `Price`, `DiscountAmount`, `Amount`, `Code`, `Rating`, `IsActive`, `Url`, `BrandId`, `CategoryId`, `ModelId`, `CreatedAt`) VALUES
 (1, 'Смартфон Apple iPhone 13 128Gb Starlight', ' Смартфон Apple iPhone 13 128Gb Starlight - классный телефон, ставлю класс', 35499, 0, 0, 1000001, 0, 1, 'smartfon-apple-iphone-13-128gb-starlight-1000001', 29, 1, 1, '2023-03-23 17:39:57.367300'),
 (3, 'Смартфон Apple iPhone 13 256Gb Blue', ' Смартфон Apple iPhone 13 256Gb Blue - супер вау', 40499, 0, 0, 1000003, 0, 0, 'smartfon-apple-iphone-13-256gb-blue-1000003', 1, 1, 1, '2023-03-23 17:41:44.651365'),
-(6, 'Назва позиції', ' Опис', 232, 0, 0, 1000006, 0, 0, 'nazva-poziciji-1000006', 30, 1, 2, '2023-03-30 13:31:41.504801');
+(6, 'Назва позиції', ' Опис', 232, 0, 0, 1000006, 0, 0, 'nazva-poziciji-1000006', 30, 1, 2, '2023-03-30 13:31:41.504801'),
+(7, 'motorola', 'ipone ', 222, 0, 0, 1000007, 0, 0, 'motorola-1000007', 21, 2, 1, '2023-04-01 11:29:13.586778');
 
 -- --------------------------------------------------------
 
@@ -638,7 +647,9 @@ INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 ('20230330133046_CharcUpdate', '6.0.15'),
 ('20230330135033_UpdateUpdate', '6.0.15'),
 ('20230401100927_BrandSubcategoryFix', '6.0.15'),
-('20230401110617_ProductWishlistsOrdersFix', '6.0.15');
+('20230401110617_ProductWishlistsOrdersFix', '6.0.15'),
+('20230401112603_ProductUrlNullableDisable', '6.0.15'),
+('20230401112641_ProductDesriptionNullableDisable', '6.0.15');
 
 --
 -- Indexes for dumped tables
@@ -1001,13 +1012,13 @@ ALTER TABLE `paymenttypes`
 -- AUTO_INCREMENT for table `pricehistories`
 --
 ALTER TABLE `pricehistories`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `questionanswers`
