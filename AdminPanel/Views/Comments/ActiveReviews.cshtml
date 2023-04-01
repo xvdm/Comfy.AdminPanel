@@ -44,16 +44,17 @@
                             }
                         </tbody>
                     </table>
-                    @if (Model.TotalPages > 1)
-                    {
+                   @* @if (Model.TotalPages > 1)
+                    {*@
                         <div class="pagination-section">
+                            <a>@Model.TotalPages</a>
                             @if (Model.CurrentPage == 1)
                             {
                                 <button class="page-num">Previous</button>
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="ActiveQuestions">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="ActiveReviews">
                                     <button class="page-num" type="submit">Previous</button>
                                 </form>
                             }
@@ -62,13 +63,13 @@
                             {
                                 @if (i == Model.CurrentPage)
                                 {
-                                    <form class="current-page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="ActiveQuestions">
+                                    <form class="current-page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="ActiveReviews">
                                         <button type="submit">@i</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="ActiveQuestions">
+                                    <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="ActiveReviews">
                                         <button type="submit">@i</button>
                                     </form>
                                 }
@@ -80,12 +81,12 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="ActiveQuestions">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="ActiveReviews">
                                     <button class="page-num" type="submit">Next</button>
                                 </form>
                             }
                         </div>
-                    }
+                    @*}*@
                 </div>
             </div>
         </div>
