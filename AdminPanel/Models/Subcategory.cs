@@ -23,6 +23,9 @@ namespace AdminPanel.Models
                 .WithMany(x => x.Categories)
                 .HasForeignKey(x => x.MainCategoryId)
                 .OnDelete(DeleteBehavior.ClientCascade);
+
+            builder.HasMany(x => x.UniqueBrands)
+                .WithMany(x => x.Subcategories);
         }
     }
 }
