@@ -44,8 +44,8 @@
                             }
                         </tbody>
                     </table>
-                   @* @if (Model.TotalPages > 1)
-                    {*@
+                    @if (Model.TotalPages > 1)
+                    {
                         <div class="pagination-section">
                             <a>@Model.TotalPages</a>
                             @if (Model.CurrentPage == 1)
@@ -86,7 +86,7 @@
                                 </form>
                             }
                         </div>
-                    @*}*@
+                    }
                 </div>
             </div>
         </div>
