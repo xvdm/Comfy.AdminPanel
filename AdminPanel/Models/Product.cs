@@ -34,8 +34,8 @@ namespace AdminPanel.Models
         public ICollection<Question> Questions { get; set; } = null!;
         public ICollection<Review> Reviews { get; set; } = null!;
 
-        private ICollection<WishList> WishLists { get; set; } = null!;
-        private ICollection<Order> Orders { get; set; } = null!;
+        public ICollection<WishList> WishLists { get; set; } = null!;
+        public ICollection<Order> Orders { get; set; } = null!;
 
         public void Configure(EntityTypeBuilder<Product> builder)
         {
