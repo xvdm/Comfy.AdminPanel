@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2023 at 03:54 PM
+-- Generation Time: Apr 01, 2023 at 01:20 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -172,31 +172,41 @@ CREATE TABLE `aspnetusertokens` (
 
 CREATE TABLE `brands` (
   `Id` int(11) NOT NULL,
-  `Name` longtext NOT NULL,
-  `SubcategoryId` int(11) DEFAULT NULL
+  `Name` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `brands`
 --
 
-INSERT INTO `brands` (`Id`, `Name`, `SubcategoryId`) VALUES
-(1, 'Apple', 1),
-(2, 'Lenovo', 3),
-(18, 'Samsung', NULL),
-(19, 'Xiaomi', NULL),
-(20, 'Huawei', NULL),
-(21, 'Motorolla', NULL),
-(22, 'Nokia', 2),
-(23, 'Panasonic', NULL),
-(24, 'Phillips', NULL),
-(25, 'JBL', NULL),
-(26, 'Oppo', NULL),
-(27, 'Pocco', NULL),
-(28, 'ZTE', NULL),
-(29, 'Asus', NULL),
-(30, 'Acer', 1),
-(31, 'Blackberry', NULL);
+INSERT INTO `brands` (`Id`, `Name`) VALUES
+(1, 'Apple'),
+(2, 'Lenovo'),
+(18, 'Samsung'),
+(19, 'Xiaomi'),
+(20, 'Huawei'),
+(21, 'Motorolla'),
+(22, 'Nokia'),
+(23, 'Panasonic'),
+(24, 'Phillips'),
+(25, 'JBL'),
+(26, 'Oppo'),
+(27, 'Pocco'),
+(28, 'ZTE'),
+(29, 'Asus'),
+(30, 'Acer'),
+(31, 'Blackberry');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `brandsubcategory`
+--
+
+CREATE TABLE `brandsubcategory` (
+  `SubcategoriesId` int(11) NOT NULL,
+  `UniqueBrandsId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -300,17 +310,6 @@ CREATE TABLE `images` (
   `ProductId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `images`
---
-
-INSERT INTO `images` (`Id`, `Url`, `ProductId`) VALUES
-(1, '/images/431c3b3e-c1ed-4a30-9c31-4bf1efac6ae9.png', 1),
-(2, '/images/8a677b14-cc27-4d8d-8911-9e50218e984c.jpg', 1),
-(3, '/images/93d532bd-ce47-4c18-a958-36ec6b892048.jpg', 1),
-(4, '/images/1db0a187-59f0-41e5-94ad-061a7de00846.jpg', 1),
-(6, '/images/a6ce071c-75db-421b-abd6-39977c15e99f.jpg', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -371,6 +370,17 @@ CREATE TABLE `models` (
 INSERT INTO `models` (`Id`, `Name`) VALUES
 (1, 'iPhone 13'),
 (2, 'IdeaPad Gaming 3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orderproduct`
+--
+
+CREATE TABLE `orderproduct` (
+  `OrderedProductsId` int(11) NOT NULL,
+  `OrdersId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -454,8 +464,6 @@ CREATE TABLE `products` (
   `BrandId` int(11) NOT NULL,
   `CategoryId` int(11) NOT NULL,
   `ModelId` int(11) NOT NULL,
-  `OrderId` int(11) DEFAULT NULL,
-  `WishListId` int(11) DEFAULT NULL,
   `CreatedAt` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -463,10 +471,21 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`Id`, `Name`, `Description`, `Price`, `DiscountAmount`, `Amount`, `Code`, `Rating`, `IsActive`, `Url`, `BrandId`, `CategoryId`, `ModelId`, `OrderId`, `WishListId`, `CreatedAt`) VALUES
-(1, 'Смартфон Apple iPhone 13 128Gb Starlight', ' Смартфон Apple iPhone 13 128Gb Starlight - классный телефон, ставлю класс', 35499, 0, 0, 1000001, 0, 1, 'smartfon-apple-iphone-13-128gb-starlight-1000001', 1, 1, 1, NULL, NULL, '2023-03-23 17:39:57.367300'),
-(3, 'Смартфон Apple iPhone 13 256Gb Blue', ' Смартфон Apple iPhone 13 256Gb Blue - супер вау', 40499, 0, 0, 1000003, 0, 0, 'smartfon-apple-iphone-13-256gb-blue-1000003', 1, 1, 1, NULL, NULL, '2023-03-23 17:41:44.651365'),
-(6, 'Назва позиції', ' Опис', 232, 0, 0, 1000006, 0, 0, 'nazva-poziciji-1000006', 30, 1, 2, NULL, NULL, '2023-03-30 13:31:41.504801');
+INSERT INTO `products` (`Id`, `Name`, `Description`, `Price`, `DiscountAmount`, `Amount`, `Code`, `Rating`, `IsActive`, `Url`, `BrandId`, `CategoryId`, `ModelId`, `CreatedAt`) VALUES
+(1, 'Смартфон Apple iPhone 13 128Gb Starlight', ' Смартфон Apple iPhone 13 128Gb Starlight - классный телефон, ставлю класс', 35499, 0, 0, 1000001, 0, 1, 'smartfon-apple-iphone-13-128gb-starlight-1000001', 29, 1, 1, '2023-03-23 17:39:57.367300'),
+(3, 'Смартфон Apple iPhone 13 256Gb Blue', ' Смартфон Apple iPhone 13 256Gb Blue - супер вау', 40499, 0, 0, 1000003, 0, 0, 'smartfon-apple-iphone-13-256gb-blue-1000003', 1, 1, 1, '2023-03-23 17:41:44.651365'),
+(6, 'Назва позиції', ' Опис', 232, 0, 0, 1000006, 0, 0, 'nazva-poziciji-1000006', 30, 1, 2, '2023-03-30 13:31:41.504801');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `productwishlist`
+--
+
+CREATE TABLE `productwishlist` (
+  `ProductsId` int(11) NOT NULL,
+  `WishListsId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -617,7 +636,9 @@ INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 ('20230323173137_Initial', '6.0.15'),
 ('20230323190540_ProductCharacteristicObjectCycleErrorFix', '6.0.15'),
 ('20230330133046_CharcUpdate', '6.0.15'),
-('20230330135033_UpdateUpdate', '6.0.15');
+('20230330135033_UpdateUpdate', '6.0.15'),
+('20230401100927_BrandSubcategoryFix', '6.0.15'),
+('20230401110617_ProductWishlistsOrdersFix', '6.0.15');
 
 --
 -- Indexes for dumped tables
@@ -690,8 +711,14 @@ ALTER TABLE `aspnetusertokens`
 -- Indexes for table `brands`
 --
 ALTER TABLE `brands`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `IX_Brands_SubcategoryId` (`SubcategoryId`);
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `brandsubcategory`
+--
+ALTER TABLE `brandsubcategory`
+  ADD PRIMARY KEY (`SubcategoriesId`,`UniqueBrandsId`),
+  ADD KEY `IX_BrandSubcategory_UniqueBrandsId` (`UniqueBrandsId`);
 
 --
 -- Indexes for table `characteristics`
@@ -748,6 +775,13 @@ ALTER TABLE `models`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Indexes for table `orderproduct`
+--
+ALTER TABLE `orderproduct`
+  ADD PRIMARY KEY (`OrderedProductsId`,`OrdersId`),
+  ADD KEY `IX_OrderProduct_OrdersId` (`OrdersId`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -786,9 +820,14 @@ ALTER TABLE `products`
   ADD UNIQUE KEY `IX_Products_Url` (`Url`),
   ADD KEY `IX_Products_BrandId` (`BrandId`),
   ADD KEY `IX_Products_CategoryId` (`CategoryId`),
-  ADD KEY `IX_Products_ModelId` (`ModelId`),
-  ADD KEY `IX_Products_OrderId` (`OrderId`),
-  ADD KEY `IX_Products_WishListId` (`WishListId`);
+  ADD KEY `IX_Products_ModelId` (`ModelId`);
+
+--
+-- Indexes for table `productwishlist`
+--
+ALTER TABLE `productwishlist`
+  ADD PRIMARY KEY (`ProductsId`,`WishListsId`),
+  ADD KEY `IX_ProductWishList_WishListsId` (`WishListsId`);
 
 --
 -- Indexes for table `questionanswers`
@@ -914,7 +953,7 @@ ALTER TABLE `characteristicsvalues`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `loggingactions`
@@ -1061,10 +1100,11 @@ ALTER TABLE `aspnetusertokens`
   ADD CONSTRAINT `FK_AspNetUserTokens_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `brands`
+-- Constraints for table `brandsubcategory`
 --
-ALTER TABLE `brands`
-  ADD CONSTRAINT `FK_Brands_Subcategories_SubcategoryId` FOREIGN KEY (`SubcategoryId`) REFERENCES `subcategories` (`Id`);
+ALTER TABLE `brandsubcategory`
+  ADD CONSTRAINT `FK_BrandSubcategory_Brands_UniqueBrandsId` FOREIGN KEY (`UniqueBrandsId`) REFERENCES `brands` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_BrandSubcategory_Subcategories_SubcategoriesId` FOREIGN KEY (`SubcategoriesId`) REFERENCES `subcategories` (`Id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `characteristics`
@@ -1088,6 +1128,13 @@ ALTER TABLE `maincategories`
   ADD CONSTRAINT `FK_MainCategories_MainCategoryImages_ImageId` FOREIGN KEY (`ImageId`) REFERENCES `maincategoryimages` (`Id`);
 
 --
+-- Constraints for table `orderproduct`
+--
+ALTER TABLE `orderproduct`
+  ADD CONSTRAINT `FK_OrderProduct_Orders_OrdersId` FOREIGN KEY (`OrdersId`) REFERENCES `orders` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_OrderProduct_Products_OrderedProductsId` FOREIGN KEY (`OrderedProductsId`) REFERENCES `products` (`Id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
@@ -1108,9 +1155,14 @@ ALTER TABLE `pricehistories`
 ALTER TABLE `products`
   ADD CONSTRAINT `FK_Products_Brands_BrandId` FOREIGN KEY (`BrandId`) REFERENCES `brands` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Products_Models_ModelId` FOREIGN KEY (`ModelId`) REFERENCES `models` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_Products_Orders_OrderId` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`Id`),
-  ADD CONSTRAINT `FK_Products_Subcategories_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `subcategories` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_Products_WishLists_WishListId` FOREIGN KEY (`WishListId`) REFERENCES `wishlists` (`Id`);
+  ADD CONSTRAINT `FK_Products_Subcategories_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `subcategories` (`Id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `productwishlist`
+--
+ALTER TABLE `productwishlist`
+  ADD CONSTRAINT `FK_ProductWishList_Products_ProductsId` FOREIGN KEY (`ProductsId`) REFERENCES `products` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_ProductWishList_WishLists_WishListsId` FOREIGN KEY (`WishListsId`) REFERENCES `wishlists` (`Id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `questionanswers`
