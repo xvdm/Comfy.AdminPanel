@@ -24,7 +24,7 @@ namespace AdminPanel.Controllers
             var questions = await _mediator.Send(query);
 
             var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
-            var totalPages = (totalCount - 1) / (query.PageSize + 1);
+            var totalPages = (totalCount - 1) / query.PageSize + 1;
 
             var viewModel = new QuestionsViewModel()
             {
@@ -41,7 +41,7 @@ namespace AdminPanel.Controllers
             var reviews = await _mediator.Send(query);
 
             var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
-            var totalPages = (totalCount - 1) / (query.PageSize + 1);
+            var totalPages = (totalCount - 1) / query.PageSize + 1;
 
             var viewModel = new ReviewsViewModel()
             {
