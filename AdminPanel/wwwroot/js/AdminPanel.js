@@ -56,8 +56,8 @@ switch (userMainPosition[1]) {
         let divComments = document.getElementById("Reviews");
         blockMainLink(divComments)
      
-        links = ["Активні", "Неактивні"];
-        href = ["/Comments/ActiveComments", "/Comments/InactiveComments"]
+        links = ["Активні питання", "Неактивні питання", "Активні відгуки", "Неактивні відгуки"];
+        href = ["/Comments/ActiveQuestions", "/Comments/InactiveQuestions", "/Comments/ActiveReviews", "/Comments/InactiveReviews"]
         createLI(links, href)
         div.appendChild(ul)
         divComments.appendChild(div)
