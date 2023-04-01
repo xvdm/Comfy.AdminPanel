@@ -60,6 +60,8 @@ namespace AdminPanel.Handlers.Products
 
             product.IsActive = false;
 
+            product.Url = "";
+
             await _context.Products.AddAsync(product, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
