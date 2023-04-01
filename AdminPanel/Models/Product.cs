@@ -34,12 +34,17 @@ namespace AdminPanel.Models
         public ICollection<Question> Questions { get; set; } = null!;
         public ICollection<Review> Reviews { get; set; } = null!;
 
+        private ICollection<WishList> WishLists { get; set; } = null!;
+        private ICollection<Order> Orders { get; set; } = null!;
 
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.HasIndex(x => x.Name).IsUnique();
             builder.HasIndex(x => x.Code).IsUnique();
             builder.HasIndex(x => x.Url).IsUnique();
+
+            builder.HasMany(x => x.Orders).WithMany(x => x.OrderedProducts);
+            builder.HasMany(x => x.WishLists).WithMany(x => x.Products);
         }
     }
 }
