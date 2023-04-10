@@ -1,0 +1,38 @@
+version: '3.8'
+
+networks:
+  comfy_network:
+    external: true
+
+volumes:
+  dbvolume:
+    external: true
+
+services:
+  adminpanel:
+    container_name: adminpanel
+    image: ${DOCKER_REGISTRY-}adminpanel
+    ports:
+      - "10080:80"
+      - "10443:443"
+    build:
+      context: .
+      dockerfile: AdminPanel/Dockerfile
+    depends_on:
+      - db
+    networks:
+      - comfy_network
+
+  db:
+    container_name: admin_panel_database
+    image: mariadb:11.0.1-rc
+    restart: always
+    volumes:
+      - dbvolume:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=password
+      - MARIADB_DATABASE=comfy
+    ports:
+      - "13306:3306"
+    networks:
+      - comfy_network

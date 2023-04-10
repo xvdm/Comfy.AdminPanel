@@ -20,7 +20,7 @@ var connectionString = builder.Configuration.GetConnectionString("AdminPanelCont
 
 
 
-builder.Services.AddDbContext<ApplicationDbContext>(config => config.UseMySql(connectionString, new MySqlServerVersion(new Version(10, 4, 25))));
+builder.Services.AddDbContext<ApplicationDbContext>(config => config.UseMySql(connectionString, new MySqlServerVersion(new Version(11, 0, 1))));
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(config => UseTestingIdentityConfig(config))
     .AddEntityFrameworkStores<ApplicationDbContext>();

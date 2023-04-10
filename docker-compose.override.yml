@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  adminpanel:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ConnectionStrings__AdminPanelContextConnection=server=db;database=comfy;uid=root;pwd=password;
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
