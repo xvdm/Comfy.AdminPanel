@@ -16,6 +16,7 @@ namespace AdminPanel.Models
 
         public ISet<Characteristic> UniqueCharacteristics { get; set; } = null!;
         public ISet<Brand> UniqueBrands { get; set; } = null!;
+        public ICollection<SubcategoryFilter> Filters { get; set; } = null!;
 
         public void Configure(EntityTypeBuilder<Subcategory> builder)
         {

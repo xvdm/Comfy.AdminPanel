@@ -1,0 +1,64 @@
+﻿@model ICollection<SubcategoryFilter>
+@{
+    ViewData["Title"] = "Subcategory filters";
+}
+
+
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Фільтри підкатегорій</p>
+        </div>
+    </div>
+    <div class="body body-with-sections">
+        <div class="section">
+            <div class="search-block">
+                <form asp-controller="Categories" asp-action="SubcategoryFilters">
+                    <input class="search-block-input" type="text" name="searchString" />
+                    <button class="search-block-btn" type="submit" value="Пошук">
+                        <span class="material-icons "> search </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="section">
+            <h3>Додати фільтр до підкатегоріі</h3>
+            <form method="post" asp-controller="Categories" asp-action="AddSubcategoryFilter">
+                <input name="SubcategoryId" placeholder="subcategory id"/>
+                <input name="SubcategoryFilterName" placeholder="subcategory filter name"/>
+                <input name="SubcategoryFilter" placeholder="subcategory filter"/>
+                <button type="submit">Додати</button>
+            </form>
+        </div>
+        <div class="section">
+            <h3>Видалити фільтр до підкатегоріі</h3>
+            <form method="post" asp-controller="Categories" asp-action="DeleteSubcategoryFilter">
+                <input name="Id" placeholder="subcategory filter id"/>
+                <button type="submit">Видалити</button>
+            </form>
+        </div>
+        <div class="section">
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>SubcategoryId</th>
+                    <th>Name</th>
+                    <th>FilterQuery</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var filter in Model)
+                {
+                    <tr>
+                        <td>@filter.Id</td>
+                        <td>@filter.SubcategoryId</td>
+                        <td>@filter.Name</td>
+                        <td>@filter.FilterQuery</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

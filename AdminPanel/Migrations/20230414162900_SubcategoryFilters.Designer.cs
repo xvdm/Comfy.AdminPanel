@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdminPanel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230323173137_Initial")]
-    partial class Initial
+    [Migration("20230414162900_SubcategoryFilters")]
+    partial class SubcategoryFilters
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -89,12 +89,7 @@ namespace AdminPanel.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("SubcategoryId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubcategoryId");
 
                     b.ToTable("Brands");
                 });
@@ -449,7 +444,7 @@ namespace AdminPanel.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -481,6 +476,7 @@ namespace AdminPanel.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("DiscountAmount")
@@ -496,9 +492,6 @@ namespace AdminPanel.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -506,10 +499,8 @@ namespace AdminPanel.Migrations
                         .HasColumnType("double");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
-
-                    b.Property<int?>("WishListId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -525,12 +516,8 @@ namespace AdminPanel.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("Url")
                         .IsUnique();
-
-                    b.HasIndex("WishListId");
 
                     b.ToTable("Products");
                 });
@@ -719,6 +706,30 @@ namespace AdminPanel.Migrations
                     b.ToTable("Subcategories");
                 });
 
+            modelBuilder.Entity("AdminPanel.Models.SubcategoryFilter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("FilterQuery")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SubcategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubcategoryId");
+
+                    b.ToTable("SubcategoryFilters");
+                });
+
             modelBuilder.Entity("AdminPanel.Models.SubcategoryImage", b =>
                 {
                     b.Property<int>("Id")
@@ -748,6 +759,21 @@ namespace AdminPanel.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("WishLists");
+                });
+
+            modelBuilder.Entity("BrandSubcategory", b =>
+                {
+                    b.Property<int>("SubcategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UniqueBrandsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SubcategoriesId", "UniqueBrandsId");
+
+                    b.HasIndex("UniqueBrandsId");
+
+                    b.ToTable("BrandSubcategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -849,6 +875,36 @@ namespace AdminPanel.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<int>("OrderedProductsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderedProductsId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("OrderProduct");
+                });
+
+            modelBuilder.Entity("ProductWishList", b =>
+                {
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WishListsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductsId", "WishListsId");
+
+                    b.HasIndex("WishListsId");
+
+                    b.ToTable("ProductWishList");
+                });
+
             modelBuilder.Entity("AdminPanel.Models.Address", b =>
                 {
                     b.HasOne("AdminPanel.Models.AddressType", "AddressType")
@@ -866,13 +922,6 @@ namespace AdminPanel.Migrations
                     b.Navigation("AddressType");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("AdminPanel.Models.Brand", b =>
-                {
-                    b.HasOne("AdminPanel.Models.Subcategory", null)
-                        .WithMany("UniqueBrands")
-                        .HasForeignKey("SubcategoryId");
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Characteristic", b =>
@@ -993,7 +1042,8 @@ namespace AdminPanel.Migrations
                     b.HasOne("AdminPanel.Models.Product", "Product")
                         .WithMany("PriceHistory")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });
@@ -1017,14 +1067,6 @@ namespace AdminPanel.Migrations
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("AdminPanel.Models.Order", null)
-                        .WithMany("OrderedProducts")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("AdminPanel.Models.WishList", null)
-                        .WithMany("Products")
-                        .HasForeignKey("WishListId");
 
                     b.Navigation("Brand");
 
@@ -1126,6 +1168,17 @@ namespace AdminPanel.Migrations
                     b.Navigation("MainCategory");
                 });
 
+            modelBuilder.Entity("AdminPanel.Models.SubcategoryFilter", b =>
+                {
+                    b.HasOne("AdminPanel.Models.Subcategory", "Subcategory")
+                        .WithMany("Filters")
+                        .HasForeignKey("SubcategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subcategory");
+                });
+
             modelBuilder.Entity("AdminPanel.Models.WishList", b =>
                 {
                     b.HasOne("AdminPanel.Models.Identity.ApplicationUser", "User")
@@ -1135,6 +1188,21 @@ namespace AdminPanel.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BrandSubcategory", b =>
+                {
+                    b.HasOne("AdminPanel.Models.Subcategory", null)
+                        .WithMany()
+                        .HasForeignKey("SubcategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdminPanel.Models.Brand", null)
+                        .WithMany()
+                        .HasForeignKey("UniqueBrandsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1188,14 +1256,39 @@ namespace AdminPanel.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("AdminPanel.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("OrderedProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdminPanel.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductWishList", b =>
+                {
+                    b.HasOne("AdminPanel.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdminPanel.Models.WishList", null)
+                        .WithMany()
+                        .HasForeignKey("WishListsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AdminPanel.Models.MainCategory", b =>
                 {
                     b.Navigation("Categories");
-                });
-
-            modelBuilder.Entity("AdminPanel.Models.Order", b =>
-                {
-                    b.Navigation("OrderedProducts");
                 });
 
             modelBuilder.Entity("AdminPanel.Models.Product", b =>
@@ -1223,14 +1316,9 @@ namespace AdminPanel.Migrations
 
             modelBuilder.Entity("AdminPanel.Models.Subcategory", b =>
                 {
-                    b.Navigation("UniqueBrands");
+                    b.Navigation("Filters");
 
                     b.Navigation("UniqueCharacteristics");
-                });
-
-            modelBuilder.Entity("AdminPanel.Models.WishList", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

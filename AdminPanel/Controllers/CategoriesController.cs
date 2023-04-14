@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Helpers;
+using AdminPanel.MediatorHandlers.Categories;
 using AdminPanel.MediatorHandlers.Products.Categories;
 using AdminPanel.Models.ViewModels;
 using MediatR;
@@ -30,6 +31,29 @@ namespace AdminPanel.Controllers
         {
             var subcategories = await _mediator.Send(new GetSubcategoriesQuery(id));
             return View(subcategories);
+        }
+
+        public async Task<IActionResult> SubcategoryFilters(string? searchString)
+        {
+            var subcategoryFilters = await _mediator.Send(new GetSubcategoryFiltersQuery());
+            return View(subcategoryFilters);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSubcategoryFilter(int subcategoryId, string subcategoryFilterName, string subcategoryFilter)
+        {
+            await _mediator.Send(new AddSubcategoryFilterCommand(subcategoryId, subcategoryFilterName, subcategoryFilter));
+            var subcategoryFilters = await _mediator.Send(new GetSubcategoryFiltersQuery());
+            return View(nameof(SubcategoryFilters), subcategoryFilters);
+        }
+        
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSubcategoryFilter(int id)
+        {
+            await _mediator.Send(new DeleteSubcategoryFilterCommand(id));
+            var subcategoryFilters = await _mediator.Send(new GetSubcategoryFiltersQuery());
+            return View(nameof(SubcategoryFilters), subcategoryFilters);
         }
 
         public IActionResult GetSubcategoriesForMainCategory(string mainCategoryId)

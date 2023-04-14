@@ -704,6 +704,30 @@ namespace AdminPanel.Migrations
                     b.ToTable("Subcategories");
                 });
 
+            modelBuilder.Entity("AdminPanel.Models.SubcategoryFilter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("FilterQuery")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SubcategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubcategoryId");
+
+                    b.ToTable("SubcategoryFilters");
+                });
+
             modelBuilder.Entity("AdminPanel.Models.SubcategoryImage", b =>
                 {
                     b.Property<int>("Id")
@@ -1142,6 +1166,17 @@ namespace AdminPanel.Migrations
                     b.Navigation("MainCategory");
                 });
 
+            modelBuilder.Entity("AdminPanel.Models.SubcategoryFilter", b =>
+                {
+                    b.HasOne("AdminPanel.Models.Subcategory", "Subcategory")
+                        .WithMany("Filters")
+                        .HasForeignKey("SubcategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subcategory");
+                });
+
             modelBuilder.Entity("AdminPanel.Models.WishList", b =>
                 {
                     b.HasOne("AdminPanel.Models.Identity.ApplicationUser", "User")
@@ -1279,6 +1314,8 @@ namespace AdminPanel.Migrations
 
             modelBuilder.Entity("AdminPanel.Models.Subcategory", b =>
                 {
+                    b.Navigation("Filters");
+
                     b.Navigation("UniqueCharacteristics");
                 });
 #pragma warning restore 612, 618

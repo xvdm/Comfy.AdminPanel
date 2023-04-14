@@ -24,7 +24,7 @@ services:
       - comfy_network
 
   db:
-    container_name: admin_panel_database
+    container_name: database
     image: mariadb:11.0.1-rc
     restart: always
     volumes:
