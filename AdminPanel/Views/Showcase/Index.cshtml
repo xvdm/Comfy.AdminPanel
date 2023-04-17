@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ShowcaseGroup>
+@{
+    ViewData["Title"] = "Showcase";
+}
+
+
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Вітрина товарів</p>
+        </div>
+    </div>
+
+    <div class="body body-with-sections">
+        
+            @foreach (var group in Model)
+            {
+                <div class="section">
+                    <h4>@group.Name / @group.QueryString</h4>
+                    <div class="section">
+                        <form method="post" asp-controller="Showcase" asp-action="RemoveGroup">
+                            <input hidden name="GroupId" value="@group.Id"/>
+                            <button type="submit">Видалити групу</button>
+                        </form>
+                        <br/>
+                        <a asp-controller="Showcase" asp-action="EditGroup" asp-route-groupId="@group.Id" asp-route-name="@group.Name" asp-route-queryString="@group.QueryString">Редагувати групу</a>
+                    </div>
+                    <br/>
+                    <h5>Список товарів:</h5>
+                    @foreach (var product in group.Products)
+                    {
+                    <div class="section">
+                            <h6>@product.Name</h6>
+                            <form method="post" asp-controller="Showcase" asp-action="RemoveProduct">
+                                <input hidden name="GroupId" value="@group.Id"/>
+                                <input hidden name="ProductId" value="@product.Id"/>
+                                <button type="submit">Видалити цей товар з групи</button>
+                            </form>
+                        </div>
+                        <br/>
+                    }
+                    <form method="post" asp-controller="Showcase" asp-action="AddProduct">
+                        <input hidden name="GroupId" value="@group.Id"/>
+                        <input name="ProductCode" placeholder="Артикул товару"/>
+                        <button type="submit">Додати цей товар до групи</button>
+                    </form>
+                </div>
+            }
+            <div class="section">
+            <h4>Додати групу</h4>
+            <form method="post" asp-controller="Showcase" asp-action="AddGroup">
+                <input name="Name" placeholder="Ім'я" />
+                <input name="QueryString" placeholder="query string"/>
+                <button type="submit">Додати</button>
+            </form>
+        </div>
+    </div>
+</div>

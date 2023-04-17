@@ -40,6 +40,7 @@ namespace AdminPanel.Data
         public DbSet<MainCategoryImage> MainCategoryImages { get; set; } = null!;
         public DbSet<SubcategoryImage> SubcategoryImages { get; set; } = null!;
         public DbSet<SubcategoryFilter> SubcategoryFilters { get; set; } = null!;
+        public DbSet<ShowcaseGroup> ShowcaseGroups { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

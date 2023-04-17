@@ -1,0 +1,24 @@
+﻿@model ShowcaseGroup
+@{
+    ViewData["Title"] = "Edit showcase group";
+}
+
+
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Вітрина товарів - Редагування групи</p>
+        </div>
+    </div>
+
+    <div class="body body-with-sections">
+        <div class="section">
+            <form method="post" asp-controller="Showcase" asp-action="UpdateGroup">
+                <input name="GroupId" value="@Model.Id" hidden />
+                <input name="Name" value="@Model.Name" placeholder="name"/>
+                <input name="QueryString" value="@Model.QueryString" placeholder="query string"/>
+                <button type="submit">Оновити дані</button>
+            </form>
+        </div>
+    </div>
+</div>

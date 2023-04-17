@@ -43,8 +43,7 @@ namespace AdminPanel.Controllers
         public async Task<IActionResult> AddSubcategoryFilter(int subcategoryId, string subcategoryFilterName, string subcategoryFilter)
         {
             await _mediator.Send(new AddSubcategoryFilterCommand(subcategoryId, subcategoryFilterName, subcategoryFilter));
-            var subcategoryFilters = await _mediator.Send(new GetSubcategoryFiltersQuery());
-            return View(nameof(SubcategoryFilters), subcategoryFilters);
+            return RedirectToAction(nameof(SubcategoryFilters));
         }
         
 
@@ -52,8 +51,7 @@ namespace AdminPanel.Controllers
         public async Task<IActionResult> DeleteSubcategoryFilter(int id)
         {
             await _mediator.Send(new DeleteSubcategoryFilterCommand(id));
-            var subcategoryFilters = await _mediator.Send(new GetSubcategoryFiltersQuery());
-            return View(nameof(SubcategoryFilters), subcategoryFilters);
+            return RedirectToAction(nameof(SubcategoryFilters));
         }
 
         public IActionResult GetSubcategoriesForMainCategory(string mainCategoryId)

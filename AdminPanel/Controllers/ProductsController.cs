@@ -95,7 +95,7 @@ namespace AdminPanel.Controllers
         {
             var command = new DeleteProductCommand(id);
             await _mediator.Send(command);
-            return LocalRedirect($"/Products/Products");
+            return RedirectToAction(nameof(Products));
         }
 
         [HttpPost]

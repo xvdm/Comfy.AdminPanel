@@ -36,6 +36,7 @@ namespace AdminPanel.Models
 
         public ICollection<WishList> WishLists { get; set; } = null!;
         public ICollection<Order> Orders { get; set; } = null!;
+        public ICollection<ShowcaseGroup> ShowcaseGroups { get; set; } = null!;
 
         public void Configure(EntityTypeBuilder<Product> builder)
         {
