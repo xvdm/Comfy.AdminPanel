@@ -2,7 +2,7 @@ version: '3.8'
 
 networks:
   comfy_network:
-    external: true
+  #  external: true
 
 volumes:
   dbvolume:
