@@ -559,4 +559,20 @@
 }
 
 
+
 /*#endregion*/
+.editbuttons {
+    display: inline-flex;
+    margin-left:10px;
+    
+}
+.pempty{
+    margin-bottom:0px;
+}
+.delete-prod-button{
+    margin-left:10px;
+}
+
+.add-prod-in-group{
+    margin-top:5px;
+}
