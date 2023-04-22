@@ -45,12 +45,12 @@ switch (userMainPosition[1]) {
         let divGoods = document.getElementById("Goods");
         blockMainLink(divGoods)
      
-        links = ["Товари", "Категорії","Бренди","Моделі"];
-        href = ["/Products/Products", "/Categories/Index","/AdminPanel/Brands","/AdminPanel/Models"]
+        links = ["Товари", "Бренди","Моделі","Вітрина товарів","Категорії", "Фільтри підкатегорій"];
+        href = ["/Products/Products", "/AdminPanel/Brands", "/AdminPanel/Models", "/Showcase/Index", "/Categories/Index","/Categories/SubcategoryFilters"]
         createLI(links, href)
         div.appendChild(ul)
         divGoods.appendChild(div)
-        break;
+        break; 
 
     case "Comments":
         let divComments = document.getElementById("Reviews");
@@ -67,8 +67,8 @@ switch (userMainPosition[1]) {
         let divApanel = document.getElementById("Goods");
         blockMainLink(divApanel)
      
-        links = ["Товари", "Категорії","Бренди","Моделі"];
-        href = ["/Products/Products", "/Categories/Index","/AdminPanel/Brands","/AdminPanel/Models"]
+        links = ["Товари",  "Бренди", "Моделі", "Вітрина товарів", "Категорії", "Фільтри підкатегорій"];
+        href = ["/Products/Products", "/AdminPanel/Brands", "/AdminPanel/Models", "/Showcase/Index", "/Categories/Index", "/Categories/SubcategoryFilters"]
         createLI(links, href)
         div.appendChild(ul)
         divApanel.appendChild(div)
@@ -79,13 +79,28 @@ switch (userMainPosition[1]) {
         blockMainLink(divCategories)
   
 
-        links = ["Товари", "Категорії", "Бренди", "Моделі"];
-        href = ["/Products/Products", "/Categories/Index", "/AdminPanel/Brands", "/AdminPanel/Models"]
+        links = ["Товари", "Бренди", "Моделі", "Вітрина товарів", "Категорії", "Фільтри підкатегорій"];
+        href = ["/Products/Products", "/AdminPanel/Brands", "/AdminPanel/Models", "/Showcase/Index", "/Categories/Index", "/Categories/SubcategoryFilters"]
 
         createLI(links, href)
 
         div.appendChild(ul)
         divCategories.appendChild(div)
+        
+        break;
+
+    case "Showcase":
+        let divShowcase = document.getElementById("Goods");
+        blockMainLink(divShowcase)
+  
+
+        links = ["Товари",  "Бренди", "Моделі", "Вітрина товарів","Категорії", "Фільтри підкатегорій"];
+        href = ["/Products/Products", "/AdminPanel/Brands", "/AdminPanel/Models", "/Showcase/Index", "/Categories/Index", "/Categories/SubcategoryFilters"]
+
+        createLI(links, href)
+
+        div.appendChild(ul)
+        divShowcase.appendChild(div)
         
         break;
 

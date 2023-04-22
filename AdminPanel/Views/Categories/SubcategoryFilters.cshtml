@@ -22,20 +22,21 @@
             </div>
         </div>
         <div class="section">
-            <h3>Додати фільтр до підкатегоріі</h3>
+            <h6>Додати фільтр до підкатегоріі</h6>
             <form method="post" asp-controller="Categories" asp-action="AddSubcategoryFilter">
-                <input name="SubcategoryId" placeholder="subcategory id"/>
-                <input name="SubcategoryFilterName" placeholder="subcategory filter name"/>
-                <input name="SubcategoryFilter" placeholder="subcategory filter"/>
+                <input name="SubcategoryId" placeholder="id підкатегорії"/>
+                <input name="SubcategoryFilterName" placeholder="ім`я підкатегорії"/>
+                <input name="SubcategoryFilter" placeholder="фільтер підкатегорії"/>
                 <button type="submit">Додати</button>
             </form>
         </div>
         <div class="section">
-            <h3>Видалити фільтр до підкатегоріі</h3>
+            <h6>Видалити фільтр до підкатегоріі</h6>
             <form method="post" asp-controller="Categories" asp-action="DeleteSubcategoryFilter">
-                <input name="Id" placeholder="subcategory filter id"/>
+                <input name="Id" placeholder="id підкатегорії"/>
                 <button type="submit">Видалити</button>
             </form>
+
         </div>
         <div class="section">
             <table class="table">
