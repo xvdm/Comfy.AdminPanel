@@ -20,7 +20,9 @@ namespace AdminPanel.MediatorHandlers.Categories
 
         public async Task<ICollection<SubcategoryFilter>> Handle(GetSubcategoryFiltersQuery request, CancellationToken cancellationToken)
         {
-            return await _context.SubcategoryFilters.ToListAsync(cancellationToken);
+            return await _context.SubcategoryFilters
+                .Include(x => x.Subcategory)
+                .ToListAsync(cancellationToken);
         }
     }
 }

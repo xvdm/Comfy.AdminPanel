@@ -43,7 +43,7 @@
                 <thead class="thead-light">
                 <tr>
                     <th>Id</th>
-                    <th>SubcategoryId</th>
+                    <th>Subcategory</th>
                     <th>Name</th>
                     <th>FilterQuery</th>
                 </tr>
@@ -53,7 +53,7 @@
                 {
                     <tr>
                         <td>@filter.Id</td>
-                        <td>@filter.SubcategoryId</td>
+                        <td>@filter.SubcategoryId | @filter.Subcategory.Name</td>
                         <td>@filter.Name</td>
                         <td>@filter.FilterQuery</td>
                     </tr>
