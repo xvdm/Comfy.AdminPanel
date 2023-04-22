@@ -20,13 +20,13 @@
                     {
                         <div name="maincategories-list">
                             <div class="maincategories-name">
-                                <p name="maincategories-name" value="@x.Id">@x.Name</p>
+                                <p name="maincategories-name" value="@x.Id">@x.Id | @x.Name</p>
                             </div>
                             <div name="subcategories-list">
                                 @foreach (var y in Model.Subcategories.Where(s => s.MainCategory.Id == x.Id))
                                 {
                                     <div class="subcategories-name">
-                                        <p name="subcategories-name" value="@x.Id,@y.Id">@y.Name</p>
+                                        <p name="subcategories-name" value="@x.Id,@y.Id">@y.Id | @y.Name</p>
                                     </div>
                                 }
                             </div>

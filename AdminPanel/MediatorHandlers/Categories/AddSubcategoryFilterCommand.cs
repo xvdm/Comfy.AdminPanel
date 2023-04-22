@@ -37,7 +37,7 @@ namespace AdminPanel.MediatorHandlers.Categories
             var filter = new SubcategoryFilter()
             {
                 SubcategoryId = subcategory.Id,
-                Subcategory = subcategory,
+                MainCategoryId = subcategory.MainCategoryId,
                 FilterQuery = request.SubcategoryFilter,
                 Name = request.SubcategoryFilterName
             };
