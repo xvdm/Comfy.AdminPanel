@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Banner>
+@{
+    ViewData["Title"] = "Banners";
+}
+
+
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Банери</p>
+        </div>
+    </div>
+
+    <div class="body body-with-sections">
+        <div class="sections">
+            <div class="left-section-editproduct">
+                <h6>Додати банер</h6>
+                <form method="post" asp-controller="Banners" asp-action="CreateBanner">
+                    <input name="Name" placeholder="Ім'я" />
+                    <input name="ImageUrl" placeholder="image url" />
+                    <input name="PageUrl" placeholder="page url" />
+                    <button type="submit">Додати</button>
+                </form>
+            </div>
+        </div>
+        @foreach (var banner in Model)
+        {
+            <div class="sections">
+                <div class="left-section-editproduct">
+                    <table>
+                        <thead>
+                            <tr>Name: @banner.Name</tr>
+                            <br>
+                            <tr>Image: @banner.ImageUrl</tr>
+                            <br>
+                            <tr>Page: @banner.PageUrl</tr>
+                            <br>
+                            <tr class="editbuttons">
+                                <form method="post" asp-controller="Banners" asp-action="DeleteBanner">
+                                    <input hidden name="Id" value="@banner.Id" />
+                                    <button type="submit">Видалити банер</button>
+                                </form>
+                                <form asp-controller="Banners" asp-action="EditBanner" asp-route-id="@banner.Id" asp-route-name="@banner.Name" asp-route-imageUrl="@banner.ImageUrl" asp-route-pageUrl="@banner.PageUrl">
+                                    <button type="submit">Редагувати банер</button>
+                                </form>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>

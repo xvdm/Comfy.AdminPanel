@@ -1,0 +1,25 @@
+﻿@model Banner
+@{
+    ViewData["Title"] = "Edit banner";
+}
+
+
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Банери - Редагування банера</p>
+        </div>
+    </div>
+
+    <div class="body body-with-sections">
+        <div class="section">
+            <form method="post" asp-controller="Banners" asp-action="UpdateBanner">
+                <input name="Id" value="@Model.Id" hidden />
+                <input name="Name" value="@Model.Name" placeholder="name" />
+                <input name="ImageUrl" value="@Model.ImageUrl" placeholder="image url" />
+                <input name="PageUrl" value="@Model.PageUrl" placeholder="page url" />
+                <button type="submit">Оновити дані</button>
+            </form>
+        </div>
+    </div>
+</div>
