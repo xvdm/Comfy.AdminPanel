@@ -1,14 +1,13 @@
 ﻿using AdminPanel.Models.Identity;
 
-namespace AdminPanel.Models
+namespace AdminPanel.Models;
+
+public class WishList
 {
-    public class WishList
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public Guid UserId { get; set; }
-        public ApplicationUser User { get; set; } = null!;
+    public Guid UserId { get; set; }
+    public ApplicationUser User { get; set; } = null!;
 
-        public ICollection<Product> Products { get; set; } = null!;
-    }
+    public ICollection<Product> Products { get; set; } = null!;
 }

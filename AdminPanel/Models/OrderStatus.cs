@@ -1,8 +1,7 @@
-﻿namespace AdminPanel.Models
+﻿namespace AdminPanel.Models;
+
+public class OrderStatus
 {
-    public class OrderStatus
-    {
-        public int Id { get; set; }
-        public string Status { get; set; } = null!;
-    }
+    public int Id { get; set; }
+    public string Status { get; set; } = null!;
 }

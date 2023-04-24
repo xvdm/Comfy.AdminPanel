@@ -1,8 +1,7 @@
-﻿namespace AdminPanel.Models
+﻿namespace AdminPanel.Models;
+
+public class CharacteristicValue
 {
-    public class CharacteristicValue
-    {
-        public int Id { get; set; }
-        public string Value { get; set; } = null!;
-    }
+    public int Id { get; set; }
+    public string Value { get; set; } = null!;
 }
