@@ -29,9 +29,9 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBanner(string name, string imageUrl, string pageUrl)
+        public async Task<IActionResult> CreateBanner(string name, string pageUrl, IFormFile image)
         {
-            await _mediator.Send(new CreateBannerCommand(name, imageUrl, pageUrl));
+            await _mediator.Send(new CreateBannerCommand(name, pageUrl, image));
             return RedirectToAction(nameof(Index));
         }
 
@@ -43,9 +43,9 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateBanner(int id, string name, string imageUrl, string pageUrl)
+        public async Task<IActionResult> UpdateBanner(int id, string name, string pageUrl, IFormFile image)
         {
-            await _mediator.Send(new EditBannerCommand(id, name, imageUrl, pageUrl));
+            await _mediator.Send(new EditBannerCommand(id, name, pageUrl, image));
             return RedirectToAction(nameof(Index));
         }
     }

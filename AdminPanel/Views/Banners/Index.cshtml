@@ -15,10 +15,10 @@
         <div class="sections">
             <div class="left-section-editproduct">
                 <h6>Додати банер</h6>
-                <form method="post" asp-controller="Banners" asp-action="CreateBanner">
-                    <input name="Name" placeholder="Ім'я" />
-                    <input name="ImageUrl" placeholder="image url" />
-                    <input name="PageUrl" placeholder="page url" />
+                <form method="post" asp-controller="Banners" asp-action="CreateBanner" enctype="multipart/form-data">
+                    <input name="Name" placeholder="Ім'я" required />
+                    <input name="PageUrl" placeholder="page url" required />
+                    <input type="file" accept="image/*" name="Image" placeholder="image url" required />
                     <button type="submit">Додати</button>
                 </form>
             </div>
@@ -31,9 +31,12 @@
                         <thead>
                             <tr>Name: @banner.Name</tr>
                             <br>
-                            <tr>Image: @banner.ImageUrl</tr>
-                            <br>
                             <tr>Page: @banner.PageUrl</tr>
+                            <br>
+                            <br>
+                            <tr>
+                                <img src="@banner.ImageUrl" alt="@banner.ImageUrl" />
+                            </tr>
                             <br>
                             <tr class="editbuttons">
                                 <form method="post" asp-controller="Banners" asp-action="DeleteBanner">

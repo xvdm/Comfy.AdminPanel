@@ -13,11 +13,12 @@
 
     <div class="body body-with-sections">
         <div class="section">
-            <form method="post" asp-controller="Banners" asp-action="UpdateBanner">
+            <img src="@Model.ImageUrl" alt="@Model.ImageUrl" />
+            <form method="post" asp-controller="Banners" asp-action="UpdateBanner" enctype="multipart/form-data">
                 <input name="Id" value="@Model.Id" hidden />
                 <input name="Name" value="@Model.Name" placeholder="name" />
-                <input name="ImageUrl" value="@Model.ImageUrl" placeholder="image url" />
                 <input name="PageUrl" value="@Model.PageUrl" placeholder="page url" />
+                <input type="file" accept="image/*" name="Image" placeholder="image url" required />
                 <button type="submit">Оновити дані</button>
             </form>
         </div>
