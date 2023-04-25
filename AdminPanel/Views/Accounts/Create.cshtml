@@ -17,11 +17,10 @@
             @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Owner)).Succeeded)
             {
                 <option value="@PoliciesNames.Owner">@PoliciesNames.Owner</option>
-                <option value="@PoliciesNames.SeniorManager">@PoliciesNames.SeniorManager</option>
+                <option value="@PoliciesNames.SeniorAdministrator">@PoliciesNames.SeniorAdministrator</option>
             }
-            @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.SeniorManager)).Succeeded)
+            @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.SeniorAdministrator)).Succeeded)
             {
-                <option value="@PoliciesNames.Manager">@PoliciesNames.Manager</option>
                 <option selected value="@PoliciesNames.Administrator">@PoliciesNames.Administrator</option>
             }
         </select>

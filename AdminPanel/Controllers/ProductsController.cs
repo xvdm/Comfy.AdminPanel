@@ -50,7 +50,6 @@ namespace AdminPanel.Controllers
             return View(viewModel);
         }
 
-
         public async Task<IActionResult> ChangeProductActivityStatus(string productId, string isActive)
         {
             if (int.TryParse(productId, out var productIdInt) == false)

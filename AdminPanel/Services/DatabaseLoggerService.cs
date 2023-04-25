@@ -19,7 +19,9 @@ namespace AdminPanel.Services
 
         public async Task LogUserAction(ClaimsPrincipal user, Guid subjectUserId, string action)
         {
-            var loggingAction = await _context.LoggingActions.FirstAsync(x => x.Action == action);
+            var loggingAction = await _context.LoggingActions.FirstOrDefaultAsync(x => x.Action == action);
+            if (loggingAction is null) return;
+
             var userLog = new UserLog() { 
                 UserId = Guid.Parse(_userManager.GetUserId(user)), 
                 SubjectUserId = subjectUserId, 

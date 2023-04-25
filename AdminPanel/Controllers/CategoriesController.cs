@@ -40,6 +40,7 @@ namespace AdminPanel.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
         public async Task<IActionResult> AddSubcategoryFilter(int subcategoryId, string subcategoryFilterName, string subcategoryFilter)
         {
             await _mediator.Send(new AddSubcategoryFilterCommand(subcategoryId, subcategoryFilterName, subcategoryFilter));
@@ -48,6 +49,7 @@ namespace AdminPanel.Controllers
         
 
         [HttpPost]
+        [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
         public async Task<IActionResult> DeleteSubcategoryFilter(int id)
         {
             await _mediator.Send(new DeleteSubcategoryFilterCommand(id));
@@ -67,6 +69,7 @@ namespace AdminPanel.Controllers
             return Content(result);
         }
 
+        [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
         public async Task<IActionResult> EditMainCategoryName(string id, string name)
         {
             if (int.TryParse(id, out var categoryId) == false)
@@ -77,6 +80,7 @@ namespace AdminPanel.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
         public async Task<IActionResult> EditSubcategoryName(string id, string name)
         {
             if (int.TryParse(id, out var categoryId) == false)
@@ -87,6 +91,7 @@ namespace AdminPanel.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
         public async Task<IActionResult> DeleteMainCategory(string id)
         {
             if (int.TryParse(id, out var categoryId) == false)
@@ -98,6 +103,7 @@ namespace AdminPanel.Controllers
             return BadRequest("Main category still has subcategories");
         }
 
+        [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
         public async Task<IActionResult> DeleteSubcategory(string id)
         {
             if (int.TryParse(id, out var categoryId) == false)

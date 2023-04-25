@@ -7,7 +7,7 @@ using AdminPanel.Handlers.Logging;
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
-    [Authorize(Policy = PoliciesNames.Manager)]
+    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
     public class LoggingController : Controller
     {
         private readonly IMediator _mediator;
@@ -17,7 +17,6 @@ namespace AdminPanel.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Policy = PoliciesNames.SeniorManager)]
         public async Task<IActionResult> UserLogs(string? searchString, int? pageSize, int? pageNumber)
         {
             var userLogs = await _mediator.Send(new GetUserLogsQuery(searchString, pageSize, pageNumber));

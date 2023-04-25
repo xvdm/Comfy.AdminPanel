@@ -1,4 +1,5 @@
-﻿using AdminPanel.MediatorHandlers.Banners;
+﻿using AdminPanel.Helpers;
+using AdminPanel.MediatorHandlers.Banners;
 using AdminPanel.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
-    [Authorize]
+    [Authorize(Policy = PoliciesNames.Administrator)]
     public class BannersController : Controller
     {
         private readonly IMediator _mediator;

@@ -1,4 +1,5 @@
-﻿using AdminPanel.MediatorHandlers.Questions;
+﻿using AdminPanel.Helpers;
+using AdminPanel.MediatorHandlers.Questions;
 using AdminPanel.MediatorHandlers.Reviews;
 using AdminPanel.Models.ViewModels;
 using MediatR;
@@ -7,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Controllers
 {
-    [Authorize]
     [AutoValidateAntiforgeryToken]
+    [Authorize(Policy = PoliciesNames.Administrator)]
     public class CommentsController : Controller
     {
         private readonly IMediator _mediator;

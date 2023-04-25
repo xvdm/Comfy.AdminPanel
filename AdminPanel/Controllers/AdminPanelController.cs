@@ -124,8 +124,8 @@ namespace AdminPanel.Controllers
             return Ok(result);
         }
 
-        [Authorize(Policy = PoliciesNames.Owner)]
         [HttpPost]
+        [Authorize(Policy = PoliciesNames.Owner)]
         public async Task<IActionResult> CreateMainCategory(string name)
         {
             var category = new MainCategory()
@@ -136,8 +136,8 @@ namespace AdminPanel.Controllers
             return Ok();
         }
 
-        [Authorize(Policy = PoliciesNames.Owner)]
         [HttpPost]
+        [Authorize(Policy = PoliciesNames.Owner)]
         public async Task<IActionResult> CreateSubcategory(string mainCategoryId, string name)
         {
             if (int.TryParse(mainCategoryId, out var mainCategoryIdInt) == false)

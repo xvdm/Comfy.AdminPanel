@@ -10,7 +10,7 @@ using AdminPanel.Handlers.Logging;
 namespace AdminPanel.Controllers
 {
     [AutoValidateAntiforgeryToken]
-    [Authorize(Policy = PoliciesNames.Manager)]
+    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
     public class AccountsController : Controller
     {
         private readonly IMediator _mediator;
@@ -48,11 +48,10 @@ namespace AdminPanel.Controllers
                     await _mediator.Send(createUserLogCommand);
                 }
             }
-            return View(nameof(ActiveUsers));
+            return RedirectToAction(nameof(ActiveUsers));
         }
 
         [HttpPost]
-        [Authorize(Policy = PoliciesNames.SeniorManager)]
         public async Task<IActionResult> CreateUser(CreateUserDTO model)
         {
             if(ModelState.IsValid)
@@ -76,9 +75,7 @@ namespace AdminPanel.Controllers
                 var createUserLogCommand = new CreateUserLogCommand(User, id, LoggingActionNames.Lockout);
                 await _mediator.Send(createUserLogCommand);
             }
-
-            var users = await _mediator.Send(new GetDTOUsersQuery(searchString, false));
-            return View(nameof(ActiveUsers), users);
+            return RedirectToAction(nameof(ActiveUsers));
         }
 
         [HttpPost]
@@ -90,9 +87,7 @@ namespace AdminPanel.Controllers
                 var createUserLogCommand = new CreateUserLogCommand(User, id, LoggingActionNames.Activate);
                 await _mediator.Send(createUserLogCommand);
             }
-
-            var users = await _mediator.Send(new GetDTOUsersQuery(searchString, true));
-            return View(nameof(LockoutedUsers), users);
+            return RedirectToAction(nameof(LockoutedUsers));
         }
     }
 }

@@ -36,30 +36,22 @@ builder.Services.ConfigureApplicationCookie(config =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(PoliciesNames.Owner, builder =>
+    options.AddPolicy(PoliciesNames.Owner, policyBuilder =>
     {
-        builder.RequireAssertion(x => 
+        policyBuilder.RequireAssertion(x => 
             x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner));
     });
-    options.AddPolicy(PoliciesNames.SeniorManager, builder =>
+    options.AddPolicy(PoliciesNames.SeniorAdministrator, policyBuilder =>
     {
-        builder.RequireAssertion(x =>
+        policyBuilder.RequireAssertion(x =>
             x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner) ||
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorManager));
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorAdministrator));
     });
-    options.AddPolicy(PoliciesNames.Manager, builder =>
+    options.AddPolicy(PoliciesNames.Administrator, policyBuilder =>
     {
-        builder.RequireAssertion(x =>
+        policyBuilder.RequireAssertion(x =>
             x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner) ||
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorManager) ||
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Manager));
-    });
-    options.AddPolicy(PoliciesNames.Administrator, builder =>
-    {
-        builder.RequireAssertion(x =>
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner) ||
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorManager) ||
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Manager) ||
+            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorAdministrator) ||
             x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Administrator));
     });
 });
