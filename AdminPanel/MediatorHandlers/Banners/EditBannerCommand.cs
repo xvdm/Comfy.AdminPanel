@@ -10,9 +10,9 @@ public class EditBannerCommand : IRequest
     public int Id { get; set; }
     public string Name { get; set; }
     public string PageUrl { get; set; }
-    public IFormFile Image { get; set; }
+    public IFormFile? Image { get; set; }
 
-    public EditBannerCommand(int id, string name, string pageUrl, IFormFile image)
+    public EditBannerCommand(int id, string name, string pageUrl, IFormFile? image)
     {
         Id = id;
         Name = name;
@@ -39,11 +39,14 @@ public class EditBannerCommandHandler : IRequestHandler<EditBannerCommand>
         var banner = await _context.Banners.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (banner is null) return;
 
-        _removeImageFromFileSystemService.RemoveImage(banner.ImageUrl);
-        var path = await _uploadImageToFileSystemService.UploadImage(request.Image);
+        if (request.Image is not null)
+        {
+            _removeImageFromFileSystemService.RemoveImage(banner.ImageUrl);
+            var path = await _uploadImageToFileSystemService.UploadImage(request.Image);
+            banner.ImageUrl = path;
+        }
 
         banner.Name = request.Name;
-        banner.ImageUrl = path;
         banner.PageUrl = request.PageUrl;
         await _context.SaveChangesAsync(cancellationToken);
     }
