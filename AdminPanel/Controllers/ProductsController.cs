@@ -1,5 +1,4 @@
-﻿using AdminPanel.Handlers.Products;
-using AdminPanel.Helpers;
+﻿using AdminPanel.Helpers;
 using AdminPanel.MediatorHandlers.Products;
 using AdminPanel.MediatorHandlers.Products.Brands;
 using AdminPanel.MediatorHandlers.Products.Categories;
@@ -11,179 +10,179 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminPanel.Controllers
+namespace AdminPanel.Controllers;
+
+
+[AutoValidateAntiforgeryToken]
+[Authorize(Policy = PoliciesNames.Administrator)]
+public class ProductsController : Controller
 {
-    [AutoValidateAntiforgeryToken]
-    [Authorize(Policy = PoliciesNames.Administrator)]
-    public class ProductsController : Controller
+    private readonly IMediator _mediator;
+
+    public ProductsController(IMediator mediator)
     {
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        public ProductsController(IMediator mediator)
+    public async Task<IActionResult> CreateProduct()
+    {
+        var viewModel = await GetMainCategoriesBrandsModelsViewModel();
+        return View(viewModel);
+    }
+
+    public async Task<IActionResult> EditProduct(int id)
+    {
+        var viewModel = await GetProductCategoriesViewModel(id);
+        if(viewModel.Product is null)
         {
-            _mediator = mediator;
+            return NotFound(viewModel.Product);
         }
+        return View(viewModel);
+    }
 
-        public async Task<IActionResult> CreateProduct()
+    public async Task<IActionResult> Products(string? searchString, int? pageSize, int? pageNumber)
+    {
+        var products = await _mediator.Send(new GetProductsQuery(searchString, pageSize, pageNumber));
+        var viewModel = new ProductsViewModel()
+        {
+            Products = products
+        };
+        return View(viewModel);
+    }
+
+    public async Task<IActionResult> ChangeProductActivityStatus(string productId, string isActive)
+    {
+        if (int.TryParse(productId, out var productIdInt) == false)
+        {
+            return BadRequest("ChangeProductActivityStatus :: productId :: parse to int error");
+        }
+        if (bool.TryParse(isActive, out var isActiveBool) == false)
+        {
+            return BadRequest("ChangeProductActivityStatus :: isActive :: parse to bool error");
+        }
+        await _mediator.Send(new ChangeProductActivityStatusCommand(productIdInt, isActiveBool));
+        return Ok();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateProduct(ProductDTO productDto)
+    {
+        if (!ModelState.IsValid)
         {
             var viewModel = await GetMainCategoriesBrandsModelsViewModel();
             return View(viewModel);
         }
+        var command = productDto.Adapt<CreateProductCommand>();
+        var productId = await _mediator.Send(command);
+        return LocalRedirect($"/Products/EditProduct/{productId}");
+    }
 
-        public async Task<IActionResult> EditProduct(int id)
+    [HttpPost]
+    public async Task<IActionResult> EditProduct(EditProductDTO productDto)
+    {
+        if (!ModelState.IsValid)
         {
-            var viewModel = await GetProductCategoriesViewModel(id);
-            if(viewModel.Product is null)
-            {
-                return NotFound(viewModel.Product);
-            }
-            return View(viewModel);
+            return BadRequest("Incorrect data was passed");
+        }
+        var command = productDto.Adapt<EditProductCommand>();
+        var productId = await _mediator.Send(command);
+        return LocalRedirect($"/Products/EditProduct/{productId}");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteProduct(int id)
+    {
+        var command = new DeleteProductCommand(id);
+        await _mediator.Send(command);
+        return RedirectToAction(nameof(Products));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditCharacteristic(string productId, string id, string name, string value)
+    {
+        Console.WriteLine($"productId = {productId}");
+        if (int.TryParse(productId, out var productIdInt) == false)
+        {
+            return BadRequest("EditCharacteristic :: productId :: parse to int error");
+        }
+        if (int.TryParse(id, out var idInt) == false)
+        {
+            return BadRequest("EditCharacteristic :: id :: parse to int error");
         }
 
-        public async Task<IActionResult> Products(string? searchString, int? pageSize, int? pageNumber)
+        var product = await _mediator.Send(new GetProductByIdQuery(productIdInt));
+        if (product is null)
         {
-            var products = await _mediator.Send(new GetProductsQuery(searchString, pageSize, pageNumber));
-            var viewModel = new ProductsViewModel()
-            {
-                Products = products
-            };
-            return View(viewModel);
+            return NotFound("No product with given Id was found");
         }
+        var editCharacteristicCommand = new EditProductCharacteristicCommand(product, idInt, name, value);
+        await _mediator.Send(editCharacteristicCommand);
+        return Ok();
+    }
 
-        public async Task<IActionResult> ChangeProductActivityStatus(string productId, string isActive)
+    [HttpPost]
+    public async Task<IActionResult> DeleteCharacteristic(string productId, string id)
+    {
+        if (int.TryParse(productId, out var _) == false)
         {
-            if (int.TryParse(productId, out var productIdInt) == false)
-            {
-                return BadRequest("ChangeProductActivityStatus :: productId :: parse to int error");
-            }
-            if (bool.TryParse(isActive, out var isActiveBool) == false)
-            {
-                return BadRequest("ChangeProductActivityStatus :: isActive :: parse to bool error");
-            }
-            await _mediator.Send(new ChangeProductActivityStatusCommand(productIdInt, isActiveBool));
-            return Ok();
+            return BadRequest("DeleteCharacteristic :: productId :: parse to int error");
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductDTO productDto)
+        if (int.TryParse(id, out var idInt) == false)
         {
-            if (!ModelState.IsValid)
-            {
-                var viewModel = await GetMainCategoriesBrandsModelsViewModel();
-                return View(viewModel);
-            }
-            var command = productDto.Adapt<CreateProductCommand>();
-            var productId = await _mediator.Send(command);
-            return LocalRedirect($"/Products/EditProduct/{productId}");
+            return BadRequest("DeleteCharacteristic :: id :: parse to int error");
         }
+        await _mediator.Send(new DeleteProductCharacteristicCommand(idInt));
+        return Ok();
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> EditProduct(EditProductDTO productDto)
+    [HttpPost]
+    public async Task<IActionResult> AddCharacteristic(string productId, string name, string value)
+    {
+        if (int.TryParse(productId, out var productIdInt) == false)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Incorrect data was passed");
-            }
-            var command = productDto.Adapt<EditProductCommand>();
-            var productId = await _mediator.Send(command);
-            return LocalRedirect($"/Products/EditProduct/{productId}");
+            return BadRequest("AddCharacteristic :: productId :: parse to int error");
         }
+        var addCharacteristic = new AddProductCharacteristicCommand(productIdInt, name, value);
+        var characteristic = await _mediator.Send(addCharacteristic);
+        return Ok(characteristic);
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteProduct(int id)
+    private async Task<ProductCategoriesViewModel> GetProductCategoriesViewModel(int productId)
+    {
+        var product = await _mediator.Send(new GetProductByIdQuery(productId));
+        if(product is null)
         {
-            var command = new DeleteProductCommand(id);
-            await _mediator.Send(command);
-            return RedirectToAction(nameof(Products));
+            throw new HttpRequestException($"No product with id {productId} was found");
         }
+        var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
+        var subcategories = await _mediator.Send(new GetSubcategoriesForMainCategoryQuery(product.Category.MainCategoryId));
 
-        [HttpPost]
-        public async Task<IActionResult> EditCharacteristic(string productId, string id, string name, string value)
+        var models = await _mediator.Send(new GetModelsQuery(null, null));
+        var brands = await _mediator.Send(new GetBrandsQuery(null, null));
+
+        var viewModel = new ProductCategoriesViewModel()
         {
-            Console.WriteLine($"productId = {productId}");
-            if (int.TryParse(productId, out var productIdInt) == false)
-            {
-                return BadRequest("EditCharacteristic :: productId :: parse to int error");
-            }
-            if (int.TryParse(id, out var idInt) == false)
-            {
-                return BadRequest("EditCharacteristic :: id :: parse to int error");
-            }
+            Product = product,
+            MainCategories = mainCategories,
+            Subcategories = subcategories,
+            Models = models.OrderBy(x => x.Name),
+            Brands = brands.OrderBy(x => x.Name)
+        };
+        return viewModel;
+    }
 
-            var product = await _mediator.Send(new GetProductByIdQuery(productIdInt));
-            if (product is null)
-            {
-                return NotFound("No product with given Id was found");
-            }
-            var editCharacteristicCommand = new EditProductCharacteristicCommand(product, idInt, name, value);
-            await _mediator.Send(editCharacteristicCommand);
-            return Ok();
-        }
+    private async Task<MainCategoriesBrandsModelsViewModel> GetMainCategoriesBrandsModelsViewModel()
+    {
+        var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
+        var models = await _mediator.Send(new GetModelsQuery(null, null));
+        var brands = await _mediator.Send(new GetBrandsQuery(null, null));
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteCharacteristic(string productId, string id)
+        var viewModel = new MainCategoriesBrandsModelsViewModel()
         {
-            if (int.TryParse(productId, out var _) == false)
-            {
-                return BadRequest("DeleteCharacteristic :: productId :: parse to int error");
-            }
-            if (int.TryParse(id, out var idInt) == false)
-            {
-                return BadRequest("DeleteCharacteristic :: id :: parse to int error");
-            }
-            await _mediator.Send(new DeleteProductCharacteristicCommand(idInt));
-            return Ok();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCharacteristic(string productId, string name, string value)
-        {
-            if (int.TryParse(productId, out var productIdInt) == false)
-            {
-                return BadRequest("AddCharacteristic :: productId :: parse to int error");
-            }
-            var addCharacteristic = new AddProductCharacteristicCommand(productIdInt, name, value);
-            var characteristic = await _mediator.Send(addCharacteristic);
-            return Ok(characteristic);
-        }
-
-        private async Task<ProductCategoriesViewModel> GetProductCategoriesViewModel(int productId)
-        {
-            var product = await _mediator.Send(new GetProductByIdQuery(productId));
-            if(product is null)
-            {
-                throw new HttpRequestException($"No product with id {productId} was found");
-            }
-            var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
-            var subcategories = await _mediator.Send(new GetSubcategoriesForMainCategoryQuery(product.Category.MainCategoryId));
-
-            var models = await _mediator.Send(new GetModelsQuery(null, null));
-            var brands = await _mediator.Send(new GetBrandsQuery(null, null));
-
-            var viewModel = new ProductCategoriesViewModel()
-            {
-                Product = product,
-                MainCategories = mainCategories,
-                Subcategories = subcategories,
-                Models = models.OrderBy(x => x.Name),
-                Brands = brands.OrderBy(x => x.Name)
-            };
-            return viewModel;
-        }
-
-        private async Task<MainCategoriesBrandsModelsViewModel> GetMainCategoriesBrandsModelsViewModel()
-        {
-            var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
-            var models = await _mediator.Send(new GetModelsQuery(null, null));
-            var brands = await _mediator.Send(new GetBrandsQuery(null, null));
-
-            var viewModel = new MainCategoriesBrandsModelsViewModel()
-            {
-                MainCategories = mainCategories,
-                Models = models.OrderBy(x => x.Name),
-                Brands = brands.OrderBy(x => x.Name)
-            };
-            return viewModel;
-        }
+            MainCategories = mainCategories,
+            Models = models.OrderBy(x => x.Name),
+            Brands = brands.OrderBy(x => x.Name)
+        };
+        return viewModel;
     }
 }

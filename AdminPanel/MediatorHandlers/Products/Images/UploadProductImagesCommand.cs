@@ -1,22 +1,13 @@
 ﻿using AdminPanel.Data;
-using MediatR;
 using AdminPanel.Models;
 using AdminPanel.Services;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.CodeAnalysis;
 
 namespace AdminPanel.MediatorHandlers.Products.Images
 {
-    public class UploadProductImagesCommand : IRequest<bool>
-    {
-        public int ProductId { get; set; }
-        public ICollection<IFormFile> Files { get; set; }
-        public UploadProductImagesCommand(int productId, ICollection<IFormFile> files)
-        {
-            ProductId = productId;
-            Files = files;
-        }
-    }
+    public record UploadProductImagesCommand(int ProductId, ICollection<IFormFile> Files) : IRequest<bool>;
+
 
     public class UploadProductImagesCommandHandler : IRequestHandler<UploadProductImagesCommand, bool>
     {

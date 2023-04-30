@@ -2,38 +2,31 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Products.Categories
+namespace AdminPanel.MediatorHandlers.Products.Categories;
+
+public record DeleteSubcategoryCommand(int Id) : IRequest<bool>;
+
+
+public class DeleteSubcategoryCommandHandler : IRequestHandler<DeleteSubcategoryCommand, bool>
 {
-    public class DeleteSubcategoryCommand : IRequest<bool>
+    private readonly ApplicationDbContext _context;
+
+    public DeleteSubcategoryCommandHandler(ApplicationDbContext context)
     {
-        public int Id { get; set; }
-        public DeleteSubcategoryCommand(int id)
-        {
-            Id = id;
-        }
+        _context = context;
     }
 
-    public class DeleteSubcategoryCommandHandler : IRequestHandler<DeleteSubcategoryCommand, bool>
+    public async Task<bool> Handle(DeleteSubcategoryCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
+        var category = await _context.Subcategories.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        if (category is null) throw new HttpRequestException($"No Subcategory with id {request.Id}");
 
-        public DeleteSubcategoryCommandHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        var productWithCategory = await _context.Products.FirstOrDefaultAsync(x => x.CategoryId == request.Id, cancellationToken);
+        if (productWithCategory is not null) return false; // it's not allowed to delete a category while there are products in it
 
-        public async Task<bool> Handle(DeleteSubcategoryCommand request, CancellationToken cancellationToken)
-        {
-            var category = await _context.Subcategories.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-            if (category is null) throw new HttpRequestException($"No Subcategory with id {request.Id}");
+        _context.Subcategories.Remove(category);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            var productWithCategory = await _context.Products.FirstOrDefaultAsync(x => x.CategoryId == request.Id, cancellationToken);
-            if (productWithCategory is not null) return false; // нельзя удалять категорию, в которой есть товары
-
-            _context.Subcategories.Remove(category);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return true;
-        }
+        return true;
     }
 }

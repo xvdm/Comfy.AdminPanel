@@ -5,15 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public class DeleteBannerCommand : IRequest
-{
-    public int Id { get; set; }
+public record DeleteBannerCommand(int Id) : IRequest;
 
-    public DeleteBannerCommand(int id)
-    {
-        Id = id;
-    }
-}
 
 public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand>
 {

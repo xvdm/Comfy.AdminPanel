@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
+using AdminPanel.Behaviors;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -22,7 +23,7 @@ var connectionString = builder.Configuration.GetConnectionString("AdminPanelCont
 
 builder.Services.AddDbContext<ApplicationDbContext>(config => config.UseMySql(connectionString, new MySqlServerVersion(new Version(11, 0, 1))));
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(config => UseTestingIdentityConfig(config))
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(UseTestingIdentityConfig)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.ConfigureApplicationCookie(config =>
@@ -80,6 +81,11 @@ builder.Services.AddScoped<IUploadImageToFileSystemService, UploadImageToWwwRoot
 builder.Services.AddTransient<DatabaseLoggerService>();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
 
 var app = builder.Build();
 

@@ -2,43 +2,34 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Showcase
-{
-    public class AddProductToShowcaseCommand : IRequest
-    {
-        public int GroupId { get; set; }
-        public int ProductCode { get; set; }
+namespace AdminPanel.MediatorHandlers.Showcase;
 
-        public AddProductToShowcaseCommand(int groupId, int productCode)
-        {
-            GroupId = groupId;
-            ProductCode = productCode;
-        }
+public record AddProductToShowcaseCommand(int GroupId, int ProductCode) : IRequest;
+
+
+public class AddProductToShowcaseCommandHandler : IRequestHandler<AddProductToShowcaseCommand>
+{
+    private readonly ApplicationDbContext _context;
+    private const int MaxProductsInGroup = 4;
+
+    public AddProductToShowcaseCommandHandler(ApplicationDbContext context)
+    {
+        _context = context;
     }
 
-    public class AddProductToShowcaseCommandHandler : IRequestHandler<AddProductToShowcaseCommand>
+    public async Task Handle(AddProductToShowcaseCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
+        var group = await _context.ShowcaseGroups
+            .Include(x => x.Products)
+            .FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
+        if (group is null || group.Products.Count >= MaxProductsInGroup) return;
 
-        public AddProductToShowcaseCommandHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        var product = await _context.Products.FirstOrDefaultAsync(x => x.Code == request.ProductCode, cancellationToken);
+        if (product is null) return;
 
-        public async Task Handle(AddProductToShowcaseCommand request, CancellationToken cancellationToken)
-        {
-            var group = await _context.ShowcaseGroups
-                .Include(x => x.Products)
-                .FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
-            if (group is null || group.Products.Count >= 4) return;
+        if (group.Products.Contains(product)) return;
 
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Code == request.ProductCode, cancellationToken);
-            if (product is null) return;
-
-            if (group.Products.Contains(product)) return;
-
-            group.Products.Add(product);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        group.Products.Add(product);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

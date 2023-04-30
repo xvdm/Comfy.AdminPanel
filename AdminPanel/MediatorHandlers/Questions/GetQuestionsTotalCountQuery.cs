@@ -2,24 +2,22 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Questions
+namespace AdminPanel.MediatorHandlers.Questions;
+
+public record GetQuestionsTotalCountQuery : IRequest<int>;
+
+
+public class GetQuestionsTotalCountQueryHandler : IRequestHandler<GetQuestionsTotalCountQuery, int>
 {
-    public class GetQuestionsTotalCountQuery : IRequest<int>
+    private readonly ApplicationDbContext _context;
+
+    public GetQuestionsTotalCountQueryHandler(ApplicationDbContext context)
     {
+        _context = context;
     }
 
-    public class GetQuestionsTotalCountQueryHandler : IRequestHandler<GetQuestionsTotalCountQuery, int>
+    public async Task<int> Handle(GetQuestionsTotalCountQuery request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public GetQuestionsTotalCountQueryHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<int> Handle(GetQuestionsTotalCountQuery request, CancellationToken cancellationToken)
-        {
-            return await _context.Questions.CountAsync(cancellationToken);
-        }
+        return await _context.Questions.CountAsync(cancellationToken);
     }
 }

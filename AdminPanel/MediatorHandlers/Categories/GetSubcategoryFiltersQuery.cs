@@ -3,26 +3,23 @@ using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Categories
+namespace AdminPanel.MediatorHandlers.Categories;
+
+public record GetSubcategoryFiltersQuery : IRequest<ICollection<SubcategoryFilter>>;
+
+public class GetSubcategoryFiltersQueryHandler : IRequestHandler<GetSubcategoryFiltersQuery, ICollection<SubcategoryFilter>>
 {
-    public class GetSubcategoryFiltersQuery : IRequest<ICollection<SubcategoryFilter>>
+    private readonly ApplicationDbContext _context;
+
+    public GetSubcategoryFiltersQueryHandler(ApplicationDbContext context)
     {
+        _context = context;
     }
 
-    public class GetSubcategoryFiltersQueryHandler : IRequestHandler<GetSubcategoryFiltersQuery, ICollection<SubcategoryFilter>>
+    public async Task<ICollection<SubcategoryFilter>> Handle(GetSubcategoryFiltersQuery request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public GetSubcategoryFiltersQueryHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<ICollection<SubcategoryFilter>> Handle(GetSubcategoryFiltersQuery request, CancellationToken cancellationToken)
-        {
-            return await _context.SubcategoryFilters
-                .Include(x => x.Subcategory)
-                .ToListAsync(cancellationToken);
-        }
+        return await _context.SubcategoryFilters
+            .Include(x => x.Subcategory)
+            .ToListAsync(cancellationToken);
     }
 }

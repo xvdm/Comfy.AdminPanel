@@ -5,19 +5,8 @@ using MediatR;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public class CreateBannerCommand : IRequest
-{
-    public string Name { get; set; }
-    public string PageUrl { get; set; }
-    public IFormFile Image { get; set; }
+public record CreateBannerCommand(string Name, string PageUrl, IFormFile Image) : IRequest;
 
-    public CreateBannerCommand(string name, string pageUrl, IFormFile image)
-    {
-        Name = name;
-        PageUrl = pageUrl;
-        Image = image;
-    }
-}
 
 public class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand>
 {

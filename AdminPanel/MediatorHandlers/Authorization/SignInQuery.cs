@@ -2,36 +2,22 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace AdminPanel.Handlers.Authorization
+namespace AdminPanel.MediatorHandlers.Authorization;
+
+public record SignInQuery(ApplicationUser User, string Password, bool IsPersistent, bool LockoutOnFailure) : IRequest<SignInResult>;
+
+
+public class SignInQueryHandler : IRequestHandler<SignInQuery, SignInResult>
 {
-    public class SignInQuery : IRequest<SignInResult>
+    private readonly SignInManager<ApplicationUser> _signInManager;
+
+    public SignInQueryHandler(SignInManager<ApplicationUser> signInManager)
     {
-        public ApplicationUser User { get; }
-        public string Password { get; }
-        public bool IsPersistent { get; }
-        public bool LockoutOnFailure { get; }
-        public SignInQuery(ApplicationUser user, string password, bool isPersistent, bool lockoutOnFailure)
-        {
-            User = user;
-            Password = password;
-            IsPersistent = isPersistent;
-            LockoutOnFailure = lockoutOnFailure;
-        }
+        _signInManager = signInManager;
     }
 
-
-    public class SignInQueryHandler : IRequestHandler<SignInQuery, SignInResult>
+    public async Task<SignInResult> Handle(SignInQuery request, CancellationToken cancellationToken)
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-
-        public SignInQueryHandler(SignInManager<ApplicationUser> signInManager)
-        {
-            _signInManager = signInManager;
-        }
-
-        public async Task<SignInResult> Handle(SignInQuery request, CancellationToken cancellationToken)
-        {
-            return await _signInManager.PasswordSignInAsync(request.User, request.Password, request.IsPersistent, request.LockoutOnFailure);
-        }
+        return await _signInManager.PasswordSignInAsync(request.User, request.Password, request.IsPersistent, request.LockoutOnFailure);
     }
 }

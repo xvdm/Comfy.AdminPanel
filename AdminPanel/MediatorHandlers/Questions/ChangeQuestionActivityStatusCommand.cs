@@ -2,35 +2,25 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Questions
+namespace AdminPanel.MediatorHandlers.Questions;
+
+public record ChangeQuestionActivityStatusCommand(int QuestionId, bool IsActive) : IRequest;
+
+
+public class ChangeQuestionActivityStatusCommandHandler : IRequestHandler<ChangeQuestionActivityStatusCommand>
 {
-    public class ChangeQuestionActivityStatusCommand : IRequest
+    private readonly ApplicationDbContext _context;
+
+    public ChangeQuestionActivityStatusCommandHandler(ApplicationDbContext context)
     {
-        public int QuestionAnswerId { get; set; }
-        public bool IsActive { get; set; }
-        public ChangeQuestionActivityStatusCommand(int questionId, bool isActive)
-        {
-            QuestionAnswerId = questionId;
-            IsActive = isActive;
-        }
+        _context = context;
     }
 
-
-    public class ChangeQuestionActivityStatusCommandHandler : IRequestHandler<ChangeQuestionActivityStatusCommand>
+    public async Task Handle(ChangeQuestionActivityStatusCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public ChangeQuestionActivityStatusCommandHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task Handle(ChangeQuestionActivityStatusCommand request, CancellationToken cancellationToken)
-        {
-            var question = await _context.Questions.FirstOrDefaultAsync(x => x.Id == request.QuestionAnswerId, cancellationToken);
-            if (question is null) throw new HttpRequestException("Question was not found");
-            question.IsActive = request.IsActive;
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        var question = await _context.Questions.FirstOrDefaultAsync(x => x.Id == request.QuestionId, cancellationToken);
+        if (question is null) throw new HttpRequestException("Question was not found");
+        question.IsActive = request.IsActive;
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

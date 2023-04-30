@@ -1,9 +1,4 @@
-﻿using AdminPanel.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace AdminPanel.Data;
+﻿namespace AdminPanel.Areas.Identity.Data;
 
 //public class AdminPanelContext : IdentityDbContext<AdminPanelUser>
 //{

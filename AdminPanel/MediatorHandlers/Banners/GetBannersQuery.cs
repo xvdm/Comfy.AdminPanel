@@ -5,9 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public class GetBannersQuery : IRequest<ICollection<Banner>>
-{
-}
+public record GetBannersQuery : IRequest<ICollection<Banner>>;
+
 
 public class GetBannersQueryHandler : IRequestHandler<GetBannersQuery, ICollection<Banner>>
 {

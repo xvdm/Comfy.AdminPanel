@@ -6,113 +6,113 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminPanel.Controllers
+namespace AdminPanel.Controllers;
+
+
+[AutoValidateAntiforgeryToken]
+[Authorize(Policy = PoliciesNames.Administrator)]
+public class CommentsController : Controller
 {
-    [AutoValidateAntiforgeryToken]
-    [Authorize(Policy = PoliciesNames.Administrator)]
-    public class CommentsController : Controller
+    private readonly IMediator _mediator;
+
+    public CommentsController(IMediator mediator)
     {
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        public CommentsController(IMediator mediator)
+    public async Task<IActionResult> ActiveQuestions(int? pageSize, int? pageNumber)
+    {
+        var query = new GetQuestionsQuery(true, pageSize, pageNumber);
+        var questions = await _mediator.Send(query);
+
+        var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
+
+        var viewModel = new QuestionsViewModel()
         {
-            _mediator = mediator;
-        }
+            Questions = questions,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
+    }
 
-        public async Task<IActionResult> ActiveQuestions(int? pageSize, int? pageNumber)
+    public async Task<IActionResult> ActiveReviews(int? pageSize, int? pageNumber)
+    {
+        var query = new GetReviewsQuery(true, pageSize, pageNumber);
+        var reviews = await _mediator.Send(query);
+
+        var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
+
+        var viewModel = new ReviewsViewModel()
         {
-            var query = new GetQuestionsQuery(true, pageSize, pageNumber);
-            var questions = await _mediator.Send(query);
+            Reviews = reviews,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
+    }
 
-            var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
-            var totalPages = (totalCount - 1) / query.PageSize + 1;
+    public async Task<IActionResult> InactiveQuestions(int? pageSize, int? pageNumber)
+    {
+        var query = new GetQuestionsQuery(false, pageSize, pageNumber);
+        var questions = await _mediator.Send(query);
 
-            var viewModel = new QuestionsViewModel()
-            {
-                Questions = questions,
-                TotalPages = totalPages,
-                CurrentPage = query.PageNumber
-            };
-            return View(viewModel);
-        }
+        var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
+        var totalPages = (totalCount - 1) / (query.PageSize + 1);
 
-        public async Task<IActionResult> ActiveReviews(int? pageSize, int? pageNumber)
+        var viewModel = new QuestionsViewModel()
         {
-            var query = new GetReviewsQuery(true, pageSize, pageNumber);
-            var reviews = await _mediator.Send(query);
+            Questions = questions,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
+    }
 
-            var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
-            var totalPages = (totalCount - 1) / query.PageSize + 1;
+    public async Task<IActionResult> InactiveReviews(int? pageSize, int? pageNumber)
+    {
+        var query = new GetReviewsQuery(false, pageSize, pageNumber);
+        var reviews = await _mediator.Send(query);
 
-            var viewModel = new ReviewsViewModel()
-            {
-                Reviews = reviews,
-                TotalPages = totalPages,
-                CurrentPage = query.PageNumber
-            };
-            return View(viewModel);
-        }
+        var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
+        var totalPages = (totalCount - 1) / (query.PageSize + 1);
 
-        public async Task<IActionResult> InactiveQuestions(int? pageSize, int? pageNumber)
+        var viewModel = new ReviewsViewModel()
         {
-            var query = new GetQuestionsQuery(false, pageSize, pageNumber);
-            var questions = await _mediator.Send(query);
+            Reviews = reviews,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
+    }
 
-            var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
-            var totalPages = (totalCount - 1) / (query.PageSize + 1);
+    [HttpPost]
+    public async Task<IActionResult> ChangeQuestionActivityStatus(int id, bool isActive)
+    {
+        await _mediator.Send(new ChangeQuestionActivityStatusCommand(id, isActive));
+        return Redirect(isActive ? "/Comments/InactiveQuestions" : "/Comments/ActiveQuestions");
+    }
 
-            var viewModel = new QuestionsViewModel()
-            {
-                Questions = questions,
-                TotalPages = totalPages,
-                CurrentPage = query.PageNumber
-            };
-            return View(viewModel);
-        }
+    [HttpPost]
+    public async Task<IActionResult> ChangeQuestionAnswerActivityStatus(int id, bool isActive)
+    {
+        await _mediator.Send(new ChangeQuestionAnswerActivityStatusCommand(id, isActive));
+        return Redirect(isActive ? "/Comments/InactiveQuestions" : "/Comments/ActiveQuestions");
+    }
 
-        public async Task<IActionResult> InactiveReviews(int? pageSize, int? pageNumber)
-        {
-            var query = new GetReviewsQuery(false, pageSize, pageNumber);
-            var reviews = await _mediator.Send(query);
+    [HttpPost]
+    public async Task<IActionResult> ChangeReviewActivityStatus(int id, bool isActive)
+    {
+        await _mediator.Send(new ChangeReviewActivityStatusCommand(id, isActive));
+        return Redirect(isActive ? "/Comments/InactiveReviews" : "/Comments/ActiveReviews");
+    }
 
-            var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
-            var totalPages = (totalCount - 1) / (query.PageSize + 1);
-
-            var viewModel = new ReviewsViewModel()
-            {
-                Reviews = reviews,
-                TotalPages = totalPages,
-                CurrentPage = query.PageNumber
-            };
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ChangeQuestionActivityStatus(int id, bool isActive)
-        {
-            await _mediator.Send(new ChangeQuestionActivityStatusCommand(id, isActive));
-            return Redirect(isActive ? "/Comments/InactiveQuestions" : "/Comments/ActiveQuestions");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ChangeQuestionAnswerActivityStatus(int id, bool isActive)
-        {
-            await _mediator.Send(new ChangeQuestionAnswerActivityStatusCommand(id, isActive));
-            return Redirect(isActive ? "/Comments/InactiveQuestions" : "/Comments/ActiveQuestions");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ChangeReviewActivityStatus(int id, bool isActive)
-        {
-            await _mediator.Send(new ChangeReviewActivityStatusCommand(id, isActive));
-            return Redirect(isActive ? "/Comments/InactiveReviews" : "/Comments/ActiveReviews");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ChangeReviewAnswerActivityStatus(int id, bool isActive)
-        {
-            await _mediator.Send(new ChangeReviewAnswerActivityStatusCommand(id, isActive));
-            return Redirect(isActive ? "/Comments/InactiveReviews" : "/Comments/ActiveReviews");
-        }
+    [HttpPost]
+    public async Task<IActionResult> ChangeReviewAnswerActivityStatus(int id, bool isActive)
+    {
+        await _mediator.Send(new ChangeReviewAnswerActivityStatusCommand(id, isActive));
+        return Redirect(isActive ? "/Comments/InactiveReviews" : "/Comments/ActiveReviews");
     }
 }

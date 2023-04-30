@@ -2,25 +2,22 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace AdminPanel.Handlers.Authorization
+namespace AdminPanel.MediatorHandlers.Authorization;
+
+public record SignOutQuery : IRequest;
+
+
+public class SignOutQueryHandler : IRequestHandler<SignOutQuery>
 {
-    public class SignOutQuery : IRequest 
+    private readonly SignInManager<ApplicationUser> _signInManager;
+
+    public SignOutQueryHandler(SignInManager<ApplicationUser> signInManager)
     {
+        _signInManager = signInManager;
     }
 
-
-    public class SignOutQueryHandler : IRequestHandler<SignOutQuery>
+    public async Task Handle(SignOutQuery request, CancellationToken cancellationToken)
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-
-        public SignOutQueryHandler(SignInManager<ApplicationUser> signInManager)
-        {
-            _signInManager = signInManager;
-        }
-
-        public async Task Handle(SignOutQuery request, CancellationToken cancellationToken)
-        {
-            await _signInManager.SignOutAsync();
-        }
+        await _signInManager.SignOutAsync();
     }
 }

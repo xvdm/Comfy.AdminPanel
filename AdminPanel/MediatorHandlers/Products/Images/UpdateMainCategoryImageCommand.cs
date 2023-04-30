@@ -4,48 +4,41 @@ using AdminPanel.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Products.Images
+namespace AdminPanel.MediatorHandlers.Products.Images;
+
+public record UpdateMainCategoryImageCommand(int CategoryId, IFormFile ImageFile) : IRequest;
+
+
+public class UpdateMainCategoryImageCommandHandler : IRequestHandler<UpdateMainCategoryImageCommand>
 {
-    public class UpdateMainCategoryImageCommand : IRequest
+    private readonly ApplicationDbContext _context;
+    private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
+    private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
+
+    public UpdateMainCategoryImageCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService, IUploadImageToFileSystemService uploadImageToFileSystemService)
     {
-        public int CategoryId { get; set; }
-        public IFormFile ImageFile { get; set; }
-        public UpdateMainCategoryImageCommand(int categoryId, IFormFile imageFile)
-        {
-            CategoryId = categoryId;
-            ImageFile = imageFile;
-        }
+        _context = context;
+        _removeImageFromFileSystemService = removeImageFromFileSystemService;
+        _uploadImageToFileSystemService = uploadImageToFileSystemService;
     }
 
-    public class UpdateMainCategoryImageCommandHandler : IRequestHandler<UpdateMainCategoryImageCommand>
+    public async Task Handle(UpdateMainCategoryImageCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
-        private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
+        var category = await _context.MainCategories.FirstOrDefaultAsync(x => x.Id == request.CategoryId, cancellationToken);
+        if (category is null) throw new HttpRequestException($"No category with id {request.CategoryId}");
 
-        public UpdateMainCategoryImageCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService, IUploadImageToFileSystemService uploadImageToFileSystemService)
+        var path = await _uploadImageToFileSystemService.UploadImage(request.ImageFile);
+        var image = new MainCategoryImage
         {
-            _context = context;
-            _removeImageFromFileSystemService = removeImageFromFileSystemService;
-            _uploadImageToFileSystemService = uploadImageToFileSystemService;
-        }
-
-        public async Task Handle(UpdateMainCategoryImageCommand request, CancellationToken cancellationToken)
+            Url = path
+        };
+        if (category.Image is not null)
         {
-            var category = await _context.MainCategories.FirstOrDefaultAsync(x => x.Id == request.CategoryId, cancellationToken);
-            if (category is null) throw new HttpRequestException($"No category with id {request.CategoryId}");
-
-            var path = await _uploadImageToFileSystemService.UploadImage(request.ImageFile);
-            var image = new MainCategoryImage();
-            image.Url = path;
-
             _removeImageFromFileSystemService.RemoveImage(category.Image.Url);
             _context.MainCategoryImages.Remove(category.Image);
-
-            await _context.MainCategoryImages.AddAsync(image, cancellationToken); // ?? - нужна ли эта строка
-            category.Image = image;
-
-            await _context.SaveChangesAsync(cancellationToken);
         }
+
+        category.Image = image;
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

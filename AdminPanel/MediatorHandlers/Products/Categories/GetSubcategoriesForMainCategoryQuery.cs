@@ -2,30 +2,22 @@
 using AdminPanel.Models;
 using MediatR;
 
-namespace AdminPanel.MediatorHandlers.Products.Categories
+namespace AdminPanel.MediatorHandlers.Products.Categories;
+
+public record GetSubcategoriesForMainCategoryQuery(int Id) : IRequest<IQueryable<Subcategory>>;
+
+
+public class GetSubcategoriesForMainCategoryQueryHandler : IRequestHandler<GetSubcategoriesForMainCategoryQuery, IQueryable<Subcategory>>
 {
-    public class GetSubcategoriesForMainCategoryQuery : IRequest<IQueryable<Subcategory>>
+    private readonly ApplicationDbContext _context;
+
+    public GetSubcategoriesForMainCategoryQueryHandler(ApplicationDbContext context)
     {
-        public int Id { get; set; }
-        public GetSubcategoriesForMainCategoryQuery(int id)
-        {
-            Id = id;
-        }
+        _context = context;
     }
 
-
-    public class GetSubcategoriesForMainCategoryQueryHandler : IRequestHandler<GetSubcategoriesForMainCategoryQuery, IQueryable<Subcategory>>
+    public async Task<IQueryable<Subcategory>> Handle(GetSubcategoriesForMainCategoryQuery request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public GetSubcategoriesForMainCategoryQueryHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<IQueryable<Subcategory>> Handle(GetSubcategoriesForMainCategoryQuery request, CancellationToken cancellationToken)
-        {
-            return _context.Subcategories.Where(x => x.MainCategoryId == request.Id);
-        }
+        return _context.Subcategories.Where(x => x.MainCategoryId == request.Id);
     }
 }

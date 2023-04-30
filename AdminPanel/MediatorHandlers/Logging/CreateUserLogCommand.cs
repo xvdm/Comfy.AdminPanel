@@ -1,36 +1,24 @@
-﻿using AdminPanel.Services;
+﻿using System.Security.Claims;
+using AdminPanel.Services;
 using MediatR;
-using System.Security.Claims;
 
-namespace AdminPanel.Handlers.Logging
+namespace AdminPanel.MediatorHandlers.Logging;
+
+public record CreateUserLogCommand(ClaimsPrincipal User, Guid SubjectUserId, string Action) : IRequest<bool>;
+
+
+public class CreateUserLogCommandHandler : IRequestHandler<CreateUserLogCommand, bool>
 {
-    public class CreateUserLogCommand : IRequest<bool>
+    private readonly DatabaseLoggerService _databaseLoggerService;
+
+    public CreateUserLogCommandHandler(DatabaseLoggerService databaseLoggerService)
     {
-        public ClaimsPrincipal User { get; set; }
-        public Guid SubjectUserId { get; set; }
-        public string Action { get; set; }
-        public CreateUserLogCommand(ClaimsPrincipal user, Guid subjectUserId, string action)
-        {
-            User = user;
-            SubjectUserId = subjectUserId;
-            Action = action;
-        }
+        _databaseLoggerService = databaseLoggerService;
     }
 
-
-    public class CreateUserLogCommandHandler : IRequestHandler<CreateUserLogCommand, bool>
+    public async Task<bool> Handle(CreateUserLogCommand request, CancellationToken cancellationToken)
     {
-        private readonly DatabaseLoggerService _databaseLoggerService;
-
-        public CreateUserLogCommandHandler(DatabaseLoggerService databaseLoggerService)
-        {
-            _databaseLoggerService = databaseLoggerService;
-        }
-
-        public async Task<bool> Handle(CreateUserLogCommand request, CancellationToken cancellationToken)
-        {
-            await _databaseLoggerService.LogUserAction(request.User, request.SubjectUserId, request.Action);
-            return true;
-        }
+        await _databaseLoggerService.LogUserAction(request.User, request.SubjectUserId, request.Action);
+        return true;
     }
 }

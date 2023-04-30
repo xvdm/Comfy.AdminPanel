@@ -1,89 +1,88 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Helpers;
+using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using AdminPanel.Models;
 
-namespace AdminPanel.Handlers.Products
+namespace AdminPanel.MediatorHandlers.Products;
+
+public record CreateProductCommand : IRequest<int>
 {
-    public class CreateProductCommand : IRequest<int>
+    public string Name { get; set; } = null!;
+    public int Price { get; set; }
+    public int Brand { get; set; }
+    public int Category { get; set; }
+    public int Model { get; set; }
+    public string Description { get; set; } = null!;
+}
+
+
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+{
+    private readonly ApplicationDbContext _context;
+
+    public CreateProductCommandHandler(ApplicationDbContext context, IMediator mediator)
     {
-        public string Name { get; set; } = null!;
-        public int Price { get; set; }
-        public int Brand { get; set; }
-        public int Category { get; set; }
-        public int Model { get; set; }
-        public string Description { get; set; } = null!;
+        _context = context;
     }
 
-
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+    public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public CreateProductCommandHandler(ApplicationDbContext context, IMediator mediator)
+        var product = new Product
         {
-            _context = context;
-        }
+            Name = request.Name,
+            Price = request.Price
+        };
 
-        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        var brand = await _context.Brands.Where(x => x.Id == request.Brand).FirstOrDefaultAsync(cancellationToken);
+        if(brand is null) throw new HttpRequestException($"There is no brand {request.Brand}");
+
+        var model = await _context.Models.Where(x => x.Id == request.Model).FirstOrDefaultAsync(cancellationToken);
+        if(model is null) throw new HttpRequestException($"There is no model {request.Brand}");
+
+        var category = await _context.Subcategories
+            .Where(x => x.Id == request.Category)
+            .Include(x => x.UniqueBrands)
+            .FirstOrDefaultAsync(cancellationToken);
+        if(category is null) throw new HttpRequestException($"There is no category {request.Brand}");
+
+
+        product.BrandId = brand.Id;
+        product.Brand = brand;
+
+        product.Model = model;
+        product.ModelId = model.Id;
+
+        product.CategoryId = category.Id;
+        product.Category = category;
+
+        product.Description = request.Description;
+
+        product.IsActive = false;
+
+        product.Url = "";
+
+        await _context.Products.AddAsync(product, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        // price history is being initialized after getting product id 
+        product.Code = product.Id + 1000000;
+        
+        category.UniqueBrands.Add(brand);
+
+        product.PriceHistory = new List<PriceHistory>();
+        var priceHistory = new PriceHistory
         {
-            var product = new Product
-            {
-                Name = request.Name,
-                Price = request.Price
-            };
+            Date = DateTime.Now,
+            Price = product.Price,
+            ProductId = product.Id
+        };
+        product.PriceHistory.Add(priceHistory);
 
-            var brand = await _context.Brands.Where(x => x.Id == request.Brand).FirstOrDefaultAsync(cancellationToken);
-            if(brand is null) throw new HttpRequestException($"There is no brand {request.Brand}");
+        product.Url = ProductUrl.Create(product.Name, product.Code);
 
-            var model = await _context.Models.Where(x => x.Id == request.Model).FirstOrDefaultAsync(cancellationToken);
-            if(model is null) throw new HttpRequestException($"There is no model {request.Brand}");
+        await _context.SaveChangesAsync(cancellationToken);
 
-            var category = await _context.Subcategories
-                .Where(x => x.Id == request.Category)
-                .Include(x => x.UniqueBrands)
-                .FirstOrDefaultAsync(cancellationToken);
-            if(category is null) throw new HttpRequestException($"There is no category {request.Brand}");
-
-
-            product.BrandId = brand.Id;
-            product.Brand = brand;
-
-            product.Model = model;
-            product.ModelId = model.Id;
-
-            product.CategoryId = category.Id;
-            product.Category = category;
-
-            product.Description = request.Description;
-
-            product.IsActive = false;
-
-            product.Url = "";
-
-            await _context.Products.AddAsync(product, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            // после получения id товара инициализируется артикул и история цен
-            product.Code = product.Id + 1000000;
-            
-            category.UniqueBrands.Add(brand);
-
-            product.PriceHistory = new List<PriceHistory>();
-            var priceHistory = new PriceHistory
-            {
-                Date = DateTime.Now,
-                Price = product.Price,
-                ProductId = product.Id
-            };
-            product.PriceHistory.Add(priceHistory);
-
-            product.Url = ProductUrl.Create(product.Name, product.Code);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return product.Id;
-        }
+        return product.Id;
     }
 }

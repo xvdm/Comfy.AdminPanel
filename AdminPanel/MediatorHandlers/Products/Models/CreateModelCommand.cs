@@ -1,36 +1,28 @@
 ﻿using AdminPanel.Data;
-using MediatR;
 using AdminPanel.Models;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.Handlers.Products.Models
+namespace AdminPanel.MediatorHandlers.Products.Models;
+
+public record CreateModelCommand(Model Model) : IRequest<Model>;
+
+
+public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Model>
 {
-    public class CreateModelCommand : IRequest<Model>
+    private readonly ApplicationDbContext _context;
+
+    public CreateModelCommandHandler(ApplicationDbContext context)
     {
-        public Model Model { get; set; }
-        public CreateModelCommand(Model model)
-        {
-            Model = model;
-        }
+        _context = context;
     }
 
-
-    public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Model>
+    public async Task<Model> Handle(CreateModelCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public CreateModelCommandHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<Model> Handle(CreateModelCommand request, CancellationToken cancellationToken)
-        {
-            var modelWithName = await _context.Models.FirstOrDefaultAsync(x => x.Name == request.Model.Name, cancellationToken);
-            if (modelWithName is not null) throw new HttpRequestException($"Model with name {request.Model.Name} already exists");
-            await _context.Models.AddAsync(request.Model, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return request.Model;
-        }
+        var modelWithName = await _context.Models.FirstOrDefaultAsync(x => x.Name == request.Model.Name, cancellationToken);
+        if (modelWithName is not null) throw new HttpRequestException($"Model with name {request.Model.Name} already exists");
+        await _context.Models.AddAsync(request.Model, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        return request.Model;
     }
 }

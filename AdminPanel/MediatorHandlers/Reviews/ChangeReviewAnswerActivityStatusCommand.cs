@@ -2,35 +2,25 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Reviews
+namespace AdminPanel.MediatorHandlers.Reviews;
+
+public record ChangeReviewAnswerActivityStatusCommand(int ReviewAnswerId, bool IsActive) : IRequest;
+
+
+public class ChangeReviewAnswerActivityStatusCommandHandler : IRequestHandler<ChangeReviewAnswerActivityStatusCommand>
 {
-    public class ChangeReviewAnswerActivityStatusCommand : IRequest
+    private readonly ApplicationDbContext _context;
+
+    public ChangeReviewAnswerActivityStatusCommandHandler(ApplicationDbContext context)
     {
-        public int ReviewAnswerId { get; set; }
-        public bool IsActive { get; set; }
-        public ChangeReviewAnswerActivityStatusCommand(int reviewAnswerId, bool isActive)
-        {
-            ReviewAnswerId = reviewAnswerId;
-            IsActive = isActive;
-        }
+        _context = context;
     }
 
-
-    public class ChangeReviewAnswerActivityStatusCommandHandler : IRequestHandler<ChangeReviewAnswerActivityStatusCommand>
+    public async Task Handle(ChangeReviewAnswerActivityStatusCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public ChangeReviewAnswerActivityStatusCommandHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task Handle(ChangeReviewAnswerActivityStatusCommand request, CancellationToken cancellationToken)
-        {
-            var reviewAnswer = await _context.ReviewAnswers.FirstOrDefaultAsync(x => x.Id == request.ReviewAnswerId, cancellationToken);
-            if (reviewAnswer is null) throw new HttpRequestException("ReviewAnswer was not found");
-            reviewAnswer.IsActive = request.IsActive;
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        var reviewAnswer = await _context.ReviewAnswers.FirstOrDefaultAsync(x => x.Id == request.ReviewAnswerId, cancellationToken);
+        if (reviewAnswer is null) throw new HttpRequestException("ReviewAnswer was not found");
+        reviewAnswer.IsActive = request.IsActive;
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

@@ -3,31 +3,24 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using AdminPanel.Models;
 
-namespace AdminPanel.MediatorHandlers.Products.Categories
+namespace AdminPanel.MediatorHandlers.Products.Categories;
+
+public record GetSubcategoriesQuery(int MainCategoryId) : IRequest<IEnumerable<Subcategory>>;
+
+
+public class GetSubcategoriesQueryHandler : IRequestHandler<GetSubcategoriesQuery, IEnumerable<Subcategory>>
 {
-    public class GetSubcategoriesQuery : IRequest<IEnumerable<Subcategory>>
+    private readonly ApplicationDbContext _context;
+
+    public GetSubcategoriesQueryHandler(ApplicationDbContext context)
     {
-        public int MainCategoryId { get; set; }
-        public GetSubcategoriesQuery(int mainCategoryId)
-        {
-            MainCategoryId = mainCategoryId;
-        }
+        _context = context;
     }
 
-    public class GetSubcategoriesQueryHandler : IRequestHandler<GetSubcategoriesQuery, IEnumerable<Subcategory>>
+    public async Task<IEnumerable<Subcategory>> Handle(GetSubcategoriesQuery request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public GetSubcategoriesQueryHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Subcategory>> Handle(GetSubcategoriesQuery request, CancellationToken cancellationToken)
-        {
-            return await _context.Subcategories
-                .Where(x => x.MainCategoryId == request.MainCategoryId)
-                .ToListAsync(cancellationToken);
-        }
+        return await _context.Subcategories
+            .Where(x => x.MainCategoryId == request.MainCategoryId)
+            .ToListAsync(cancellationToken);
     }
 }

@@ -3,39 +3,32 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using AdminPanel.Models;
 
-namespace AdminPanel.MediatorHandlers.Products.Categories
+namespace AdminPanel.MediatorHandlers.Products.Categories;
+
+public record GetSubcategoryByIdQuery(int? CategoryId) : IRequest<Subcategory?>;
+
+
+public class GetSubcategoryByIdQueryHandler : IRequestHandler<GetSubcategoryByIdQuery, Subcategory?>
 {
-    public class GetSubcategoryByIdQuery : IRequest<Subcategory?>
+    private readonly ApplicationDbContext _context;
+
+    public GetSubcategoryByIdQueryHandler(ApplicationDbContext context)
     {
-        public int? CategoryId { get; set; }
-        public GetSubcategoryByIdQuery(int? categoryId)
-        {
-            CategoryId = categoryId;
-        }
+        _context = context;
     }
 
-    public class GetSubcategoryByIdQueryHandler : IRequestHandler<GetSubcategoryByIdQuery, Subcategory?>
+    public async Task<Subcategory?> Handle(GetSubcategoryByIdQuery request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
+        if (request.CategoryId is null) return null;
 
-        public GetSubcategoryByIdQueryHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        var category = await _context.Subcategories
+            .Where(x => x.Id == request.CategoryId)
+            .Include(x => x.UniqueCharacteristics)
+                .ThenInclude(x => x.CharacteristicsName)
+            .Include(x => x.UniqueCharacteristics)
+                .ThenInclude(x => x.CharacteristicsValue)
+            .FirstOrDefaultAsync(cancellationToken);
 
-        public async Task<Subcategory?> Handle(GetSubcategoryByIdQuery request, CancellationToken cancellationToken)
-        {
-            if (request.CategoryId is null) return null;
-
-            var category = await _context.Subcategories
-                .Where(x => x.Id == request.CategoryId)
-                .Include(x => x.UniqueCharacteristics)
-                    .ThenInclude(x => x.CharacteristicsName)
-                .Include(x => x.UniqueCharacteristics)
-                    .ThenInclude(x => x.CharacteristicsValue)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            return category;
-        }
+        return category;
     }
 }

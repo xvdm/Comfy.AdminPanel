@@ -3,41 +3,31 @@ using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Showcase
-{
-    public class AddShowcaseGroupCommand : IRequest
-    {
-        public string Name { get; set; }
-        public string QueryString { get; set; }
+namespace AdminPanel.MediatorHandlers.Showcase;
 
-        public AddShowcaseGroupCommand(string name, string queryString)
-        {
-            Name = name;
-            QueryString = queryString;
-        }
+public record AddShowcaseGroupCommand(string Name, string QueryString) : IRequest;
+
+
+public class AddShowcaseGroupCommandHandler : IRequestHandler<AddShowcaseGroupCommand>
+{
+    private readonly ApplicationDbContext _context;
+
+    public AddShowcaseGroupCommandHandler(ApplicationDbContext context)
+    {
+        _context = context;
     }
 
-    public class AddShowcaseGroupCommandHandler : IRequestHandler<AddShowcaseGroupCommand>
+    public async Task Handle(AddShowcaseGroupCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
+        var group = await _context.ShowcaseGroups.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
+        if (group is not null) return;
 
-        public AddShowcaseGroupCommandHandler(ApplicationDbContext context)
+        var newGroup = new ShowcaseGroup()
         {
-            _context = context;
-        }
-
-        public async Task Handle(AddShowcaseGroupCommand request, CancellationToken cancellationToken)
-        {
-            var group = await _context.ShowcaseGroups.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-            if (group is not null) return;
-
-            var newGroup = new ShowcaseGroup()
-            {
-                Name = request.Name,
-                QueryString = request.QueryString
-            };
-            await _context.ShowcaseGroups.AddAsync(newGroup, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+            Name = request.Name,
+            QueryString = request.QueryString
+        };
+        await _context.ShowcaseGroups.AddAsync(newGroup, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

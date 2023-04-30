@@ -2,35 +2,25 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.Handlers.Products
+namespace AdminPanel.MediatorHandlers.Products;
+
+public record ChangeProductActivityStatusCommand(int ProductId, bool IsActive) : IRequest;
+
+
+public class ChangeProductActivityStatusCommandHandler : IRequestHandler<ChangeProductActivityStatusCommand>
 {
-    public class ChangeProductActivityStatusCommand : IRequest
+    private readonly ApplicationDbContext _context;
+
+    public ChangeProductActivityStatusCommandHandler(ApplicationDbContext context)
     {
-        public int ProductId { get; set; }
-        public bool IsActive { get; set; }
-        public ChangeProductActivityStatusCommand(int productId, bool isActive)
-        {
-            ProductId = productId;
-            IsActive = isActive;
-        }
+        _context = context;
     }
 
-
-    public class ChangeProductActivityStatusCommandHandler : IRequestHandler<ChangeProductActivityStatusCommand>
+    public async Task Handle(ChangeProductActivityStatusCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public ChangeProductActivityStatusCommandHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task Handle(ChangeProductActivityStatusCommand request, CancellationToken cancellationToken)
-        {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
-            if (product is null) throw new HttpRequestException("Product was not found");
-            product.IsActive = request.IsActive;
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
+        if (product is null) throw new HttpRequestException("Product was not found");
+        product.IsActive = request.IsActive;
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

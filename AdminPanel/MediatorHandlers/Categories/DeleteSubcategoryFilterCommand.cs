@@ -1,36 +1,26 @@
 ﻿using AdminPanel.Data;
-using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Categories
+namespace AdminPanel.MediatorHandlers.Categories;
+
+public record DeleteSubcategoryFilterCommand(int SubcategoryFilterId) : IRequest;
+
+
+public class DeleteSubcategoryFilterCommandHandler : IRequestHandler<DeleteSubcategoryFilterCommand>
 {
-    public class DeleteSubcategoryFilterCommand : IRequest
+    private readonly ApplicationDbContext _context;
+
+    public DeleteSubcategoryFilterCommandHandler(ApplicationDbContext context)
     {
-        public int SubcategoryFilterId { get; set; }
-
-
-        public DeleteSubcategoryFilterCommand(int id)
-        {
-            SubcategoryFilterId = id;
-        }
+        _context = context;
     }
 
-    public class DeleteSubcategoryFilterCommandHandler : IRequestHandler<DeleteSubcategoryFilterCommand>
+    public async Task Handle(DeleteSubcategoryFilterCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public DeleteSubcategoryFilterCommandHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task Handle(DeleteSubcategoryFilterCommand request, CancellationToken cancellationToken)
-        {
-            var filter = await _context.SubcategoryFilters.FirstOrDefaultAsync(x => x.Id == request.SubcategoryFilterId, cancellationToken);
-            if(filter == null) return;
-            _context.SubcategoryFilters.Remove(filter);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        var filter = await _context.SubcategoryFilters.FirstOrDefaultAsync(x => x.Id == request.SubcategoryFilterId, cancellationToken);
+        if(filter == null) return;
+        _context.SubcategoryFilters.Remove(filter);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

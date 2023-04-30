@@ -1,54 +1,41 @@
-﻿using Microsoft.AspNetCore.Identity;
-using MediatR;
+﻿using System.Security.Claims;
 using AdminPanel.Models.Identity;
-using System.Security.Claims;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 
-namespace AdminPanel.Handlers.Users
+namespace AdminPanel.MediatorHandlers.Users;
+
+public record ChangeUserLockoutStatusCommand(ClaimsPrincipal CurrentUser, Guid UserId, bool IsLockout) : IRequest<bool>;
+
+
+public class ChangeUserLockoutStatusCommandHandler : IRequestHandler<ChangeUserLockoutStatusCommand, bool>
 {
-    public class ChangeUserLockoutStatusCommand : IRequest<bool>
-    {
-        public ClaimsPrincipal CurrentUser { get; set; }
-        public Guid UserId { get; set; }
-        public bool IsLockout { get; set; }
+    private readonly UserManager<ApplicationUser> _userManager;
 
-        public ChangeUserLockoutStatusCommand(ClaimsPrincipal currentUser, Guid userId, bool isLockout)
-        {
-            CurrentUser = currentUser;
-            UserId = userId;
-            IsLockout = isLockout;
-        }
+    public ChangeUserLockoutStatusCommandHandler(UserManager<ApplicationUser> userManager)
+    {
+        _userManager = userManager;
     }
 
-
-    public class ChangeUserLockoutStatusCommandHandler : IRequestHandler<ChangeUserLockoutStatusCommand, bool>
+    public async Task<bool> Handle(ChangeUserLockoutStatusCommand request, CancellationToken cancellationToken)
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public ChangeUserLockoutStatusCommandHandler(UserManager<ApplicationUser> userManager)
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+        if (user is null)
         {
-            _userManager = userManager;
+            throw new HttpRequestException("User with given id was not found");
         }
 
-        public async Task<bool> Handle(ChangeUserLockoutStatusCommand request, CancellationToken cancellationToken)
+        if (request.CurrentUser.Identity?.Name != user.UserName)
         {
-            var user = await _userManager.FindByIdAsync(request.UserId.ToString());
-            if (user == null)
+            if (request.IsLockout)
             {
-                throw new HttpRequestException("User with given id was not found");
+                await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Parse("2999-03-01"));
             }
-
-            if (request.CurrentUser.Identity?.Name != user.UserName)
+            else
             {
-                if (request.IsLockout)
-                {
-                    await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Parse("2999-03-01"));
-                }
-                else
-                {
-                    await _userManager.SetLockoutEndDateAsync(user, null);
-                }
+                await _userManager.SetLockoutEndDateAsync(user, null);
             }
-            return true;
         }
+        return true;
     }
 }

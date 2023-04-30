@@ -1,25 +1,11 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using AdminPanel.Models;
 
-namespace AdminPanel.Handlers.Products
+namespace AdminPanel.MediatorHandlers.Products
 {
-    public class EditProductCharacteristicCommand : IRequest
-    {
-        public Product Product { get; set; }
-        public int CharacteristicId { get; set; }
-        public string Name { get; set; }
-        public string Value { get; set; }
-
-        public EditProductCharacteristicCommand(Product product, int characteristicId, string name, string value)
-        {
-            Product = product;
-            CharacteristicId = characteristicId;
-            Name = name;
-            Value = value;
-        }
-    }
+    public record EditProductCharacteristicCommand(Product Product, int CharacteristicId, string Name, string Value) : IRequest;
 
 
     public class EditProductCharacteristicCommandHandler : IRequestHandler<EditProductCharacteristicCommand>

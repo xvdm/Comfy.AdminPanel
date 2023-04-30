@@ -2,39 +2,32 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Products.Categories
+namespace AdminPanel.MediatorHandlers.Products.Categories;
+
+public record DeleteMainCategoryCommand(int Id) : IRequest<bool>;
+
+
+public class DeleteMainCategoryCommandHandler : IRequestHandler<DeleteMainCategoryCommand, bool>
 {
-    public class DeleteMainCategoryCommand : IRequest<bool>
+    private readonly ApplicationDbContext _context;
+
+    public DeleteMainCategoryCommandHandler(ApplicationDbContext context)
     {
-        public int Id { get; set; }
-        public DeleteMainCategoryCommand(int id)
-        {
-            Id = id;
-        }
+        _context = context;
     }
 
-    public class DeleteMainCategoryCommandHandler : IRequestHandler<DeleteMainCategoryCommand, bool>
+    public async Task<bool> Handle(DeleteMainCategoryCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
+        var category = await _context.MainCategories
+            .Include(x => x.Categories)
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        if (category is null) throw new HttpRequestException($"No MainCategory with id {request.Id}");
 
-        public DeleteMainCategoryCommandHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        if (category.Categories.Count > 0) return false; // it's not allowed to delete a main category while there are subcategories in it
 
-        public async Task<bool> Handle(DeleteMainCategoryCommand request, CancellationToken cancellationToken)
-        {
-            var category = await _context.MainCategories
-                .Include(x => x.Categories)
-                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-            if (category is null) throw new HttpRequestException($"No MainCategory with id {request.Id}");
+        _context.MainCategories.Remove(category);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            if (category.Categories.Count > 0) return false; // нельзя удалять главную категорию, пока в ней есть подкатегории
-
-            _context.MainCategories.Remove(category);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return true;
-        }
+        return true;
     }
 }

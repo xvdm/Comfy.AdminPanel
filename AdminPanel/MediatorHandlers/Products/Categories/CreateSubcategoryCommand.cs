@@ -1,38 +1,30 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using AdminPanel.Models;
 
-namespace AdminPanel.Handlers.Products.Categories
+namespace AdminPanel.MediatorHandlers.Products.Categories;
+
+public record CreateSubcategoryCommand(Subcategory Category) : IRequest;
+
+
+public class CreateSubcategoryCommandHandler : IRequestHandler<CreateSubcategoryCommand>
 {
-    public class CreateSubcategoryCommand : IRequest
+    private readonly ApplicationDbContext _context;
+
+    public CreateSubcategoryCommandHandler(ApplicationDbContext context)
     {
-        public Subcategory Category { get; set; }
-        public CreateSubcategoryCommand(Subcategory category)
-        {
-            Category = category;
-        }
+        _context = context;
     }
 
-
-    public class CreateSubcategoryCommandHandler : IRequestHandler<CreateSubcategoryCommand>
+    public async Task Handle(CreateSubcategoryCommand request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public CreateSubcategoryCommandHandler(ApplicationDbContext context)
+        var mainCategory = await _context.MainCategories.FirstOrDefaultAsync(x => x.Id == request.Category.MainCategoryId, cancellationToken);
+        if (mainCategory is null)
         {
-            _context = context;
+            return;
         }
-
-        public async Task Handle(CreateSubcategoryCommand request, CancellationToken cancellationToken)
-        {
-            var mainCategory = await _context.MainCategories.FirstOrDefaultAsync(x => x.Id == request.Category.MainCategoryId, cancellationToken);
-            if (mainCategory is null)
-            {
-                return;
-            }
-            await _context.Subcategories.AddAsync(request.Category, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        await _context.Subcategories.AddAsync(request.Category, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

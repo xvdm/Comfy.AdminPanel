@@ -2,24 +2,22 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Reviews
+namespace AdminPanel.MediatorHandlers.Reviews;
+
+public record GetReviewsTotalCountQuery : IRequest<int>;
+
+
+public class GetReviewsTotalCountQueryHandler : IRequestHandler<GetReviewsTotalCountQuery, int>
 {
-    public class GetReviewsTotalCountQuery : IRequest<int>
+    private readonly ApplicationDbContext _context;
+
+    public GetReviewsTotalCountQueryHandler(ApplicationDbContext context)
     {
+        _context = context;
     }
 
-    public class GetReviewsTotalCountQueryHandler : IRequestHandler<GetReviewsTotalCountQuery, int>
+    public async Task<int> Handle(GetReviewsTotalCountQuery request, CancellationToken cancellationToken)
     {
-        private readonly ApplicationDbContext _context;
-
-        public GetReviewsTotalCountQueryHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<int> Handle(GetReviewsTotalCountQuery request, CancellationToken cancellationToken)
-        {
-            return await _context.Reviews.CountAsync(cancellationToken);
-        }
+        return await _context.Reviews.CountAsync(cancellationToken);
     }
 }

@@ -1,55 +1,45 @@
-﻿using AdminPanel.Repositories;
+﻿using AdminPanel.Data;
 using AdminPanel.Models.DTO;
-using AdminPanel.Data;
+using AdminPanel.Repositories;
+using Mapster;
 using MapsterMapper;
 using MediatR;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.Handlers.Users
+namespace AdminPanel.MediatorHandlers.Users;
+
+public record GetDTOUsersQuery(string? SearchString, bool GetLockoutUsers) : IRequest<IEnumerable<UserDTO>>;
+
+
+public class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQuery, IEnumerable<UserDTO>>
 {
-    public class GetDTOUsersQuery : IRequest<IEnumerable<UserDTO>>
+    private readonly IUsersRepository _usersRepository;
+    private readonly IMapper _mapper;
+    private readonly ApplicationDbContext _context;
+
+    public GetActiveDTOUsersQueryHandler(IUsersRepository usersRepository, IMapper mapper, ApplicationDbContext context)
     {
-        public string? SearchString { get; set; }
-        public bool GetLockoutUsers { get; }
-        public GetDTOUsersQuery(string? searchString, bool getLockoutUsers)
-        {
-            SearchString = searchString;
-            GetLockoutUsers = getLockoutUsers;
-        }
+        _usersRepository = usersRepository;
+        _mapper = mapper;
+        _context = context;
     }
 
-
-    public class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQuery, IEnumerable<UserDTO>>
+    public async Task<IEnumerable<UserDTO>> Handle(GetDTOUsersQuery request, CancellationToken cancellationToken)
     {
-        private readonly IUsersRepository _usersRepository;
-        private readonly IMapper _mapper;
-        private readonly ApplicationDbContext _context;
+        var users = _usersRepository.GetUsers(request.SearchString);
+        var usersDto = await _mapper
+            .From(users.Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null))
+            .ProjectToType<UserDTO>()
+            .ToListAsync(cancellationToken);
 
-        public GetActiveDTOUsersQueryHandler(IUsersRepository usersRepository, IMapper mapper, ApplicationDbContext context)
+        foreach (var user in usersDto)
         {
-            _usersRepository = usersRepository;
-            _mapper = mapper;
-            _context = context;
-        }
-
-        public async Task<IEnumerable<UserDTO>> Handle(GetDTOUsersQuery request, CancellationToken cancellationToken)
-        {
-            var users = _usersRepository.GetUsers(request.SearchString);
-            var usersDto = await _mapper
-                .From(users.Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null))
-                .ProjectToType<UserDTO>()
-                .ToListAsync(cancellationToken);
-
-            foreach (var user in usersDto)
+            var claim = await _context.UserClaims.FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
+            if (claim is not null)
             {
-                var claim = await _context.UserClaims.FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
-                if (claim is not null)
-                {
-                    user.Position = claim.ClaimValue;
-                }
+                user.Position = claim.ClaimValue;
             }
-            return usersDto;
         }
+        return usersDto;
     }
 }

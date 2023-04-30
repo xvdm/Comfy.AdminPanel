@@ -5,21 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public class EditBannerCommand : IRequest
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string PageUrl { get; set; }
-    public IFormFile? Image { get; set; }
+public record EditBannerCommand(int Id, string Name, string PageUrl, IFormFile? Image) : IRequest;
 
-    public EditBannerCommand(int id, string name, string pageUrl, IFormFile? image)
-    {
-        Id = id;
-        Name = name;
-        PageUrl = pageUrl;
-        Image = image;
-    }
-}
 
 public class EditBannerCommandHandler : IRequestHandler<EditBannerCommand>
 {

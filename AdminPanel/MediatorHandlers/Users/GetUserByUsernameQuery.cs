@@ -2,30 +2,22 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace AdminPanel.Handlers.Users
+namespace AdminPanel.MediatorHandlers.Users;
+
+public record GetUserByUsernameQuery(string Username) : IRequest<ApplicationUser?>;
+
+
+public class GetUserByUsernameQueryHandler : IRequestHandler<GetUserByUsernameQuery, ApplicationUser?>
 {
-    public class GetUserByUsernameQuery : IRequest<ApplicationUser?>
+    private readonly UserManager<ApplicationUser?> _userManager;
+
+    public GetUserByUsernameQueryHandler(UserManager<ApplicationUser?> userManager)
     {
-        public string Username { get; }
-        public GetUserByUsernameQuery(string username)
-        {
-            Username = username;
-        }
+        _userManager = userManager;
     }
 
-
-    public class GetUserByUsernameQueryHandler : IRequestHandler<GetUserByUsernameQuery, ApplicationUser?>
+    public async Task<ApplicationUser?> Handle(GetUserByUsernameQuery request, CancellationToken cancellationToken)
     {
-        private readonly UserManager<ApplicationUser?> _userManager;
-
-        public GetUserByUsernameQueryHandler(UserManager<ApplicationUser?> userManager)
-        {
-            _userManager = userManager;
-        }
-
-        public async Task<ApplicationUser?> Handle(GetUserByUsernameQuery request, CancellationToken cancellationToken)
-        {
-            return await _userManager.FindByNameAsync(request.Username);
-        }
+        return await _userManager.FindByNameAsync(request.Username);
     }
 }
