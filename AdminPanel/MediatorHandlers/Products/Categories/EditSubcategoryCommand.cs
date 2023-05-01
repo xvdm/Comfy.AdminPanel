@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ public record EditSubcategoryCommand(int Id, string Name) : IRequest;
 public class EditSubcategoryCommandHandler : IRequestHandler<EditSubcategoryCommand>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublisher _publisher;
 
-    public EditSubcategoryCommandHandler(ApplicationDbContext context)
+    public EditSubcategoryCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task Handle(EditSubcategoryCommand request, CancellationToken cancellationToken)
@@ -24,5 +27,8 @@ public class EditSubcategoryCommandHandler : IRequestHandler<EditSubcategoryComm
         if (categoryWithName is not null) throw new HttpRequestException($"Subcategory with name {request.Name} already exists");
         category.Name = request.Name;
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new CategoriesMenuInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }

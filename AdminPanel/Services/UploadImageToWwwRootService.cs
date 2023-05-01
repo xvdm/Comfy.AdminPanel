@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace AdminPanel.Services
+﻿namespace AdminPanel.Services
 {
     public class UploadImageToWwwRootService : IUploadImageToFileSystemService
     {

@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,12 @@ namespace AdminPanel.MediatorHandlers.Products
     public class EditProductCharacteristicCommandHandler : IRequestHandler<EditProductCharacteristicCommand>
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPublisher _publisher;
 
-        public EditProductCharacteristicCommandHandler(ApplicationDbContext context)
+        public EditProductCharacteristicCommandHandler(ApplicationDbContext context, IPublisher publisher)
         {
             _context = context;
+            _publisher = publisher;
         }
 
         public async Task Handle(EditProductCharacteristicCommand request, CancellationToken cancellationToken)
@@ -44,6 +47,9 @@ namespace AdminPanel.MediatorHandlers.Products
             request.Product.Characteristics.First(x => x.Id == request.CharacteristicId).CharacteristicsValue = characteristicValue;
 
             await _context.SaveChangesAsync(cancellationToken);
+
+            var productInvalidatedEvent = new ProductInvalidatedEvent(request.Product.Id);
+            await _publisher.Publish(productInvalidatedEvent, cancellationToken);
         }
     }
 }

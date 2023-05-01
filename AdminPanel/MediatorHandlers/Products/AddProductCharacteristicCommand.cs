@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,12 @@ public record AddProductCharacteristicCommand(int ProductId, string Name, string
 public class AddProductCharacteristicCommandHandler : IRequestHandler<AddProductCharacteristicCommand, Characteristic>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublisher _publisher;
 
-    public AddProductCharacteristicCommandHandler(ApplicationDbContext context)
+    public AddProductCharacteristicCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task<Characteristic> Handle(AddProductCharacteristicCommand request, CancellationToken cancellationToken)
@@ -65,6 +68,10 @@ public class AddProductCharacteristicCommandHandler : IRequestHandler<AddProduct
         await _context.Characteristics.AddAsync(characteristic, cancellationToken);
         product.Category.UniqueCharacteristics.Add(characteristic);
         await _context.SaveChangesAsync(cancellationToken);
+
+
+        var productInvalidatedEvent = new ProductInvalidatedEvent(request.ProductId);
+        await _publisher.Publish(productInvalidatedEvent, cancellationToken);
 
         return characteristic;
     }

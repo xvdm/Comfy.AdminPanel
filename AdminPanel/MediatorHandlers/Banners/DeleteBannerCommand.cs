@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,13 @@ public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
+    private readonly IPublisher _publisher;
 
-    public DeleteBannerCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService)
+    public DeleteBannerCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService, IPublisher publisher)
     {
         _context = context;
         _removeImageFromFileSystemService = removeImageFromFileSystemService;
+        _publisher = publisher;
     }
 
     public async Task Handle(DeleteBannerCommand request, CancellationToken cancellationToken)
@@ -28,5 +31,8 @@ public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand>
 
         _context.Banners.Remove(banner);
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new BannersInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }

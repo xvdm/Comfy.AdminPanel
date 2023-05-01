@@ -7,13 +7,11 @@ using AdminPanel.Repositories;
 using AdminPanel.Services;
 using Mapster;
 using MapsterMapper;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
-using AdminPanel.Behaviors;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -85,7 +83,6 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
 
 var app = builder.Build();
 

@@ -1,6 +1,4 @@
-﻿using AdminPanel.Data;
-
-namespace AdminPanel.Services
+﻿namespace AdminPanel.Services
 {
     public class RemoveImageFromWwwRootService : IRemoveImageFromFileSystemService
     {

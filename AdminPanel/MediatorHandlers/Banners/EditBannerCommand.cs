@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,15 @@ public class EditBannerCommandHandler : IRequestHandler<EditBannerCommand>
     private readonly ApplicationDbContext _context;
     private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
     private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
+    private readonly IPublisher _publisher;
 
-    public EditBannerCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService, IRemoveImageFromFileSystemService removeImageFromFileSystemService)
+    public EditBannerCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService, 
+        IRemoveImageFromFileSystemService removeImageFromFileSystemService, IPublisher publisher)
     {
         _context = context;
         _uploadImageToFileSystemService = uploadImageToFileSystemService;
         _removeImageFromFileSystemService = removeImageFromFileSystemService;
+        _publisher = publisher;
     }
 
     public async Task Handle(EditBannerCommand request, CancellationToken cancellationToken)
@@ -36,5 +40,8 @@ public class EditBannerCommandHandler : IRequestHandler<EditBannerCommand>
         banner.Name = request.Name;
         banner.PageUrl = request.PageUrl;
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new BannersInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ public record DeleteSubcategoryFilterCommand(int SubcategoryFilterId) : IRequest
 public class DeleteSubcategoryFilterCommandHandler : IRequestHandler<DeleteSubcategoryFilterCommand>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublisher _publisher;
 
-    public DeleteSubcategoryFilterCommandHandler(ApplicationDbContext context)
+    public DeleteSubcategoryFilterCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task Handle(DeleteSubcategoryFilterCommand request, CancellationToken cancellationToken)
@@ -22,5 +25,8 @@ public class DeleteSubcategoryFilterCommandHandler : IRequestHandler<DeleteSubca
         if(filter == null) return;
         _context.SubcategoryFilters.Remove(filter);
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new CategoriesMenuInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }

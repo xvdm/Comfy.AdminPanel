@@ -123,15 +123,15 @@ public class ProductsController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteCharacteristic(string productId, string id)
     {
-        if (int.TryParse(productId, out var _) == false)
+        if (int.TryParse(productId, out var productIdInt) == false)
         {
             return BadRequest("DeleteCharacteristic :: productId :: parse to int error");
         }
-        if (int.TryParse(id, out var idInt) == false)
+        if (int.TryParse(id, out var characteristicIdInt) == false)
         {
             return BadRequest("DeleteCharacteristic :: id :: parse to int error");
         }
-        await _mediator.Send(new DeleteProductCharacteristicCommand(idInt));
+        await _mediator.Send(new DeleteProductCharacteristicCommand(productIdInt, characteristicIdInt));
         return Ok();
     }
 

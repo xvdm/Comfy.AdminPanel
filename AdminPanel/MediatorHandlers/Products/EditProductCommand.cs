@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Helpers;
 using AdminPanel.Models;
 using MediatR;
@@ -22,10 +23,12 @@ public record EditProductCommand : IRequest<int>
 public class EditProductCommandHandler : IRequestHandler<EditProductCommand, int>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublisher _publisher;
 
-    public EditProductCommandHandler(ApplicationDbContext context, IMediator mediator)
+    public EditProductCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task<int> Handle(EditProductCommand request, CancellationToken cancellationToken)
@@ -81,6 +84,9 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, int
         product.DiscountAmount = request.DiscountAmount;
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        var productInvalidatedEvent = new ProductInvalidatedEvent(request.Id);
+        await _publisher.Publish(productInvalidatedEvent, cancellationToken);
 
         return product.Id;
     }

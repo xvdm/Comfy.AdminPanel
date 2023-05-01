@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Models;
 using AdminPanel.Services;
 using MediatR;
@@ -12,11 +13,13 @@ public class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
+    private readonly IPublisher _publisher;
 
-    public CreateBannerCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService)
+    public CreateBannerCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService, IPublisher publisher)
     {
         _context = context;
         _uploadImageToFileSystemService = uploadImageToFileSystemService;
+        _publisher = publisher;
     }
 
     public async Task Handle(CreateBannerCommand request, CancellationToken cancellationToken)
@@ -31,5 +34,8 @@ public class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand>
         };
         await _context.Banners.AddAsync(banner, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new BannersInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }

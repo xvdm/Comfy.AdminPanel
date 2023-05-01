@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using AdminPanel.Models.Logging;
 using System.Security.Claims;
 using AdminPanel.Helpers;
-using AdminPanel.Data;
 using AdminPanel.Models.Identity;
 
 namespace AdminPanel.Models.SeedInitializers

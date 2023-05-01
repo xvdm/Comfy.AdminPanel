@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ public record DeleteProductCommand(int ProductId) : IRequest;
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublisher _publisher;
 
-    public DeleteProductCommandHandler(ApplicationDbContext context)
+    public DeleteProductCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -25,7 +28,9 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
         if (priceHistories.Any()) _context.PriceHistories.RemoveRange(priceHistories);
 
         _context.Products.Remove(product);
-
         await _context.SaveChangesAsync(cancellationToken);
+
+        var productInvalidatedEvent = new ProductInvalidatedEvent(request.ProductId);
+        await _publisher.Publish(productInvalidatedEvent, cancellationToken);
     }
 }

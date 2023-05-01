@@ -1,4 +1,5 @@
-﻿@inject SignInManager<AdminPanelUser> SignInManager
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<AdminPanelUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
