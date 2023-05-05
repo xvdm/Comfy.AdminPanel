@@ -47,39 +47,6 @@
                                     </form>
                                 </td>
                             </tr>
-
-                            @if (x.Answers.Count > 0)
-                            {
-                                <thead>
-                                <tr>
-                                    <th>Відповіді: <br />Зміст</th>
-                                    <th>Продукт</th>
-                                    <th>Автор</th>
-                                    <th>Дата створення</th>
-                                </tr>
-                                </thead>
-                            }
-                            @foreach (var y in x.Answers)
-                            {
-                                
-                                <tbody>
-                                <tr name="@x.Id">
-                                    <td>
-                                        <p>@y.Text</p></td>
-                                    <td class="comments-product-width">
-                                        <p>@x.Product.Name</p></td>
-                                    <td>
-                                        <p>@y.User.UserName</p></td>
-                                    <td>
-                                        <p>@y.CreatedAt</p></td>
-                                    <td class="comments-buttons-width">
-                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@y.Id" asp-route-isActive="@false" asp-action="ChangeReviewAnswerActivityStatus">
-                                            <button class="page-num" type="submit">Приховати</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            }
                         }
                         </tbody>
                     </table>

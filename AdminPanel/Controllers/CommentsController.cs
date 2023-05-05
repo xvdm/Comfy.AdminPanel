@@ -88,6 +88,40 @@ public class CommentsController : Controller
         return View(viewModel);
     }
 
+    public async Task<IActionResult> ActiveReviewAnswers(int? pageSize, int? pageNumber)
+    {
+        var query = new GetReviewAnswersQuery(true, pageSize, pageNumber);
+        var reviewAnswers = await _mediator.Send(query);
+
+        var totalCount = await _mediator.Send(new GetReviewAnswersTotalCountQuery(true));
+        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+
+        var viewModel = new ReviewAnswersViewModel()
+        {
+            ReviewAnswers = reviewAnswers,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
+    }
+
+    public async Task<IActionResult> ActiveQuestionAnswers(int? pageSize, int? pageNumber)
+    {
+        var query = new GetQuestionAnswersQuery(true, pageSize, pageNumber);
+        var questionAnswers = await _mediator.Send(query);
+
+        var totalCount = await _mediator.Send(new GetReviewAnswersTotalCountQuery(true));
+        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+
+        var viewModel = new QuestionAnswersViewModel()
+        {
+            QuestionAnswers = questionAnswers,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
+    }
+
     public async Task<IActionResult> InactiveReviewAnswers(int? pageSize, int? pageNumber)
     {
         var query = new GetReviewAnswersQuery(false, pageSize, pageNumber);
@@ -133,7 +167,7 @@ public class CommentsController : Controller
     public async Task<IActionResult> ChangeQuestionAnswerActivityStatus(int id, bool isActive)
     {
         await _mediator.Send(new ChangeQuestionAnswerActivityStatusCommand(id, isActive));
-        return RedirectToAction(isActive ? nameof(InactiveQuestionAnswers) : nameof(ActiveQuestions));
+        return RedirectToAction(isActive ? nameof(InactiveQuestionAnswers) : nameof(ActiveQuestionAnswers));
     }
 
     [HttpPost]
@@ -147,6 +181,6 @@ public class CommentsController : Controller
     public async Task<IActionResult> ChangeReviewAnswerActivityStatus(int id, bool isActive)
     {
         await _mediator.Send(new ChangeReviewAnswerActivityStatusCommand(id, isActive));
-        return RedirectToAction(isActive ? nameof(InactiveReviewAnswers) : nameof(ActiveReviews));
+        return RedirectToAction(isActive ? nameof(InactiveReviewAnswers) : nameof(ActiveReviewAnswers));
     }
 }
