@@ -21,14 +21,12 @@ public class DeleteProductImageCommandHandler : IRequestHandler<DeleteProductIma
 
     public async Task Handle(DeleteProductImageCommand request, CancellationToken cancellationToken)
     {
-        var image = await _context.Images.FirstAsync(x => x.Id == request.ImageId, cancellationToken);
-        if (image is null)
-        {
-            throw new HttpRequestException("Image was not found");
-        }
-        _context.Images.Remove(image);
-        await _context.SaveChangesAsync(cancellationToken);
+        var image = await _context.Images.FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken);
+        if (image is null) return;
 
         _removeImageFromFileSystemService.RemoveImage(image.Url);
+
+        _context.Images.Remove(image);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

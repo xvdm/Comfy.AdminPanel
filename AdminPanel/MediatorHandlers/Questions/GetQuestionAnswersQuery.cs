@@ -49,6 +49,7 @@ public class GetQuestionAnswersQueryHandler : IRequestHandler<GetQuestionAnswers
                 .ThenInclude(x => x.Product)
             .Include(x => x.User)
             .Where(x => x.IsActive == request.IsActive)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
 
         return result;

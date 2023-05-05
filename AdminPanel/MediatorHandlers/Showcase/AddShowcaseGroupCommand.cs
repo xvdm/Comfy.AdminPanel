@@ -19,15 +19,15 @@ public class AddShowcaseGroupCommandHandler : IRequestHandler<AddShowcaseGroupCo
 
     public async Task Handle(AddShowcaseGroupCommand request, CancellationToken cancellationToken)
     {
-        var group = await _context.ShowcaseGroups.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-        if (group is not null) return;
+        var groupWithName = await _context.ShowcaseGroups.CountAsync(x => x.Name == request.Name, cancellationToken);
+        if (groupWithName > 0) return;
 
-        var newGroup = new ShowcaseGroup()
+        var newGroup = new ShowcaseGroup
         {
             Name = request.Name,
             QueryString = request.QueryString
         };
-        await _context.ShowcaseGroups.AddAsync(newGroup, cancellationToken);
+        _context.ShowcaseGroups.Add(newGroup);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

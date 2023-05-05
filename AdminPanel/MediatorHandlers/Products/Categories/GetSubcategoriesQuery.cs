@@ -21,6 +21,7 @@ public class GetSubcategoriesQueryHandler : IRequestHandler<GetSubcategoriesQuer
     {
         return await _context.Subcategories
             .Where(x => x.MainCategoryId == request.MainCategoryId)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 }

@@ -49,6 +49,7 @@ public class GetReviewAnswersHandler : IRequestHandler<GetReviewAnswersQuery, IE
                 .ThenInclude(x => x.Product)
             .Include(x => x.User)
             .Where(x => x.IsActive == request.IsActive)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
 
         return result;

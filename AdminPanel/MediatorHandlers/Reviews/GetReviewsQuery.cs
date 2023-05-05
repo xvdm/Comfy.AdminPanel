@@ -43,16 +43,15 @@ public class GetReviewsQueryHandler : IRequestHandler<GetReviewsQuery, IEnumerab
 
     public async Task<IEnumerable<Review>> Handle(GetReviewsQuery request, CancellationToken cancellationToken)
     {
-        var reviews = _context.Reviews
+        return await _context.Reviews
             .Where(x => x.IsActive == request.IsActive)
             .Include(x => x.Answers.Where(y => y.IsActive == true))
                 .ThenInclude(x => x.User)
             .Include(x => x.Product)
-            .Include(x => x.User);
-
-        return await reviews
+            .Include(x => x.User)
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 }

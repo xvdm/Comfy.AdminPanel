@@ -44,16 +44,15 @@ public class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, IEnum
 
     public async Task<IEnumerable<Question>> Handle(GetQuestionsQuery request, CancellationToken cancellationToken)
     {
-        var questions = _context.Questions
+        return await _context.Questions
             .Where(x => x.IsActive == request.IsActive)
             .Include(x => x.Answers.Where(y => y.IsActive == true))
                 .ThenInclude(x => x.User)
             .Include(x => x.Product)
-            .Include(x => x.User);
-
-        return await questions
+            .Include(x => x.User)
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 }

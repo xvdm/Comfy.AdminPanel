@@ -21,10 +21,12 @@ public class EditMainCategoryCommandHandler : IRequestHandler<EditMainCategoryCo
 
     public async Task Handle(EditMainCategoryCommand request, CancellationToken cancellationToken)
     {
+        var categoryWithNameCount = await _context.MainCategories.CountAsync(x => x.Name == request.Name, cancellationToken);
+        if (categoryWithNameCount > 0) throw new HttpRequestException($"Main Category with name {request.Name} already exists");
+
         var category = await _context.MainCategories.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (category is null) throw new HttpRequestException($"No MainCategory with id {request.Id}");
-        var categoryWithName = await _context.MainCategories.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-        if (categoryWithName is not null) throw new HttpRequestException($"Main Category with name {request.Name} already exists");
+
         category.Name = request.Name;
         await _context.SaveChangesAsync(cancellationToken);
 

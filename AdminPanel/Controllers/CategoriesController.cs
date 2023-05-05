@@ -24,7 +24,7 @@ public class CategoriesController : Controller
     {
         var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
         var subcategories = await _mediator.Send(new GetAllSubcategoriesQuery());
-        var viewModel = new CategoriesViewModel() { MainCategories = mainCategories, Subcategories = subcategories };
+        var viewModel = new CategoriesViewModel { MainCategories = mainCategories, Subcategories = subcategories };
         return View(viewModel);
     }
 
@@ -57,7 +57,7 @@ public class CategoriesController : Controller
         return RedirectToAction(nameof(SubcategoryFilters));
     }
 
-    public IActionResult GetSubcategoriesForMainCategory(string mainCategoryId)
+    public async Task<IActionResult> GetSubcategoriesForMainCategory(string mainCategoryId)
     {
         Console.WriteLine($"{mainCategoryId}");
 
@@ -65,8 +65,8 @@ public class CategoriesController : Controller
         {
             return BadRequest($"GetSubcategoriesForMainCategory :: Parsing error :: mainCategoryId");
         }
-        var items = _mediator.Send(new GetSubcategoriesForMainCategoryQuery(categoryId));
-        var result = string.Join("", items.Result.Select(item => $"<option value='{item.Id}' class='autocomplete-item'>{item.Name}</option>"));
+        var items = await _mediator.Send(new GetSubcategoriesForMainCategoryQuery(categoryId));
+        var result = string.Join("", items.Select(item => $"<option value='{item.Id}' class='autocomplete-item'>{item.Name}</option>"));
         return Content(result);
     }
 

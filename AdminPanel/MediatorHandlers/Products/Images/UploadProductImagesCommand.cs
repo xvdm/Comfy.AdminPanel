@@ -26,7 +26,7 @@ namespace AdminPanel.MediatorHandlers.Products.Images
                 .Include(x => x.Images)
                 .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
 
-            if (product is null) throw new HttpRequestException("No product with this id");
+            if (product is null) return false;
 
             foreach (var file in request.Files)
             {
@@ -39,7 +39,7 @@ namespace AdminPanel.MediatorHandlers.Products.Images
                     ProductId = request.ProductId,
                     Url = path
                 };
-                await _context.Images.AddAsync(image, cancellationToken);
+                _context.Images.Add(image);
                 await _context.SaveChangesAsync(cancellationToken);
             }
 

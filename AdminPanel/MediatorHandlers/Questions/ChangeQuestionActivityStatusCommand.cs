@@ -20,6 +20,7 @@ public class ChangeQuestionActivityStatusCommandHandler : IRequestHandler<Change
     {
         var question = await _context.Questions.FirstOrDefaultAsync(x => x.Id == request.QuestionId, cancellationToken);
         if (question is null) throw new HttpRequestException("Question was not found");
+
         question.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
     }

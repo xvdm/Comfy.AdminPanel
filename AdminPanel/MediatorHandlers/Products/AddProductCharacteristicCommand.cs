@@ -28,14 +28,14 @@ public class AddProductCharacteristicCommandHandler : IRequestHandler<AddProduct
         var isNewCharacteristic = false;
         if (characteristicsName is null)
         {
-            characteristicsName = new CharacteristicName() { Name = request.Name };
-            await _context.CharacteristicsNames.AddAsync(characteristicsName, cancellationToken);
+            characteristicsName = new CharacteristicName { Name = request.Name };
+            _context.CharacteristicsNames.Add(characteristicsName);
             isNewCharacteristic = true;
         }
         if (characteristicsValue is null)
         {
-            characteristicsValue = new CharacteristicValue() { Value = request.Value };
-            await _context.CharacteristicsValues.AddAsync(characteristicsValue, cancellationToken);
+            characteristicsValue = new CharacteristicValue { Value = request.Value };
+            _context.CharacteristicsValues.Add(characteristicsValue);
             isNewCharacteristic = true;
         }
         if (isNewCharacteristic)
@@ -53,7 +53,7 @@ public class AddProductCharacteristicCommandHandler : IRequestHandler<AddProduct
         {
             throw new HttpRequestException("Product with this id does not exist");
         }
-        if (product.Characteristics.FirstOrDefault(x => x.CharacteristicsNameId == characteristicsName.Id) is not null)
+        if (product.Characteristics.Count(x => x.CharacteristicsNameId == characteristicsName.Id) > 0)
         {
             throw new HttpRequestException("This product already has characteristic with this name");
         }
@@ -65,7 +65,7 @@ public class AddProductCharacteristicCommandHandler : IRequestHandler<AddProduct
             CharacteristicsValueId = characteristicsValue.Id,
             ProductId = request.ProductId
         };
-        await _context.Characteristics.AddAsync(characteristic, cancellationToken);
+        _context.Characteristics.Add(characteristic);
         product.Category.UniqueCharacteristics.Add(characteristic);
         await _context.SaveChangesAsync(cancellationToken);
 

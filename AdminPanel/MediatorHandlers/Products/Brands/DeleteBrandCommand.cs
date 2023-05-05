@@ -18,10 +18,12 @@ public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand>
 
     public async Task Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
     {
+        var brandtWithModelCount = await _context.Products.CountAsync(x => x.BrandId == request.Id, cancellationToken);
+        if (brandtWithModelCount  > 0) throw new HttpRequestException("There are products with this brand. Can't delete brand");
+
         var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-        if (brand is null) throw new HttpRequestException($"No brand with id {request.Id} was found");
-        var brandtWithModel = await _context.Products.FirstOrDefaultAsync(x => x.BrandId == brand.Id, cancellationToken);
-        if (brandtWithModel is not null) throw new HttpRequestException($"There are products with this brand. Can't delete brand");
+        if (brand is null) return;
+
         _context.Brands.Remove(brand);
         await _context.SaveChangesAsync(cancellationToken);
     }

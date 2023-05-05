@@ -19,10 +19,12 @@ public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Mod
 
     public async Task<Model> Handle(CreateModelCommand request, CancellationToken cancellationToken)
     {
-        var modelWithName = await _context.Models.FirstOrDefaultAsync(x => x.Name == request.Model.Name, cancellationToken);
-        if (modelWithName is not null) throw new HttpRequestException($"Model with name {request.Model.Name} already exists");
-        await _context.Models.AddAsync(request.Model, cancellationToken);
+        var modelWithNameCount = await _context.Models.CountAsync(x => x.Name == request.Model.Name, cancellationToken);
+        if (modelWithNameCount > 0) throw new HttpRequestException($"Model with name {request.Model.Name} already exists");
+
+        _context.Models.Add(request.Model);
         await _context.SaveChangesAsync(cancellationToken);
+
         return request.Model;
     }
 }

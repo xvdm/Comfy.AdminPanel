@@ -1,13 +1,14 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Categories;
 
-public record GetSubcategoriesForMainCategoryQuery(int Id) : IRequest<IQueryable<Subcategory>>;
+public record GetSubcategoriesForMainCategoryQuery(int Id) : IRequest<IEnumerable<Subcategory>>;
 
 
-public class GetSubcategoriesForMainCategoryQueryHandler : IRequestHandler<GetSubcategoriesForMainCategoryQuery, IQueryable<Subcategory>>
+public class GetSubcategoriesForMainCategoryQueryHandler : IRequestHandler<GetSubcategoriesForMainCategoryQuery, IEnumerable<Subcategory>>
 {
     private readonly ApplicationDbContext _context;
 
@@ -16,8 +17,11 @@ public class GetSubcategoriesForMainCategoryQueryHandler : IRequestHandler<GetSu
         _context = context;
     }
 
-    public async Task<IQueryable<Subcategory>> Handle(GetSubcategoriesForMainCategoryQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Subcategory>> Handle(GetSubcategoriesForMainCategoryQuery request, CancellationToken cancellationToken)
     {
-        return _context.Subcategories.Where(x => x.MainCategoryId == request.Id);
+        return await _context.Subcategories
+            .Where(x => x.MainCategoryId == request.Id)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 }

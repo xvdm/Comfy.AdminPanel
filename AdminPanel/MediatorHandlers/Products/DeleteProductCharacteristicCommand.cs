@@ -22,7 +22,8 @@ public class DeleteProductCharacteristicCommandHandler : IRequestHandler<DeleteP
     public async Task Handle(DeleteProductCharacteristicCommand request, CancellationToken cancellationToken)
     {
         var characteristic = await _context.Characteristics.FirstOrDefaultAsync(x => x.Id == request.CharacteristicId, cancellationToken);
-        if (characteristic is null) throw new HttpRequestException("There is no characteristic with given Id");
+        if (characteristic is null) return;
+
         _context.Characteristics.Remove(characteristic);
         await _context.SaveChangesAsync(cancellationToken);
 

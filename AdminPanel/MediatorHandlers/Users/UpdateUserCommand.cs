@@ -26,7 +26,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
     public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.Id.ToString());
-        if (user == null)
+        if (user is null)
         {
             throw new HttpRequestException("User with given id was not found");
         }

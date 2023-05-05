@@ -19,6 +19,8 @@ public class GetMainCategoriesQueryHandler : IRequestHandler<GetMainCategoriesQu
 
     public async Task<IEnumerable<MainCategory>> Handle(GetMainCategoriesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.MainCategories.ToListAsync(cancellationToken);
+        return await _context.MainCategories
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 }

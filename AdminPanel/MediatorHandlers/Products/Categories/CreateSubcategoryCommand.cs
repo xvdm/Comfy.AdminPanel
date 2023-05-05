@@ -22,12 +22,10 @@ public class CreateSubcategoryCommandHandler : IRequestHandler<CreateSubcategory
 
     public async Task Handle(CreateSubcategoryCommand request, CancellationToken cancellationToken)
     {
-        var mainCategory = await _context.MainCategories.FirstOrDefaultAsync(x => x.Id == request.Category.MainCategoryId, cancellationToken);
-        if (mainCategory is null)
-        {
-            return;
-        }
-        await _context.Subcategories.AddAsync(request.Category, cancellationToken);
+        var mainCategoryCount = await _context.MainCategories.CountAsync(x => x.Id == request.Category.MainCategoryId, cancellationToken);
+        if (mainCategoryCount <= 0) return;
+
+        _context.Subcategories.Add(request.Category);
         await _context.SaveChangesAsync(cancellationToken);
 
         var notification = new CategoriesMenuInvalidatedEvent();

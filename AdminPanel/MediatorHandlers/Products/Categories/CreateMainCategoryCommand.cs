@@ -21,7 +21,7 @@ public class CreateMainCategoryCommandHandler : IRequestHandler<CreateMainCatego
 
     public async Task Handle(CreateMainCategoryCommand request, CancellationToken cancellationToken)
     {
-        await _context.MainCategories.AddAsync(request.Category, cancellationToken);
+        _context.MainCategories.Add(request.Category);
         await _context.SaveChangesAsync(cancellationToken);
 
         var notification = new CategoriesMenuInvalidatedEvent();

@@ -110,12 +110,7 @@ public class ProductsController : Controller
             return BadRequest("EditCharacteristic :: id :: parse to int error");
         }
 
-        var product = await _mediator.Send(new GetProductByIdQuery(productIdInt));
-        if (product is null)
-        {
-            return NotFound("No product with given Id was found");
-        }
-        var editCharacteristicCommand = new EditProductCharacteristicCommand(product, idInt, name, value);
+        var editCharacteristicCommand = new EditProductCharacteristicCommand(productIdInt, idInt, name, value);
         await _mediator.Send(editCharacteristicCommand);
         return Ok();
     }

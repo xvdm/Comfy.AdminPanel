@@ -22,7 +22,8 @@ public class DeleteSubcategoryFilterCommandHandler : IRequestHandler<DeleteSubca
     public async Task Handle(DeleteSubcategoryFilterCommand request, CancellationToken cancellationToken)
     {
         var filter = await _context.SubcategoryFilters.FirstOrDefaultAsync(x => x.Id == request.SubcategoryFilterId, cancellationToken);
-        if(filter == null) return;
+        if(filter is null) return;
+
         _context.SubcategoryFilters.Remove(filter);
         await _context.SaveChangesAsync(cancellationToken);
 

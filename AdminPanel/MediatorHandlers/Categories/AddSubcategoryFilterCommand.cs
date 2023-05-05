@@ -22,21 +22,21 @@ public class AddSubcategoryFilterCommandHandler : IRequestHandler<AddSubcategory
 
     public async Task Handle(AddSubcategoryFilterCommand request, CancellationToken cancellationToken)
     {
-        var subcategory = await _context.Subcategories
-            .Include(x => x.Filters)
-            .FirstOrDefaultAsync(x => x.Id == request.SubcategoryId, cancellationToken);
-        if (subcategory == null) throw new HttpRequestException("No category with given id");
+        var subcategoryCount = await _context.Subcategories.CountAsync(x => x.Id == request.SubcategoryId, cancellationToken);
+        if (subcategoryCount <= 0) throw new HttpRequestException("No category with given id");
+
+        var filterWithNameCount = await _context.SubcategoryFilters
+            .CountAsync(x => x.Name == request.SubcategoryFilterName && x.SubcategoryId == request.SubcategoryId, cancellationToken);
+        if (filterWithNameCount > 0) return;
 
         var filter = new SubcategoryFilter()
         {
-            SubcategoryId = subcategory.Id,
+            SubcategoryId = request.SubcategoryId,
             FilterQuery = request.SubcategoryFilter,
             Name = request.SubcategoryFilterName
         };
 
-        if (subcategory.Filters.FirstOrDefault(x => x.Name == request.SubcategoryFilterName) != null) return;
-        
-        subcategory.Filters.Add(filter);
+        _context.SubcategoryFilters.Add(filter);
         await _context.SaveChangesAsync(cancellationToken);
 
         var notification = new CategoriesMenuInvalidatedEvent();

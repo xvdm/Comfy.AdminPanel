@@ -21,10 +21,12 @@ public class EditSubcategoryCommandHandler : IRequestHandler<EditSubcategoryComm
 
     public async Task Handle(EditSubcategoryCommand request, CancellationToken cancellationToken)
     {
+        var categoryWithNameCount = await _context.Subcategories.CountAsync(x => x.Name == request.Name, cancellationToken);
+        if (categoryWithNameCount > 0) throw new HttpRequestException($"Subcategory with name {request.Name} already exists");
+
         var category = await _context.Subcategories.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (category is null) throw new HttpRequestException($"No Subcategory with id {request.Id}");
-        var categoryWithName = await _context.Subcategories.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-        if (categoryWithName is not null) throw new HttpRequestException($"Subcategory with name {request.Name} already exists");
+
         category.Name = request.Name;
         await _context.SaveChangesAsync(cancellationToken);
 

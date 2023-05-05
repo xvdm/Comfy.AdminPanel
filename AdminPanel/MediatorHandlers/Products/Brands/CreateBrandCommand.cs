@@ -19,10 +19,12 @@ public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Bra
 
     public async Task<Brand> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
     {
-        var brandWithName = await _context.Brands.FirstOrDefaultAsync(x => x.Name == request.Brand.Name, cancellationToken);
-        if (brandWithName is not null) throw new HttpRequestException($"Brand with name {request.Brand.Name} already exists");
-        await _context.Brands.AddAsync(request.Brand, cancellationToken);
+        var brandWithNameCount = await _context.Brands.CountAsync(x => x.Name == request.Brand.Name, cancellationToken);
+        if (brandWithNameCount > 0) throw new HttpRequestException($"Brand with name {request.Brand.Name} already exists");
+
+        _context.Brands.Add(request.Brand);
         await _context.SaveChangesAsync(cancellationToken);
+
         return request.Brand;
     }
 }

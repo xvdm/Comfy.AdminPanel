@@ -19,7 +19,8 @@ public class ChangeQuestionAnswerActivityStatusCommandHandler : IRequestHandler<
     public async Task Handle(ChangeQuestionAnswerActivityStatusCommand request, CancellationToken cancellationToken)
     {
         var questionAnswer = await _context.QuestionAnswers.FirstOrDefaultAsync(x => x.Id == request.QuestionAnswerId, cancellationToken);
-        if (questionAnswer is null) throw new HttpRequestException("QuestionAnswer was not found");
+        if (questionAnswer is null) throw new HttpRequestException("Question answer was not found");
+
         questionAnswer.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
     }

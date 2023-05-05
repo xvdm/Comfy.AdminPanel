@@ -19,6 +19,9 @@ public class GetAllSubcategoriesQueryHandler : IRequestHandler<GetAllSubcategori
 
     public async Task<IEnumerable<Subcategory>> Handle(GetAllSubcategoriesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Subcategories.ToListAsync(cancellationToken);
+        return await _context.Subcategories
+            .Include(x => x.MainCategory)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 }

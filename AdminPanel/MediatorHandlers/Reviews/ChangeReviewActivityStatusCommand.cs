@@ -20,6 +20,7 @@ public class ChangeReviewActivityStatusCommandHandler : IRequestHandler<ChangeRe
     {
         var review = await _context.Reviews.FirstOrDefaultAsync(x => x.Id == request.ReviewId, cancellationToken);
         if (review is null) throw new HttpRequestException("Review was not found");
+
         review.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
     }

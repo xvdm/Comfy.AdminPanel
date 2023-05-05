@@ -18,14 +18,13 @@ public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand>
 
     public async Task Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
     {
-        var brandWithName = await _context.Brands.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-        if (brandWithName?.Id != request.Id)
-        {
-            if (brandWithName is not null) throw new HttpRequestException($"Brand with name {request.Name} already exists");
-            var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-            if (brand is null) throw new HttpRequestException($"Brand with id {request.Id} was not found");
-            brand.Name = request.Name;
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        var brandWithNameCount = await _context.Brands.CountAsync(x => x.Id != request.Id && x.Name == request.Name, cancellationToken);
+        if (brandWithNameCount > 0) throw new HttpRequestException($"Brand with name {request.Name} already exists");
+
+        var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        if (brand is null) throw new HttpRequestException($"Brand with id {request.Id} was not found");
+
+        brand.Name = request.Name;
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

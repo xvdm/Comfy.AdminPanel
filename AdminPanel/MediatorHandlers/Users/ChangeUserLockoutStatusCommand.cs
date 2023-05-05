@@ -20,21 +20,17 @@ public class ChangeUserLockoutStatusCommandHandler : IRequestHandler<ChangeUserL
     public async Task<bool> Handle(ChangeUserLockoutStatusCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
-        if (user is null)
-        {
-            throw new HttpRequestException("User with given id was not found");
-        }
+        if (user is null) return false;
 
-        if (request.CurrentUser.Identity?.Name != user.UserName)
+        if (request.CurrentUser.Identity?.Name == user.UserName) return false;
+
+        if (request.IsLockout)
         {
-            if (request.IsLockout)
-            {
-                await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Parse("2999-03-01"));
-            }
-            else
-            {
-                await _userManager.SetLockoutEndDateAsync(user, null);
-            }
+            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Parse("2999-03-01"));
+        }
+        else
+        {
+            await _userManager.SetLockoutEndDateAsync(user, null);
         }
         return true;
     }

@@ -19,7 +19,8 @@ public class ChangeReviewAnswerActivityStatusCommandHandler : IRequestHandler<Ch
     public async Task Handle(ChangeReviewAnswerActivityStatusCommand request, CancellationToken cancellationToken)
     {
         var reviewAnswer = await _context.ReviewAnswers.FirstOrDefaultAsync(x => x.Id == request.ReviewAnswerId, cancellationToken);
-        if (reviewAnswer is null) throw new HttpRequestException("ReviewAnswer was not found");
+        if (reviewAnswer is null) throw new HttpRequestException("Review answer was not found");
+
         reviewAnswer.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
     }

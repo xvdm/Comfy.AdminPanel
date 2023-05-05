@@ -30,11 +30,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
     {
         var user = request.Adapt<ApplicationUser>();
         var result = await _userManager.CreateAsync(user, request.Password);
-        if (result.Succeeded)
-        {
-            await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, request.Role));
-            return user.Id;
-        }
-        return Guid.Empty;
+        if (result.Succeeded == false) return Guid.Empty;
+
+        await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, request.Role));
+        return user.Id;
     }
 }

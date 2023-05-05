@@ -19,7 +19,8 @@ public class GetBannersQueryHandler : IRequestHandler<GetBannersQuery, ICollecti
 
     public async Task<ICollection<Banner>> Handle(GetBannersQuery request, CancellationToken cancellationToken)
     {
-        var result = await _context.Banners.ToListAsync(cancellationToken);
-        return result;
+        return await _context.Banners
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 }

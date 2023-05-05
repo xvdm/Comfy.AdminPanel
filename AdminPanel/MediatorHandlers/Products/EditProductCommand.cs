@@ -77,7 +77,7 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, int
                 Price = product.Price,
                 ProductId = product.Id
             };
-            product.PriceHistory?.Add(priceHistory);
+            product.PriceHistory.Add(priceHistory);
         }
 
         product.Description = request.Description;

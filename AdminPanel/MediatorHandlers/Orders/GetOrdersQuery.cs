@@ -50,6 +50,7 @@ public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IEnumerable
             .Where(x => x.StatusId == status.Id)
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 }

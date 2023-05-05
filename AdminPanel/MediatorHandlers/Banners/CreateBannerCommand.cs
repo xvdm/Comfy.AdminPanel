@@ -32,7 +32,7 @@ public class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand>
             ImageUrl = path,
             PageUrl = request.PageUrl
         };
-        await _context.Banners.AddAsync(banner, cancellationToken);
+        _context.Banners.Add(banner);
         await _context.SaveChangesAsync(cancellationToken);
 
         var notification = new BannersInvalidatedEvent();

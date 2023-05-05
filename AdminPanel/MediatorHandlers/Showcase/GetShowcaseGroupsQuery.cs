@@ -21,6 +21,7 @@ public class GetShowcaseGroupsQueryHandler : IRequestHandler<GetShowcaseGroupsQu
     {
         var groups = await _context.ShowcaseGroups
             .Include(x => x.Products)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
 
         return groups;

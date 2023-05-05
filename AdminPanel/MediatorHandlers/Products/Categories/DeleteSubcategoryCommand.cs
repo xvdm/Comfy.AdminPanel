@@ -21,11 +21,11 @@ public class DeleteSubcategoryCommandHandler : IRequestHandler<DeleteSubcategory
 
     public async Task<bool> Handle(DeleteSubcategoryCommand request, CancellationToken cancellationToken)
     {
+        var productWithCategoryCount = await _context.Products.CountAsync(x => x.CategoryId == request.Id, cancellationToken);
+        if (productWithCategoryCount > 0) return false; // it's not allowed to delete a category while there are products in it
+
         var category = await _context.Subcategories.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (category is null) throw new HttpRequestException($"No Subcategory with id {request.Id}");
-
-        var productWithCategory = await _context.Products.FirstOrDefaultAsync(x => x.CategoryId == request.Id, cancellationToken);
-        if (productWithCategory is not null) return false; // it's not allowed to delete a category while there are products in it
 
         _context.Subcategories.Remove(category);
         await _context.SaveChangesAsync(cancellationToken);

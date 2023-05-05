@@ -27,16 +27,18 @@ public class UpdateSubcategoryImageCommandHandler : IRequestHandler<UpdateSubcat
         var category = await _context.Subcategories.FirstOrDefaultAsync(x => x.Id == request.CategoryId, cancellationToken);
         if (category is null) throw new HttpRequestException($"No category with id {request.CategoryId}");
 
+        if (category.Image is not null)
+        {
+            _removeImageFromFileSystemService.RemoveImage(category.Image.Url);
+        }
+
         var path = await _uploadImageToFileSystemService.UploadImage(request.ImageFile);
-        var image = new SubcategoryImage();
-        image.Url = path;
+        var image = new SubcategoryImage
+        {
+            Url = path
+        };
 
-        _removeImageFromFileSystemService.RemoveImage(category.Image.Url);
-        _context.SubcategoryImages.Remove(category.Image);
-
-        await _context.SubcategoryImages.AddAsync(image, cancellationToken); // ?? - нужна ли эта строка
         category.Image = image;
-
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

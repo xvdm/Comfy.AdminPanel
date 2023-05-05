@@ -21,8 +21,8 @@ public class EditShowcaseGroupCommandHandler : IRequestHandler<EditShowcaseGroup
         var group = await _context.ShowcaseGroups.FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
         if (group is null) return;
 
-        var groupWithName = await _context.ShowcaseGroups.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-        if (groupWithName is not null) return;
+        var groupWithName = await _context.ShowcaseGroups.CountAsync(x => x.Name == request.Name, cancellationToken);
+        if (groupWithName > 0) return;
 
         group.Name = request.Name;
         group.QueryString = request.QueryString;

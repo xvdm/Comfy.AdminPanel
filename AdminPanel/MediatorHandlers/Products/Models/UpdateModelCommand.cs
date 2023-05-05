@@ -18,14 +18,13 @@ public class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand>
 
     public async Task Handle(UpdateModelCommand request, CancellationToken cancellationToken)
     {
-        var modelWithName = await _context.Models.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-        if (modelWithName?.Id != request.Id)
-        {
-            if (modelWithName is not null) throw new HttpRequestException($"Model with name {request.Name} already exists");
-            var model = await _context.Models.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-            if (model is null) throw new HttpRequestException($"Model with id {request.Id} was not found");
-            model.Name = request.Name;
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+        var modelWithNameCount = await _context.Models.CountAsync(x => x.Id != request.Id && x.Name == request.Name, cancellationToken);
+        if (modelWithNameCount > 0) throw new HttpRequestException($"Model with name {request.Name} already exists");
+
+        var model = await _context.Models.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        if (model is null) throw new HttpRequestException($"Model with id {request.Id} was not found");
+
+        model.Name = request.Name;
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }
