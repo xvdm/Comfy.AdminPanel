@@ -53,11 +53,11 @@ switch (userMainPosition[1]) {
         break; 
 
     case "Comments":
-        let divComments = document.getElementById("Reviews");
+        let divComments = document.getElementById("Comments");
         blockMainLink(divComments)
      
-        links = ["Активні питання", "Неактивні питання", "Активні відгуки", "Неактивні відгуки"];
-        href = ["/Comments/ActiveQuestions", "/Comments/InactiveQuestions", "/Comments/ActiveReviews", "/Comments/InactiveReviews"]
+        links = ["Активні питання", "Активні відгуки", "Неактивні питання", "Неактивні відгуки", "Неактивні відповіді на питання", "Неактивні відповіді на відгуки"];
+        href = ["/Comments/ActiveQuestions", "/Comments/ActiveReviews", "/Comments/InactiveQuestions", "/Comments/InactiveReviews", "/Comments/InactiveQuestionAnswers", "/Comments/InactiveReviewAnswers"]
         createLI(links, href)
         div.appendChild(ul)
         divComments.appendChild(div)

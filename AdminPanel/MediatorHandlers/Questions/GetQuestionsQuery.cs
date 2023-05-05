@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Questions;
 
-public record GetQuestionsQuery : IRequest<List<Question>>
+public record GetQuestionsQuery : IRequest<IEnumerable<Question>>
 {
     public bool IsActive { get; set; }
 
@@ -33,7 +33,7 @@ public record GetQuestionsQuery : IRequest<List<Question>>
 }
 
 
-public class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, List<Question>>
+public class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, IEnumerable<Question>>
 {
     private readonly ApplicationDbContext _context;
 
@@ -42,11 +42,12 @@ public class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, List<
         _context = context;
     }
 
-    public async Task<List<Question>> Handle(GetQuestionsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Question>> Handle(GetQuestionsQuery request, CancellationToken cancellationToken)
     {
         var questions = _context.Questions
             .Where(x => x.IsActive == request.IsActive)
-            .Include(x => x.Answers)
+            .Include(x => x.Answers.Where(y => y.IsActive == true))
+                .ThenInclude(x => x.User)
             .Include(x => x.Product)
             .Include(x => x.User);
 

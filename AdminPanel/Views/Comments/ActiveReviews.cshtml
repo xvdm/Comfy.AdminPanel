@@ -16,32 +16,71 @@
                 <div class="comments-table">
                     <table class="table-comments-width">
                         <thead>
-                            <tr>
-                                <th>Зміст</th>
-                                <th>Плюси</th>
-                                <th>Мінуси</th>
-                                <th>Продукт</th>
-                                <th>Автор</th>
-                                <th>Активність</th>
-                            </tr>
+                        <tr>
+                            <th>Зміст</th>
+                            <th>Плюси</th>
+                            <th>Мінуси</th>
+                            <th>Продукт</th>
+                            <th>Автор</th>
+                            <th>Дата створення</th>
+                        </tr>
                         </thead>
                         <tbody id="list-brands">
-                            @foreach (var x in Model.Reviews)
+                        @foreach (var x in Model.Reviews)
+                        {
+                            <tr name="@x.Id">
+                                <td>
+                                    <p>@x.Text</p></td>
+                                <td>
+                                    <p>@x.Advantages</p></td>
+                                <td>
+                                    <p>@x.Disadvantages</p></td>
+                                <td class="comments-product-width">
+                                    <p>@x.Product.Name</p></td>
+                                <td>
+                                    <p>@x.User.UserName</p></td>
+                                <td>
+                                    <p>@x.CreatedAt</p></td>
+                                <td class="comments-buttons-width">
+                                    <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="@false" asp-action="ChangeReviewActivityStatus">
+                                        <button class="page-num" type="submit">Приховати</button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            @if (x.Answers.Count > 0)
                             {
+                                <thead>
+                                <tr>
+                                    <th>Відповіді: <br />Зміст</th>
+                                    <th>Продукт</th>
+                                    <th>Автор</th>
+                                    <th>Дата створення</th>
+                                </tr>
+                                </thead>
+                            }
+                            @foreach (var y in x.Answers)
+                            {
+                                
+                                <tbody>
                                 <tr name="@x.Id">
-                                    <td><p>@x.Text</p></td>
-                                    <td><p>@x.Advantages</p></td>
-                                    <td><p>@x.Disadvantages</p></td>
-                                    <td class="comments-product-width"><p>@x.Product.Name</p></td>
-                                    <td><p>@x.User.UserName</p></td>
-                                    <td><p>@x.IsActive</p></td>
+                                    <td>
+                                        <p>@y.Text</p></td>
+                                    <td class="comments-product-width">
+                                        <p>@x.Product.Name</p></td>
+                                    <td>
+                                        <p>@y.User.UserName</p></td>
+                                    <td>
+                                        <p>@y.CreatedAt</p></td>
                                     <td class="comments-buttons-width">
-                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="@false" asp-action="ChangeReviewActivityStatus">
+                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@y.Id" asp-route-isActive="@false" asp-action="ChangeReviewAnswerActivityStatus">
                                             <button class="page-num" type="submit">Приховати</button>
                                         </form>
                                     </td>
                                 </tr>
+                                </tbody>
                             }
+                        }
                         </tbody>
                     </table>
                     @if (Model.TotalPages > 1)
@@ -53,7 +92,7 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="ActiveReviews">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage - 1)" asp-action="ActiveReviews">
                                     <button class="page-num" type="submit">Previous</button>
                                 </form>
                             }
@@ -80,7 +119,7 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="ActiveReviews">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage + 1)" asp-action="ActiveReviews">
                                     <button class="page-num" type="submit">Next</button>
                                 </form>
                             }

@@ -3,11 +3,11 @@ using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.MediatorHandlers.Reviews;
+namespace AdminPanel.MediatorHandlers.Questions;
 
-public record GetReviewsQuery : IRequest<IEnumerable<Review>>
+public record GetQuestionAnswersQuery : IRequest<IEnumerable<QuestionAnswer>>
 {
-    public bool IsActive { get; set; }
+    public bool IsActive { get; init; }
 
     private const int MaxPageSize = 15;
     private int _pageSize = MaxPageSize;
@@ -24,7 +24,7 @@ public record GetReviewsQuery : IRequest<IEnumerable<Review>>
         set => _pageNumber = (value < 1) ? 1 : value;
     }
 
-    public GetReviewsQuery(bool isActive, int? pageSize, int? pageNumber)
+    public GetQuestionAnswersQuery(bool isActive, int? pageSize, int? pageNumber)
     {
         IsActive = isActive;
         if (pageSize is not null) PageSize = (int)pageSize;
@@ -32,27 +32,25 @@ public record GetReviewsQuery : IRequest<IEnumerable<Review>>
     }
 }
 
-public class GetReviewsQueryHandler : IRequestHandler<GetReviewsQuery, IEnumerable<Review>>
+
+public class GetQuestionAnswersQueryHandler : IRequestHandler<GetQuestionAnswersQuery, IEnumerable<QuestionAnswer>>
 {
     private readonly ApplicationDbContext _context;
 
-    public GetReviewsQueryHandler(ApplicationDbContext context)
+    public GetQuestionAnswersQueryHandler(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<IEnumerable<Review>> Handle(GetReviewsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<QuestionAnswer>> Handle(GetQuestionAnswersQuery request, CancellationToken cancellationToken)
     {
-        var reviews = _context.Reviews
+        var result = await _context.QuestionAnswers
+            .Include(x => x.Question)
+                .ThenInclude(x => x.Product)
+            .Include(x => x.User)
             .Where(x => x.IsActive == request.IsActive)
-            .Include(x => x.Answers.Where(y => y.IsActive == true))
-                .ThenInclude(x => x.User)
-            .Include(x => x.Product)
-            .Include(x => x.User);
-
-        return await reviews
-            .Skip((request.PageNumber - 1) * request.PageSize)
-            .Take(request.PageSize)
             .ToListAsync(cancellationToken);
+
+        return result;
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Questions;
 
-public record GetQuestionsTotalCountQuery : IRequest<int>;
+public record GetQuestionsTotalCountQuery(bool IsActive) : IRequest<int>;
 
 
 public class GetQuestionsTotalCountQueryHandler : IRequestHandler<GetQuestionsTotalCountQuery, int>
@@ -18,6 +18,8 @@ public class GetQuestionsTotalCountQueryHandler : IRequestHandler<GetQuestionsTo
 
     public async Task<int> Handle(GetQuestionsTotalCountQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Questions.CountAsync(cancellationToken);
+        return await _context.Questions
+            .Where(x => x.IsActive == request.IsActive)
+            .CountAsync(cancellationToken);
     }
 }

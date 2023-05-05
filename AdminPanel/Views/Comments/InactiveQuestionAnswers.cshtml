@@ -1,12 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model ReviewsViewModel
+@model QuestionAnswersViewModel
 @{
-    ViewData["Title"] = "Inactive reviews";
+    ViewData["Title"] = "Inactive question answers";
 }
 <div class="Page">
     <div class="header">
         <div class="namePage">
-            <p>Редагування неактивних відгуків</p>
+            <p>Редагування неактивних відповідей на питання</p>
         </div>
     </div>
 
@@ -18,25 +18,23 @@
                         <thead>
                             <tr>
                                 <th>Зміст</th>
-                                <th>Плюси</th>
-                                <th>Мінуси</th>
                                 <th>Продукт</th>
+                                <th>Питання</th>
                                 <th>Автор</th>
                                 <th>Дата створення</th>
                             </tr>
                         </thead>
                         <tbody id="list-brands">
-                            @foreach (var x in Model.Reviews)
+                            @foreach (var x in Model.QuestionAnswers)
                             {
                                 <tr name="@x.Id">
                                     <td><p>@x.Text</p></td>
-                                    <td><p>@x.Advantages</p></td>
-                                    <td><p>@x.Disadvantages</p></td>
-                                    <td class="comments-product-width"><p>@x.Product.Name</p></td>
+                                    <td class="comments-product-width"><p>@x.Question.Product.Name</p></td>
+                                    <td class="comments-product-width"><p>@x.Question.Text</p></td>
                                     <td><p>@x.User.UserName</p></td>
                                     <td><p>@x.CreatedAt</p></td>
                                     <td class="comments-buttons-width">
-                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="@true" asp-action="ChangeReviewActivityStatus">
+                                        <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="@true" asp-action="ChangeQuestionAnswerActivityStatus">
                                             <button class="page-num" type="submit">Активувати</button>
                                         </form>
                                     </td>
@@ -53,7 +51,7 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="InactiveReviews">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="InactiveQuestionAnswers">
                                     <button class="page-num" type="submit">Previous</button>
                                 </form>
                             }
@@ -62,13 +60,13 @@
                             {
                                 @if (i == Model.CurrentPage)
                                 {
-                                    <form class="current-page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="InactiveReviews">
+                                    <form class="current-page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="InactiveQuestionAnswers">
                                         <button type="submit">@i</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="InactiveReviews">
+                                    <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="InactiveQuestionAnswers">
                                         <button type="submit">@i</button>
                                     </form>
                                 }
@@ -80,7 +78,7 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="InactiveReviews">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="InactiveQuestionAnswers">
                                     <button class="page-num" type="submit">Next</button>
                                 </form>
                             }

@@ -25,7 +25,7 @@ public class CommentsController : Controller
         var query = new GetQuestionsQuery(true, pageSize, pageNumber);
         var questions = await _mediator.Send(query);
 
-        var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
+        var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery(true));
         var totalPages = (totalCount - 1) / query.PageSize + 1;
 
         var viewModel = new QuestionsViewModel()
@@ -42,7 +42,7 @@ public class CommentsController : Controller
         var query = new GetReviewsQuery(true, pageSize, pageNumber);
         var reviews = await _mediator.Send(query);
 
-        var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
+        var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery(true));
         var totalPages = (totalCount - 1) / query.PageSize + 1;
 
         var viewModel = new ReviewsViewModel()
@@ -59,7 +59,7 @@ public class CommentsController : Controller
         var query = new GetQuestionsQuery(false, pageSize, pageNumber);
         var questions = await _mediator.Send(query);
 
-        var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery());
+        var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery(false));
         var totalPages = (totalCount - 1) / (query.PageSize + 1);
 
         var viewModel = new QuestionsViewModel()
@@ -76,7 +76,7 @@ public class CommentsController : Controller
         var query = new GetReviewsQuery(false, pageSize, pageNumber);
         var reviews = await _mediator.Send(query);
 
-        var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery());
+        var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery(false));
         var totalPages = (totalCount - 1) / (query.PageSize + 1);
 
         var viewModel = new ReviewsViewModel()
@@ -88,31 +88,65 @@ public class CommentsController : Controller
         return View(viewModel);
     }
 
+    public async Task<IActionResult> InactiveReviewAnswers(int? pageSize, int? pageNumber)
+    {
+        var query = new GetReviewAnswersQuery(false, pageSize, pageNumber);
+        var reviewAnswers = await _mediator.Send(query);
+
+        var totalCount = await _mediator.Send(new GetReviewAnswersTotalCountQuery(false));
+        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+
+        var viewModel = new ReviewAnswersViewModel()
+        {
+            ReviewAnswers = reviewAnswers,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
+    }
+
+    public async Task<IActionResult> InactiveQuestionAnswers(int? pageSize, int? pageNumber)
+    {
+        var query = new GetQuestionAnswersQuery(false, pageSize, pageNumber);
+        var questionAnswers = await _mediator.Send(query);
+
+        var totalCount = await _mediator.Send(new GetReviewAnswersTotalCountQuery(false));
+        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+
+        var viewModel = new QuestionAnswersViewModel()
+        {
+            QuestionAnswers = questionAnswers,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
+    }
+
     [HttpPost]
     public async Task<IActionResult> ChangeQuestionActivityStatus(int id, bool isActive)
     {
         await _mediator.Send(new ChangeQuestionActivityStatusCommand(id, isActive));
-        return Redirect(isActive ? "/Comments/InactiveQuestions" : "/Comments/ActiveQuestions");
+        return RedirectToAction(isActive ? nameof(InactiveQuestions) : nameof(ActiveQuestions));
     }
 
     [HttpPost]
     public async Task<IActionResult> ChangeQuestionAnswerActivityStatus(int id, bool isActive)
     {
         await _mediator.Send(new ChangeQuestionAnswerActivityStatusCommand(id, isActive));
-        return Redirect(isActive ? "/Comments/InactiveQuestions" : "/Comments/ActiveQuestions");
+        return RedirectToAction(isActive ? nameof(InactiveQuestionAnswers) : nameof(ActiveQuestions));
     }
 
     [HttpPost]
     public async Task<IActionResult> ChangeReviewActivityStatus(int id, bool isActive)
     {
         await _mediator.Send(new ChangeReviewActivityStatusCommand(id, isActive));
-        return Redirect(isActive ? "/Comments/InactiveReviews" : "/Comments/ActiveReviews");
+        return RedirectToAction(isActive ? nameof(InactiveReviews) : nameof(ActiveReviews));
     }
 
     [HttpPost]
     public async Task<IActionResult> ChangeReviewAnswerActivityStatus(int id, bool isActive)
     {
         await _mediator.Send(new ChangeReviewAnswerActivityStatusCommand(id, isActive));
-        return Redirect(isActive ? "/Comments/InactiveReviews" : "/Comments/ActiveReviews");
+        return RedirectToAction(isActive ? nameof(InactiveReviewAnswers) : nameof(ActiveReviews));
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Reviews;
 
-public record GetReviewsTotalCountQuery : IRequest<int>;
+public record GetReviewsTotalCountQuery(bool IsActive) : IRequest<int>;
 
 
 public class GetReviewsTotalCountQueryHandler : IRequestHandler<GetReviewsTotalCountQuery, int>
@@ -18,6 +18,8 @@ public class GetReviewsTotalCountQueryHandler : IRequestHandler<GetReviewsTotalC
 
     public async Task<int> Handle(GetReviewsTotalCountQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Reviews.CountAsync(cancellationToken);
+        return await _context.Reviews
+            .Where(x => x.IsActive == request.IsActive)
+            .CountAsync(cancellationToken);
     }
 }
