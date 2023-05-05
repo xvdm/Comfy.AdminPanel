@@ -30,7 +30,6 @@ public class AddSubcategoryFilterCommandHandler : IRequestHandler<AddSubcategory
         var filter = new SubcategoryFilter()
         {
             SubcategoryId = subcategory.Id,
-            MainCategoryId = subcategory.MainCategoryId,
             FilterQuery = request.SubcategoryFilter,
             Name = request.SubcategoryFilterName
         };
