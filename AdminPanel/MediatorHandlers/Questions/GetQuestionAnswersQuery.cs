@@ -49,6 +49,9 @@ public class GetQuestionAnswersQueryHandler : IRequestHandler<GetQuestionAnswers
                 .ThenInclude(x => x.Product)
             .Include(x => x.User)
             .Where(x => x.IsActive == request.IsActive)
+            .OrderByDescending(x => x.Id)
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 

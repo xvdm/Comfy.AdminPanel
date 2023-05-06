@@ -45,7 +45,6 @@ public class GetUserLogsQueryHandler : IRequestHandler<GetUserLogsQuery, IEnumer
     public async Task<IEnumerable<UserLog>> Handle(GetUserLogsQuery request, CancellationToken cancellationToken)
     {
         var logs = _context.UserLogs
-            .AsNoTracking()
             .AsQueryable();
 
 
@@ -63,6 +62,7 @@ public class GetUserLogsQueryHandler : IRequestHandler<GetUserLogsQuery, IEnumer
             .OrderByDescending(x => x.Id)
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 }

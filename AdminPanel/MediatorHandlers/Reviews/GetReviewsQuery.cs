@@ -49,6 +49,7 @@ public class GetReviewsQueryHandler : IRequestHandler<GetReviewsQuery, IEnumerab
                 .ThenInclude(x => x.User)
             .Include(x => x.Product)
             .Include(x => x.User)
+            .OrderByDescending(x => x.Id)
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTracking()

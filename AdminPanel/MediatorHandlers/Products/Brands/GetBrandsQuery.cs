@@ -41,6 +41,7 @@ public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, IEnumerable
     public async Task<IEnumerable<Brand>> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
     {
         var brands = await _context.Brands
+            .OrderBy(x => x.Id)
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
             .AsNoTracking()

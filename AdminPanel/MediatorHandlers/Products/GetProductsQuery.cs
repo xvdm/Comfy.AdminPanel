@@ -45,7 +45,6 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumer
     public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
     {
         var products = _context.Products
-            .AsNoTracking()
             .AsQueryable();
 
         if (request.SearchString is not null)
@@ -60,8 +59,10 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumer
                 .Include(x => x.Characteristics);
 
         return await products
+            .OrderBy(x => x.Id)
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 }
