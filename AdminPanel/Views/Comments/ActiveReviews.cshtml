@@ -20,6 +20,7 @@
                             <th>Зміст</th>
                             <th>Плюси</th>
                             <th>Мінуси</th>
+                            <th>Оцінка</th>
                             <th>Продукт</th>
                             <th>Автор</th>
                             <th>Дата створення</th>
@@ -29,18 +30,13 @@
                         @foreach (var x in Model.Reviews)
                         {
                             <tr name="@x.Id">
-                                <td>
-                                    <p>@x.Text</p></td>
-                                <td>
-                                    <p>@x.Advantages</p></td>
-                                <td>
-                                    <p>@x.Disadvantages</p></td>
-                                <td class="comments-product-width">
-                                    <p>@x.Product.Name</p></td>
-                                <td>
-                                    <p>@x.User.UserName</p></td>
-                                <td>
-                                    <p>@x.CreatedAt</p></td>
+                                <td><p>@x.Text</p></td>
+                                <td><p>@x.Advantages</p></td>
+                                <td><p>@x.Disadvantages</p></td>
+                                <td><p>@x.ProductRating</p></td>
+                                <td class="comments-product-width"><p>@x.Product.Name</p></td>
+                                <td><p>@x.User.UserName</p></td>
+                                <td><p>@x.CreatedAt</p></td>
                                 <td class="comments-buttons-width">
                                     <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="@false" asp-action="ChangeReviewActivityStatus">
                                         <button class="page-num" type="submit">Приховати</button>

@@ -91,6 +91,13 @@
                                 </div>
                                 <input type="number" name="DiscountAmount" placeholder="Знижка" value="@Model.Product.DiscountAmount" />
                             </div>
+                            
+                            <div>
+                                <div class="product-lable">
+                                    <label for="Rating">Рейтинг</label>
+                                </div>
+                                <input readonly name="Rating" placeholder="Рейтинг" value="@Math.Round(Model.Product.Rating, 2)" />
+                            </div>
                         </div>
                         <button id="btnMainForm" hidden type="submit">Send</button> 
                         

@@ -15,6 +15,7 @@ public class Review : Auditable, IEntityTypeConfiguration<Review>
     public int UsefulReviewCount { get; set; }
     public int NeedlessReviewCount { get; set; }
     public bool IsActive { get; set; }
+    public bool WasActive { get; set; } // product rating applies only if review was not active yet
 
     public Guid UserId { get; set; }
     public ApplicationUser User { get; set; } = null!;
