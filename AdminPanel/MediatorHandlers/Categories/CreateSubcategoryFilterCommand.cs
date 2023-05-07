@@ -6,21 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Categories;
 
-public record AddSubcategoryFilterCommand(int SubcategoryId, string SubcategoryFilterName, string SubcategoryFilter) : IRequest;
+public record CreateSubcategoryFilterCommand(int SubcategoryId, string SubcategoryFilterName, string SubcategoryFilter) : IRequest;
 
 
-public class AddSubcategoryFilterCommandHandler : IRequestHandler<AddSubcategoryFilterCommand>
+public class CreateSubcategoryFilterCommandHandler : IRequestHandler<CreateSubcategoryFilterCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;
 
-    public AddSubcategoryFilterCommandHandler(ApplicationDbContext context, IPublisher publisher)
+    public CreateSubcategoryFilterCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
         _publisher = publisher;
     }
 
-    public async Task Handle(AddSubcategoryFilterCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateSubcategoryFilterCommand request, CancellationToken cancellationToken)
     {
         var subcategoryCount = await _context.Subcategories.CountAsync(x => x.Id == request.SubcategoryId, cancellationToken);
         if (subcategoryCount <= 0) throw new HttpRequestException("No category with given id");

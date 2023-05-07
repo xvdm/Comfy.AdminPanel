@@ -60,7 +60,7 @@ public class ProductsController : Controller
         {
             return BadRequest("ChangeProductActivityStatus :: isActive :: parse to bool error");
         }
-        await _mediator.Send(new ChangeProductActivityStatusCommand(productIdInt, isActiveBool));
+        await _mediator.Send(new UpdateProductActivityStatusCommand(productIdInt, isActiveBool));
         return Ok();
     }
 
@@ -84,7 +84,7 @@ public class ProductsController : Controller
         {
             return BadRequest("Incorrect data was passed");
         }
-        var command = productDto.Adapt<EditProductCommand>();
+        var command = productDto.Adapt<UpdateProductCommand>();
         var productId = await _mediator.Send(command);
         return LocalRedirect($"/Products/EditProduct/{productId}");
     }
@@ -110,7 +110,7 @@ public class ProductsController : Controller
             return BadRequest("EditCharacteristic :: id :: parse to int error");
         }
 
-        var editCharacteristicCommand = new EditProductCharacteristicCommand(productIdInt, idInt, name, value);
+        var editCharacteristicCommand = new UpdateProductCharacteristicCommand(productIdInt, idInt, name, value);
         await _mediator.Send(editCharacteristicCommand);
         return Ok();
     }
@@ -137,7 +137,7 @@ public class ProductsController : Controller
         {
             return BadRequest("AddCharacteristic :: productId :: parse to int error");
         }
-        var addCharacteristic = new AddProductCharacteristicCommand(productIdInt, name, value);
+        var addCharacteristic = new CreateProductCharacteristicCommand(productIdInt, name, value);
         var characteristic = await _mediator.Send(addCharacteristic);
         return Ok(characteristic);
     }

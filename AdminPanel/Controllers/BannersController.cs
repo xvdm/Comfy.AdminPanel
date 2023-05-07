@@ -47,7 +47,7 @@ public class BannersController : Controller
     [HttpPost]
     public async Task<IActionResult> UpdateBanner(int id, string name, string pageUrl, IFormFile? image)
     {
-        await _mediator.Send(new EditBannerCommand(id, name, pageUrl, image));
+        await _mediator.Send(new UpdateBannerCommand(id, name, pageUrl, image));
         return RedirectToAction(nameof(Index));
     }
 }

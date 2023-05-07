@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public record RemoveProductFromShowcaseCommand(int GroupId, int ProductId) : IRequest;
+public record DeleteProductFromShowcaseCommand(int GroupId, int ProductId) : IRequest;
 
 
-public class RemoveProductFromShowcaseCommandHandler : IRequestHandler<RemoveProductFromShowcaseCommand>
+public class DeleteProductFromShowcaseCommandHandler : IRequestHandler<DeleteProductFromShowcaseCommand>
 {
     private readonly ApplicationDbContext _context;
 
-    public RemoveProductFromShowcaseCommandHandler(ApplicationDbContext context)
+    public DeleteProductFromShowcaseCommandHandler(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task Handle(RemoveProductFromShowcaseCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteProductFromShowcaseCommand request, CancellationToken cancellationToken)
     {
         var group = await _context.ShowcaseGroups
             .Include(x => x.Products)

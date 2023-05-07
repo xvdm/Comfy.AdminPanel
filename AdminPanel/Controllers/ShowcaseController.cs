@@ -49,7 +49,7 @@ public class ShowcaseController : Controller
     [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
     public async Task<IActionResult> RemoveProduct(int groupId, int productId)
     {
-        await _mediator.Send(new RemoveProductFromShowcaseCommand(groupId, productId));
+        await _mediator.Send(new DeleteProductFromShowcaseCommand(groupId, productId));
         return RedirectToAction(nameof(Index));
     }
 
@@ -57,7 +57,7 @@ public class ShowcaseController : Controller
     [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
     public async Task<IActionResult> AddGroup(string name, string queryString)
     {
-        await _mediator.Send(new AddShowcaseGroupCommand(name, queryString));
+        await _mediator.Send(new CreateShowcaseGroupCommand(name, queryString));
         return RedirectToAction(nameof(Index));
     }
 
@@ -65,7 +65,7 @@ public class ShowcaseController : Controller
     [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
     public async Task<IActionResult> RemoveGroup(int groupId)
     {
-        await _mediator.Send(new RemoveShowcaseGroupCommand(groupId));
+        await _mediator.Send(new DeleteShowcaseGroupCommand(groupId));
         return RedirectToAction(nameof(Index));
     }
 
@@ -73,7 +73,7 @@ public class ShowcaseController : Controller
     [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
     public async Task<IActionResult> UpdateGroup(int groupId, string name, string queryString)
     {
-        await _mediator.Send(new EditShowcaseGroupCommand(groupId, name, queryString));
+        await _mediator.Send(new UpdateShowcaseGroupCommand(groupId, name, queryString));
         return RedirectToAction(nameof(Index));
     }
 }

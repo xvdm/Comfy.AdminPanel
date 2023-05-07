@@ -6,21 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Images
 {
-    public record UploadProductImagesCommand(int ProductId, ICollection<IFormFile> Files) : IRequest<bool>;
+    public record CreateProductImagesCommand(int ProductId, ICollection<IFormFile> Files) : IRequest<bool>;
 
 
-    public class UploadProductImagesCommandHandler : IRequestHandler<UploadProductImagesCommand, bool>
+    public class CreateProductImagesCommandHandler : IRequestHandler<CreateProductImagesCommand, bool>
     {
         private readonly ApplicationDbContext _context;
         private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
 
-        public UploadProductImagesCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService)
+        public CreateProductImagesCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService)
         {
             _context = context;
             _uploadImageToFileSystemService = uploadImageToFileSystemService;
         }
 
-        public async Task<bool> Handle(UploadProductImagesCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateProductImagesCommand request, CancellationToken cancellationToken)
         {
             var product = await _context.Products
                 .Include(x => x.Images)

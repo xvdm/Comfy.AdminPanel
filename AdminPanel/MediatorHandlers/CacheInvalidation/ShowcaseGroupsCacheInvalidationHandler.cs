@@ -18,4 +18,3 @@ public class ShowcaseGroupsCacheInvalidationHandler : INotificationHandler<Showc
         await _distributedCache.RemoveAsync("showcase-groups", cancellationToken);
     }
 }
-

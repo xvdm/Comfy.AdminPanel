@@ -70,7 +70,7 @@ public class AccountsController : Controller
     [HttpPost]
     public async Task<IActionResult> LockoutUser(Guid id, string? searchString)
     {
-        var lockoutUserCommand = new ChangeUserLockoutStatusCommand(User, id, true);
+        var lockoutUserCommand = new UpdateUserLockoutStatusCommand(User, id, true);
         if (await _mediator.Send(lockoutUserCommand))
         {
             var createUserLogCommand = new CreateUserLogCommand(User, id, LoggingActionNames.Lockout);
@@ -82,7 +82,7 @@ public class AccountsController : Controller
     [HttpPost]
     public async Task<IActionResult> ActivateUser(Guid id, string? searchString)
     {
-        var activateUserCommand = new ChangeUserLockoutStatusCommand(User, id, false);
+        var activateUserCommand = new UpdateUserLockoutStatusCommand(User, id, false);
         if (await _mediator.Send(activateUserCommand))
         {
             var createUserLogCommand = new CreateUserLogCommand(User, id, LoggingActionNames.Activate);

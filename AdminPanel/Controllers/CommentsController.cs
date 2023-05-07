@@ -159,28 +159,28 @@ public class CommentsController : Controller
     [HttpPost]
     public async Task<IActionResult> ChangeQuestionActivityStatus(int id, bool isActive)
     {
-        await _mediator.Send(new ChangeQuestionActivityStatusCommand(id, isActive));
+        await _mediator.Send(new UpdateQuestionActivityStatusCommand(id, isActive));
         return RedirectToAction(isActive ? nameof(InactiveQuestions) : nameof(ActiveQuestions));
     }
 
     [HttpPost]
     public async Task<IActionResult> ChangeQuestionAnswerActivityStatus(int id, bool isActive)
     {
-        await _mediator.Send(new ChangeQuestionAnswerActivityStatusCommand(id, isActive));
+        await _mediator.Send(new UpdateQuestionAnswerActivityStatusCommand(id, isActive));
         return RedirectToAction(isActive ? nameof(InactiveQuestionAnswers) : nameof(ActiveQuestionAnswers));
     }
 
     [HttpPost]
     public async Task<IActionResult> ChangeReviewActivityStatus(int id, bool isActive)
     {
-        await _mediator.Send(new ChangeReviewActivityStatusCommand(id, isActive));
+        await _mediator.Send(new UpdateReviewActivityStatusCommand(id, isActive));
         return RedirectToAction(isActive ? nameof(InactiveReviews) : nameof(ActiveReviews));
     }
 
     [HttpPost]
     public async Task<IActionResult> ChangeReviewAnswerActivityStatus(int id, bool isActive)
     {
-        await _mediator.Send(new ChangeReviewAnswerActivityStatusCommand(id, isActive));
+        await _mediator.Send(new UpdateReviewAnswerActivityStatusCommand(id, isActive));
         return RedirectToAction(isActive ? nameof(InactiveReviewAnswers) : nameof(ActiveReviewAnswers));
     }
 }

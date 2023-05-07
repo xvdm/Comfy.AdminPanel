@@ -5,21 +5,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Categories;
 
-public record EditSubcategoryCommand(int Id, string Name) : IRequest;
+public record UpdateSubcategoryCommand(int Id, string Name) : IRequest;
 
 
-public class EditSubcategoryCommandHandler : IRequestHandler<EditSubcategoryCommand>
+public class UpdateSubcategoryCommandHandler : IRequestHandler<UpdateSubcategoryCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;
 
-    public EditSubcategoryCommandHandler(ApplicationDbContext context, IPublisher publisher)
+    public UpdateSubcategoryCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
         _publisher = publisher;
     }
 
-    public async Task Handle(EditSubcategoryCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateSubcategoryCommand request, CancellationToken cancellationToken)
     {
         var categoryWithNameCount = await _context.Subcategories.CountAsync(x => x.Name == request.Name, cancellationToken);
         if (categoryWithNameCount > 0) throw new HttpRequestException($"Subcategory with name {request.Name} already exists");

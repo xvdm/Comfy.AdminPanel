@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record EditProductCommand : IRequest<int>
+public record UpdateProductCommand : IRequest<int>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
@@ -20,18 +20,18 @@ public record EditProductCommand : IRequest<int>
 }
 
 
-public class EditProductCommandHandler : IRequestHandler<EditProductCommand, int>
+public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, int>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;
 
-    public EditProductCommandHandler(ApplicationDbContext context, IPublisher publisher)
+    public UpdateProductCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
         _publisher = publisher;
     }
 
-    public async Task<int> Handle(EditProductCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var product = await _context.Products
             .Include(x => x.Brand)

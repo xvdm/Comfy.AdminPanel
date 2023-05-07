@@ -21,7 +21,7 @@ public class ImagesController : Controller
     [HttpPost]
     public async Task<IActionResult> UploadProductImage(int productId, ICollection<IFormFile> files)
     {
-        await _mediator.Send(new UploadProductImagesCommand(productId, files));
+        await _mediator.Send(new CreateProductImagesCommand(productId, files));
         return LocalRedirect($"/Products/EditProduct/{productId}");
     }
 

@@ -6,21 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record AddProductCharacteristicCommand(int ProductId, string Name, string Value) : IRequest<Characteristic>;
+public record CreateProductCharacteristicCommand(int ProductId, string Name, string Value) : IRequest<Characteristic>;
 
 
-public class AddProductCharacteristicCommandHandler : IRequestHandler<AddProductCharacteristicCommand, Characteristic>
+public class CreateProductCharacteristicCommandHandler : IRequestHandler<CreateProductCharacteristicCommand, Characteristic>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;
 
-    public AddProductCharacteristicCommandHandler(ApplicationDbContext context, IPublisher publisher)
+    public CreateProductCharacteristicCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
         _publisher = publisher;
     }
 
-    public async Task<Characteristic> Handle(AddProductCharacteristicCommand request, CancellationToken cancellationToken)
+    public async Task<Characteristic> Handle(CreateProductCharacteristicCommand request, CancellationToken cancellationToken)
     {
         var characteristicsName = await _context.CharacteristicsNames.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
         var characteristicsValue = await _context.CharacteristicsValues.FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);

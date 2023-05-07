@@ -5,19 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public record AddShowcaseGroupCommand(string Name, string QueryString) : IRequest;
+public record CreateShowcaseGroupCommand(string Name, string QueryString) : IRequest;
 
 
-public class AddShowcaseGroupCommandHandler : IRequestHandler<AddShowcaseGroupCommand>
+public class CreateShowcaseGroupCommandHandler : IRequestHandler<CreateShowcaseGroupCommand>
 {
     private readonly ApplicationDbContext _context;
 
-    public AddShowcaseGroupCommandHandler(ApplicationDbContext context)
+    public CreateShowcaseGroupCommandHandler(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task Handle(AddShowcaseGroupCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateShowcaseGroupCommand request, CancellationToken cancellationToken)
     {
         var groupWithName = await _context.ShowcaseGroups.CountAsync(x => x.Name == request.Name, cancellationToken);
         if (groupWithName > 0) return;

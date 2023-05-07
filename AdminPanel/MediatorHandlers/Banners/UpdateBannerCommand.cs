@@ -6,17 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public record EditBannerCommand(int Id, string Name, string PageUrl, IFormFile? Image) : IRequest;
+public record UpdateBannerCommand(int Id, string Name, string PageUrl, IFormFile? Image) : IRequest;
 
 
-public class EditBannerCommandHandler : IRequestHandler<EditBannerCommand>
+public class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
     private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
     private readonly IPublisher _publisher;
 
-    public EditBannerCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService, 
+    public UpdateBannerCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService, 
         IRemoveImageFromFileSystemService removeImageFromFileSystemService, IPublisher publisher)
     {
         _context = context;
@@ -25,7 +25,7 @@ public class EditBannerCommandHandler : IRequestHandler<EditBannerCommand>
         _publisher = publisher;
     }
 
-    public async Task Handle(EditBannerCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateBannerCommand request, CancellationToken cancellationToken)
     {
         var banner = await _context.Banners.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (banner is null) return;

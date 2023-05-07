@@ -44,7 +44,7 @@ public class CategoriesController : Controller
     [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
     public async Task<IActionResult> AddSubcategoryFilter(int subcategoryId, string subcategoryFilterName, string subcategoryFilter)
     {
-        await _mediator.Send(new AddSubcategoryFilterCommand(subcategoryId, subcategoryFilterName, subcategoryFilter));
+        await _mediator.Send(new CreateSubcategoryFilterCommand(subcategoryId, subcategoryFilterName, subcategoryFilter));
         return RedirectToAction(nameof(SubcategoryFilters));
     }
     
@@ -77,7 +77,7 @@ public class CategoriesController : Controller
         {
             return BadRequest($"EditMainCategoryName :: Parsing error :: id");
         }
-        await _mediator.Send(new EditMainCategoryCommand(categoryId, name));
+        await _mediator.Send(new UpdateMainCategoryCommand(categoryId, name));
         return Ok();
     }
 
@@ -88,7 +88,7 @@ public class CategoriesController : Controller
         {
             return BadRequest($"EditSubcategoryName :: Parsing error :: id");
         }
-        await _mediator.Send(new EditSubcategoryCommand(categoryId, name));
+        await _mediator.Send(new UpdateSubcategoryCommand(categoryId, name));
         return Ok();
     }
 

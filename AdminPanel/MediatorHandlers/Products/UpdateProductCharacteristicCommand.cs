@@ -6,21 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products
 {
-    public record EditProductCharacteristicCommand(int ProductId, int CharacteristicId, string Name, string Value) : IRequest;
+    public record UpdateProductCharacteristicCommand(int ProductId, int CharacteristicId, string Name, string Value) : IRequest;
 
 
-    public class EditProductCharacteristicCommandHandler : IRequestHandler<EditProductCharacteristicCommand>
+    public class UpdateProductCharacteristicCommandHandler : IRequestHandler<UpdateProductCharacteristicCommand>
     {
         private readonly ApplicationDbContext _context;
         private readonly IPublisher _publisher;
 
-        public EditProductCharacteristicCommandHandler(ApplicationDbContext context, IPublisher publisher)
+        public UpdateProductCharacteristicCommandHandler(ApplicationDbContext context, IPublisher publisher)
         {
             _context = context;
             _publisher = publisher;
         }
 
-        public async Task Handle(EditProductCharacteristicCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateProductCharacteristicCommand request, CancellationToken cancellationToken)
         {
             var characteristicCount = await _context.Characteristics.CountAsync(x => x.Id == request.CharacteristicId, cancellationToken);
             if (characteristicCount <= 0) throw new HttpRequestException("There is no characteristic with given Id");

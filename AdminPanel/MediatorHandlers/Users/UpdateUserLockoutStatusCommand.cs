@@ -5,19 +5,19 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AdminPanel.MediatorHandlers.Users;
 
-public record ChangeUserLockoutStatusCommand(ClaimsPrincipal CurrentUser, Guid UserId, bool IsLockout) : IRequest<bool>;
+public record UpdateUserLockoutStatusCommand(ClaimsPrincipal CurrentUser, Guid UserId, bool IsLockout) : IRequest<bool>;
 
 
-public class ChangeUserLockoutStatusCommandHandler : IRequestHandler<ChangeUserLockoutStatusCommand, bool>
+public class UpdateUserLockoutStatusCommandHandler : IRequestHandler<UpdateUserLockoutStatusCommand, bool>
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public ChangeUserLockoutStatusCommandHandler(UserManager<ApplicationUser> userManager)
+    public UpdateUserLockoutStatusCommandHandler(UserManager<ApplicationUser> userManager)
     {
         _userManager = userManager;
     }
 
-    public async Task<bool> Handle(ChangeUserLockoutStatusCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateUserLockoutStatusCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
         if (user is null) return false;
