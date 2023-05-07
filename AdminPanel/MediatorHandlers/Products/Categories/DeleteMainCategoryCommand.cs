@@ -23,6 +23,7 @@ public class DeleteMainCategoryCommandHandler : IRequestHandler<DeleteMainCatego
     {
         var category = await _context.MainCategories
             .Include(x => x.Categories)
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (category is null) throw new HttpRequestException($"No MainCategory with id {request.Id}");
 

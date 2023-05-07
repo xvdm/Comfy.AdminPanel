@@ -22,8 +22,13 @@ public class CreateProductCharacteristicCommandHandler : IRequestHandler<CreateP
 
     public async Task<Characteristic> Handle(CreateProductCharacteristicCommand request, CancellationToken cancellationToken)
     {
-        var characteristicsName = await _context.CharacteristicsNames.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-        var characteristicsValue = await _context.CharacteristicsValues.FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);
+        var characteristicsName = await _context.CharacteristicsNames
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
+       
+        var characteristicsValue = await _context.CharacteristicsValues
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);
 
         var isNewCharacteristic = false;
         if (characteristicsName is null)

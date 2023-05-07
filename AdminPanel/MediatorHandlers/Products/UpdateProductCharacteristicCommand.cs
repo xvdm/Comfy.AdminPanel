@@ -36,8 +36,14 @@ namespace AdminPanel.MediatorHandlers.Products
                 throw new HttpRequestException("This product already has characteristic with given name");
             }
 
-            var characteristicName = await _context.CharacteristicsNames.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
-            var characteristicValue = await _context.CharacteristicsValues.FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);
+            var characteristicName = await _context.CharacteristicsNames
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
+
+            var characteristicValue = await _context.CharacteristicsValues
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);
+
             if (characteristicName is null)
             {
                 characteristicName = new CharacteristicName { Name = request.Name };
@@ -48,8 +54,13 @@ namespace AdminPanel.MediatorHandlers.Products
                 characteristicValue = new CharacteristicValue { Value = request.Value };
                 _context.CharacteristicsValues.Add(characteristicValue);
             }
-            product.Characteristics.First(x => x.Id == request.CharacteristicId).CharacteristicsName = characteristicName;
-            product.Characteristics.First(x => x.Id == request.CharacteristicId).CharacteristicsValue = characteristicValue;
+
+            var characteristic = product.Characteristics.FirstOrDefault(x => x.Id == request.CharacteristicId);
+            if (characteristic is not null)
+            {
+                characteristic.CharacteristicsName = characteristicName;
+                characteristic.CharacteristicsValue = characteristicValue;
+            }
 
             await _context.SaveChangesAsync(cancellationToken);
 

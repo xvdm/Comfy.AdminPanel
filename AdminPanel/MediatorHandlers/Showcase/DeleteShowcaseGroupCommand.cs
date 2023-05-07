@@ -21,7 +21,9 @@ public class DeleteShowcaseGroupCommandHandler : IRequestHandler<DeleteShowcaseG
 
     public async Task Handle(DeleteShowcaseGroupCommand request, CancellationToken cancellationToken)
     {
-        var group = await _context.ShowcaseGroups.FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
+        var group = await _context.ShowcaseGroups
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
         if (group is null) return;
 
         _context.ShowcaseGroups.Remove(group);

@@ -19,7 +19,6 @@ public class GetQuestionAnswersTotalCountQueryHandler : IRequestHandler<GetQuest
     public async Task<int> Handle(GetQuestionAnswersTotalCountQuery request, CancellationToken cancellationToken)
     {
         return await _context.Questions
-            .Where(x => x.IsActive == request.IsActive)
-            .CountAsync(cancellationToken);
+            .CountAsync(x => x.IsActive == request.IsActive, cancellationToken);
     }
 }

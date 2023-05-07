@@ -30,11 +30,14 @@ public class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQuery, I
         var usersDto = await _mapper
             .From(users.Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null))
             .ProjectToType<UserDTO>()
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
 
         foreach (var user in usersDto)
         {
-            var claim = await _context.UserClaims.FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
+            var claim = await _context.UserClaims
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
             if (claim is not null)
             {
                 user.Position = claim.ClaimValue;

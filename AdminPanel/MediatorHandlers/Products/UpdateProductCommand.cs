@@ -45,21 +45,27 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 
         if (product.Brand.Id != request.Brand)
         {
-            var br = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Brand, cancellationToken);
-            if (br is null) throw new HttpRequestException("This brand does not exist");
-            product.Brand = br;
+            var brand = await _context.Brands
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Brand, cancellationToken);
+            if (brand is null) throw new HttpRequestException("This brand does not exist");
+            product.Brand = brand;
         }
         if (product.Category.Id != request.Category)
         {
-            var br = await _context.Subcategories.FirstOrDefaultAsync(x => x.Id == request.Category, cancellationToken);
-            if (br is null) throw new HttpRequestException("This category does not exist");
-            product.Category = br;
+            var category = await _context.Subcategories
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Category, cancellationToken);
+            if (category is null) throw new HttpRequestException("This category does not exist");
+            product.Category = category;
         }
         if (product.Model.Id != request.Model)
         {
-            var br = await _context.Models.FirstOrDefaultAsync(x => x.Id == request.Model, cancellationToken);
-            if (br is null) throw new HttpRequestException("This model does not exist");
-            product.Model = br;
+            var model = await _context.Models
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Model, cancellationToken);
+            if (model is null) throw new HttpRequestException("This model does not exist");
+            product.Model = model;
         }
 
 

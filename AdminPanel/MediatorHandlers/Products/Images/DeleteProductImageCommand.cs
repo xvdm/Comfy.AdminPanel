@@ -24,7 +24,9 @@ public class DeleteProductImageCommandHandler : IRequestHandler<DeleteProductIma
 
     public async Task Handle(DeleteProductImageCommand request, CancellationToken cancellationToken)
     {
-        var image = await _context.Images.FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken);
+        var image = await _context.Images
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken);
         if (image is null) return;
 
         _removeImageFromFileSystemService.RemoveImage(image.Url);

@@ -43,7 +43,9 @@ public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IEnumerable
 
     public async Task<IEnumerable<Order>?> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
     {
-        var status = await _context.OrderStatuses.FirstOrDefaultAsync(x => x.Status == request.OrderStatus, cancellationToken);
+        var status = await _context.OrderStatuses
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Status == request.OrderStatus, cancellationToken);
         if (status is null) return null!;
 
         return await _context.Orders

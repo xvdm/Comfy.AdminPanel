@@ -24,7 +24,9 @@ public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand>
 
     public async Task Handle(DeleteBannerCommand request, CancellationToken cancellationToken)
     {
-        var banner = await _context.Banners.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var banner = await _context.Banners
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (banner is null) return;
 
         _removeImageFromFileSystemService.RemoveImage(banner.ImageUrl);

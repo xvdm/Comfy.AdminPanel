@@ -21,7 +21,9 @@ public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand>
         var brandtWithModelCount = await _context.Products.CountAsync(x => x.BrandId == request.Id, cancellationToken);
         if (brandtWithModelCount  > 0) throw new HttpRequestException("There are products with this brand. Can't delete brand");
 
-        var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var brand = await _context.Brands
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (brand is null) return;
 
         _context.Brands.Remove(brand);

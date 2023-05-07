@@ -20,6 +20,7 @@ public class GetSubcategoryFiltersQueryHandler : IRequestHandler<GetSubcategoryF
     {
         return await _context.SubcategoryFilters
             .Include(x => x.Subcategory)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 }

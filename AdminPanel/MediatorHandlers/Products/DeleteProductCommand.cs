@@ -23,14 +23,18 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
     {
         var product = await _context.Products
             .Include(x => x.ShowcaseGroups)
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
         if (product is null) throw new HttpRequestException($"No product with was found with id {request.ProductId}");
 
         if(product.ShowcaseGroups.Count > 0) throw new HttpRequestException($"Product is in showcase group. Can not delete it");
 
-        var priceHistories = await _context.PriceHistories.Where(x => x.ProductId == request.ProductId).ToListAsync(cancellationToken);
-        if (priceHistories.Any()) _context.PriceHistories.RemoveRange(priceHistories);
-
+        var priceHistories = await _context.PriceHistories
+            .Where(x => x.ProductId == request.ProductId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+        
+        _context.PriceHistories.RemoveRange(priceHistories);
         _context.Products.Remove(product);
         await _context.SaveChangesAsync(cancellationToken);
 

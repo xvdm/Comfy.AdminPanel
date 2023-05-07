@@ -21,7 +21,9 @@ public class DeleteProductCharacteristicCommandHandler : IRequestHandler<DeleteP
 
     public async Task Handle(DeleteProductCharacteristicCommand request, CancellationToken cancellationToken)
     {
-        var characteristic = await _context.Characteristics.FirstOrDefaultAsync(x => x.Id == request.CharacteristicId, cancellationToken);
+        var characteristic = await _context.Characteristics
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.CharacteristicId, cancellationToken);
         if (characteristic is null) return;
 
         _context.Characteristics.Remove(characteristic);

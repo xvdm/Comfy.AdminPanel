@@ -34,16 +34,19 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             Price = request.Price
         };
 
-        var brand = await _context.Brands.Where(x => x.Id == request.Brand).FirstOrDefaultAsync(cancellationToken);
+        var brand = await _context.Brands
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.Brand, cancellationToken);
         if(brand is null) throw new HttpRequestException($"There is no brand {request.Brand}");
 
-        var model = await _context.Models.Where(x => x.Id == request.Model).FirstOrDefaultAsync(cancellationToken);
+        var model = await _context.Models
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.Model, cancellationToken);
         if(model is null) throw new HttpRequestException($"There is no model {request.Brand}");
 
         var category = await _context.Subcategories
-            .Where(x => x.Id == request.Category)
             .Include(x => x.UniqueBrands)
-            .FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == request.Category, cancellationToken);
         if(category is null) throw new HttpRequestException($"There is no category {request.Brand}");
 
 
