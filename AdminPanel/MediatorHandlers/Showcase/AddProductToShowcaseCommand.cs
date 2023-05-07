@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,11 +11,14 @@ public record AddProductToShowcaseCommand(int GroupId, int ProductCode) : IReque
 public class AddProductToShowcaseCommandHandler : IRequestHandler<AddProductToShowcaseCommand>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublisher _publisher;
+
     private const int MaxProductsInGroup = 4;
 
-    public AddProductToShowcaseCommandHandler(ApplicationDbContext context)
+    public AddProductToShowcaseCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task Handle(AddProductToShowcaseCommand request, CancellationToken cancellationToken)
@@ -31,5 +35,8 @@ public class AddProductToShowcaseCommandHandler : IRequestHandler<AddProductToSh
 
         group.Products.Add(product);
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new ShowcaseGroupsInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }

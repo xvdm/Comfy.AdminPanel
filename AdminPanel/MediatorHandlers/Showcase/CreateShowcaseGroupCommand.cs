@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,12 @@ public record CreateShowcaseGroupCommand(string Name, string QueryString) : IReq
 public class CreateShowcaseGroupCommandHandler : IRequestHandler<CreateShowcaseGroupCommand>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublisher _publisher;
 
-    public CreateShowcaseGroupCommandHandler(ApplicationDbContext context)
+    public CreateShowcaseGroupCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task Handle(CreateShowcaseGroupCommand request, CancellationToken cancellationToken)
@@ -29,5 +32,8 @@ public class CreateShowcaseGroupCommandHandler : IRequestHandler<CreateShowcaseG
         };
         _context.ShowcaseGroups.Add(newGroup);
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new ShowcaseGroupsInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }

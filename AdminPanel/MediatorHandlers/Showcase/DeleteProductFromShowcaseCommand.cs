@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ public record DeleteProductFromShowcaseCommand(int GroupId, int ProductId) : IRe
 public class DeleteProductFromShowcaseCommandHandler : IRequestHandler<DeleteProductFromShowcaseCommand>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublisher _publisher;
 
-    public DeleteProductFromShowcaseCommandHandler(ApplicationDbContext context)
+    public DeleteProductFromShowcaseCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task Handle(DeleteProductFromShowcaseCommand request, CancellationToken cancellationToken)
@@ -28,5 +31,8 @@ public class DeleteProductFromShowcaseCommandHandler : IRequestHandler<DeletePro
 
         group.Products.Remove(product);
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new ShowcaseGroupsInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }
