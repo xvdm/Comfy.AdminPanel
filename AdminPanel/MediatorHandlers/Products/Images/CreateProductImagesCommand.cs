@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Models;
 using AdminPanel.Services;
 using MediatR;
@@ -13,11 +14,13 @@ namespace AdminPanel.MediatorHandlers.Products.Images
     {
         private readonly ApplicationDbContext _context;
         private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
+        private readonly IPublisher _publisher;
 
-        public CreateProductImagesCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService)
+        public CreateProductImagesCommandHandler(ApplicationDbContext context, IUploadImageToFileSystemService uploadImageToFileSystemService, IPublisher publisher)
         {
             _context = context;
             _uploadImageToFileSystemService = uploadImageToFileSystemService;
+            _publisher = publisher;
         }
 
         public async Task<bool> Handle(CreateProductImagesCommand request, CancellationToken cancellationToken)
@@ -27,6 +30,8 @@ namespace AdminPanel.MediatorHandlers.Products.Images
                 .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
 
             if (product is null) return false;
+
+            var newImage = false;
 
             foreach (var file in request.Files)
             {
@@ -41,6 +46,14 @@ namespace AdminPanel.MediatorHandlers.Products.Images
                 };
                 _context.Images.Add(image);
                 await _context.SaveChangesAsync(cancellationToken);
+
+                newImage = true;
+            }
+
+            if (newImage)
+            {
+                var notification = new ProductInvalidatedEvent(request.ProductId);
+                await _publisher.Publish(notification, cancellationToken);
             }
 
             return true;
