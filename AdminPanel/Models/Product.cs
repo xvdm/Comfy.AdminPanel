@@ -13,7 +13,8 @@ public class Product : Auditable, IEntityTypeConfiguration<Product>
     public int DiscountAmount { get; set; }
     public int Amount { get; set; }
     public int Code { get; set; }
-    public double Rating { get; set; } 
+    public double Rating { get; set; }
+    public int ReviewsNumber { get; set; }
     public bool IsActive { get; set; }
     public string Url { get; set; } = null!;
 

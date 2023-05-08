@@ -24,20 +24,20 @@ public class UpdateReviewActivityStatusCommandHandler : IRequestHandler<UpdateRe
         var review = await _context.Reviews.FirstOrDefaultAsync(x => x.Id == request.ReviewId, cancellationToken);
         if (review is null) throw new HttpRequestException("Review was not found");
 
-        if (review.WasActive == false)
+        if (request.IsActive && review.WasActive == false)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == review.ProductId, cancellationToken);
             if (product is not null)
             {
-                var reviewsNumber = await _context.Reviews.CountAsync(x => x.ProductId == review.ProductId && x.WasActive == true, cancellationToken);
-                product.Rating = (reviewsNumber * product.Rating + review.ProductRating) / (reviewsNumber + 1);
+                product.Rating = (product.ReviewsNumber * product.Rating + review.ProductRating) / (product.ReviewsNumber + 1);
+                product.ReviewsNumber += 1;
+
+                review.WasActive = true;
 
                 var productNotification = new ProductInvalidatedEvent(review.ProductId);
                 await _publisher.Publish(productNotification, cancellationToken);
             }
         }
-
-        review.WasActive = true;
 
         review.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
