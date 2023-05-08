@@ -33,16 +33,21 @@ public class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQuery, I
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
+        var ids = usersDto.Select(x => x.Id);
+
+        var claims = await _context.UserClaims
+            .Where(x => ids.Contains(x.UserId))
+            .Select(x => new { x.UserId, x.ClaimValue} )
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
         foreach (var user in usersDto)
         {
-            var claim = await _context.UserClaims
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
-            if (claim is not null)
-            {
-                user.Position = claim.ClaimValue;
-            }
+            var position = claims.FirstOrDefault(x => x.UserId == user.Id);
+            if (position is null) continue;
+            user.Position = position.ClaimValue;
         }
+
         return usersDto;
     }
 }
