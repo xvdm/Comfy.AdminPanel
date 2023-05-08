@@ -24,23 +24,26 @@ public class UpdateReviewActivityStatusCommandHandler : IRequestHandler<UpdateRe
         var review = await _context.Reviews.FirstOrDefaultAsync(x => x.Id == request.ReviewId, cancellationToken);
         if (review is null) throw new HttpRequestException("Review was not found");
 
-        if (request.IsActive && review.WasActive == false)
+        var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == review.ProductId, cancellationToken);
+        if (product is null) return;
+
+        if (request.IsActive)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == review.ProductId, cancellationToken);
-            if (product is not null)
-            {
-                product.Rating = (product.ReviewsNumber * product.Rating + review.ProductRating) / (product.ReviewsNumber + 1);
-                product.ReviewsNumber += 1;
-
-                review.WasActive = true;
-
-                var productNotification = new ProductInvalidatedEvent(review.ProductId);
-                await _publisher.Publish(productNotification, cancellationToken);
-            }
+            product.Rating = (product.ReviewsNumber * product.Rating + review.ProductRating) / (product.ReviewsNumber + 1);
+            product.ReviewsNumber += 1;
+        }
+        else
+        {
+            if (product.ReviewsNumber == 1) product.Rating = 0;
+            else product.Rating = (product.ReviewsNumber * product.Rating - review.ProductRating) / (product.ReviewsNumber - 1);
+            product.ReviewsNumber -= 1;
         }
 
         review.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
+
+        var productNotification = new ProductInvalidatedEvent(review.ProductId);
+        await _publisher.Publish(productNotification, cancellationToken);
 
         var notification = new ReviewInvalidatedEvent(review.ProductId);
         await _publisher.Publish(notification, cancellationToken);

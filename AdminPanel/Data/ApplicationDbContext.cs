@@ -49,7 +49,7 @@ namespace AdminPanel.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
             DbSaveChanges();
             return base.SaveChangesAsync(cancellationToken);
