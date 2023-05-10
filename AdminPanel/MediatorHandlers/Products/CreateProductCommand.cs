@@ -51,18 +51,10 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
 
         product.BrandId = brand.Id;
-        product.Brand = brand;
-
-        product.Model = model;
         product.ModelId = model.Id;
-
         product.CategoryId = category.Id;
-        product.Category = category;
-
         product.Description = request.Description;
-
         product.IsActive = false;
-
         product.Url = "";
 
         await _context.Products.AddAsync(product, cancellationToken);
