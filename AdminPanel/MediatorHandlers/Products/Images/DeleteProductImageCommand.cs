@@ -1,6 +1,6 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Events.Invalidation;
-using AdminPanel.Services;
+using AdminPanel.Services.Images.Remove;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

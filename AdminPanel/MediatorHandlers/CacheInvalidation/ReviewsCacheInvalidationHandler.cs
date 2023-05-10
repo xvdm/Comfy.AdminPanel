@@ -1,20 +1,20 @@
 ﻿using AdminPanel.Events.Invalidation;
+using AdminPanel.Services.Caching;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace AdminPanel.MediatorHandlers.CacheInvalidation;
 
 public class ReviewsCacheInvalidationHandler : INotificationHandler<ReviewInvalidatedEvent>
 {
-    private readonly IDistributedCache _distributedCache;
+    private readonly IRemoveCacheService _removeCacheService;
 
-    public ReviewsCacheInvalidationHandler(IDistributedCache distributedCache)
+    public ReviewsCacheInvalidationHandler(IRemoveCacheService removeCacheService)
     {
-        _distributedCache = distributedCache;
+        _removeCacheService = removeCacheService;
     }
 
     public async Task Handle(ReviewInvalidatedEvent notification, CancellationToken cancellationToken)
     {
-        await _distributedCache.RemoveAsync($"product-reviews:{notification.ProductId}", cancellationToken);
+        await _removeCacheService.Remove($"product-reviews:{notification.ProductId}");
     }
 }

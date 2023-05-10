@@ -1,7 +1,7 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Events.Invalidation;
 using AdminPanel.Models;
-using AdminPanel.Services;
+using AdminPanel.Services.Images.Upload;
 using MediatR;
 
 namespace AdminPanel.MediatorHandlers.Banners;

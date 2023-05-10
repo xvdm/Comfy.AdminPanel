@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Models;
-using AdminPanel.Services;
+using AdminPanel.Services.Images.Remove;
+using AdminPanel.Services.Images.Upload;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

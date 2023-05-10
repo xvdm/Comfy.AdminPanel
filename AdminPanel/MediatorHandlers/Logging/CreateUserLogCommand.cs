@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using AdminPanel.Services;
+using AdminPanel.Services.DatabaseLogging;
 using MediatR;
 
 namespace AdminPanel.MediatorHandlers.Logging;

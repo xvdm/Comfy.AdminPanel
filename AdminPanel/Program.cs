@@ -4,7 +4,10 @@ using AdminPanel.Mapping;
 using AdminPanel.Models.Identity;
 using AdminPanel.Models.SeedInitializers;
 using AdminPanel.Repositories;
-using AdminPanel.Services;
+using AdminPanel.Services.Caching;
+using AdminPanel.Services.DatabaseLogging;
+using AdminPanel.Services.Images.Remove;
+using AdminPanel.Services.Images.Upload;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
@@ -83,6 +86,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
+
+builder.Services.AddScoped<IRemoveCacheService, RemoveRedisCacheService>();
 
 var app = builder.Build();
 
