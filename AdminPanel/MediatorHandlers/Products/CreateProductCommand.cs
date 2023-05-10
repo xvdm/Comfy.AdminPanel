@@ -63,7 +63,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         // price history is being initialized after getting product id 
         product.Code = product.Id + 1000000;
         
-        category.UniqueBrands.Add(brand);
+        if(category.UniqueBrands.Contains(product.Brand) == false) category.UniqueBrands.Add(product.Brand);
 
         product.PriceHistory = new List<PriceHistory>();
         var priceHistory = new PriceHistory
