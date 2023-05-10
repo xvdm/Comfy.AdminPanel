@@ -23,6 +23,8 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
     {
         var product = await _context.Products
             .Include(x => x.ShowcaseGroups)
+            .Include(x => x.Category)
+                .ThenInclude(x => x.UniqueBrands)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
         if (product is null) throw new HttpRequestException($"No product with was found with id {request.ProductId}");
@@ -36,6 +38,10 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
         
         _context.PriceHistories.RemoveRange(priceHistories);
         _context.Products.Remove(product);
+
+        var count = await _context.Products.CountAsync(x => x.BrandId == product.BrandId && x.CategoryId == product.CategoryId, cancellationToken);
+        if (count <= 1) product.Category.UniqueBrands.Remove(product.Brand); // removing unique brand only if in the specified category there was one product left with this brandId
+
         await _context.SaveChangesAsync(cancellationToken);
 
         var productInvalidatedEvent = new ProductInvalidatedEvent(request.ProductId);
