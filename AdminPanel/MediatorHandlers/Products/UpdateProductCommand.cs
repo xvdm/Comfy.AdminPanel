@@ -36,6 +36,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         var product = await _context.Products
             .Include(x => x.Brand)
             .Include(x => x.Category)
+                .ThenInclude(x => x.UniqueBrands)
             .Include(x => x.Model)
             .Include(x => x.PriceHistory)
             .Include(x => x.ShowcaseGroups)
@@ -46,18 +47,27 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         if (product.Brand.Id != request.Brand)
         {
             var brand = await _context.Brands
-                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.Brand, cancellationToken);
             if (brand is null) throw new HttpRequestException("This brand does not exist");
+
+            var count = await _context.Products.CountAsync(x => x.BrandId == product.BrandId && x.CategoryId == product.CategoryId, cancellationToken);
+            if(count <= 1) product.Category.UniqueBrands.Remove(product.Brand); // removing unique brand only if in the specified category there was one product left with this brandId
+
             product.Brand = brand;
+            if(product.Category.Id == request.Category) product.Category.UniqueBrands.Add(product.Brand);
         }
         if (product.Category.Id != request.Category)
         {
             var category = await _context.Subcategories
-                .AsNoTracking()
+                .Include(x => x.UniqueBrands)
                 .FirstOrDefaultAsync(x => x.Id == request.Category, cancellationToken);
             if (category is null) throw new HttpRequestException("This category does not exist");
+
+            var count = await _context.Products.CountAsync(x => x.BrandId == product.BrandId && x.CategoryId == product.CategoryId, cancellationToken);
+            if (count <= 1) product.Category.UniqueBrands.Remove(product.Brand);
+
             product.Category = category;
+            product.Category.UniqueBrands.Add(product.Brand);
         }
         if (product.Model.Id != request.Model)
         {
