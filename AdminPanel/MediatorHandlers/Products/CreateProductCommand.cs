@@ -31,53 +31,43 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         var product = new Product
         {
             Name = request.Name,
-            Price = request.Price
+            Price = request.Price,
+            BrandId = request.Brand,
+            ModelId = request.Model,
+            CategoryId = request.Category,
+            Description = request.Description,
+            IsActive = false,
+            Url = "",
+            Amount = 0
         };
 
-        var brand = await _context.Brands
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == request.Brand, cancellationToken);
+        var modelCount = await _context.Models.CountAsync(x => x.Id == request.Model, cancellationToken);
+        if (modelCount <= 0) throw new HttpRequestException($"There is no model {request.Model}");
+
+        var brand = await _context.Brands.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Brand, cancellationToken);
         if(brand is null) throw new HttpRequestException($"There is no brand {request.Brand}");
 
-        var model = await _context.Models
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == request.Model, cancellationToken);
-        if(model is null) throw new HttpRequestException($"There is no model {request.Brand}");
+        var category = await _context.Subcategories.Include(x => x.UniqueBrands).FirstOrDefaultAsync(x => x.Id == request.Category, cancellationToken);
+        if (category is null) throw new HttpRequestException($"There is no category {request.Category}");
 
-        var category = await _context.Subcategories
-            .Include(x => x.UniqueBrands)
-            .FirstOrDefaultAsync(x => x.Id == request.Category, cancellationToken);
-        if(category is null) throw new HttpRequestException($"There is no category {request.Brand}");
+        category.UniqueBrands.Add(brand);
 
-
-        product.BrandId = brand.Id;
-        product.ModelId = model.Id;
-        product.CategoryId = category.Id;
-        product.Description = request.Description;
-        product.IsActive = false;
-        product.Url = "";
-
-        await _context.Products.AddAsync(product, cancellationToken);
+        _context.Products.Add(product);
         await _context.SaveChangesAsync(cancellationToken);
 
-        // price history is being initialized after getting product id 
         product.Code = product.Id + 1000000;
-        
-        if(category.UniqueBrands.Contains(product.Brand) == false) category.UniqueBrands.Add(product.Brand);
-
-        product.PriceHistory = new List<PriceHistory>();
-        var priceHistory = new PriceHistory
-        {
-            Date = DateTime.Now,
-            Price = product.Price,
-            ProductId = product.Id
-        };
-        product.PriceHistory.Add(priceHistory);
-
         product.Url = ProductUrl.Create(product.Name, product.Code);
+        product.PriceHistory = new List<PriceHistory>
+        {
+            new()
+            {
+                Date = DateTime.Now,
+                Price = product.Price,
+                ProductId = product.Id
+            }
+        };
 
         await _context.SaveChangesAsync(cancellationToken);
-
         return product.Id;
     }
 }
