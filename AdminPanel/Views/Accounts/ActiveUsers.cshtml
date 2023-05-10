@@ -2,14 +2,14 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<UserDTO>
 @{
-    ViewData["Title"] = "Active users";
+    ViewData["Title"] = "Активні користувачі";
 }
 
 
 <div class="Page">
     <div class="header">
         <div class="namePage">
-            <p>Користувачі</p>
+            <p>Активні користувачі</p>
         </div>
         <div class="btn-header">
             <a asp-area="" asp-controller="Accounts" asp-action="Create">Створити користувача</a>
@@ -53,11 +53,11 @@
                             <td><input type="text" name="UserName" value="@user.UserName" /></td>
                             <td><input type="email" name="Email" value="@user.Email" /></td>
                             <td><input type="number" name="PhoneNumber" value="@user.PhoneNumber" /></td>
-                            <td><button type="submit">Update</button></td>
+                            <td><button type="submit">Оновити</button></td>
                             </form>
                             <form method="post" asp-controller="Accounts" asp-action="LockoutUser">
                                 <input hidden type="text" name="Id" value="@user.Id" />
-                            <td><button type="submit">Lockout</button></td>
+                            <td><button type="submit">Заблокувати</button></td>
                             </form>
                         </tr>
                     }

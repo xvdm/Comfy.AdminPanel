@@ -116,4 +116,17 @@ switch (userMainPosition[1]) {
         div.appendChild(ul)
         divLogging.appendChild(div)
         break;
+
+    case "Accounts":
+        let divAccounts = document.getElementById("Accounts");
+        blockMainLink(divAccounts)
+
+        links = ["Активні користувачі","Заблоковані користувачі"];
+        href = ["/Accounts/ActiveUsers","/Accounts/LockoutedUsers"]
+
+        createLI(links, href)
+
+        div.appendChild(ul)
+        divAccounts.appendChild(div)
+        break;
 }
