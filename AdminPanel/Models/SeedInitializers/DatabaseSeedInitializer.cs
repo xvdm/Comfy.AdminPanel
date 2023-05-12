@@ -7,29 +7,24 @@ namespace AdminPanel.Models.SeedInitializers
 {
     public class DatabaseSeedInitializer
     {
-        public static void Seed(IServiceProvider scopeServiceProvider)
+        public async Task Seed(IServiceProvider scopeServiceProvider)
         {
             var userManager = scopeServiceProvider.GetService<UserManager<ApplicationUser>>();
 
-            var owner = new ApplicationUser
+            if (userManager is not null)
             {
-                UserName = "owner"
-            };
-            var ownerResult = userManager?.CreateAsync(owner, "owner").GetAwaiter().GetResult();
-            if (ownerResult!.Succeeded)
-            {
-                userManager?.AddClaimAsync(owner, new Claim(ClaimTypes.Role, PoliciesNames.Owner)).GetAwaiter().GetResult();
-            }
+                var user = new ApplicationUser { UserName = "owner" };
+                var userResult = await userManager.CreateAsync(user, "owner");
+                if (userResult is not null && userResult.Succeeded) await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, PoliciesNames.Owner));
 
-            //var admin = new ApplicationUser
-            //{
-            //    UserName = "admin"
-            //};
-            //var adminResult = userManager?.CreateAsync(admin, "admin").GetAwaiter().GetResult();
-            //if (adminResult!.Succeeded)
-            //{
-            //    userManager?.AddClaimAsync(admin, new Claim(ClaimTypes.Role, RolesNames.Administrator)).GetAwaiter().GetResult();
-            //}
+                user = new ApplicationUser { UserName = "senior" };
+                userResult = await userManager.CreateAsync(user, "senior");
+                if (userResult is not null && userResult.Succeeded) await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, PoliciesNames.SeniorAdministrator));
+
+                user = new ApplicationUser { UserName = "admin" };
+                userResult = await userManager.CreateAsync(user, "admin");
+                if (userResult is not null && userResult.Succeeded) await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, PoliciesNames.Administrator));
+            }
         }
     }
 }

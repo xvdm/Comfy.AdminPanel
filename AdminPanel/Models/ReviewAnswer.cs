@@ -13,8 +13,8 @@ public class ReviewAnswer : Auditable
     public ApplicationUser User { get; set; } = null!;
 
     public string Text { get; set; } = null!;
-    public int UsefulAnswerCount { get; set; }
-    public int NeedlessAnswerCount { get; set; }
+    public int Likes { get; set; }
+    public int Dislikes { get; set; }
     public bool IsActive { get; set; }
 
     public int ReviewId { get; set; }

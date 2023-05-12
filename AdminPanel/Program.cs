@@ -22,7 +22,7 @@ var connectionString = builder.Configuration.GetConnectionString("AdminPanelCont
 
 
 
-builder.Services.AddDbContext<ApplicationDbContext>(config => config.UseMySql(connectionString, new MySqlServerVersion(new Version(11, 0, 1))));
+builder.Services.AddDbContext<ApplicationDbContext>(config => config.UseNpgsql(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(UseTestingIdentityConfig)
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -95,7 +95,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    DatabaseSeedInitializer.Seed(services);
+    var databaseInit = new DatabaseSeedInitializer();
+    await databaseInit.Seed(services);
 }
 
 if (!app.Environment.IsDevelopment())
