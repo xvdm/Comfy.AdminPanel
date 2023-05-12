@@ -1,6 +1,6 @@
 # **Кэширование**
 
-### **product-questions:{productId}**<br>
+### **product-questions:{productId}:{pageNumber}:{pageSize}**<br>
 >Кэшируются вопросы и ответы на вопросы для конкретного товара<br>
 >- **Создание кэша:**<br>
 >   - GET: /api/questions<br>
@@ -10,7 +10,7 @@
 
 <br>
 
-### **product-reviews:{productId}**<br>
+### **product-reviews:{productId}:{pageNumber}:{pageSize}**<br>
 >Кэшируются отзывы и ответы на отзывы для конкретного товара<br>
 >- **Создание кэша:**<br>
 >   - GET: /api/reviews<br>
