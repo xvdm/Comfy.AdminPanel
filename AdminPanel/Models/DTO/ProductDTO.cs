@@ -12,13 +12,13 @@ public class ProductDTO
     public decimal Price { get; set; }
 
     [Required]
-    public int Brand { get; set; }
+    public int BrandId { get; set; }
 
     [Required]
-    public int Category { get; set; }
+    public int SubcategoryId { get; set; }
 
     [Required]
-    public int Model { get; set; }
+    public int ModelId { get; set; }
 
     [Required]
     public string Description { get; set; } = null!;

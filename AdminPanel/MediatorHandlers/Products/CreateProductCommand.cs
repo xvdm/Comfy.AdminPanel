@@ -10,9 +10,9 @@ public record CreateProductCommand : IRequest<int>
 {
     public string Name { get; set; } = null!;
     public int Price { get; set; }
-    public int Brand { get; set; }
-    public int Category { get; set; }
-    public int Model { get; set; }
+    public int BrandId { get; set; }
+    public int SubcategoryId { get; set; }
+    public int ModelId { get; set; }
     public string Description { get; set; } = null!;
 }
 
@@ -32,23 +32,23 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         {
             Name = request.Name,
             Price = request.Price,
-            BrandId = request.Brand,
-            ModelId = request.Model,
-            CategoryId = request.Category,
+            BrandId = request.BrandId,
+            ModelId = request.ModelId,
+            CategoryId = request.SubcategoryId,
             Description = request.Description,
             IsActive = false,
             Url = "",
             Amount = 0
         };
 
-        var modelCount = await _context.Models.CountAsync(x => x.Id == request.Model, cancellationToken);
-        if (modelCount <= 0) throw new HttpRequestException($"There is no model {request.Model}");
+        var modelCount = await _context.Models.CountAsync(x => x.Id == request.ModelId, cancellationToken);
+        if (modelCount <= 0) throw new HttpRequestException($"There is no model {request.ModelId}");
 
-        var brand = await _context.Brands.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Brand, cancellationToken);
-        if(brand is null) throw new HttpRequestException($"There is no brand {request.Brand}");
+        var brand = await _context.Brands.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.BrandId, cancellationToken);
+        if(brand is null) throw new HttpRequestException($"There is no brand {request.BrandId}");
 
-        var category = await _context.Subcategories.Include(x => x.UniqueBrands).FirstOrDefaultAsync(x => x.Id == request.Category, cancellationToken);
-        if (category is null) throw new HttpRequestException($"There is no category {request.Category}");
+        var category = await _context.Subcategories.Include(x => x.UniqueBrands).FirstOrDefaultAsync(x => x.Id == request.SubcategoryId, cancellationToken);
+        if (category is null) throw new HttpRequestException($"There is no category {request.SubcategoryId}");
 
         category.UniqueBrands.Add(brand);
 

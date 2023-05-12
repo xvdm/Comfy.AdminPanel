@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Models;
 
-public record CreateModelCommand(Model Model) : IRequest<Model>;
+public record CreateModelCommand(Model Model) : IRequest;
 
 
-public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Model>
+public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand>
 {
     private readonly ApplicationDbContext _context;
 
@@ -17,14 +17,12 @@ public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Mod
         _context = context;
     }
 
-    public async Task<Model> Handle(CreateModelCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateModelCommand request, CancellationToken cancellationToken)
     {
         var modelWithNameCount = await _context.Models.CountAsync(x => x.Name == request.Model.Name, cancellationToken);
         if (modelWithNameCount > 0) throw new HttpRequestException($"Model with name {request.Model.Name} already exists");
 
         _context.Models.Add(request.Model);
         await _context.SaveChangesAsync(cancellationToken);
-
-        return request.Model;
     }
 }

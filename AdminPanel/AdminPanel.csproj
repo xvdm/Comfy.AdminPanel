@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\ApplicationDb\" />
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\images\" />

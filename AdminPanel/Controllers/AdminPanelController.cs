@@ -112,15 +112,15 @@ public class AdminPanelController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateBrand(Brand brand)
     {
-        var result = await _mediator.Send(new CreateBrandCommand(brand));
-        return Ok(result);
+        await _mediator.Send(new CreateBrandCommand(brand));
+        return RedirectToAction(nameof(Brands));
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateModel(Model model)
     {
-        var result = await _mediator.Send(new CreateModelCommand(model));
-        return Ok(result);
+        await _mediator.Send(new CreateModelCommand(model));
+        return RedirectToAction(nameof(Models));
     }
 
     [HttpPost]
