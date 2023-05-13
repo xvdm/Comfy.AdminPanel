@@ -46,49 +46,37 @@ namespace AdminPanel.Models.SeedInitializers
             #region Brands seed
 
             //smartphones 
-            //var brand_apple = new Brand { Name = "Apple" };
-            //await mediator.Send(new CreateBrandCommand(brand_apple));
+            var brand_apple = new Brand { Name = "Apple" };
+            await mediator.Send(new CreateBrandCommand(brand_apple));
 
-            //var brand_samsung = new Brand { Name = "Samsung" };
-            //await mediator.Send(new CreateBrandCommand(brand_samsung));
+            var brand_samsung = new Brand { Name = "Samsung" };
+            await mediator.Send(new CreateBrandCommand(brand_samsung));
 
-            //var brand_xiaomi = new Brand { Name = "Xiaomi" };
-            //await mediator.Send(new CreateBrandCommand(brand_xiaomi));
-            ////phones
-            //var brand_sigmaMobile = new Brand { Name = "Sigma Mobile" };
-            //await mediator.Send(new CreateBrandCommand(brand_sigmaMobile));
-
-            //var brand_nomi = new Brand { Name = "Nomi" };
-            //await mediator.Send(new CreateBrandCommand(brand_nomi));
-            ////both
-            //var brand_nokia = new Brand { Name = "Nokia" };
-            //await mediator.Send(new CreateBrandCommand(brand_nokia));
-
-            //var brand_tecno = new Brand { Name = "Tecno" };
-            //await mediator.Send(new CreateBrandCommand(brand_tecno));
+            var brand_xiaomi = new Brand { Name = "Xiaomi" };
+            await mediator.Send(new CreateBrandCommand(brand_xiaomi));
             #endregion
 
             #region Models seed
             //smartphones
-            //var model_iphone14 = new Model { Name = "iPhone 14" };
-            //var model_iphone13 = new Model { Name = "iPhone 13" };
-            //var model_iphone12 = new Model { Name = "iPhone 12" };
-            //var model_galaxyM14 = new Model { Name = "Galaxy M14" };
-            //var model_galaxyS22 = new Model { Name = "Galaxy S22" };
-            //var model_galaxyA54 = new Model { Name = "Galaxy А54" };
-            //var model_redmi12С = new Model { Name = "Redmi 12С" };
-            //var model_redmiNote12 = new Model { Name = "Redmi Note 12" };
-            //var model_redmiNote10Pro = new Model { Name = "Redmi Note 10 Pro" };
+            var model_iphone14 = new Model { Name = "iPhone 14" };
+            var model_iphone13 = new Model { Name = "iPhone 13" };
+            var model_iphone12 = new Model { Name = "iPhone 12" };
+            var model_galaxyM14 = new Model { Name = "Galaxy M14" };
+            var model_galaxyS22 = new Model { Name = "Galaxy S22" };
+            var model_galaxyA54 = new Model { Name = "Galaxy А54" };
+            var model_redmi12С = new Model { Name = "Redmi 12С" };
+            var model_redmiNote12 = new Model { Name = "Redmi Note 12" };
+            var model_redmiNote10Pro = new Model { Name = "Redmi Note 10 Pro" };
 
-            //await mediator.Send(new CreateModelCommand(model_iphone14));
-            //await mediator.Send(new CreateModelCommand(model_iphone13));
-            //await mediator.Send(new CreateModelCommand(model_iphone12));
-            //await mediator.Send(new CreateModelCommand(model_galaxyM14));
-            //await mediator.Send(new CreateModelCommand(model_galaxyS22));
-            //await mediator.Send(new CreateModelCommand(model_galaxyA54));
-            //await mediator.Send(new CreateModelCommand(model_redmi12С));
-            //await mediator.Send(new CreateModelCommand(model_redmiNote12));
-            //await mediator.Send(new CreateModelCommand(model_redmiNote10Pro));
+            await mediator.Send(new CreateModelCommand(model_iphone14));
+            await mediator.Send(new CreateModelCommand(model_iphone13));
+            await mediator.Send(new CreateModelCommand(model_iphone12));
+            await mediator.Send(new CreateModelCommand(model_galaxyM14));
+            await mediator.Send(new CreateModelCommand(model_galaxyS22));
+            await mediator.Send(new CreateModelCommand(model_galaxyA54));
+            await mediator.Send(new CreateModelCommand(model_redmi12С));
+            await mediator.Send(new CreateModelCommand(model_redmiNote12));
+            await mediator.Send(new CreateModelCommand(model_redmiNote10Pro));
             #endregion
 
 
@@ -103,172 +91,172 @@ namespace AdminPanel.Models.SeedInitializers
             await mediator.Send(new CreateSubcategoryCommand(subcategory));
             #region Товари (смартфони)
             // Apple
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_apple.Id,
-            //    ModelId = model_iphone14.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 38999,
-            //    Name = "Смартфон Apple iPhone 14 128Gb Midnight",
-            //    Description = "Більше ніж вражає."
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_apple.Id,
-            //    ModelId = model_iphone14.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 43999,
-            //    Name = "Смартфон Apple iPhone 14 256Gb Midnight",
-            //    Description = "Більше ніж вражає."
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_apple.Id,
-            //    ModelId = model_iphone13.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 33499,
-            //    Name = "Смартфон Apple iPhone 13 128Gb Starlight",
-            //    Description = "Більше ніж вражає."
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_apple.Id,
-            //    ModelId = model_iphone13.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 36499,
-            //    Name = "Смартфон Apple iPhone 13 256Gb Midnight",
-            //    Description = "Більше ніж вражає."
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_apple.Id,
-            //    ModelId = model_iphone12.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 29999,
-            //    Name = "Смартфон Apple iPhone 12 128Gb Purple",
-            //    Description = "Більше ніж вражає."
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_apple.Id,
-            //    ModelId = model_iphone12.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 29999,
-            //    Name = "Смартфон Apple iPhone 12 128Gb Black",
-            //    Description = "Більше ніж вражає."
-            //});
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_apple.Id,
+                ModelId = model_iphone14.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 38999,
+                Name = "Смартфон Apple iPhone 14 128Gb Midnight",
+                Description = "Більше ніж вражає."
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_apple.Id,
+                ModelId = model_iphone14.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 43999,
+                Name = "Смартфон Apple iPhone 14 256Gb Midnight",
+                Description = "Більше ніж вражає."
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_apple.Id,
+                ModelId = model_iphone13.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 33499,
+                Name = "Смартфон Apple iPhone 13 128Gb Starlight",
+                Description = "Більше ніж вражає."
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_apple.Id,
+                ModelId = model_iphone13.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 36499,
+                Name = "Смартфон Apple iPhone 13 256Gb Midnight",
+                Description = "Більше ніж вражає."
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_apple.Id,
+                ModelId = model_iphone12.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 29999,
+                Name = "Смартфон Apple iPhone 12 128Gb Purple",
+                Description = "Більше ніж вражає."
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_apple.Id,
+                ModelId = model_iphone12.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 29999,
+                Name = "Смартфон Apple iPhone 12 128Gb Black",
+                Description = "Більше ніж вражає."
+            });
 
-            //// Samsung
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_samsung.Id,
-            //    ModelId = model_galaxyA54.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 19999,
-            //    Name = "Смартфон Samsung Galaxy A54 5G 6/128Gb Awesome Graphite",
-            //    Description = "Вишуканий дизайн з яскравими відтінками Galaxy A54"
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_samsung.Id,
-            //    ModelId = model_galaxyA54.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 21999,
-            //    Name = "Смартфон Samsung Galaxy A54 5G 8/256Gb Light Violet",
-            //    Description = "Вишуканий дизайн з яскравими відтінками Galaxy A54 5G"
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_samsung.Id,
-            //    ModelId = model_galaxyM14.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 7899,
-            //    Name = "Смартфон Samsung Galaxy M14 5G 4/64Gb Blue",
-            //    Description = "Пориньте в яскраві деталі з Galaxy M14"
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_samsung.Id,
-            //    ModelId = model_galaxyM14.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 8499,
-            //    Name = "Смартфон Samsung Galaxy M14 5G 4/128Gb Dark Blue",
-            //    Description = "Пориньте в яскраві деталі з Galaxy M14"
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_samsung.Id,
-            //    ModelId = model_galaxyS22.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 30999,
-            //    Name = "Смартфон Samsung Galaxy S22 8/128Gb Green",
-            //    Description = "Смартфон, з яким кожен день незабутній."
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_samsung.Id,
-            //    ModelId = model_galaxyS22.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 32999,
-            //    Name = "Смартфон Samsung Galaxy S22 8/256Gb Phantom Black",
-            //    Description = "Смартфон, з яким кожен день незабутній."
-            //});
+            // Samsung
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_samsung.Id,
+                ModelId = model_galaxyA54.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 19999,
+                Name = "Смартфон Samsung Galaxy A54 5G 6/128Gb Awesome Graphite",
+                Description = "Вишуканий дизайн з яскравими відтінками Galaxy A54"
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_samsung.Id,
+                ModelId = model_galaxyA54.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 21999,
+                Name = "Смартфон Samsung Galaxy A54 5G 8/256Gb Light Violet",
+                Description = "Вишуканий дизайн з яскравими відтінками Galaxy A54 5G"
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_samsung.Id,
+                ModelId = model_galaxyM14.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 7899,
+                Name = "Смартфон Samsung Galaxy M14 5G 4/64Gb Blue",
+                Description = "Пориньте в яскраві деталі з Galaxy M14"
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_samsung.Id,
+                ModelId = model_galaxyM14.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 8499,
+                Name = "Смартфон Samsung Galaxy M14 5G 4/128Gb Dark Blue",
+                Description = "Пориньте в яскраві деталі з Galaxy M14"
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_samsung.Id,
+                ModelId = model_galaxyS22.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 30999,
+                Name = "Смартфон Samsung Galaxy S22 8/128Gb Green",
+                Description = "Смартфон, з яким кожен день незабутній."
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_samsung.Id,
+                ModelId = model_galaxyS22.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 32999,
+                Name = "Смартфон Samsung Galaxy S22 8/256Gb Phantom Black",
+                Description = "Смартфон, з яким кожен день незабутній."
+            });
 
-            //// Xiaomi
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_xiaomi.Id,
-            //    ModelId = model_redmi12С.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 6499,
-            //    Name = "Смартфон Xiaomi Redmi 12C 4/128Gb Graphite Gray",
-            //    Description = "Ультрачітка подвійна камера 50 МП і тривалий автономної роботи акумулятора гарантують, що ви ніколи не пропустите найцікавіше."
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_xiaomi.Id,
-            //    ModelId = model_redmi12С.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 5499,
-            //    Name = "Смартфон Xiaomi Redmi 12C 3/64Gb Graphite Gray",
-            //    Description = "Ультрачітка подвійна камера 50 МП і тривалий автономної роботи акумулятора гарантують, що ви ніколи не пропустите найцікавіше."
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_xiaomi.Id,
-            //    ModelId = model_redmiNote10Pro.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 9999,
-            //    Name = "Смартфон Xiaomi Redmi Note 10 Pro 6/128Gb Onyx Gray",
-            //    Description = "Фотографії на вищому рівні з Xiaomi Redmi Note 10 Pro"
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_xiaomi.Id,
-            //    ModelId = model_redmiNote10Pro.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 9999,
-            //    Name = "Смартфон Xiaomi Redmi Note 10 Pro 6/128Gb Gradient Bronze",
-            //    Description = "Фотографії на вищому рівні з Xiaomi Redmi Note 10 Pro"
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_xiaomi.Id,
-            //    ModelId = model_redmiNote12.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 7999,
-            //    Name = "Смартфон Xiaomi Redmi Note 12 4/128Gb Ice Blue",
-            //    Description = "Смартфон для найкращих емоцій"
-            //});
-            //await mediator.Send(new CreateProductCommand
-            //{
-            //    BrandId = brand_xiaomi.Id,
-            //    ModelId = model_redmiNote12.Id,
-            //    SubcategoryId = subcategory.Id,
-            //    Price = 7999,
-            //    Name = "Смартфон Xiaomi Redmi Note 12 4/128Gb Onyx Gray",
-            //    Description = "Смартфон для найкращих емоцій"
-            //});
+            // Xiaomi
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_xiaomi.Id,
+                ModelId = model_redmi12С.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 6499,
+                Name = "Смартфон Xiaomi Redmi 12C 4/128Gb Graphite Gray",
+                Description = "Ультрачітка подвійна камера 50 МП і тривалий автономної роботи акумулятора гарантують, що ви ніколи не пропустите найцікавіше."
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_xiaomi.Id,
+                ModelId = model_redmi12С.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 5499,
+                Name = "Смартфон Xiaomi Redmi 12C 3/64Gb Graphite Gray",
+                Description = "Ультрачітка подвійна камера 50 МП і тривалий автономної роботи акумулятора гарантують, що ви ніколи не пропустите найцікавіше."
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_xiaomi.Id,
+                ModelId = model_redmiNote10Pro.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 9999,
+                Name = "Смартфон Xiaomi Redmi Note 10 Pro 6/128Gb Onyx Gray",
+                Description = "Фотографії на вищому рівні з Xiaomi Redmi Note 10 Pro"
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_xiaomi.Id,
+                ModelId = model_redmiNote10Pro.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 9999,
+                Name = "Смартфон Xiaomi Redmi Note 10 Pro 6/128Gb Gradient Bronze",
+                Description = "Фотографії на вищому рівні з Xiaomi Redmi Note 10 Pro"
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_xiaomi.Id,
+                ModelId = model_redmiNote12.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 7999,
+                Name = "Смартфон Xiaomi Redmi Note 12 4/128Gb Ice Blue",
+                Description = "Смартфон для найкращих емоцій"
+            });
+            await mediator.Send(new CreateProductCommand
+            {
+                BrandId = brand_xiaomi.Id,
+                ModelId = model_redmiNote12.Id,
+                SubcategoryId = subcategory.Id,
+                Price = 7999,
+                Name = "Смартфон Xiaomi Redmi Note 12 4/128Gb Onyx Gray",
+                Description = "Смартфон для найкращих емоцій"
+            });
             #endregion
 
             subcategory = new Subcategory { Name = "Телефони", MainCategoryId = mainCategory.Id };
