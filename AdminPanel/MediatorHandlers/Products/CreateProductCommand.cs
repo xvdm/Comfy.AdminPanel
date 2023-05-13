@@ -44,7 +44,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         var modelCount = await _context.Models.CountAsync(x => x.Id == request.ModelId, cancellationToken);
         if (modelCount <= 0) throw new HttpRequestException($"There is no model {request.ModelId}");
 
-        var brand = await _context.Brands.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.BrandId, cancellationToken);
+        var brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.BrandId, cancellationToken);
         if(brand is null) throw new HttpRequestException($"There is no brand {request.BrandId}");
 
         var category = await _context.Subcategories.Include(x => x.UniqueBrands).FirstOrDefaultAsync(x => x.Id == request.SubcategoryId, cancellationToken);
