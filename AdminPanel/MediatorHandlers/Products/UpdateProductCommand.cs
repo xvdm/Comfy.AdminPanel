@@ -102,7 +102,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        var productInvalidatedEvent = new ProductInvalidatedEvent(request.Id);
+        var productInvalidatedEvent = new ProductInvalidatedEvent(request.Id, product.Url);
         await _publisher.Publish(productInvalidatedEvent, cancellationToken);
 
         if (product.ShowcaseGroups.Count > 0)

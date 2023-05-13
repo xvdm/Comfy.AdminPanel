@@ -34,7 +34,13 @@ public class DeleteProductImageCommandHandler : IRequestHandler<DeleteProductIma
         _context.Images.Remove(image);
         await _context.SaveChangesAsync(cancellationToken);
 
-        var notification = new ProductInvalidatedEvent(image.ProductId);
+        var productUrl = await _context.Products.Select(x => new
+        {
+            x.Id,
+            x.Url
+        }).FirstOrDefaultAsync(x => x.Id == image.ProductId, cancellationToken);
+
+        var notification = new ProductInvalidatedEvent(image.ProductId, productUrl!.Url);
         await _publisher.Publish(notification, cancellationToken);
     }
 }

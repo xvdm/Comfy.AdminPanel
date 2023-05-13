@@ -92,12 +92,12 @@ builder.Services.AddScoped<IRemoveCacheService, RemoveRedisCacheService>();
 var app = builder.Build();
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var databaseInit = new DatabaseSeedInitializer();
-    await databaseInit.Seed(services);
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var databaseInit = new DatabaseSeedInitializer();
+//    await databaseInit.Seed(services);
+//}
 
 if (!app.Environment.IsDevelopment())
 {

@@ -75,7 +75,7 @@ public class CreateProductCharacteristicCommandHandler : IRequestHandler<CreateP
         await _context.SaveChangesAsync(cancellationToken);
 
 
-        var productInvalidatedEvent = new ProductInvalidatedEvent(request.ProductId);
+        var productInvalidatedEvent = new ProductInvalidatedEvent(request.ProductId, product.Url);
         await _publisher.Publish(productInvalidatedEvent, cancellationToken);
 
         return characteristic;

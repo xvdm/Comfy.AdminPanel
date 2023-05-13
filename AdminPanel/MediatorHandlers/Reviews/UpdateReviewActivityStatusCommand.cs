@@ -42,7 +42,7 @@ public class UpdateReviewActivityStatusCommandHandler : IRequestHandler<UpdateRe
         review.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
 
-        var productNotification = new ProductInvalidatedEvent(review.ProductId);
+        var productNotification = new ProductInvalidatedEvent(review.ProductId, product.Url);
         await _publisher.Publish(productNotification, cancellationToken);
 
         var notification = new ReviewInvalidatedEvent(review.ProductId);

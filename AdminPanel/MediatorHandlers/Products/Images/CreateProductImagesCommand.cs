@@ -52,7 +52,7 @@ namespace AdminPanel.MediatorHandlers.Products.Images
 
             if (newImage)
             {
-                var notification = new ProductInvalidatedEvent(request.ProductId);
+                var notification = new ProductInvalidatedEvent(request.ProductId, product.Url);
                 await _publisher.Publish(notification, cancellationToken);
             }
 

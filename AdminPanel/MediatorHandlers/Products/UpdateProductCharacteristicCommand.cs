@@ -64,7 +64,7 @@ namespace AdminPanel.MediatorHandlers.Products
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            var productInvalidatedEvent = new ProductInvalidatedEvent(product.Id);
+            var productInvalidatedEvent = new ProductInvalidatedEvent(product.Id, product.Url);
             await _publisher.Publish(productInvalidatedEvent, cancellationToken);
         }
     }

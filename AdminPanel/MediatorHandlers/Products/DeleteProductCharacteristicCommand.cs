@@ -29,7 +29,13 @@ public class DeleteProductCharacteristicCommandHandler : IRequestHandler<DeleteP
         _context.Characteristics.Remove(characteristic);
         await _context.SaveChangesAsync(cancellationToken);
 
-        var productInvalidatedEvent = new ProductInvalidatedEvent(request.ProductId);
+        var productUrl = await _context.Products.Select(x => new
+        {
+            x.Id,
+            x.Url
+        }).FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
+
+        var productInvalidatedEvent = new ProductInvalidatedEvent(request.ProductId, productUrl!.Url);
         await _publisher.Publish(productInvalidatedEvent, cancellationToken);
     }
 }

@@ -16,5 +16,6 @@ public class ProductCacheInvalidationHandler : INotificationHandler<ProductInval
     public async Task Handle(ProductInvalidatedEvent notification, CancellationToken cancellationToken)
     {
         await _distributedCache.RemoveAsync($"product:{notification.Id}", cancellationToken);
+        await _distributedCache.RemoveAsync($"product:{notification.Url}", cancellationToken);
     }
 }
