@@ -1,6 +1,6 @@
 # **Кэширование**
 
-### **product-questions:{productId}:{pageNumber}:{pageSize}**<br>
+### **product-questions:{productId}:{pageNumber}:{pageSize}**
 >Кэшируются вопросы и ответы на вопросы для конкретного товара<br>
 >- **Создание кэша:**<br>
 >   - GET: /api/questions<br>
@@ -10,7 +10,7 @@
 
 <br>
 
-### **product-reviews:{productId}:{pageNumber}:{pageSize}**<br>
+### **product-reviews:{productId}:{pageNumber}:{pageSize}**
 >Кэшируются отзывы и ответы на отзывы для конкретного товара<br>
 >- **Создание кэша:**<br>
 >   - GET: /api/reviews<br>
@@ -20,10 +20,12 @@
 
 <br>
 
-### **product:{productId}**<br>
+### **product:{productId}**
+### **product:{productUrl}**
 >Кэшируется полная информация о конкретном товаре, для отображения страницы с товаром<br>
 >- **Создание кэша:**<br>
->   - GET: /api/products?id=productId<br>
+>   - GET: /api/products/byid?id=productId<br>
+>   - GET: /api/products/byUrl?url=productUrl<br>
 >- **Удаление кэша:**<br>
 >   - Изменение/добавление/удаление товара<br>
 >   - Изменение/добавление/удаление характеристики товара<br>
@@ -32,7 +34,7 @@
 
 <br>
 
-### **banners**<br>
+### **banners**
 >Кэшируются баннеры, которые отображаются в карусели на главной странице<br>
 >- **Создание кэша:**<br>
 >   - GET: /api/banners<br>
@@ -41,7 +43,7 @@
 
 <br>
 
-### **categories-menu**<br>
+### **categories-menu**
 >Кэшируются все главные категории, подкатегории и фильтры к подкатегориям. Нужно для меню с категориями.<br>
 >- **Создание кэша:**<br>
 >   - GET: /api/categoriesMenu<br>
@@ -50,7 +52,7 @@
 
 <br>
 
-### **showcase-groups**<br>
+### **showcase-groups**
 >Кэшируются группы товаров для главной страницы, вместе с информацией (поверхностной) об этих товарах. Нужно для отображения товаров на главной странице сайта.<br>
 >- **Создание кэша:**<br>
 >   - GET: /api/showcase<br>
