@@ -21,7 +21,7 @@
 <br>
 
 ### **product:{productId}**
-### *product:{productUrl}**
+### **product:{productUrl}**
 >Кэшируется полная информация о конкретном товаре, для отображения страницы с товаром<br>
 >- **Создание кэша:**<br>
 >   - GET: /api/products/byid?id=productId<br>
