@@ -61,7 +61,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         {
             new()
             {
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Price = product.Price,
                 ProductId = product.Id
             }
