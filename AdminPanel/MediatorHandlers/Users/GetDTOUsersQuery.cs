@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Users;
 
-public record GetDTOUsersQuery(string? SearchString, bool GetLockoutUsers) : IRequest<IEnumerable<UserDTO>>;
+public sealed record GetDTOUsersQuery(string? SearchString, bool GetLockoutUsers) : IRequest<IEnumerable<UserDTO>>;
 
 
-public class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQuery, IEnumerable<UserDTO>>
+public sealed class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQuery, IEnumerable<UserDTO>>
 {
     private readonly IUsersRepository _usersRepository;
     private readonly IMapper _mapper;

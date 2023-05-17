@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record CreateProductCommand : IRequest<int>
+public sealed record CreateProductCommand : IRequest<int>
 {
     public string Name { get; set; } = null!;
     public int Price { get; set; }
@@ -17,7 +17,7 @@ public record CreateProductCommand : IRequest<int>
 }
 
 
-public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+public sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
 {
     private readonly ApplicationDbContext _context;
 

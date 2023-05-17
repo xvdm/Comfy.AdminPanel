@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public record CreateShowcaseGroupCommand(string Name, string QueryString) : IRequest;
+public sealed record CreateShowcaseGroupCommand(string Name, string QueryString) : IRequest;
 
 
-public class CreateShowcaseGroupCommandHandler : IRequestHandler<CreateShowcaseGroupCommand>
+public sealed class CreateShowcaseGroupCommandHandler : IRequestHandler<CreateShowcaseGroupCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

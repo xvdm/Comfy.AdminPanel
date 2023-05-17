@@ -5,7 +5,7 @@ using AdminPanel.Models;
 
 namespace AdminPanel.MediatorHandlers.Products.Brands;
 
-public record GetBrandsQuery : IRequest<IEnumerable<Brand>>
+public sealed record GetBrandsQuery : IRequest<IEnumerable<Brand>>
 {
     private const int MaxPageSize = 15;
     private int _pageSize = MaxPageSize;
@@ -29,7 +29,7 @@ public record GetBrandsQuery : IRequest<IEnumerable<Brand>>
     }
 }
 
-public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, IEnumerable<Brand>>
+public sealed class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, IEnumerable<Brand>>
 {
     private readonly ApplicationDbContext _context;
 

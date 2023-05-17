@@ -8,7 +8,7 @@ namespace AdminPanel.Controllers;
 
 
 [AutoValidateAntiforgeryToken]
-public class AuthorizationController : Controller
+public sealed class AuthorizationController : Controller
 {
     private readonly IMediator _mediator;
 

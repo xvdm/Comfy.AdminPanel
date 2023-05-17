@@ -1,9 +1,8 @@
-﻿namespace AdminPanel.Models.Logging
-{
-    public class LoggingAction
-    {
-        public int Id { get; set; }
+﻿namespace AdminPanel.Models.Logging;
 
-        public string Action { get; set; } = null!;
-    }
+public sealed class LoggingAction
+{
+    public int Id { get; set; }
+
+    public string Action { get; set; } = null!;
 }

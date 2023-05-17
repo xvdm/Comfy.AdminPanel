@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public record UpdateBannerCommand(int Id, string Name, string PageUrl, IFormFile? Image) : IRequest;
+public sealed record UpdateBannerCommand(int Id, string Name, string PageUrl, IFormFile? Image) : IRequest;
 
 
-public class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand>
+public sealed class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;

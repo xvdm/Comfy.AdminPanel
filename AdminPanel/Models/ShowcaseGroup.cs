@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models;
 
-public class ShowcaseGroup : IEntityTypeConfiguration<ShowcaseGroup>
+public sealed class ShowcaseGroup : IEntityTypeConfiguration<ShowcaseGroup>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

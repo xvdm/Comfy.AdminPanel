@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AdminPanel.MediatorHandlers.Authorization;
 
-public record SignInQuery(ApplicationUser User, string Password, bool IsPersistent, bool LockoutOnFailure) : IRequest<SignInResult>;
+public sealed record SignInQuery(ApplicationUser User, string Password, bool IsPersistent, bool LockoutOnFailure) : IRequest<SignInResult>;
 
 
-public class SignInQueryHandler : IRequestHandler<SignInQuery, SignInResult>
+public sealed class SignInQueryHandler : IRequestHandler<SignInQuery, SignInResult>
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
 

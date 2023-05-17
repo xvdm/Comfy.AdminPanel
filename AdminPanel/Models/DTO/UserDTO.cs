@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Models.DTO;
 
-public class UserDTO
+public sealed class UserDTO
 {
     [Required]
     public Guid Id { get; set; }

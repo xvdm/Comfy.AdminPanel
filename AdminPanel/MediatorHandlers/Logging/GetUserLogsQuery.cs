@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Logging;
 
-public record GetUserLogsQuery : IRequest<IEnumerable<UserLog>> 
+public sealed record GetUserLogsQuery : IRequest<IEnumerable<UserLog>> 
 {
     public string? SearchString { get; set; }
 
@@ -33,7 +33,7 @@ public record GetUserLogsQuery : IRequest<IEnumerable<UserLog>>
 }
 
 
-public class GetUserLogsQueryHandler : IRequestHandler<GetUserLogsQuery, IEnumerable<UserLog>>
+public sealed class GetUserLogsQueryHandler : IRequestHandler<GetUserLogsQuery, IEnumerable<UserLog>>
 {
     private readonly ApplicationDbContext _context;
 

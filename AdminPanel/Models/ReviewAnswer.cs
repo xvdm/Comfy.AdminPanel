@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models;
 
-public class ReviewAnswer : Auditable
+public sealed class ReviewAnswer : Auditable
 {
     public int Id { get; set; }
 

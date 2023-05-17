@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public record GetBannersQuery : IRequest<ICollection<Banner>>;
+public sealed record GetBannersQuery : IRequest<ICollection<Banner>>;
 
 
-public class GetBannersQueryHandler : IRequestHandler<GetBannersQuery, ICollection<Banner>>
+public sealed class GetBannersQueryHandler : IRequestHandler<GetBannersQuery, ICollection<Banner>>
 {
     private readonly ApplicationDbContext _context;
 

@@ -2,4 +2,4 @@
 
 namespace AdminPanel.Events.Invalidation;
 
-public record ShowcaseGroupsInvalidatedEvent : INotification;
+public sealed record ShowcaseGroupsInvalidatedEvent : INotification;

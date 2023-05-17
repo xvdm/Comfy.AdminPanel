@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models;
 
-public class Image : IEntityTypeConfiguration<Image>
+public sealed class Image : IEntityTypeConfiguration<Image>
 {
     public int Id { get; set; }
     public string Url { get; set; } = null!;

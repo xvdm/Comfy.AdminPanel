@@ -2,32 +2,31 @@
 using AdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminPanel.Repositories
+namespace AdminPanel.Repositories;
+
+public sealed class UsersRepository : IUsersRepository
 {
-    public class UsersRepository : IUsersRepository
+    private readonly ApplicationDbContext _context;
+    public UsersRepository(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
-        public UsersRepository(ApplicationDbContext context)
+        _context = context;
+    }
+
+    public IQueryable<ApplicationUser> GetUsers(string? searchString)
+    {
+        var users = _context.Users
+            .AsNoTracking()
+            .AsQueryable();
+
+        if(searchString is not null)
         {
-            _context = context;
+            users = users.Where(x => 
+                x.UserName.Contains(searchString) ||
+                x.Email.Contains(searchString) ||
+                x.PhoneNumber.Contains(searchString)
+            );
         }
 
-        public IQueryable<ApplicationUser> GetUsers(string? searchString)
-        {
-            var users = _context.Users
-                .AsNoTracking()
-                .AsQueryable();
-
-            if(searchString is not null)
-            {
-                users = users.Where(x => 
-                    x.UserName.Contains(searchString) ||
-                    x.Email.Contains(searchString) ||
-                    x.PhoneNumber.Contains(searchString)
-                    );
-            }
-
-            return users;
-        }
+        return users;
     }
 }

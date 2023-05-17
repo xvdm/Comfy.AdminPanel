@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Brands;
 
-public record DeleteBrandCommand(int Id) : IRequest;
+public sealed record DeleteBrandCommand(int Id) : IRequest;
 
 
-public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand>
+public sealed class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand>
 {
     private readonly ApplicationDbContext _context;
 

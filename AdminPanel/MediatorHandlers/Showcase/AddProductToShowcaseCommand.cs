@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public record AddProductToShowcaseCommand(int GroupId, int ProductCode) : IRequest;
+public sealed record AddProductToShowcaseCommand(int GroupId, int ProductCode) : IRequest;
 
 
-public class AddProductToShowcaseCommandHandler : IRequestHandler<AddProductToShowcaseCommand>
+public sealed class AddProductToShowcaseCommandHandler : IRequestHandler<AddProductToShowcaseCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

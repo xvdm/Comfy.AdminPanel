@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Reviews;
 
-public record GetReviewAnswersQuery : IRequest<IEnumerable<ReviewAnswer>>
+public sealed record GetReviewAnswersQuery : IRequest<IEnumerable<ReviewAnswer>>
 {
     public bool IsActive { get; init; }
 
@@ -33,7 +33,7 @@ public record GetReviewAnswersQuery : IRequest<IEnumerable<ReviewAnswer>>
 }
 
 
-public class GetReviewAnswersHandler : IRequestHandler<GetReviewAnswersQuery, IEnumerable<ReviewAnswer>>
+public sealed class GetReviewAnswersHandler : IRequestHandler<GetReviewAnswersQuery, IEnumerable<ReviewAnswer>>
 {
     private readonly ApplicationDbContext _context;
 

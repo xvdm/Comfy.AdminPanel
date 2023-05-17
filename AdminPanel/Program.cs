@@ -2,7 +2,6 @@ using AdminPanel.Data;
 using AdminPanel.Helpers;
 using AdminPanel.Mapping;
 using AdminPanel.Models.Identity;
-using AdminPanel.Models.SeedInitializers;
 using AdminPanel.Repositories;
 using AdminPanel.Services.Caching;
 using AdminPanel.Services.DatabaseLogging;

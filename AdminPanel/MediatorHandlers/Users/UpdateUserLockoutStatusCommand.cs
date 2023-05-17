@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AdminPanel.MediatorHandlers.Users;
 
-public record UpdateUserLockoutStatusCommand(ClaimsPrincipal CurrentUser, Guid UserId, bool IsLockout) : IRequest<bool>;
+public sealed record UpdateUserLockoutStatusCommand(ClaimsPrincipal CurrentUser, Guid UserId, bool IsLockout) : IRequest<bool>;
 
 
-public class UpdateUserLockoutStatusCommandHandler : IRequestHandler<UpdateUserLockoutStatusCommand, bool>
+public sealed class UpdateUserLockoutStatusCommandHandler : IRequestHandler<UpdateUserLockoutStatusCommand, bool>
 {
     private readonly UserManager<ApplicationUser> _userManager;
 

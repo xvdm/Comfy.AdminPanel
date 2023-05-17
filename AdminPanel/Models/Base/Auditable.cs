@@ -1,7 +1,6 @@
-﻿namespace AdminPanel.Models.Base
+﻿namespace AdminPanel.Models.Base;
+
+public abstract class Auditable
 {
-    public abstract class Auditable
-    {
-        public DateTime? CreatedAt { get; set; }
-    }
+    public DateTime? CreatedAt { get; set; }
 }

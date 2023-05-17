@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public record GetShowcaseGroupsQuery : IRequest<IEnumerable<ShowcaseGroup>>;
+public sealed record GetShowcaseGroupsQuery : IRequest<IEnumerable<ShowcaseGroup>>;
 
 
-public class GetShowcaseGroupsQueryHandler : IRequestHandler<GetShowcaseGroupsQuery, IEnumerable<ShowcaseGroup>>
+public sealed class GetShowcaseGroupsQueryHandler : IRequestHandler<GetShowcaseGroupsQuery, IEnumerable<ShowcaseGroup>>
 {
     private readonly ApplicationDbContext _context;
 

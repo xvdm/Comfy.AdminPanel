@@ -5,10 +5,10 @@ using MediatR;
 
 namespace AdminPanel.MediatorHandlers.Products.Categories;
 
-public record CreateMainCategoryCommand(MainCategory Category) : IRequest;
+public sealed record CreateMainCategoryCommand(MainCategory Category) : IRequest;
 
 
-public class CreateMainCategoryCommandHandler : IRequestHandler<CreateMainCategoryCommand>
+public sealed class CreateMainCategoryCommandHandler : IRequestHandler<CreateMainCategoryCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

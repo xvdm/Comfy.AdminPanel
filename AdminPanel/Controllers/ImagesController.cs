@@ -9,7 +9,7 @@ namespace AdminPanel.Controllers;
 
 [AutoValidateAntiforgeryToken]
 [Authorize(Policy = PoliciesNames.Administrator)]
-public class ImagesController : Controller
+public sealed class ImagesController : Controller
 {
     private readonly IMediator _mediator;
 

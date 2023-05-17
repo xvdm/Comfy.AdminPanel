@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Questions;
 
-public record UpdateQuestionAnswerActivityStatusCommand(int QuestionAnswerId, bool IsActive) : IRequest;
+public sealed record UpdateQuestionAnswerActivityStatusCommand(int QuestionAnswerId, bool IsActive) : IRequest;
 
 
-public class UpdateQuestionAnswerActivityStatusCommandHandler : IRequestHandler<UpdateQuestionAnswerActivityStatusCommand>
+public sealed class UpdateQuestionAnswerActivityStatusCommandHandler : IRequestHandler<UpdateQuestionAnswerActivityStatusCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

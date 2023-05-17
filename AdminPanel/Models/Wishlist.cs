@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Models;
 
-public class WishList
+public sealed class WishList
 {
     public int Id { get; set; }
 

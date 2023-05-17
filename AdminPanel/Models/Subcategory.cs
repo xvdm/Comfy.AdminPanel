@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models;
 
-public class Subcategory : IEntityTypeConfiguration<Subcategory>
+public sealed class Subcategory : IEntityTypeConfiguration<Subcategory>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

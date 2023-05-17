@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record DeleteProductCommand(int ProductId) : IRequest;
+public sealed record DeleteProductCommand(int ProductId) : IRequest;
 
 
-public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
+public sealed class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

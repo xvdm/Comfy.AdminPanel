@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AdminPanel.Models.Identity
-{
-    public class ApplicationUser : IdentityUser<Guid>
-    {
+namespace AdminPanel.Models.Identity;
 
-    }
+public sealed class ApplicationUser : IdentityUser<Guid>
+{
+
 }

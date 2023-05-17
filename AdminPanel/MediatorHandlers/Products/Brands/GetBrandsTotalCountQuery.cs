@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Brands;
 
-public record GetBrandsTotalCountQuery : IRequest<int>;
+public sealed record GetBrandsTotalCountQuery : IRequest<int>;
 
 
-public class GetBrandsTotalCountQueryHandler : IRequestHandler<GetBrandsTotalCountQuery, int>
+public sealed class GetBrandsTotalCountQueryHandler : IRequestHandler<GetBrandsTotalCountQuery, int>
 {
     private readonly ApplicationDbContext _context;
 

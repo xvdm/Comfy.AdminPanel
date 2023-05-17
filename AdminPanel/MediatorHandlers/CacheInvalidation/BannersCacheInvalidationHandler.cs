@@ -4,7 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace AdminPanel.MediatorHandlers.CacheInvalidation;
 
-public class BannersCacheInvalidationHandler : INotificationHandler<BannersInvalidatedEvent>
+public sealed class BannersCacheInvalidationHandler : INotificationHandler<BannersInvalidatedEvent>
 {
     private readonly IDistributedCache _distributedCache;
 

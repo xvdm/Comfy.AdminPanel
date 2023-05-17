@@ -1,9 +1,8 @@
-﻿namespace AdminPanel.Models.ViewModels
+﻿namespace AdminPanel.Models.ViewModels;
+
+public sealed class BrandsViewModel
 {
-    public class BrandsViewModel
-    {
-        public IEnumerable<Brand> Brands { get; set; } = null!;
-        public int TotalPages { get; set; }
-        public int CurrentPage { get; set; }
-    }
+    public IEnumerable<Brand> Brands { get; set; } = null!;
+    public int TotalPages { get; set; }
+    public int CurrentPage { get; set; }
 }

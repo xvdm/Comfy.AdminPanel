@@ -1,7 +1,6 @@
-﻿namespace AdminPanel.Models.ViewModels
+﻿namespace AdminPanel.Models.ViewModels;
+
+public sealed class ProductsViewModel
 {
-    public class ProductsViewModel
-    {
-        public IEnumerable<Product> Products { get; set; } = null!;
-    }
+    public IEnumerable<Product> Products { get; set; } = null!;
 }

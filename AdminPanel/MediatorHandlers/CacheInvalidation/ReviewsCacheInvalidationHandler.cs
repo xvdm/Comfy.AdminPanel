@@ -4,7 +4,7 @@ using MediatR;
 
 namespace AdminPanel.MediatorHandlers.CacheInvalidation;
 
-public class ReviewsCacheInvalidationHandler : INotificationHandler<ReviewInvalidatedEvent>
+public sealed class ReviewsCacheInvalidationHandler : INotificationHandler<ReviewInvalidatedEvent>
 {
     private readonly IRemoveCacheService _removeCacheService;
 

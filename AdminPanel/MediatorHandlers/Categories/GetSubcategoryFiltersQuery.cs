@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Categories;
 
-public record GetSubcategoryFiltersQuery : IRequest<ICollection<SubcategoryFilter>>;
+public sealed record GetSubcategoryFiltersQuery : IRequest<ICollection<SubcategoryFilter>>;
 
-public class GetSubcategoryFiltersQueryHandler : IRequestHandler<GetSubcategoryFiltersQuery, ICollection<SubcategoryFilter>>
+public sealed class GetSubcategoryFiltersQueryHandler : IRequestHandler<GetSubcategoryFiltersQuery, ICollection<SubcategoryFilter>>
 {
     private readonly ApplicationDbContext _context;
 

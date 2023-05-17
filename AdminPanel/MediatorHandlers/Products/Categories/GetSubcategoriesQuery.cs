@@ -5,10 +5,10 @@ using AdminPanel.Models;
 
 namespace AdminPanel.MediatorHandlers.Products.Categories;
 
-public record GetSubcategoriesQuery(int MainCategoryId) : IRequest<IEnumerable<Subcategory>>;
+public sealed record GetSubcategoriesQuery(int MainCategoryId) : IRequest<IEnumerable<Subcategory>>;
 
 
-public class GetSubcategoriesQueryHandler : IRequestHandler<GetSubcategoriesQuery, IEnumerable<Subcategory>>
+public sealed class GetSubcategoriesQueryHandler : IRequestHandler<GetSubcategoriesQuery, IEnumerable<Subcategory>>
 {
     private readonly ApplicationDbContext _context;
 

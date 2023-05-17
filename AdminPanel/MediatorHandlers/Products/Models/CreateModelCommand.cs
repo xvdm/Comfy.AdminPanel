@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Models;
 
-public record CreateModelCommand(Model Model) : IRequest;
+public sealed record CreateModelCommand(Model Model) : IRequest;
 
 
-public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand>
+public sealed class CreateModelCommandHandler : IRequestHandler<CreateModelCommand>
 {
     private readonly ApplicationDbContext _context;
 

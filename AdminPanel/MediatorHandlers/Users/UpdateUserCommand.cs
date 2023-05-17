@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AdminPanel.MediatorHandlers.Users;
 
-public record UpdateUserCommand : IRequest<bool>
+public sealed record UpdateUserCommand : IRequest<bool>
 {
     public Guid Id { get; set; }
     public string Position { get; set; } = null!;
@@ -14,7 +14,7 @@ public record UpdateUserCommand : IRequest<bool>
 }
 
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
+public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
 {
     private readonly UserManager<ApplicationUser> _userManager;
 

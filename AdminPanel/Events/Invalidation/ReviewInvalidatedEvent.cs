@@ -2,4 +2,4 @@
 
 namespace AdminPanel.Events.Invalidation;
 
-public record ReviewInvalidatedEvent(int ProductId) : INotification;
+public sealed record ReviewInvalidatedEvent(int ProductId) : INotification;

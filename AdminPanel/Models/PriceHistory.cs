@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models;
 
-public class PriceHistory : IEntityTypeConfiguration<PriceHistory>
+public sealed class PriceHistory : IEntityTypeConfiguration<PriceHistory>
 {
     public int Id { get; set; }
     public decimal Price { get; set; }

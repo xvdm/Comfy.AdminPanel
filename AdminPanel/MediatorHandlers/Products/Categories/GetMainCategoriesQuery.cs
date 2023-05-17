@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Categories;
 
-public record GetMainCategoriesQuery : IRequest<IEnumerable<MainCategory>>;
+public sealed record GetMainCategoriesQuery : IRequest<IEnumerable<MainCategory>>;
 
 
-public class GetMainCategoriesQueryHandler : IRequestHandler<GetMainCategoriesQuery, IEnumerable<MainCategory>>
+public sealed class GetMainCategoriesQueryHandler : IRequestHandler<GetMainCategoriesQuery, IEnumerable<MainCategory>>
 {
     private readonly ApplicationDbContext _context;
 

@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Reviews;
 
-public record GetReviewAnswersTotalCountQuery(bool IsActive) : IRequest<int>;
+public sealed record GetReviewAnswersTotalCountQuery(bool IsActive) : IRequest<int>;
 
 
-public class GetReviewAnswersTotalCountQueryHandler : IRequestHandler<GetReviewAnswersTotalCountQuery, int>
+public sealed class GetReviewAnswersTotalCountQueryHandler : IRequestHandler<GetReviewAnswersTotalCountQuery, int>
 {
     private readonly ApplicationDbContext _context;
 

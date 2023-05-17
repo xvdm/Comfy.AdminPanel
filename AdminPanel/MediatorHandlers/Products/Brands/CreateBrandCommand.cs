@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Brands;
 
-public record CreateBrandCommand(Brand Brand) : IRequest;
+public sealed record CreateBrandCommand(Brand Brand) : IRequest;
 
 
-public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand>
+public sealed class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand>
 {
     private readonly ApplicationDbContext _context;
 

@@ -13,7 +13,7 @@ namespace AdminPanel.Controllers;
 
 [AutoValidateAntiforgeryToken]
 [Authorize(Policy = PoliciesNames.Administrator)]
-public class AdminPanelController : Controller
+public sealed class AdminPanelController : Controller
 {
     private readonly IMediator _mediator;
 

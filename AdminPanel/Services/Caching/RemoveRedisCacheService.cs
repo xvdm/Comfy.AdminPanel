@@ -3,7 +3,7 @@ using StackExchange.Redis;
 
 namespace AdminPanel.Services.Caching;
 
-public class RemoveRedisCacheService : IRemoveCacheService
+public sealed class RemoveRedisCacheService : IRemoveCacheService
 {
     private readonly IDistributedCache _distributedCache;
     private readonly IConfiguration _configuration;

@@ -1,9 +1,8 @@
-﻿namespace AdminPanel.Models.ViewModels
+﻿namespace AdminPanel.Models.ViewModels;
+
+public sealed class MainCategoriesBrandsModelsViewModel
 {
-    public class MainCategoriesBrandsModelsViewModel
-    {
-        public IEnumerable<MainCategory> MainCategories { get; set; } = null!;
-        public IEnumerable<Brand> Brands { get; set; } = null!;
-        public IEnumerable<Model> Models { get; set; } = null!;
-    }
+    public IEnumerable<MainCategory> MainCategories { get; set; } = null!;
+    public IEnumerable<Brand> Brands { get; set; } = null!;
+    public IEnumerable<Model> Models { get; set; } = null!;
 }

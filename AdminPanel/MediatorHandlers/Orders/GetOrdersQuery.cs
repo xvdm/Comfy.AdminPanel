@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Orders;
 
-public record GetOrdersQuery : IRequest<IEnumerable<Order>?>
+public sealed record GetOrdersQuery : IRequest<IEnumerable<Order>?>
 {
     public string OrderStatus { get; set; }
 
@@ -32,7 +32,7 @@ public record GetOrdersQuery : IRequest<IEnumerable<Order>?>
     }
 }
 
-public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IEnumerable<Order>?>
+public sealed class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IEnumerable<Order>?>
 { 
     private readonly ApplicationDbContext _context;
 

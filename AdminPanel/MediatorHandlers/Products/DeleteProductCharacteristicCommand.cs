@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record DeleteProductCharacteristicCommand(int ProductId, int CharacteristicId) : IRequest;
+public sealed record DeleteProductCharacteristicCommand(int ProductId, int CharacteristicId) : IRequest;
 
 
-public class DeleteProductCharacteristicCommandHandler : IRequestHandler<DeleteProductCharacteristicCommand>
+public sealed class DeleteProductCharacteristicCommandHandler : IRequestHandler<DeleteProductCharacteristicCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

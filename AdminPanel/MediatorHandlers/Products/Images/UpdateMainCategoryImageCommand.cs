@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Images;
 
-public record UpdateMainCategoryImageCommand(int CategoryId, IFormFile ImageFile) : IRequest;
+public sealed record UpdateMainCategoryImageCommand(int CategoryId, IFormFile ImageFile) : IRequest;
 
 
-public class UpdateMainCategoryImageCommandHandler : IRequestHandler<UpdateMainCategoryImageCommand>
+public sealed class UpdateMainCategoryImageCommandHandler : IRequestHandler<UpdateMainCategoryImageCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;

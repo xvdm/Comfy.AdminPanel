@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record UpdateProductCommand : IRequest<int>
+public sealed record UpdateProductCommand : IRequest<int>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
@@ -20,7 +20,7 @@ public record UpdateProductCommand : IRequest<int>
 }
 
 
-public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, int>
+public sealed class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, int>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

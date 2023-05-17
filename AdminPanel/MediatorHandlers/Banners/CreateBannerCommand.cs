@@ -6,10 +6,10 @@ using MediatR;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public record CreateBannerCommand(string Name, string PageUrl, IFormFile Image) : IRequest;
+public sealed record CreateBannerCommand(string Name, string PageUrl, IFormFile Image) : IRequest;
 
 
-public class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand>
+public sealed class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;

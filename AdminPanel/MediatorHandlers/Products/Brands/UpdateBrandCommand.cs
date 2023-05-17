@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Brands;
 
-public record UpdateBrandCommand(int Id, string Name) : IRequest;
+public sealed record UpdateBrandCommand(int Id, string Name) : IRequest;
 
 
-public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand>
+public sealed class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand>
 {
     private readonly ApplicationDbContext _context;
 

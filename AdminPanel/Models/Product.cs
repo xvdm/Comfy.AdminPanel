@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models;
 
-public class Product : Auditable, IEntityTypeConfiguration<Product>
+public sealed class Product : Auditable, IEntityTypeConfiguration<Product>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

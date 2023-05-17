@@ -1,6 +1,6 @@
 ﻿namespace AdminPanel.Models.ViewModels;
 
-public class ReviewAnswersViewModel
+public sealed class ReviewAnswersViewModel
 {
     public IEnumerable<ReviewAnswer> ReviewAnswers { get; set; } = null!;
     public int TotalPages { get; set; }

@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Reviews;
 
-public record UpdateReviewActivityStatusCommand(int ReviewId, bool IsActive) : IRequest;
+public sealed record UpdateReviewActivityStatusCommand(int ReviewId, bool IsActive) : IRequest;
 
 
-public class UpdateReviewActivityStatusCommandHandler : IRequestHandler<UpdateReviewActivityStatusCommand>
+public sealed class UpdateReviewActivityStatusCommandHandler : IRequestHandler<UpdateReviewActivityStatusCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

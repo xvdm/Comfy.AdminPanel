@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Categories;
 
-public record GetAllSubcategoriesQuery : IRequest<IEnumerable<Subcategory>>;
+public sealed record GetAllSubcategoriesQuery : IRequest<IEnumerable<Subcategory>>;
 
 
-public class GetAllSubcategoriesQueryHandler : IRequestHandler<GetAllSubcategoriesQuery, IEnumerable<Subcategory>>
+public sealed class GetAllSubcategoriesQueryHandler : IRequestHandler<GetAllSubcategoriesQuery, IEnumerable<Subcategory>>
 {
     private readonly ApplicationDbContext _context;
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AdminPanel.MediatorHandlers.Users;
 
-public record CreateUserCommand : IRequest<Guid>
+public sealed record CreateUserCommand : IRequest<Guid>
 {
     public string Role { get; set; } = null!;
     public string UserName { get; set; } = null!;
@@ -17,7 +17,7 @@ public record CreateUserCommand : IRequest<Guid>
 }
 
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
+public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
 {
     private readonly UserManager<ApplicationUser> _userManager;
 

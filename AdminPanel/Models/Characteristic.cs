@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models;
 
-public class Characteristic : IEntityTypeConfiguration<Characteristic>
+public sealed class Characteristic : IEntityTypeConfiguration<Characteristic>
 {
     public int Id { get; set; }
 

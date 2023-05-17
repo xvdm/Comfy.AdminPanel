@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AdminPanel.MediatorHandlers.Authorization;
 
-public record SignOutQuery : IRequest;
+public sealed record SignOutQuery : IRequest;
 
 
-public class SignOutQueryHandler : IRequestHandler<SignOutQuery>
+public sealed class SignOutQueryHandler : IRequestHandler<SignOutQuery>
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
 

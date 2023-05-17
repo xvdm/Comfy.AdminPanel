@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AdminPanel.MediatorHandlers.Users;
 
-public record GetUserByUsernameQuery(string Username) : IRequest<ApplicationUser?>;
+public sealed record GetUserByUsernameQuery(string Username) : IRequest<ApplicationUser?>;
 
 
-public class GetUserByUsernameQueryHandler : IRequestHandler<GetUserByUsernameQuery, ApplicationUser?>
+public sealed class GetUserByUsernameQueryHandler : IRequestHandler<GetUserByUsernameQuery, ApplicationUser?>
 {
     private readonly UserManager<ApplicationUser?> _userManager;
 

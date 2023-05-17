@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Models.DTO;
 
-public class ProductDTO
+public sealed class ProductDTO
 {
     [Required]
     public string Name { get; set; } = null!;

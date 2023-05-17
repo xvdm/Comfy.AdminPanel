@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record GetProductsQuery : IRequest<IEnumerable<Product>>
+public sealed record GetProductsQuery : IRequest<IEnumerable<Product>>
 {
     public string? SearchString { get; set; }
 
@@ -33,7 +33,7 @@ public record GetProductsQuery : IRequest<IEnumerable<Product>>
 }
 
 
-public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumerable<Product>>
+public sealed class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumerable<Product>>
 {
     private readonly ApplicationDbContext _context;
 

@@ -11,7 +11,7 @@ namespace AdminPanel.Controllers;
 
 [AutoValidateAntiforgeryToken]
 [Authorize(Policy = PoliciesNames.Administrator)]
-public class CommentsController : Controller
+public sealed class CommentsController : Controller
 {
     private readonly IMediator _mediator;
 

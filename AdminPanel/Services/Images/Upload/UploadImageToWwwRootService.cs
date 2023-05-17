@@ -1,6 +1,6 @@
 ﻿namespace AdminPanel.Services.Images.Upload;
 
-public class UploadImageToWwwRootService : IUploadImageToFileSystemService
+public sealed class UploadImageToWwwRootService : IUploadImageToFileSystemService
 {
     private readonly IWebHostEnvironment _env;
 

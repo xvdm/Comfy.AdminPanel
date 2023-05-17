@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public record DeleteShowcaseGroupCommand(int GroupId) : IRequest;
+public sealed record DeleteShowcaseGroupCommand(int GroupId) : IRequest;
 
 
-public class DeleteShowcaseGroupCommandHandler : IRequestHandler<DeleteShowcaseGroupCommand>
+public sealed class DeleteShowcaseGroupCommandHandler : IRequestHandler<DeleteShowcaseGroupCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

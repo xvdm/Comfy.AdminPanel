@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Models.DTO;
 
-public class CreateUserDTO
+public sealed class CreateUserDTO
 {
     [Required]
     public string Role { get; set; } = null!;

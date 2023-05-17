@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AdminPanel.Models;
 
-public class Brand : IEntityTypeConfiguration<Brand>
+public sealed class Brand : IEntityTypeConfiguration<Brand>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

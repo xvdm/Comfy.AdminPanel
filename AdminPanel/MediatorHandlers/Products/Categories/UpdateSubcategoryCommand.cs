@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Categories;
 
-public record UpdateSubcategoryCommand(int Id, string Name) : IRequest;
+public sealed record UpdateSubcategoryCommand(int Id, string Name) : IRequest;
 
 
-public class UpdateSubcategoryCommandHandler : IRequestHandler<UpdateSubcategoryCommand>
+public sealed class UpdateSubcategoryCommandHandler : IRequestHandler<UpdateSubcategoryCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

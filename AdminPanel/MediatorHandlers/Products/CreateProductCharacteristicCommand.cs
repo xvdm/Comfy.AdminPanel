@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record CreateProductCharacteristicCommand(int ProductId, string Name, string Value) : IRequest<Characteristic>;
+public sealed record CreateProductCharacteristicCommand(int ProductId, string Name, string Value) : IRequest<Characteristic>;
 
 
-public class CreateProductCharacteristicCommandHandler : IRequestHandler<CreateProductCharacteristicCommand, Characteristic>
+public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<CreateProductCharacteristicCommand, Characteristic>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

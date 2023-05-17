@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public record GetProductByIdQuery(int ProductId) : IRequest<Product?>;
+public sealed record GetProductByIdQuery(int ProductId) : IRequest<Product?>;
 
 
-public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Product?>
+public sealed class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Product?>
 {
     private readonly ApplicationDbContext _context;
 

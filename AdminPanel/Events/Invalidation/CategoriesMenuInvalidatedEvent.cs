@@ -2,4 +2,4 @@
 
 namespace AdminPanel.Events.Invalidation;
 
-public record CategoriesMenuInvalidatedEvent : INotification;
+public sealed record CategoriesMenuInvalidatedEvent : INotification;

@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Models;
 
-public record DeleteModelCommand(int Id) : IRequest;
+public sealed record DeleteModelCommand(int Id) : IRequest;
 
 
-public class DeleteModelCommandHandler : IRequestHandler<DeleteModelCommand>
+public sealed class DeleteModelCommandHandler : IRequestHandler<DeleteModelCommand>
 {
     private readonly ApplicationDbContext _context;
 

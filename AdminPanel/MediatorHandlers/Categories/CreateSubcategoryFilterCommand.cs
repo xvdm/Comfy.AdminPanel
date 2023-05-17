@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Categories;
 
-public record CreateSubcategoryFilterCommand(int SubcategoryId, string SubcategoryFilterName, string SubcategoryFilter) : IRequest;
+public sealed record CreateSubcategoryFilterCommand(int SubcategoryId, string SubcategoryFilterName, string SubcategoryFilter) : IRequest;
 
 
-public class CreateSubcategoryFilterCommandHandler : IRequestHandler<CreateSubcategoryFilterCommand>
+public sealed class CreateSubcategoryFilterCommandHandler : IRequestHandler<CreateSubcategoryFilterCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

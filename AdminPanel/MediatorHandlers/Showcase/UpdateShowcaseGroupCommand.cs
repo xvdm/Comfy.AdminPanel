@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public record UpdateShowcaseGroupCommand(int GroupId, string Name, string QueryString) : IRequest;
+public sealed record UpdateShowcaseGroupCommand(int GroupId, string Name, string QueryString) : IRequest;
 
 
-public class UpdateShowcaseGroupCommandHandler : IRequestHandler<UpdateShowcaseGroupCommand>
+public sealed class UpdateShowcaseGroupCommandHandler : IRequestHandler<UpdateShowcaseGroupCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

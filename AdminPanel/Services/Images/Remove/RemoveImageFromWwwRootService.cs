@@ -1,6 +1,6 @@
 ﻿namespace AdminPanel.Services.Images.Remove;
 
-public class RemoveImageFromWwwRootService : IRemoveImageFromFileSystemService
+public sealed class RemoveImageFromWwwRootService : IRemoveImageFromFileSystemService
 {
     private readonly IWebHostEnvironment _env;
 

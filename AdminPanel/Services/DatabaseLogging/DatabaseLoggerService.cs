@@ -7,7 +7,7 @@ using AdminPanel.Data;
 
 namespace AdminPanel.Services.DatabaseLogging;
 
-public class DatabaseLoggerService
+public sealed class DatabaseLoggerService
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;

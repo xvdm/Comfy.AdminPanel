@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Models.DTO;
 
-public class EditProductDTO
+public sealed class EditProductDTO
 {
     [Required]
     public int Id { get; set; }

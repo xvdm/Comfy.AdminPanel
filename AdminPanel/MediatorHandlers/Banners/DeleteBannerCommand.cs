@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Banners;
 
-public record DeleteBannerCommand(int Id) : IRequest;
+public sealed record DeleteBannerCommand(int Id) : IRequest;
 
 
-public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand>
+public sealed class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;

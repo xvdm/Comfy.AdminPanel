@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Models;
 
-public class Address
+public sealed class Address
 {
     public int Id { get; set; }
     public string Country { get; set; } = null!;

@@ -9,7 +9,7 @@ namespace AdminPanel.Controllers;
 
 [AutoValidateAntiforgeryToken]
 [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
-public class LoggingController : Controller
+public sealed class LoggingController : Controller
 {
     private readonly IMediator _mediator;
 

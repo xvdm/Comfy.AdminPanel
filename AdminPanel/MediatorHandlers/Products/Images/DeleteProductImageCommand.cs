@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Images;
 
-public record DeleteProductImageCommand(int ImageId) : IRequest;
+public sealed record DeleteProductImageCommand(int ImageId) : IRequest;
 
 
-public class DeleteProductImageCommandHandler : IRequestHandler<DeleteProductImageCommand>
+public sealed class DeleteProductImageCommandHandler : IRequestHandler<DeleteProductImageCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;

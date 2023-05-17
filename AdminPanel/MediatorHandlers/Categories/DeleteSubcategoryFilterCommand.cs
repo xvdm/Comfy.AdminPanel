@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Categories;
 
-public record DeleteSubcategoryFilterCommand(int SubcategoryFilterId) : IRequest;
+public sealed record DeleteSubcategoryFilterCommand(int SubcategoryFilterId) : IRequest;
 
 
-public class DeleteSubcategoryFilterCommandHandler : IRequestHandler<DeleteSubcategoryFilterCommand>
+public sealed class DeleteSubcategoryFilterCommandHandler : IRequestHandler<DeleteSubcategoryFilterCommand>
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;

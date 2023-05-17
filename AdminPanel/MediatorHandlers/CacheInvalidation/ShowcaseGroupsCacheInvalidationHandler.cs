@@ -4,7 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace AdminPanel.MediatorHandlers.CacheInvalidation;
 
-public class ShowcaseGroupsCacheInvalidationHandler : INotificationHandler<ShowcaseGroupsInvalidatedEvent>
+public sealed class ShowcaseGroupsCacheInvalidationHandler : INotificationHandler<ShowcaseGroupsInvalidatedEvent>
 {
     private readonly IDistributedCache _distributedCache;
 

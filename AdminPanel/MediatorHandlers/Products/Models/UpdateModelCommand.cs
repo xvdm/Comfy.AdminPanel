@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products.Models;
 
-public record UpdateModelCommand(int Id, string Name) : IRequest;
+public sealed record UpdateModelCommand(int Id, string Name) : IRequest;
 
 
-public class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand>
+public sealed class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand>
 {
     private readonly ApplicationDbContext _context;
 

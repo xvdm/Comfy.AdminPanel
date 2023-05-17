@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Questions;
 
-public record GetQuestionsQuery : IRequest<IEnumerable<Question>>
+public sealed record GetQuestionsQuery : IRequest<IEnumerable<Question>>
 {
     public bool IsActive { get; set; }
 
@@ -33,7 +33,7 @@ public record GetQuestionsQuery : IRequest<IEnumerable<Question>>
 }
 
 
-public class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, IEnumerable<Question>>
+public sealed class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, IEnumerable<Question>>
 {
     private readonly ApplicationDbContext _context;
 
