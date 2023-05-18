@@ -2,5 +2,5 @@
 
 public interface IUploadImageToFileSystemService
 {
-    public Task<string> UploadImage(IFormFile imageFile);
+    public Task<string> UploadImageAsync(IFormFile imageFile);
 }

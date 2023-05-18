@@ -18,7 +18,7 @@ public sealed class CreateUserLogCommandHandler : IRequestHandler<CreateUserLogC
 
     public async Task<bool> Handle(CreateUserLogCommand request, CancellationToken cancellationToken)
     {
-        await _databaseLoggerService.LogUserAction(request.User, request.SubjectUserId, request.Action);
+        await _databaseLoggerService.LogUserActionAsync(request.User, request.SubjectUserId, request.Action);
         return true;
     }
 }

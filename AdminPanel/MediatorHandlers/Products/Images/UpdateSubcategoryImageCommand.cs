@@ -33,7 +33,7 @@ public sealed class UpdateSubcategoryImageCommandHandler : IRequestHandler<Updat
             _removeImageFromFileSystemService.RemoveImage(category.Image.Url);
         }
 
-        var path = await _uploadImageToFileSystemService.UploadImage(request.ImageFile);
+        var path = await _uploadImageToFileSystemService.UploadImageAsync(request.ImageFile);
         var image = new SubcategoryImage
         {
             Url = path

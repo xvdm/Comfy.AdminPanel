@@ -28,7 +28,7 @@ public sealed class UpdateMainCategoryImageCommandHandler : IRequestHandler<Upda
         var category = await _context.MainCategories.FirstOrDefaultAsync(x => x.Id == request.CategoryId, cancellationToken);
         if (category is null) throw new HttpRequestException($"No category with id {request.CategoryId}");
 
-        var path = await _uploadImageToFileSystemService.UploadImage(request.ImageFile);
+        var path = await _uploadImageToFileSystemService.UploadImageAsync(request.ImageFile);
         var image = new MainCategoryImage
         {
             Url = path

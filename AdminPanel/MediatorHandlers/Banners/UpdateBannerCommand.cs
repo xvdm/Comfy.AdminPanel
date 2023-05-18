@@ -34,7 +34,7 @@ public sealed class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCom
         if (request.Image is not null)
         {
             _removeImageFromFileSystemService.RemoveImage(banner.ImageUrl);
-            var path = await _uploadImageToFileSystemService.UploadImage(request.Image);
+            var path = await _uploadImageToFileSystemService.UploadImageAsync(request.Image);
             banner.ImageUrl = path;
         }
 

@@ -17,7 +17,7 @@ public sealed class DatabaseLoggerService
         _userManager = userManager;
     }
 
-    public async Task LogUserAction(ClaimsPrincipal user, Guid subjectUserId, string action)
+    public async Task LogUserActionAsync(ClaimsPrincipal user, Guid subjectUserId, string action)
     {
         var loggingAction = await _context.LoggingActions.FirstOrDefaultAsync(x => x.Action == action);
         if (loggingAction is null) return;

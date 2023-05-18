@@ -2,5 +2,5 @@
 
 public interface IRemoveCacheService
 {
-    public Task Remove(string pattern);
+    public Task RemoveAsync(string pattern);
 }

@@ -24,7 +24,7 @@ public sealed class CreateBannerCommandHandler : IRequestHandler<CreateBannerCom
 
     public async Task Handle(CreateBannerCommand request, CancellationToken cancellationToken)
     {
-        var path = await _uploadImageToFileSystemService.UploadImage(request.Image);
+        var path = await _uploadImageToFileSystemService.UploadImageAsync(request.Image);
 
         var banner = new Banner()
         {

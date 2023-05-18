@@ -14,7 +14,7 @@ public sealed class RemoveRedisCacheService : IRemoveCacheService
         _configuration = configuration;
     }
 
-    public async Task Remove(string pattern)
+    public async Task RemoveAsync(string pattern)
     {
         List<string> listKeys;
         var connectionString = _configuration.GetConnectionString("Redis");

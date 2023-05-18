@@ -15,6 +15,6 @@ public sealed class QuestionsCacheInvalidationHandler : INotificationHandler<Que
 
     public async Task Handle(QuestionInvalidatedEvent notification, CancellationToken cancellationToken)
     {
-        await _removeCacheService.Remove($"product-questions:{notification.ProductId}");
+        await _removeCacheService.RemoveAsync($"product-questions:{notification.ProductId}");
     }
 }

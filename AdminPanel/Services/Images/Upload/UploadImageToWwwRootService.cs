@@ -9,7 +9,7 @@ public sealed class UploadImageToWwwRootService : IUploadImageToFileSystemServic
         _env = env;
     }
 
-    public async Task<string> UploadImage(IFormFile imageFile)
+    public async Task<string> UploadImageAsync(IFormFile imageFile)
     {
         var fileType = imageFile.FileName.Substring(imageFile.FileName.LastIndexOf('.') + 1);
         var guid = Guid.NewGuid();

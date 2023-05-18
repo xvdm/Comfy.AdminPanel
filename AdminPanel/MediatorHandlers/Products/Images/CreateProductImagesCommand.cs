@@ -38,7 +38,7 @@ public sealed class CreateProductImagesCommandHandler : IRequestHandler<CreatePr
             if (file.Length <= 0) continue;
             if (product.Images.Count >= 6) return false;
 
-            var path = await _uploadImageToFileSystemService.UploadImage(file);
+            var path = await _uploadImageToFileSystemService.UploadImageAsync(file);
             var image = new Image
             {
                 ProductId = request.ProductId,

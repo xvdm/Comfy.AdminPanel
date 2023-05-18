@@ -15,6 +15,6 @@ public sealed class ReviewsCacheInvalidationHandler : INotificationHandler<Revie
 
     public async Task Handle(ReviewInvalidatedEvent notification, CancellationToken cancellationToken)
     {
-        await _removeCacheService.Remove($"product-reviews:{notification.ProductId}");
+        await _removeCacheService.RemoveAsync($"product-reviews:{notification.ProductId}");
     }
 }
