@@ -38,7 +38,7 @@
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto unselectable">
-                @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Administrator)).Succeeded)
+                @if ((await AuthorizationService.AuthorizeAsync(User, RoleNames.Administrator)).Succeeded)
                 {
                     <li id="Main">
                             <div class="MenuItemDiv"><a class="navbar-brand menu-link" asp-area="" asp-controller="Orders" asp-action="ActiveOrders" target="_self">Замовлення</a> </div>
@@ -53,7 +53,7 @@
                         <div class="MenuItemDiv">  <a class="navbar-brand menu-link" asp-area="" asp-controller="Banners" asp-action="Index" target="_self">Банери</a></div>
                     </li>
                 }
-                @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.SeniorAdministrator)).Succeeded)
+                @if ((await AuthorizationService.AuthorizeAsync(User, RoleNames.SeniorAdministrator)).Succeeded)
                 {
                     <li id="Accounts">
                         <div class="MenuItemDiv"><a class="navbar-brand menu-link" asp-area="" asp-controller="Accounts" asp-action="ActiveUsers" target="_self">Аккаунти</a></div>

@@ -12,7 +12,7 @@ namespace AdminPanel.Controllers;
 
 
 [AutoValidateAntiforgeryToken]
-[Authorize(Policy = PoliciesNames.Administrator)]
+[Authorize(Policy = RoleNames.Administrator)]
 public sealed class AdminPanelController : Controller
 {
     private readonly IMediator _mediator;
@@ -22,13 +22,13 @@ public sealed class AdminPanelController : Controller
         _mediator = mediator;
     }
 
-    [Authorize(Policy = PoliciesNames.Owner)]
+    [Authorize(Policy = RoleNames.Owner)]
     public IActionResult CreateMainCategory()
     {
         return View();
     }
 
-    [Authorize(Policy = PoliciesNames.Owner)]
+    [Authorize(Policy = RoleNames.Owner)]
     public IActionResult CreateSubcategory()
     {
         return View();
@@ -124,7 +124,7 @@ public sealed class AdminPanelController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.Owner)]
+    [Authorize(Policy = RoleNames.Owner)]
     public async Task<IActionResult> CreateMainCategory(string name)
     {
         var category = new MainCategory()
@@ -136,7 +136,7 @@ public sealed class AdminPanelController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.Owner)]
+    [Authorize(Policy = RoleNames.Owner)]
     public async Task<IActionResult> CreateSubcategory(string mainCategoryId, string name)
     {
         if (int.TryParse(mainCategoryId, out var mainCategoryIdInt) == false)

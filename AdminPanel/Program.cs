@@ -2,7 +2,6 @@ using AdminPanel.Data;
 using AdminPanel.Helpers;
 using AdminPanel.Mapping;
 using AdminPanel.Models.Identity;
-using AdminPanel.Repositories;
 using AdminPanel.Services.Caching;
 using AdminPanel.Services.DatabaseLogging;
 using AdminPanel.Services.Images.Remove;
@@ -12,8 +11,8 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using System.Security.Claims;
 using System.Text.Json.Serialization;
+using AdminPanel.Models.SeedInitializers;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -37,23 +36,23 @@ builder.Services.ConfigureApplicationCookie(config =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(PoliciesNames.Owner, policyBuilder =>
+    options.AddPolicy(RoleNames.Owner, policyBuilder =>
     {
         policyBuilder.RequireAssertion(x => 
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner));
+            x.User.IsInRole(RoleNames.Owner));
     });
-    options.AddPolicy(PoliciesNames.SeniorAdministrator, policyBuilder =>
+    options.AddPolicy(RoleNames.SeniorAdministrator, policyBuilder =>
     {
         policyBuilder.RequireAssertion(x =>
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner) ||
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorAdministrator));
+            x.User.IsInRole(RoleNames.Owner) ||
+            x.User.IsInRole(RoleNames.SeniorAdministrator));
     });
-    options.AddPolicy(PoliciesNames.Administrator, policyBuilder =>
+    options.AddPolicy(RoleNames.Administrator, policyBuilder =>
     {
         policyBuilder.RequireAssertion(x =>
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Owner) ||
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.SeniorAdministrator) ||
-            x.User.HasClaim(ClaimTypes.Role, PoliciesNames.Administrator));
+            x.User.IsInRole(RoleNames.Owner) ||
+            x.User.IsInRole(RoleNames.SeniorAdministrator) ||
+            x.User.IsInRole(RoleNames.Administrator));
     });
 });
 
@@ -66,11 +65,9 @@ builder.Services
 
 builder.Services.AddAntiforgery(config =>
 {
-    config.FormFieldName = "xcsrf-token";
-    config.Cookie.Name = "xcsrf";
+    config.FormFieldName = "csrf-token";
+    config.Cookie.Name = "csrf";
 });
-
-builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 builder.Services.AddSingleton(GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();

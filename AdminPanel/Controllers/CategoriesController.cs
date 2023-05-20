@@ -10,7 +10,7 @@ namespace AdminPanel.Controllers;
 
 
 [AutoValidateAntiforgeryToken]
-[Authorize(Policy = PoliciesNames.Administrator)]
+[Authorize(Policy = RoleNames.Administrator)]
 public sealed class CategoriesController : Controller
 {
     private readonly IMediator _mediator;
@@ -41,7 +41,7 @@ public sealed class CategoriesController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> AddSubcategoryFilter(int subcategoryId, string subcategoryFilterName, string subcategoryFilter)
     {
         await _mediator.Send(new CreateSubcategoryFilterCommand(subcategoryId, subcategoryFilterName, subcategoryFilter));
@@ -50,7 +50,7 @@ public sealed class CategoriesController : Controller
     
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> DeleteSubcategoryFilter(int id)
     {
         await _mediator.Send(new DeleteSubcategoryFilterCommand(id));
@@ -70,7 +70,7 @@ public sealed class CategoriesController : Controller
         return Content(result);
     }
 
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> EditMainCategoryName(string id, string name)
     {
         if (int.TryParse(id, out var categoryId) == false)
@@ -81,7 +81,7 @@ public sealed class CategoriesController : Controller
         return Ok();
     }
 
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> EditSubcategoryName(string id, string name)
     {
         if (int.TryParse(id, out var categoryId) == false)
@@ -92,7 +92,7 @@ public sealed class CategoriesController : Controller
         return Ok();
     }
 
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> DeleteMainCategory(string id)
     {
         if (int.TryParse(id, out var categoryId) == false)
@@ -104,7 +104,7 @@ public sealed class CategoriesController : Controller
         return BadRequest("Main category still has subcategories");
     }
 
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> DeleteSubcategory(string id)
     {
         if (int.TryParse(id, out var categoryId) == false)

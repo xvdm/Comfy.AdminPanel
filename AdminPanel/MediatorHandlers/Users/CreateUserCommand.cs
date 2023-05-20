@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using AdminPanel.Models.Identity;
+﻿using AdminPanel.Models.Identity;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -28,11 +27,13 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
 
     public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        if(request.Password != request.ConfirmPassword) return Guid.Empty;
+
         var user = request.Adapt<ApplicationUser>();
         var result = await _userManager.CreateAsync(user, request.Password);
         if (result.Succeeded == false) return Guid.Empty;
 
-        await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, request.Role));
+        await _userManager.AddToRoleAsync(user, request.Role);
         return user.Id;
     }
 }

@@ -1,12 +1,12 @@
 ﻿using AdminPanel.Helpers;
+using AdminPanel.MediatorHandlers.Products;
+using AdminPanel.MediatorHandlers.Products.Brands;
 using AdminPanel.MediatorHandlers.Products.Categories;
+using AdminPanel.MediatorHandlers.Products.Models;
+using AdminPanel.MediatorHandlers.Users;
 using AdminPanel.Models.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using AdminPanel.MediatorHandlers.Products;
-using AdminPanel.MediatorHandlers.Products.Brands;
-using AdminPanel.MediatorHandlers.Products.Models;
 
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
@@ -20,28 +20,47 @@ public sealed class DatabaseSeedInitializer
     public async Task Seed(IServiceProvider scopeServiceProvider)
     {
         var userManager = scopeServiceProvider.GetService<UserManager<ApplicationUser>>();
+        var roleManager = scopeServiceProvider.GetService<RoleManager<ApplicationRole>>();
         var mediator = scopeServiceProvider.GetService<IMediator>();
 
-        if (userManager is null) return;
+        if (userManager is null || roleManager is null || mediator is null) return;
 
-        #region Users seed
+        #region roles seed
 
-        var user = new ApplicationUser { UserName = "owner" };
-        var userResult = await userManager.CreateAsync(user, "owner");
-        if (userResult is not null && userResult.Succeeded) await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, PoliciesNames.Owner));
-
-        user = new ApplicationUser { UserName = "senior" };
-        userResult = await userManager.CreateAsync(user, "senior");
-        if (userResult is not null && userResult.Succeeded) await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, PoliciesNames.SeniorAdministrator));
-
-        user = new ApplicationUser { UserName = "admin" };
-        userResult = await userManager.CreateAsync(user, "admin");
-        if (userResult is not null && userResult.Succeeded) await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, PoliciesNames.Administrator));
+        await roleManager.CreateAsync(new ApplicationRole(RoleNames.Owner));
+        await roleManager.CreateAsync(new ApplicationRole(RoleNames.SeniorAdministrator));
+        await roleManager.CreateAsync(new ApplicationRole(RoleNames.Administrator));
+        await roleManager.CreateAsync(new ApplicationRole(RoleNames.User));
 
         #endregion
 
+        #region Users seed
 
-        if (mediator is null) return;
+        await mediator.Send(new CreateUserCommand
+        {
+            UserName = "owner",
+            Password = "owner",
+            ConfirmPassword = "owner",
+            Role = RoleNames.Owner
+        });
+
+        await mediator.Send(new CreateUserCommand
+        {
+            UserName = "senior",
+            Password = "senior",
+            ConfirmPassword = "senior",
+            Role = RoleNames.SeniorAdministrator
+        });
+
+        await mediator.Send(new CreateUserCommand
+        {
+            UserName = "admin",
+            Password = "admin",
+            ConfirmPassword = "admin",
+            Role = RoleNames.Administrator
+        });
+
+        #endregion
 
         #region Brands seed
 

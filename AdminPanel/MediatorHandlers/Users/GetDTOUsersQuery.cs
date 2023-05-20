@@ -1,9 +1,10 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Models.DTO;
-using AdminPanel.Repositories;
+using AdminPanel.Models.Identity;
 using Mapster;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Users;
@@ -13,39 +14,45 @@ public sealed record GetDTOUsersQuery(string? SearchString, bool GetLockoutUsers
 
 public sealed class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQuery, IEnumerable<UserDTO>>
 {
-    private readonly IUsersRepository _usersRepository;
     private readonly IMapper _mapper;
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public GetActiveDTOUsersQueryHandler(IUsersRepository usersRepository, IMapper mapper, ApplicationDbContext context)
+    public GetActiveDTOUsersQueryHandler(IMapper mapper, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
-        _usersRepository = usersRepository;
         _mapper = mapper;
         _context = context;
+        _userManager = userManager;
     }
 
     public async Task<IEnumerable<UserDTO>> Handle(GetDTOUsersQuery request, CancellationToken cancellationToken)
     {
-        var users = _usersRepository.GetUsers(request.SearchString);
+        var users = _context.Users
+            .AsNoTracking()
+            .AsQueryable()
+            .Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null);
+        
+        if (request.SearchString is not null)
+        {
+            users = users.Where(x =>
+                x.UserName.Contains(request.SearchString) ||
+                x.Email.Contains(request.SearchString) ||
+                x.PhoneNumber.Contains(request.SearchString)
+            );
+        }
+
         var usersDto = await _mapper
-            .From(users.Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null))
+            .From(users)
             .ProjectToType<UserDTO>()
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-        var ids = usersDto.Select(x => x.Id);
+        var ids = usersDto.Select(x => x.Id).ToList();
 
-        var claims = await _context.UserClaims
-            .Where(x => ids.Contains(x.UserId))
-            .Select(x => new { x.UserId, x.ClaimValue} )
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-
-        foreach (var user in usersDto)
+        for (var i = 0; i < ids.Count; i++)
         {
-            var position = claims.FirstOrDefault(x => x.UserId == user.Id);
-            if (position is null) continue;
-            user.Position = position.ClaimValue;
+            var roles = await _userManager.GetRolesAsync(usersDto[i].Adapt<ApplicationUser>());
+            usersDto[i].Position = roles.FirstOrDefault() ?? "";
         }
 
         return usersDto;

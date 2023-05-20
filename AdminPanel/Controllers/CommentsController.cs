@@ -10,7 +10,7 @@ namespace AdminPanel.Controllers;
 
 
 [AutoValidateAntiforgeryToken]
-[Authorize(Policy = PoliciesNames.Administrator)]
+[Authorize(Policy = RoleNames.Administrator)]
 public sealed class CommentsController : Controller
 {
     private readonly IMediator _mediator;

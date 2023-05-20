@@ -15,14 +15,14 @@
     <form method="post" asp-controller="Accounts" asp-action="CreateUser">
         <div asp-validation-summary="All"></div>
         <select name="Role">
-            @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.Owner)).Succeeded)
+            @if ((await AuthorizationService.AuthorizeAsync(User, RoleNames.Owner)).Succeeded)
             {
-                <option value="@PoliciesNames.Owner">@PoliciesNames.Owner</option>
-                <option value="@PoliciesNames.SeniorAdministrator">@PoliciesNames.SeniorAdministrator</option>
+                <option value="@RoleNames.Owner">@RoleNames.Owner</option>
+                <option value="@RoleNames.SeniorAdministrator">@RoleNames.SeniorAdministrator</option>
             }
-            @if ((await AuthorizationService.AuthorizeAsync(User, PoliciesNames.SeniorAdministrator)).Succeeded)
+            @if ((await AuthorizationService.AuthorizeAsync(User, RoleNames.SeniorAdministrator)).Succeeded)
             {
-                <option selected value="@PoliciesNames.Administrator">@PoliciesNames.Administrator</option>
+                <option selected value="@RoleNames.Administrator">@RoleNames.Administrator</option>
             }
         </select>
         <input type="text" name="UserName" placeholder="Username" />

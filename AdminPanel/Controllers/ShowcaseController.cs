@@ -9,7 +9,7 @@ namespace AdminPanel.Controllers;
 
 
 [AutoValidateAntiforgeryToken]
-[Authorize(Policy = PoliciesNames.Administrator)]
+[Authorize(Policy = RoleNames.Administrator)]
 public sealed class ShowcaseController : Controller
 {
     private readonly IMediator _mediator;
@@ -25,7 +25,7 @@ public sealed class ShowcaseController : Controller
         return View(groups);
     }
 
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public IActionResult EditGroup(int groupId, string name, string queryString)
     {
         var group = new ShowcaseGroup()
@@ -38,7 +38,7 @@ public sealed class ShowcaseController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> AddProduct(int groupId, int productCode)
     {
         await _mediator.Send(new AddProductToShowcaseCommand(groupId, productCode));
@@ -46,7 +46,7 @@ public sealed class ShowcaseController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> RemoveProduct(int groupId, int productId)
     {
         await _mediator.Send(new DeleteProductFromShowcaseCommand(groupId, productId));
@@ -54,7 +54,7 @@ public sealed class ShowcaseController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> AddGroup(string name, string queryString)
     {
         await _mediator.Send(new CreateShowcaseGroupCommand(name, queryString));
@@ -62,7 +62,7 @@ public sealed class ShowcaseController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> RemoveGroup(int groupId)
     {
         await _mediator.Send(new DeleteShowcaseGroupCommand(groupId));
@@ -70,7 +70,7 @@ public sealed class ShowcaseController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = PoliciesNames.SeniorAdministrator)]
+    [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public async Task<IActionResult> UpdateGroup(int groupId, string name, string queryString)
     {
         await _mediator.Send(new UpdateShowcaseGroupCommand(groupId, name, queryString));

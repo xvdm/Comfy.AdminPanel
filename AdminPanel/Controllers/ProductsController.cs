@@ -14,7 +14,7 @@ namespace AdminPanel.Controllers;
 
 
 [AutoValidateAntiforgeryToken]
-[Authorize(Policy = PoliciesNames.Administrator)]
+[Authorize(Policy = RoleNames.Administrator)]
 public sealed class ProductsController : Controller
 {
     private readonly IMediator _mediator;
