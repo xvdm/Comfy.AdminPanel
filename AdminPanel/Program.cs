@@ -20,7 +20,8 @@ var connectionString = builder.Configuration.GetConnectionString("AdminPanelCont
 
 
 
-builder.Services.AddDbContext<ApplicationDbContext>(config => config.UseNpgsql(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>(config => 
+    config.UseNpgsql(connectionString, opt => opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(UseTestingIdentityConfig)
     .AddEntityFrameworkStores<ApplicationDbContext>();
