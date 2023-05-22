@@ -2,10 +2,10 @@
 $(document).ready(function () {
 
     $('p[name="maincategories-name"]').on('click',function () {
-        let name = $(this).text()
+        let name = $(this).text().split("| ")
 
 
-        $('#categories-name').val(name)
+        $('#categories-name').val(name[1])
 
         $('#categories-name').attr("value", $(this).attr("value"))
         $('#maincategories-selec option[value="-1"]').prop('selected', true);
@@ -16,10 +16,10 @@ $(document).ready(function () {
      });
 
     $('p[name="subcategories-name"]').on('click', function () {
-        let name = $(this).text()
+        let name = $(this).text().split("| ")
         let id = $(this).attr("value").split(',')
 
-        $('#categories-name').val(name)
+        $('#categories-name').val(name[1])
 
         $('#categories-name').attr("value", $(this).attr("value"))
         $('#maincategories-selec option[value="' + id[0] + '"]').prop('selected', true);
@@ -65,7 +65,7 @@ $(document).ready(function () {
                 url: '/Categories/EditSubcategoryName/',
                 data: { "id": id[1], "name": name },
                 success: function (result) {
-                    $('p[value="'+$('#categories-name').attr("value")+'"]').text(name)
+                    $('p[value="' + $('#categories-name').attr("value") + '"]').text(name)
                 }
              })
         }
