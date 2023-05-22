@@ -240,6 +240,14 @@
     margin-bottom: 5px;
 }
 
+.discount{
+    margin-left:10px;
+}
+
+.rating {
+    margin-left: 10px;
+}
+
 .info-block .product-lable, .catecories-block .product-lable, .characteristics-section .product-lable {
     font-weight: 500;
     margin: 8px 0;
@@ -576,3 +584,26 @@
 .add-prod-in-group{
     margin-top:5px;
 }
+
+/*Create user page*/
+.created-user-form{
+    padding:0px;
+}
+
+.role-picker-createuser {
+    width: 215px;
+    height: 36px;
+}
+
+.button-inputs-create-user-margin {
+    margin-left:10px;
+}
+
+.button-inputs-create-user p {
+   display:table-cell;
+}
+
+.create-user-button {
+    margin-top: 10px;
+}
+/**/
