@@ -10,8 +10,10 @@ public sealed class RemoveImageFromWwwRootService : IRemoveImageFromFileSystemSe
     }
 
 
-    public void RemoveImage(string imageUrl)
+    public async Task RemoveImage(string imageUrl)
     {
+        await Task.CompletedTask;
+
         var fullPath = Path.Combine(_env.WebRootPath, imageUrl);
         if (fullPath == imageUrl) fullPath = _env.WebRootPath + imageUrl;
 
@@ -21,9 +23,9 @@ public sealed class RemoveImageFromWwwRootService : IRemoveImageFromFileSystemSe
         {
             File.Delete(fullPath);
         }
-        catch (Exception e)
+        catch
         {
-
+            // ignored
         }
     }
 }

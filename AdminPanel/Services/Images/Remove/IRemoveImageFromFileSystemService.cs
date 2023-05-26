@@ -2,5 +2,5 @@
 
 public interface IRemoveImageFromFileSystemService
 {
-    public void RemoveImage(string imageUrl);
+    public Task RemoveImage(string imageUrl);
 }

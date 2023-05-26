@@ -15,10 +15,8 @@ public sealed class UploadImageToWwwRootService : IUploadImageToFileSystemServic
         var guid = Guid.NewGuid();
         var path = $"/images/{guid}.{fileType}";
 
-        await using (var fileStream = new FileStream(_env.WebRootPath + path, FileMode.Create))
-        {
-            await imageFile.CopyToAsync(fileStream);
-        }
+        await using var fileStream = new FileStream(_env.WebRootPath + path, FileMode.Create);
+        await imageFile.CopyToAsync(fileStream);
         return path;
     }
 }
