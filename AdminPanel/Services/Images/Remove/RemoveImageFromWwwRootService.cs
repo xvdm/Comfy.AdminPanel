@@ -10,7 +10,7 @@ public sealed class RemoveImageFromWwwRootService : IRemoveImageFromFileSystemSe
     }
 
 
-    public async Task RemoveImage(string imageUrl)
+    public async Task Remove(string imageUrl)
     {
         await Task.CompletedTask;
 
@@ -26,6 +26,14 @@ public sealed class RemoveImageFromWwwRootService : IRemoveImageFromFileSystemSe
         catch
         {
             // ignored
+        }
+    }
+
+    public async Task RemoveRange(IEnumerable<string> imageUrl)
+    {
+        foreach (var image in imageUrl)
+        {
+            await Remove(image);
         }
     }
 }

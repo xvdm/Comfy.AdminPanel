@@ -1,5 +1,6 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Events.Invalidation;
+using AdminPanel.Services.Images.Remove;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,17 +13,20 @@ public sealed class DeleteProductCommandHandler : IRequestHandler<DeleteProductC
 {
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;
+    private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
 
-    public DeleteProductCommandHandler(ApplicationDbContext context, IPublisher publisher)
+    public DeleteProductCommandHandler(ApplicationDbContext context, IPublisher publisher, IRemoveImageFromFileSystemService removeImageFromFileSystemService)
     {
         _context = context;
         _publisher = publisher;
+        _removeImageFromFileSystemService = removeImageFromFileSystemService;
     }
 
     public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
         var product = await _context.Products
             .Include(x => x.ShowcaseGroups)
+            .Include(x => x.Images)
             .Include(x => x.Category)
                 .ThenInclude(x => x.UniqueBrands)
             .AsNoTracking()
@@ -35,7 +39,9 @@ public sealed class DeleteProductCommandHandler : IRequestHandler<DeleteProductC
             .Where(x => x.ProductId == request.ProductId)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
-        
+
+        await _removeImageFromFileSystemService.RemoveRange(product.Images.Select(x => x.Url));
+
         _context.PriceHistories.RemoveRange(priceHistories);
         _context.Products.Remove(product);
 
