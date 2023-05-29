@@ -42,10 +42,15 @@ public sealed class ProductsController : Controller
 
     public async Task<IActionResult> Products(string? searchString, int? pageSize, int? pageNumber)
     {
-        var products = await _mediator.Send(new GetProductsQuery(searchString, pageSize, pageNumber));
-        var viewModel = new ProductsViewModel()
+        var query = new GetProductsQuery(searchString, pageSize, pageNumber);
+        var products = await _mediator.Send(query);
+        var totalCount = await _mediator.Send(new GetProductsTotalCountQuery());
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
+        var viewModel = new ProductsViewModel
         {
-            Products = products
+            Products = products,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
         };
         return View(viewModel);
     }

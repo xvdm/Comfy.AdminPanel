@@ -9,7 +9,7 @@ public sealed record GetProductsQuery : IRequest<IEnumerable<Product>>
 {
     public string? SearchString { get; set; }
 
-    private const int MaxPageSize = 15;
+    private const int MaxPageSize = 10;
     private int _pageSize = MaxPageSize;
     private int _pageNumber = 1;
 
