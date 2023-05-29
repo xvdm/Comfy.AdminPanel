@@ -18,13 +18,15 @@ public sealed class UploadImageToAwsBucketService : IUploadImageToFileSystemServ
     {
         var bucketName = _configuration["AWS:S3:BucketName"];
         var guid = Guid.NewGuid();
-        
+
+        await using var stream = imageFile.OpenReadStream();
+
         var request = new PutObjectRequest
         {
             BucketName = bucketName,
             Key = guid.ToString(),
             ContentType = imageFile.ContentType,
-            InputStream = imageFile.OpenReadStream()
+            InputStream = stream
         };
 
         await _amazonS3.PutObjectAsync(request);
