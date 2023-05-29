@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using AdminPanel.Models.SeedInitializers;
+using Amazon.S3;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -72,6 +73,12 @@ builder.Services.AddAntiforgery(config =>
 
 builder.Services.AddSingleton(GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
+
+builder.Services.AddSingleton<IAmazonS3>(new AmazonS3Client(
+    builder.Configuration["AWS:S3:AccessKey"],
+    builder.Configuration["AWS:S3:SecretKey"],
+    new AmazonS3Config { ServiceURL = "https://s3.amazonaws.com" }
+));
 
 builder.Services.AddScoped<IRemoveImageFromFileSystemService, RemoveImageFromAwsBucketService>();
 builder.Services.AddScoped<IUploadImageToFileSystemService, UploadImageToAwsBucketService>();

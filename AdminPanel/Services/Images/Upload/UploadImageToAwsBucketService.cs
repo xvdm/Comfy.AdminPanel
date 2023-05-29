@@ -1,46 +1,35 @@
 ﻿using Amazon.S3;
-using Amazon.S3.Transfer;
+using Amazon.S3.Model;
 
 namespace AdminPanel.Services.Images.Upload;
 
 public sealed class UploadImageToAwsBucketService : IUploadImageToFileSystemService
 {
     private readonly IConfiguration _configuration;
+    private readonly IAmazonS3 _amazonS3;
 
-    public UploadImageToAwsBucketService(IConfiguration configuration)
+    public UploadImageToAwsBucketService(IConfiguration configuration, IAmazonS3 amazonS3)
     {
         _configuration = configuration;
+        _amazonS3 = amazonS3;
     }
 
     public async Task<string> UploadImageAsync(IFormFile imageFile)
     {
-        var accessKey = _configuration["AWS:S3:AccessKey"];
-        var secretKey = _configuration["AWS:S3:SecretKey"];
         var bucketName = _configuration["AWS:S3:BucketName"];
         var guid = Guid.NewGuid();
-        var config = new AmazonS3Config
+        
+        var request = new PutObjectRequest
         {
-            ServiceURL = "https://s3.amazonaws.com"
+            BucketName = bucketName,
+            Key = guid.ToString(),
+            ContentType = imageFile.ContentType,
+            InputStream = imageFile.OpenReadStream()
         };
-        using (var client = new AmazonS3Client(accessKey, secretKey, config))
-        {
-            using var newMemoryStream = new MemoryStream();
 
-            await imageFile.CopyToAsync(newMemoryStream);
-
-            var uploadRequest = new TransferUtilityUploadRequest
-            {
-                InputStream = newMemoryStream,
-                Key = guid.ToString(),
-                BucketName = bucketName
-            };
-
-            var fileTransferUtility = new TransferUtility(client);
-            await fileTransferUtility.UploadAsync(uploadRequest);
-        }
+        await _amazonS3.PutObjectAsync(request);
 
         var path = $"https://s3.amazonaws.com/{bucketName}/{guid}";
-
         return path;
     }
 }
