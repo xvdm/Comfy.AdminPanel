@@ -35,7 +35,7 @@ public sealed class UpdateMainCategoryImageCommandHandler : IRequestHandler<Upda
         };
         if (category.Image is not null)
         {
-            _removeImageFromFileSystemService.Remove(category.Image.Url);
+            _removeImageFromFileSystemService.RemoveAsync(category.Image.Url);
             _context.MainCategoryImages.Remove(category.Image);
         }
 

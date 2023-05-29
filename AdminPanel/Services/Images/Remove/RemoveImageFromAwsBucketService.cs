@@ -17,7 +17,7 @@ public sealed class RemoveImageFromAwsBucketService : IRemoveImageFromFileSystem
         _bucketName = configuration["AWS:S3:BucketName"];
     }
 
-    public async Task Remove(string imageUrl)
+    public async Task RemoveAsync(string imageUrl)
     {
         if (string.IsNullOrEmpty(imageUrl)) return;
         var config = new AmazonS3Config { ServiceURL = ServiceUrl };
@@ -30,7 +30,7 @@ public sealed class RemoveImageFromAwsBucketService : IRemoveImageFromFileSystem
         await client.DeleteObjectAsync(request);
     }
 
-    public async Task RemoveRange(IEnumerable<string> imageUrls)
+    public async Task RemoveRangeAsync(IEnumerable<string> imageUrls)
     {
         var config = new AmazonS3Config { ServiceURL = ServiceUrl };
         using var client = new AmazonS3Client(_accessKey, _secretKey, config);

@@ -30,7 +30,7 @@ public sealed class UpdateSubcategoryImageCommandHandler : IRequestHandler<Updat
 
         if (category.Image is not null)
         {
-            _removeImageFromFileSystemService.Remove(category.Image.Url);
+            _removeImageFromFileSystemService.RemoveAsync(category.Image.Url);
         }
 
         var path = await _uploadImageToFileSystemService.UploadImageAsync(request.ImageFile);

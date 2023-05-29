@@ -2,6 +2,6 @@
 
 public interface IRemoveImageFromFileSystemService
 {
-    public Task Remove(string imageUrl);
-    public Task RemoveRange(IEnumerable<string> imageUrl);
+    public Task RemoveAsync(string imageUrl);
+    public Task RemoveRangeAsync(IEnumerable<string> imageUrl);
 }
