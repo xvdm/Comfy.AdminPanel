@@ -38,7 +38,7 @@ public sealed class DatabaseSeedInitializer
 
         await mediator.Send(new CreateUserCommand
         {
-            UserName = "owner",
+            Name = "owner",
             Password = "owner",
             ConfirmPassword = "owner",
             Role = RoleNames.Owner
@@ -46,7 +46,7 @@ public sealed class DatabaseSeedInitializer
 
         await mediator.Send(new CreateUserCommand
         {
-            UserName = "senior",
+            Name = "senior",
             Password = "senior",
             ConfirmPassword = "senior",
             Role = RoleNames.SeniorAdministrator
@@ -54,7 +54,7 @@ public sealed class DatabaseSeedInitializer
 
         await mediator.Send(new CreateUserCommand
         {
-            UserName = "admin",
+            Name = "admin",
             Password = "admin",
             ConfirmPassword = "admin",
             Role = RoleNames.Administrator

@@ -11,7 +11,7 @@ public sealed class UserDTO
     public string Position { get; set; } = null!;
 
     [Required]
-    public string UserName { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
     [Required]
     [EmailAddress]

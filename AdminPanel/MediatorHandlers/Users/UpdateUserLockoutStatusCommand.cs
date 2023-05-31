@@ -26,7 +26,7 @@ public sealed class UpdateUserLockoutStatusCommandHandler : IRequestHandler<Upda
 
         if (request.IsLockout)
         {
-            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Parse("2999-03-01"));
+            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow.AddYears(999));
         }
         else
         {

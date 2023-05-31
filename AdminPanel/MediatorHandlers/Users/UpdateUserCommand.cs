@@ -8,7 +8,7 @@ public sealed record UpdateUserCommand : IRequest<bool>
 {
     public Guid Id { get; set; }
     public string Position { get; set; } = null!;
-    public string UserName { get; set; } = null!;
+    public string Name { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
 }
@@ -31,15 +31,11 @@ public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand
             throw new HttpRequestException("User with given id was not found");
         }
 
-        user.UserName = request.UserName;
+        user.Name = request.Name;
         user.Email = request.Email;
         user.PhoneNumber = request.PhoneNumber;
         await _userManager.UpdateAsync(user);
 
-        if (user.UserName != request.UserName)
-        {
-            await _userManager.UpdateNormalizedUserNameAsync(user);
-        }
         if (user.Email != request.Email)
         {
             await _userManager.UpdateNormalizedEmailAsync(user);

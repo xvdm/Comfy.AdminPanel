@@ -8,7 +8,7 @@ namespace AdminPanel.MediatorHandlers.Users;
 public sealed record CreateUserCommand : IRequest<Guid>
 {
     public string Role { get; set; } = null!;
-    public string UserName { get; set; } = null!;
+    public string Name { get; set; } = null!;
     public string Password { get; set; } = null!;
     public string ConfirmPassword { get; set; } = null!;
     public string Email { get; set; } = null!;
@@ -30,6 +30,7 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
         if(request.Password != request.ConfirmPassword) return Guid.Empty;
 
         var user = request.Adapt<ApplicationUser>();
+        user.UserName = Guid.NewGuid().ToString();
         var result = await _userManager.CreateAsync(user, request.Password);
         if (result.Succeeded == false) return Guid.Empty;
 
