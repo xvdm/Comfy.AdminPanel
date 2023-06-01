@@ -14,12 +14,16 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using AdminPanel.Models.SeedInitializers;
 using Amazon.S3;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
     throw new InvalidOperationException("Connection string 'AdminPanelContextConnection' not found.");
 
-
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("AdminPanelContextConnection"))
+    .AddRedis(builder.Configuration.GetConnectionString("Redis"));
 
 builder.Services.AddDbContext<ApplicationDbContext>(config => 
     config.UseNpgsql(connectionString, opt => opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
@@ -114,6 +118,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+}).RequireAuthorization(policyNames: new[] { RoleNames.Administrator, RoleNames.SeniorAdministrator, RoleNames.Owner });
 
 app.UseAuthentication();
 app.UseAuthorization();
