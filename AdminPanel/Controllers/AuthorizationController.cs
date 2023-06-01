@@ -43,7 +43,7 @@ public sealed class AuthorizationController : Controller
         }
 
         var result = await _mediator.Send(new SignInQuery(user, model.Password, false, false));
-        if(result.Succeeded)
+        if(result)
         {
             return LocalRedirect(model.ReturnUrl);
         }
