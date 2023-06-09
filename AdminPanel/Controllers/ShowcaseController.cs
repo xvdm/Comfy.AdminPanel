@@ -25,6 +25,11 @@ public sealed class ShowcaseController : Controller
         return View(groups);
     }
 
+    public IActionResult Faq()
+    {
+        return View();
+    }
+
     [Authorize(Policy = RoleNames.SeniorAdministrator)]
     public IActionResult EditGroup(int groupId, string name, int subcategoryId, string? queryString)
     {
