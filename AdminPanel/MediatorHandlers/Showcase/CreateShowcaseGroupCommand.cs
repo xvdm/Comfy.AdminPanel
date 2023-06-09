@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public sealed record CreateShowcaseGroupCommand(string Name, string QueryString) : IRequest;
+public sealed record CreateShowcaseGroupCommand(string Name, int SubcategoryId, string? QueryString) : IRequest;
 
 
 public sealed class CreateShowcaseGroupCommandHandler : IRequestHandler<CreateShowcaseGroupCommand>
@@ -28,7 +28,8 @@ public sealed class CreateShowcaseGroupCommandHandler : IRequestHandler<CreateSh
         var newGroup = new ShowcaseGroup
         {
             Name = request.Name,
-            QueryString = request.QueryString
+            QueryString = request.QueryString,
+            SubcategoryId = request.SubcategoryId
         };
         _context.ShowcaseGroups.Add(newGroup);
         await _context.SaveChangesAsync(cancellationToken);

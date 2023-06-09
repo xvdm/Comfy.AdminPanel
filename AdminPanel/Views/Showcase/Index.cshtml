@@ -18,6 +18,7 @@
                 <h6>Додати групу</h6>
                 <form method="post" asp-controller="Showcase" asp-action="AddGroup">
                     <input name="Name" placeholder="Ім'я" />
+                    <input name="SubcategoryId" placeholder="Id підкатегорії" />
                     <input name="QueryString" placeholder="query string" />
                     <button type="submit">Додати</button>
                 </form>
@@ -30,13 +31,13 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>@group.Name | @group.QueryString</th>
-                                    <th class="editbuttons">
+                                    <th>@group.Name | Id категорії: @group.SubcategoryId | @group.QueryString</th>
+                                        <th class="editbuttons">
                                         <form method="post" asp-controller="Showcase" asp-action="RemoveGroup">
                                         <input hidden name="GroupId" value="@group.Id" />
                                         <button type="submit">Видалити групу</button>
                                         </form>
-                                         <form asp-controller="Showcase" asp-action="EditGroup" asp-route-groupId="@group.Id" asp-route-name="@group.Name" asp-route-queryString="@group.QueryString">
+                                         <form asp-controller="Showcase" asp-action="EditGroup" asp-route-groupId="@group.Id" asp-route-name="@group.Name" asp-route-queryString="@group.QueryString" asp-route-subcategoryId="@group.SubcategoryId">
                                         <button type="submit">Редагувати групу</button>
                                         </form>
                                     </th>

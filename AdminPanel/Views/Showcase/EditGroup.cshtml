@@ -17,6 +17,7 @@
             <form method="post" asp-controller="Showcase" asp-action="UpdateGroup">
                 <input name="GroupId" value="@Model.Id" hidden />
                 <input name="Name" value="@Model.Name" placeholder="name"/>
+                <input name="SubcategoryId" value="@Model.SubcategoryId" placeholder="subcategory id"/>
                 <input name="QueryString" value="@Model.QueryString" placeholder="query string"/>
                 <button type="submit">Оновити дані</button>
             </form>

@@ -26,13 +26,14 @@ public sealed class ShowcaseController : Controller
     }
 
     [Authorize(Policy = RoleNames.SeniorAdministrator)]
-    public IActionResult EditGroup(int groupId, string name, string queryString)
+    public IActionResult EditGroup(int groupId, string name, int subcategoryId, string? queryString)
     {
-        var group = new ShowcaseGroup()
+        var group = new ShowcaseGroup
         {
             Id = groupId,
             Name = name,
-            QueryString = queryString
+            QueryString = queryString,
+            SubcategoryId = subcategoryId
         };
         return View(group);
     }
@@ -55,9 +56,9 @@ public sealed class ShowcaseController : Controller
 
     [HttpPost]
     [Authorize(Policy = RoleNames.SeniorAdministrator)]
-    public async Task<IActionResult> AddGroup(string name, string queryString)
+    public async Task<IActionResult> AddGroup(string name, int subcategoryId, string? queryString)
     {
-        await _mediator.Send(new CreateShowcaseGroupCommand(name, queryString));
+        await _mediator.Send(new CreateShowcaseGroupCommand(name, subcategoryId, queryString));
         return RedirectToAction(nameof(Index));
     }
 
@@ -71,9 +72,9 @@ public sealed class ShowcaseController : Controller
 
     [HttpPost]
     [Authorize(Policy = RoleNames.SeniorAdministrator)]
-    public async Task<IActionResult> UpdateGroup(int groupId, string name, string queryString)
+    public async Task<IActionResult> UpdateGroup(int groupId, string name, int subcategoryId, string? queryString)
     {
-        await _mediator.Send(new UpdateShowcaseGroupCommand(groupId, name, queryString));
+        await _mediator.Send(new UpdateShowcaseGroupCommand(groupId, name, subcategoryId, queryString));
         return RedirectToAction(nameof(Index));
     }
 }

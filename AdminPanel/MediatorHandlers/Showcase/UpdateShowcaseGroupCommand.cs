@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Showcase;
 
-public sealed record UpdateShowcaseGroupCommand(int GroupId, string Name, string QueryString) : IRequest;
+public sealed record UpdateShowcaseGroupCommand(int GroupId, string Name, int SubcategoryId, string? QueryString) : IRequest;
 
 
 public sealed class UpdateShowcaseGroupCommandHandler : IRequestHandler<UpdateShowcaseGroupCommand>
@@ -29,6 +29,7 @@ public sealed class UpdateShowcaseGroupCommandHandler : IRequestHandler<UpdateSh
 
         group.Name = request.Name;
         group.QueryString = request.QueryString;
+        group.SubcategoryId = request.SubcategoryId;
         await _context.SaveChangesAsync(cancellationToken);
 
         var notification = new ShowcaseGroupsInvalidatedEvent();

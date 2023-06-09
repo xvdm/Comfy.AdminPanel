@@ -27,7 +27,6 @@ public sealed class DeleteProductFromShowcaseCommandHandler : IRequestHandler<De
         if (group is null) return;
 
         var product = await _context.Products
-            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
         if (product is null) return;
 
