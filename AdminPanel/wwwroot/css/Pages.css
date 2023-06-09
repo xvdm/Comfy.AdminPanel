@@ -607,3 +607,8 @@
     margin-top: 10px;
 }
 /**/
+
+.pagination-block {
+    margin-bottom: 20px;
+    font-size:18px;
+}
