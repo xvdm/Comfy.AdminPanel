@@ -129,4 +129,17 @@ switch (userMainPosition[1]) {
         div.appendChild(ul)
         divAccounts.appendChild(div)
         break;
+
+    case "Characteristics":
+        let divCharacteristics = document.getElementById("Characteristics");
+        blockMainLink(divCharacteristics)
+
+        links = ["Імена характеристик", "Значення характеристик"];
+        href = ["/Characteristics/CharacteristicNames", "/Characteristics/CharacteristicValues"]
+
+        createLI(links, href)
+
+        div.appendChild(ul)
+        divCharacteristics.appendChild(div)
+        break;
 }
