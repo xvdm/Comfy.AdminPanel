@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using AdminPanel.Models.Logging;
 using System.Reflection;
 using AdminPanel.Models.Identity;
-using AdminPanel.Models;
 using AdminPanel.Models.Base;
+using AdminPanel.Models.Entities;
 
 namespace AdminPanel.Data;
 

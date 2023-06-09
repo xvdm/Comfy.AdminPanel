@@ -1,4 +1,6 @@
-﻿namespace AdminPanel.Models.ViewModels;
+﻿using AdminPanel.Models.Entities;
+
+namespace AdminPanel.Models.ViewModels;
 
 public sealed class QuestionsViewModel
 {

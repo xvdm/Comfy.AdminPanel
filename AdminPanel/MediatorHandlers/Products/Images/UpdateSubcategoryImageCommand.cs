@@ -1,5 +1,5 @@
 ﻿using AdminPanel.Data;
-using AdminPanel.Models;
+using AdminPanel.Models.Entities;
 using AdminPanel.Services.Images.Remove;
 using AdminPanel.Services.Images.Upload;
 using MediatR;

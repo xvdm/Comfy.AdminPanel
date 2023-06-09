@@ -1,7 +1,7 @@
 ﻿using AdminPanel.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using AdminPanel.Models;
+using AdminPanel.Models.Entities;
 
 namespace AdminPanel.MediatorHandlers.Products.Brands;
 

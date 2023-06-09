@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AdminPanel.Models;
+namespace AdminPanel.Models.Entities;
 
 public sealed class Characteristic : IEntityTypeConfiguration<Characteristic>
 {
@@ -12,7 +12,7 @@ public sealed class Characteristic : IEntityTypeConfiguration<Characteristic>
 
     public int CharacteristicsNameId { get; set; }
     public CharacteristicName CharacteristicsName { get; set; } = null!;
-    
+
     public int CharacteristicsValueId { get; set; }
     public CharacteristicValue CharacteristicsValue { get; set; } = null!;
 

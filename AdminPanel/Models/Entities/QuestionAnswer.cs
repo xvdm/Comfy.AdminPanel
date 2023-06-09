@@ -3,9 +3,9 @@ using AdminPanel.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AdminPanel.Models;
+namespace AdminPanel.Models.Entities;
 
-public sealed class ReviewAnswer : Auditable
+public sealed class QuestionAnswer : Auditable
 {
     public int Id { get; set; }
 
@@ -17,14 +17,14 @@ public sealed class ReviewAnswer : Auditable
     public int Dislikes { get; set; }
     public bool IsActive { get; set; }
 
-    public int ReviewId { get; set; }
-    public Review Review { get; set; } = null!;
+    public int QuestionId { get; set; }
+    public Question Question { get; set; } = null!;
 
-    public void Configure(EntityTypeBuilder<ReviewAnswer> builder)
+    public void Configure(EntityTypeBuilder<QuestionAnswer> builder)
     {
-        builder.HasOne(d => d.Review)
+        builder.HasOne(d => d.Question)
                 .WithMany(p => p.Answers)
-                .HasForeignKey(d => d.ReviewId)
+                .HasForeignKey(d => d.QuestionId)
                 .OnDelete(DeleteBehavior.ClientCascade);
     }
 }

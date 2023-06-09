@@ -1,6 +1,6 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Helpers;
-using AdminPanel.Models;
+using AdminPanel.Models.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

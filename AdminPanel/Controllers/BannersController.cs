@@ -1,6 +1,6 @@
 ﻿using AdminPanel.Helpers;
 using AdminPanel.MediatorHandlers.Banners;
-using AdminPanel.Models;
+using AdminPanel.Models.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

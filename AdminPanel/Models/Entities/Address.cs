@@ -1,6 +1,6 @@
 ﻿using AdminPanel.Models.Identity;
 
-namespace AdminPanel.Models;
+namespace AdminPanel.Models.Entities;
 
 public sealed class Address
 {

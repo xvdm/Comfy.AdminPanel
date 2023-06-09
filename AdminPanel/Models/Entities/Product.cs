@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AdminPanel.Models;
+namespace AdminPanel.Models.Entities;
 
 public sealed class Product : Auditable, IEntityTypeConfiguration<Product>
 {

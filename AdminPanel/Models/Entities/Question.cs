@@ -3,32 +3,29 @@ using AdminPanel.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AdminPanel.Models;
+namespace AdminPanel.Models.Entities;
 
-public sealed class Review : Auditable, IEntityTypeConfiguration<Review>
+public sealed class Question : Auditable, IEntityTypeConfiguration<Question>
 {
     public int Id { get; set; }
     public string Text { get; set; } = null!;
-    public string Advantages { get; set; } = null!;
-    public string Disadvantages { get; set; } = null!;
-    public double ProductRating { get; set; }
     public int Likes { get; set; }
     public int Dislikes { get; set; }
     public bool IsActive { get; set; }
 
     public Guid UserId { get; set; }
     public ApplicationUser User { get; set; } = null!;
-    
+
     public int ProductId { get; set; }
     public Product Product { get; set; } = null!;
 
-    public ICollection<ReviewAnswer> Answers { get; set; } = null!;
+    public ICollection<QuestionAnswer> Answers { get; set; } = null!;
 
 
-    public void Configure(EntityTypeBuilder<Review> builder)
+    public void Configure(EntityTypeBuilder<Question> builder)
     {
         builder.HasOne(d => d.Product)
-            .WithMany(p => p.Reviews)
+            .WithMany(p => p.Questions)
             .HasForeignKey(d => d.ProductId)
             .OnDelete(DeleteBehavior.ClientCascade);
     }

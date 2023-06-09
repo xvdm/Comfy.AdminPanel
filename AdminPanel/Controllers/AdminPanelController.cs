@@ -2,7 +2,7 @@
 using AdminPanel.MediatorHandlers.Products.Brands;
 using AdminPanel.MediatorHandlers.Products.Categories;
 using AdminPanel.MediatorHandlers.Products.Models;
-using AdminPanel.Models;
+using AdminPanel.Models.Entities;
 using AdminPanel.Models.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

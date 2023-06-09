@@ -4,6 +4,7 @@ using AdminPanel.MediatorHandlers.Products.Brands;
 using AdminPanel.MediatorHandlers.Products.Categories;
 using AdminPanel.MediatorHandlers.Products.Models;
 using AdminPanel.MediatorHandlers.Users;
+using AdminPanel.Models.Entities;
 using AdminPanel.Models.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
