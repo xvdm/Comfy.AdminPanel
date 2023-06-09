@@ -35,7 +35,7 @@ public sealed class AuthorizationController : Controller
             model.ReturnUrl = "/";
         }
 
-        var user = await _mediator.Send(new GetUserByUsernameQuery(model.UserName));
+        var user = await _mediator.Send(new GetUserByEmailQuery(model.Email));
         if(user is null)
         {
             ModelState.AddModelError("", "User not found");
