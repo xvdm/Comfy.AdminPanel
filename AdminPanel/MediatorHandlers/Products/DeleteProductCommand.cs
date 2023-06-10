@@ -40,7 +40,10 @@ public sealed class DeleteProductCommandHandler : IRequestHandler<DeleteProductC
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-        await _removeImageFromFileSystemService.RemoveRangeAsync(product.Images.Select(x => x.Url));
+        if (product.Images.Count > 0)
+        {
+            await _removeImageFromFileSystemService.RemoveRangeAsync(product.Images.Select(x => x.Url));
+        }
 
         _context.PriceHistories.RemoveRange(priceHistories);
         _context.Products.Remove(product);
