@@ -13,7 +13,7 @@ public sealed class AddProductToShowcaseCommandHandler : IRequestHandler<AddProd
     private readonly ApplicationDbContext _context;
     private readonly IPublisher _publisher;
 
-    private const int MaxProductsInGroup = 4;
+    private const int MaxProductsInGroup = 5;
 
     public AddProductToShowcaseCommandHandler(ApplicationDbContext context, IPublisher publisher)
     {
