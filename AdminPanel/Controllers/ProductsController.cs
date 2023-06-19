@@ -157,10 +157,10 @@ public sealed class ProductsController : Controller
         var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
         var subcategories = await _mediator.Send(new GetSubcategoriesForMainCategoryQuery(product.Category.MainCategoryId));
 
-        var models = await _mediator.Send(new GetModelsQuery(null, null));
-        var brands = await _mediator.Send(new GetBrandsQuery(null, null));
+        var models = await _mediator.Send(new GetAllModelsQuery());
+        var brands = await _mediator.Send(new GetAllBrandsQuery());
 
-        var viewModel = new ProductCategoriesViewModel()
+        var viewModel = new ProductCategoriesViewModel
         {
             Product = product,
             MainCategories = mainCategories,
@@ -177,7 +177,7 @@ public sealed class ProductsController : Controller
         var models = await _mediator.Send(new GetModelsQuery(null, null));
         var brands = await _mediator.Send(new GetBrandsQuery(null, null));
 
-        var viewModel = new MainCategoriesBrandsModelsViewModel()
+        var viewModel = new MainCategoriesBrandsModelsViewModel
         {
             MainCategories = mainCategories,
             Models = models.OrderBy(x => x.Name),
