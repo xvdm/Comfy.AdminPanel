@@ -174,8 +174,8 @@ public sealed class ProductsController : Controller
     private async Task<MainCategoriesBrandsModelsViewModel> GetMainCategoriesBrandsModelsViewModel()
     {
         var mainCategories = await _mediator.Send(new GetMainCategoriesQuery());
-        var models = await _mediator.Send(new GetModelsQuery(null, null));
-        var brands = await _mediator.Send(new GetBrandsQuery(null, null));
+        var models = await _mediator.Send(new GetAllModelsQuery());
+        var brands = await _mediator.Send(new GetAllBrandsQuery());
 
         var viewModel = new MainCategoriesBrandsModelsViewModel
         {
