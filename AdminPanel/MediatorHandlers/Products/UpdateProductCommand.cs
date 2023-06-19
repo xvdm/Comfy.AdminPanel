@@ -90,7 +90,7 @@ public sealed class UpdateProductCommandHandler : IRequestHandler<UpdateProductC
             product.Price = request.Price;
             var priceHistory = new PriceHistory
             {
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Price = product.Price,
                 ProductId = product.Id
             };
