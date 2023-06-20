@@ -34,7 +34,7 @@
                                 @foreach (var x in Model.Models)
                                 {
                                     <tr name="@x.Id">
-                                        <td><p>@x.Name</p></td>
+                                    <td><p>@x.Id | @x.Name</p></td>
                                         <td><button value="@x.Id,@x.Name" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-model">Редагувати</button></td>
                                         <td><button value="@x.Id" type="button" name="delete-model">Видалити</button></td>
                                     </tr>
