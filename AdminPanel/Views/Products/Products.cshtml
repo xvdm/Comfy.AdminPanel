@@ -55,14 +55,7 @@
                                     {
                                         <tr>
                                             <td class="products-img">
-                                                @if (product.Images != null)
-                                                {
-
-                                                }
-                                                else
-                                                {
-                                                    <img src="~/img/nophoto.png" alt="productImg" />
-                                                }
+                                                <img src="@product.Images.FirstOrDefault()?.Url" alt="productImg" />
                                             </td>
                                             <td><a asp-action="EditProduct" asp-controller="Products" asp-route-id="@product.Id">@product.Name</a></td>
                                             <td>@product.Code</td>

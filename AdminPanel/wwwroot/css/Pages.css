@@ -106,14 +106,13 @@
     background: #f8f8f8;
 }
 
+
+
 /*#endregion */
-
-
 /*#region Categories Page*/
-
 .sections .left-section-categories {
     display: table-cell;
-    min-width:500px;
+    min-width: 500px;
 }
 
 .sections .right-section-categories {
@@ -206,8 +205,8 @@
 }
 
 .products-img img {
-        width: 140px;
-        height: 100px;
+    width: 140px;
+    height: 100%;
 }
 
 .productsTable tr {

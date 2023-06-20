@@ -45,18 +45,13 @@ public sealed class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, 
     public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
     {
         var products = _context.Products
+            .Include(x => x.Images.Take(1))
             .AsQueryable();
 
         if (request.SearchString is not null)
         {
             products = products.Where(x => x.Name.Contains(request.SearchString));
         }
-
-        products = products
-                .Include(x => x.Model)
-                .Include(x => x.Category)
-                .Include(x => x.Brand)
-                .Include(x => x.Characteristics);
 
         return await products
             .OrderBy(x => x.Id)
