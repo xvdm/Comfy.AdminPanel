@@ -12,10 +12,11 @@
         </div>
     </div>
     <div class="body body-with-sections">
+        <a asp-action="QueryStringFaq" asp-controller="Faq">Що таке query string?</a>
         <div class="section">
             <div class="search-block">
                 <form asp-controller="Categories" asp-action="SubcategoryFilters">
-                    <input class="search-block-input" type="text" name="searchString" />
+                    <input class="search-block-input" type="text" name="searchString"/>
                     <button class="search-block-btn" type="submit" value="Пошук">
                         <span class="material-icons "> search </span>
                     </button>
@@ -26,8 +27,8 @@
             <h6>Додати фільтр до підкатегоріі</h6>
             <form method="post" asp-controller="Categories" asp-action="AddSubcategoryFilter">
                 <input name="SubcategoryId" placeholder="id підкатегорії"/>
-                <input name="SubcategoryFilterName" placeholder="ім`я підкатегорії"/>
-                <input name="SubcategoryFilter" placeholder="фільтер підкатегорії"/>
+                <input name="SubcategoryFilterName" placeholder="ім`я фільтру"/>
+                <input name="SubcategoryFilter" placeholder="query string"/>
                 <button type="submit">Додати</button>
             </form>
         </div>
