@@ -611,3 +611,12 @@
     margin-bottom: 20px;
     font-size:18px;
 }
+
+/**/
+.model-dropdown {
+    overflow: scroll;
+}
+.brand-dropdown {
+    overflow: scroll;
+}
+/**/
