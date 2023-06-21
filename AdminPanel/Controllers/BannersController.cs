@@ -25,7 +25,7 @@ public sealed class BannersController : Controller
         return View(result);
     }
 
-    public async Task<IActionResult> EditBanner(Banner banner)
+    public IActionResult EditBanner(Banner banner)
     {
         return View(banner);
     }

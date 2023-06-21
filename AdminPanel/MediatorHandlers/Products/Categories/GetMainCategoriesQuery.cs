@@ -21,6 +21,7 @@ public sealed class GetMainCategoriesQueryHandler : IRequestHandler<GetMainCateg
     {
         return await _context.MainCategories
             .AsNoTracking()
+            .OrderBy(x => x.Id)
             .ToListAsync(cancellationToken);
     }
 }

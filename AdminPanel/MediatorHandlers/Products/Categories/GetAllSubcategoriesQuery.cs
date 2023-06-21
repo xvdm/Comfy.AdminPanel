@@ -22,6 +22,7 @@ public sealed class GetAllSubcategoriesQueryHandler : IRequestHandler<GetAllSubc
         return await _context.Subcategories
             .Include(x => x.MainCategory)
             .AsNoTracking()
+            .OrderBy(x => x.Id)
             .ToListAsync(cancellationToken);
     }
 }

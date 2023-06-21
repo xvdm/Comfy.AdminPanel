@@ -1,10 +1,31 @@
 ﻿
 $(document).ready(function () {
 
-    $('p[name="maincategories-name"]').on('click',function () {
+    $('p[name="maincategories-name"]').on('click', function () {
+        document.getElementById('categoryImageSelect').value = "";
+
+        // Update image on page
+        var categoryId = $(this).attr('value');
+        $.ajax({
+            type: 'GET',
+            url: '/Categories/GetMainCategoryImageUrl',
+            data: { 'id': categoryId },
+            success: function (result) {
+                $('#selectedImage').attr('src', result.imageUrl);
+                $('#uploadImageButton').addClass("h-hidden");
+                if (result.imageUrl) {
+                    $('#selectedImage').removeClass("h-hidden");
+                    $('#removeImageButton').removeClass("h-hidden");
+                }
+                else {
+                    $('#selectedImage').addClass("h-hidden");
+                    $('#removeImageButton').addClass("h-hidden");
+                }
+            }
+        });
+
+
         let name = $(this).text().split("| ")
-
-
         $('#categories-name').val(name[1])
 
         $('#categories-name').attr("value", $(this).attr("value"))
@@ -16,6 +37,30 @@ $(document).ready(function () {
      });
 
     $('p[name="subcategories-name"]').on('click', function () {
+        document.getElementById('categoryImageSelect').value = "";
+
+        // Update image on page
+        var categoryIds = $(this).attr('value').split(',');
+        var subCategoryId = categoryIds[1];
+        $.ajax({
+            type: 'GET',
+            url: '/Categories/GetSubcategoryImageUrl',
+            data: { 'id': subCategoryId },
+            success: function (result) {
+                $('#selectedImage').attr('src', result.imageUrl);
+                $('#uploadImageButton').addClass("h-hidden");
+                if (result.imageUrl) {
+                    $('#selectedImage').removeClass("h-hidden");
+                    $('#removeImageButton').removeClass("h-hidden");
+                }
+                else {
+                    $('#selectedImage').addClass("h-hidden");
+                    $('#removeImageButton').addClass("h-hidden");
+                }
+            }
+        });
+
+
         let name = $(this).text().split("| ")
         let id = $(this).attr("value").split(',')
 
@@ -159,4 +204,91 @@ $(document).ready(function () {
     })
 
 
+    // upload image
+    $('#uploadImageButton').on('click', function () {
+        var selectedFile = document.getElementById('categoryImageSelect').files[0];
+
+        var categoryId = $('#categories-name').attr('value');
+        var isSubcategory = categoryId.includes(',') ? true : false;
+        if (isSubcategory) {
+            categoryId = categoryId.split(',')[1];
+        }
+
+        var formData = new FormData();
+        formData.append('image', selectedFile);
+        formData.append('categoryId', categoryId);
+        formData.append('isSubcategory', isSubcategory);
+
+        $.ajax({
+            type: 'POST',
+            beforeSend: function (request) {
+                request.setRequestHeader("RequestVerificationToken", document.getElementById("RequestVerificationToken").value);
+            },
+            url: '/Categories/AddImageToCategory',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                console.log('Image uploaded successfully!');
+                $('#removeImageButton').removeClass("h-hidden");
+                $('#uploadImageButton').addClass("h-hidden");
+                $('#selectedImage').removeClass("h-hidden");
+            },
+            error: function (error) {
+                console.error('Image upload failed:', error);
+            }
+        });
+    });
+
+    // remove image
+    $('#removeImageButton').on('click', function () {
+        var categoryId = $('#categories-name').attr('value');
+        var isSubcategory = categoryId.includes(',') ? true : false;
+        if (isSubcategory) {
+            categoryId = categoryId.split(',')[1];
+        }
+
+        var formData = new FormData();
+        formData.append('categoryId', categoryId);
+        formData.append('isSubcategory', isSubcategory);
+
+        $.ajax({
+            type: 'POST',
+            beforeSend: function (request) {
+                request.setRequestHeader("RequestVerificationToken", document.getElementById("RequestVerificationToken").value);
+            },
+            url: '/Categories/RemoveImageFromCategory',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                console.log('Image removed successfully!');
+                $('#removeImageButton').addClass("h-hidden");
+                $('#uploadImageButton').addClass("h-hidden");
+                $('#selectedImage').addClass("h-hidden");
+                $('#selectedImage').attr('src', "");
+            },
+            error: function (error) {
+                console.error('Image remove failed:', error);
+            }
+        });
+    });
+
+    // input image
+    var fileInput = document.getElementById('categoryImageSelect');
+    var imageElement = document.getElementById('selectedImage');
+    fileInput.addEventListener('change', function (event) {
+        var selectedFile = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function () {
+            imageElement.src = reader.result;
+        };
+
+        reader.readAsDataURL(selectedFile);
+
+        $('#selectedImage').removeClass("h-hidden");
+        $('#uploadImageButton').removeClass("h-hidden");
+        $('#removeImageButton').addClass("h-hidden");
+    });
 });

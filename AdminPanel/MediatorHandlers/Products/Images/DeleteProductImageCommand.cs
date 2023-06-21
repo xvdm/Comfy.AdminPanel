@@ -29,7 +29,7 @@ public sealed class DeleteProductImageCommandHandler : IRequestHandler<DeletePro
             .FirstOrDefaultAsync(x => x.Id == request.ImageId, cancellationToken);
         if (image is null) return;
 
-        _removeImageFromFileSystemService.RemoveAsync(image.Url);
+        await _removeImageFromFileSystemService.RemoveAsync(image.Url);
 
         _context.Images.Remove(image);
         await _context.SaveChangesAsync(cancellationToken);

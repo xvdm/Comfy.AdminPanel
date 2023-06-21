@@ -1,8 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 @model CategoriesViewModel
 @{
     ViewData["Title"] = "Категорії";
+    var requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
 }
+
+<input id="RequestVerificationToken" type="hidden" value="@requestToken" />
+
 
 <div class="Page">
     <div class="header">
@@ -44,9 +49,14 @@
                         </div>
                         <div class="categories-img">
                             <div class="main-image">
+                                <img id="selectedImage" alt=""/>
                                 <span class="material-icons add-icon unselectable" >add</span>
-                                <input type="file" name="uploads" accept="image/*" />
+                                <input type="file" name="uploads" accept="image/*" id="categoryImageSelect" />
                             </div>
+                        </div>
+                        <div class="category-btn">
+                            <button id="uploadImageButton" class="h-hidden">Зберегти зображення</button>
+                            <button id="removeImageButton" class="h-hidden">Видалити зображення</button>
                         </div>
                         <div class="categories-inputs">
                         <input required id="categories-name" type="text" class="categoryTextInput" placeholder="Ім'я категорії" />
@@ -75,7 +85,3 @@
 @section scripts {
     <script src="~/js/ChangeCategories.js"></script>
 }
-
-
-
-

@@ -6,7 +6,7 @@
 
 <div class="Page">
     <div class="h-hidden">
-        <input id="product-id" value="@Model.Product.Id" />
+        <input id="product-id" value="@Model.Product?.Id" />
     </div>
 
     <div class="header">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="info-block">
                     <form method="post" asp-action="EditProduct" asp-controller="Products">
-                        <input required hidden type="number" name="Id" value="@Model.Product.Id" />
+                        <input required hidden type="number" name="Id" value="@Model.Product?.Id" />
                         <div class="brand-selector">
                             <div class="product-lable">
                                 <span>Бренд</span>
@@ -31,7 +31,7 @@
                                 <select id="brand-select" name="Brand">
                                     @foreach (var x in Model.Brands)
                                     {
-                                        if (@x.Id == @Model.Product.BrandId)
+                                        if (@x.Id == @Model.Product?.BrandId)
                                         {
                                             <option value="@x.Id" selected="selected">@x.Name</option>
                                         }
@@ -52,7 +52,7 @@
                                 <select id="model-select" name="Model">
                                     @foreach (var x in Model.Models)
                                     {
-                                        if (@x.Id == @Model.Product.ModelId)
+                                        if (@x.Id == @Model.Product?.ModelId)
                                         {
                                             <option value="@x.Id" selected="selected">@x.Name</option>
                                         }
@@ -69,34 +69,34 @@
                             <div class="product-lable">
                                 <label for="Name">Назва позиції</label>
                             </div>
-                            <input type="text" name="Name" placeholder="Введіть назву позиції..." value="@Model.Product.Name" />
+                            <input type="text" name="Name" placeholder="Введіть назву позиції..." value="@Model.Product?.Name" />
                         </div>
                         <div class="description">
                             <div class="product-lable">
                                 <label for="Description">Опис</label>
                             </div>
-                            <textarea type="text" name="Description" placeholder="Введіть опис...">@Model.Product.Description</textarea>
+                            <textarea type="text" name="Description" placeholder="Введіть опис...">@Model.Product?.Description</textarea>
                         </div>
                         <div class="price-div">
                             <div class="price">
                                 <div class="product-lable">
                                     <label for="Price">Ціна, грн</label>
                                 </div>
-                                <input type="number" name="Price" placeholder="Ціна" value="@Model.Product.Price" />
+                                <input type="number" name="Price" placeholder="Ціна" value="@Model.Product?.Price" />
                             </div>
 
                             <div class="discount">
                                 <div class="product-lable">
                                     <label for="DiscountAmount">Розмір знижки</label>
                                 </div>
-                                <input type="number" name="DiscountAmount" placeholder="Знижка" value="@Model.Product.DiscountAmount" />
+                                <input type="number" name="DiscountAmount" placeholder="Знижка" value="@Model.Product?.DiscountAmount" />
                             </div>
                             
                             <div class="rating">
                                 <div class="product-lable">
                                     <label for="Rating">Рейтинг</label>
                                 </div>
-                                <input readonly name="Rating" placeholder="Рейтинг" value="@Math.Round(Model.Product.Rating, 2)" />
+                                <input readonly name="Rating" placeholder="Рейтинг" value="@Math.Round(Model.Product!.Rating, 2)" />
                             </div>
                         </div>
                         <button id="btnMainForm" hidden type="submit">Send</button> 

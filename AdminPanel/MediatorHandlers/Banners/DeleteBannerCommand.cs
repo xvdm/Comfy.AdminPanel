@@ -29,7 +29,7 @@ public sealed class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCom
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (banner is null) return;
 
-        _removeImageFromFileSystemService.RemoveAsync(banner.ImageUrl);
+        await _removeImageFromFileSystemService.RemoveAsync(banner.ImageUrl);
 
         _context.Banners.Remove(banner);
         await _context.SaveChangesAsync(cancellationToken);

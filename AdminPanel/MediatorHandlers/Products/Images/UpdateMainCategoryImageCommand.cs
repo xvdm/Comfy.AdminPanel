@@ -1,5 +1,4 @@
 ﻿using AdminPanel.Data;
-using AdminPanel.Models.Entities;
 using AdminPanel.Services.Images.Remove;
 using AdminPanel.Services.Images.Upload;
 using MediatR;
@@ -29,17 +28,12 @@ public sealed class UpdateMainCategoryImageCommandHandler : IRequestHandler<Upda
         if (category is null) throw new HttpRequestException($"No category with id {request.CategoryId}");
 
         var path = await _uploadImageToFileSystemService.UploadImageAsync(request.ImageFile);
-        var image = new MainCategoryImage
+        if (string.IsNullOrEmpty(category.ImageUrl) == false)
         {
-            Url = path
-        };
-        if (category.Image is not null)
-        {
-            _removeImageFromFileSystemService.RemoveAsync(category.Image.Url);
-            _context.MainCategoryImages.Remove(category.Image);
+            await _removeImageFromFileSystemService.RemoveAsync(category.ImageUrl);
         }
 
-        category.Image = image;
+        category.ImageUrl = path;
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

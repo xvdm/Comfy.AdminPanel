@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Helpers;
 using AdminPanel.MediatorHandlers.Categories;
 using AdminPanel.MediatorHandlers.Products.Categories;
+using AdminPanel.MediatorHandlers.Products.Images;
 using AdminPanel.Models.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -38,6 +39,62 @@ public sealed class CategoriesController : Controller
     {
         var subcategoryFilters = await _mediator.Send(new GetSubcategoryFiltersQuery());
         return View(subcategoryFilters);
+    }
+
+    public async Task<IActionResult> GetMainCategoryImageUrl(string id)
+    {
+        if (int.TryParse(id, out var categoryId) == false)
+        {
+            return BadRequest("GetMainCategoryImageUrl :: Parsing error :: id");
+        }
+        var imageUrl = await _mediator.Send(new GetMainCategoryImageUrlQuery(categoryId));
+        return Ok(new { ImageUrl = imageUrl });
+    }
+
+    public async Task<IActionResult> GetSubcategoryImageUrl(string id)
+    {
+        if (int.TryParse(id, out var categoryId) == false)
+        {
+            return BadRequest("GetSubcategoryImageUrl :: Parsing error :: id");
+        }
+        var imageUrl = await _mediator.Send(new GetSubcategoryImageUrlQuery(categoryId));
+        return Ok(new { ImageUrl = imageUrl });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddImageToCategory(IFormFile image, string categoryId, bool isSubcategory)
+    {
+        if (int.TryParse(categoryId, out var categoryIdInt) == false)
+        {
+            return BadRequest("AddImageToCategory :: Parsing error :: categoryId");
+        }
+        if (isSubcategory)
+        {
+            await _mediator.Send(new UpdateSubcategoryImageCommand(categoryIdInt, image));
+        }
+        else
+        {
+            await _mediator.Send(new UpdateMainCategoryImageCommand(categoryIdInt, image));
+        }
+        return Ok();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveImageFromCategory(string categoryId, bool isSubcategory)
+    {
+        if (int.TryParse(categoryId, out var categoryIdInt) == false)
+        {
+            return BadRequest("RemoveImageFromCategory :: Parsing error :: categoryId");
+        }
+        if (isSubcategory)
+        {
+            await _mediator.Send(new RemoveSubcategoryImageCommand(categoryIdInt));
+        }
+        else
+        {
+            await _mediator.Send(new RemoveMainCategoryImageCommand(categoryIdInt));
+        }
+        return Ok();
     }
 
     [HttpPost]

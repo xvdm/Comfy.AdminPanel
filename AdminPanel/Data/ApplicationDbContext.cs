@@ -37,8 +37,6 @@ public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, Ap
     public DbSet<Review> Reviews { get; set; } = null!;
     public DbSet<ReviewAnswer> ReviewAnswers { get; set; } = null!;
     public DbSet<WishList> WishLists { get; set; } = null!;
-    public DbSet<MainCategoryImage> MainCategoryImages { get; set; } = null!;
-    public DbSet<SubcategoryImage> SubcategoryImages { get; set; } = null!;
     public DbSet<SubcategoryFilter> SubcategoryFilters { get; set; } = null!;
     public DbSet<ShowcaseGroup> ShowcaseGroups { get; set; } = null!;
     public DbSet<Banner> Banners { get; set; } = null!;
