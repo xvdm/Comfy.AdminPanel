@@ -127,7 +127,7 @@ public sealed class AdminPanelController : Controller
     [Authorize(Policy = RoleNames.Owner)]
     public async Task<IActionResult> CreateMainCategory(string name)
     {
-        var category = new MainCategory { Name = name, ImageUrl = "" };
+        var category = new MainCategory { Name = name };
         await _mediator.Send(new CreateMainCategoryCommand(category));
         return Ok();
     }
@@ -143,8 +143,7 @@ public sealed class AdminPanelController : Controller
         var category = new Subcategory
         {
             MainCategoryId = mainCategoryIdInt,
-            Name = name,
-            ImageUrl = ""
+            Name = name
         };
         await _mediator.Send(new CreateSubcategoryCommand(category));
         return Ok();
