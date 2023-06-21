@@ -44,14 +44,14 @@
 
                 <div class="right-section-categories">
                     <div class="change-catecories-block">
-                        <div class="name-block">
-                            <p name="add">Створити</p>
-                        </div>
-                        <div class="categories-img">
+                        <div id="categoryImageDiv" class="categories-img" hidden>
+                            <div class="name-block">
+                                <p name="add">Створити</p>
+                            </div>
                             <div class="main-image">
                                 <img id="selectedImage" alt=""/>
-                                <span class="material-icons add-icon unselectable" >add</span>
-                                <input type="file" name="uploads" accept="image/*" id="categoryImageSelect" />
+                                <span class="material-icons add-icon unselectable">add</span>
+                                <input type="file" name="uploads" accept="image/*" id="categoryImageSelect"/>
                             </div>
                         </div>
                         <div class="category-btn">
@@ -59,14 +59,14 @@
                             <button id="removeImageButton" class="h-hidden">Видалити зображення</button>
                         </div>
                         <div class="categories-inputs">
-                        <input required id="categories-name" type="text" class="categoryTextInput" placeholder="Ім'я категорії" />
-                        <select id="maincategories-selec">
-                            <option selected="selected" value="-1">Батьківська категорія</option>
-                            @foreach (var x in Model.MainCategories)
-                            {
-                                <option value=@x.Id>@x.Name</option>
-                            }
-                        </select>
+                            <input required id="categories-name" type="text" class="categoryTextInput" placeholder="Ім'я категорії"/>
+                            <select id="maincategories-selec">
+                                <option selected="selected" value="-1">Батьківська категорія</option>
+                                @foreach (var x in Model.MainCategories)
+                                {
+                                    <option value=@x.Id>@x.Name</option>
+                                }
+                            </select>
                         </div>
                         <div class="category-btn">
                             <div id="change-category-btn" class="h-hidden">

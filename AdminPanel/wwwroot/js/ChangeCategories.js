@@ -2,6 +2,8 @@
 $(document).ready(function () {
 
     $('p[name="maincategories-name"]').on('click', function () {
+        let categoryImageDiv = document.getElementById('categoryImageDiv');
+        categoryImageDiv.removeAttribute("hidden");
         document.getElementById('categoryImageSelect').value = "";
 
         // Update image on page
@@ -37,6 +39,8 @@ $(document).ready(function () {
      });
 
     $('p[name="subcategories-name"]').on('click', function () {
+        let categoryImageDiv = document.getElementById('categoryImageDiv');
+        categoryImageDiv.removeAttribute("hidden");
         document.getElementById('categoryImageSelect').value = "";
 
         // Update image on page

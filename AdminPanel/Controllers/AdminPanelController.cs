@@ -127,7 +127,7 @@ public sealed class AdminPanelController : Controller
     [Authorize(Policy = RoleNames.Owner)]
     public async Task<IActionResult> CreateMainCategory(string name)
     {
-        var category = new MainCategory { Name = name };
+        var category = new MainCategory { Name = name, ImageUrl = "" };
         await _mediator.Send(new CreateMainCategoryCommand(category));
         return Ok();
     }
@@ -140,10 +140,11 @@ public sealed class AdminPanelController : Controller
         {
             return BadRequest("CreateSubcategory :: mainCategoryId :: parse to int error");
         }
-        var category = new Subcategory()
+        var category = new Subcategory
         {
             MainCategoryId = mainCategoryIdInt,
-            Name = name
+            Name = name,
+            ImageUrl = ""
         };
         await _mediator.Send(new CreateSubcategoryCommand(category));
         return Ok();
