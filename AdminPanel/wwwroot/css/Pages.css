@@ -619,4 +619,10 @@
 .brand-dropdown {
     overflow: scroll;
 }
+.categories-dropdown {
+    overflow: scroll;
+}
+.subcategories-dropdown {
+    overflow: scroll;
+}
 /**/

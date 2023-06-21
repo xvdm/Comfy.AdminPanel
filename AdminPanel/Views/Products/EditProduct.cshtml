@@ -28,7 +28,7 @@
                                 <span>Бренд</span>
                             </div>
                             <div class="brand-list">
-                                <select id="brand-select" name="Brand">
+                                <select class="brand-dropdown" id="brand-select" name="Brand">
                                     @foreach (var x in Model.Brands)
                                     {
                                         if (@x.Id == @Model.Product?.BrandId)
@@ -49,7 +49,7 @@
                                 <span>Модель</span>
                             </div>
                             <div class="model-list">
-                                <select id="model-select" name="Model">
+                                <select class="model-dropdown" id="model-select" name="Model">
                                     @foreach (var x in Model.Models)
                                     {
                                         if (@x.Id == @Model.Product?.ModelId)
@@ -107,7 +107,7 @@
                                     <span>Головна категорія</span>
                                 </div>
                                 <div class="categories-list">
-                                    <select id="categories-select">
+                                    <select class="categories-dropdown" id="categories-select">
                                         @foreach (var x in Model.MainCategories)
                                         {
                                             if (@x.Id == @Model.Product.Category.MainCategory.Id)
@@ -127,7 +127,7 @@
                                     <span>Підкатегорія</span>
                                 </div>
                                 <div class="subcategories-list">
-                                    <select id="subcategories-select" name="Category">
+                                    <select class="subcategories-dropdown" id="subcategories-select" name="Category">
                                         @foreach (var x in @Model.Subcategories)
                                         {
                                             if (@x.Id == @Model.Product.CategoryId)
