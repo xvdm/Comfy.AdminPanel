@@ -27,6 +27,8 @@ public sealed class UpdateProductCharacteristicCommandHandler : IRequestHandler<
 
         var product = await _context.Products
             .Include(x => x.Characteristics)
+                .ThenInclude(x => x.CharacteristicsName)
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
         if (product is null) throw new HttpRequestException("There is no product with given Id");
 
@@ -49,13 +51,14 @@ public sealed class UpdateProductCharacteristicCommandHandler : IRequestHandler<
             characteristicName = new CharacteristicName { Name = request.Name };
             _context.CharacteristicsNames.Add(characteristicName);
         }
+
         if (characteristicValue is null)
         {
             characteristicValue = new CharacteristicValue { Value = request.Value };
             _context.CharacteristicsValues.Add(characteristicValue);
         }
 
-        var characteristic = product.Characteristics.FirstOrDefault(x => x.Id == request.CharacteristicId);
+        var characteristic = await _context.Characteristics.FirstOrDefaultAsync(x => x.Id == request.CharacteristicId, cancellationToken);
         if (characteristic is not null)
         {
             characteristic.CharacteristicsName = characteristicName;
