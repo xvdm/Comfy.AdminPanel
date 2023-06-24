@@ -15,51 +15,51 @@
         </div>
     </div>
     <div class="body body-with-sections">
-    <div class="sections">
-    <div class="left-section-editproduct">
-        <div class="name-block">
-            <p>Основна інформація</p>
-        </div>
-        <div class="info-block">
-            <form method="post" asp-action="EditProduct" asp-controller="Products">
-                <input required hidden type="number" name="Id" value="@Model.Product?.Id" />
-                <div class="brand-selector">
-                    <div class="product-lable">
-                        <span>Бренд</span>
-                    </div>
-                    <div class="brand-list">
-                        <select id="brand-select" name="Brand">
-                            @foreach (var x in Model.Brands)
-                            {
-                                if (@x.Id == @Model.Product?.BrandId)
-                                {
-                                    <option value="@x.Id" selected="selected">@x.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@x.Id">@x.Name</option>
-                                }
-
-                            }
-                        </select>
-                    </div>
+        <div class="sections">
+            <div class="left-section-editproduct">
+                 <div class="name-block">
+                    <p>Основна інформація</p>
                 </div>
-                <div class="model-selector">
-                    <div class="product-lable">
-                        <span>Модель</span>
-                    </div>
-                    <div class="model-list">
-                        <select id="model-select" name="Model">
-                            @foreach (var x in Model.Models)
-                            {
-                                if (@x.Id == @Model.Product?.ModelId)
-                                {
-                                    <option value="@x.Id" selected="selected">@x.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@x.Id">@x.Name</option>
-                                }
+                <div class="info-block">
+                    <form method="post" asp-action="EditProduct" asp-controller="Products">
+                        <input required hidden type="number" name="Id" value="@Model.Product?.Id" />
+                        <div class="brand-selector">
+                            <div class="product-lable">
+                                <span>Бренд</span>
+                            </div>
+                            <div class="brand-list">
+                                <select class="brand-dropdown" id="brand-select" name="Brand">
+                                    @foreach (var x in Model.Brands)
+                                    {
+                                        if (@x.Id == @Model.Product?.BrandId)
+                                        {
+                                            <option value="@x.Id" selected="selected">@x.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@x.Id">@x.Name</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="model-selector">
+                            <div class="product-lable">
+                                <span>Модель</span>
+                            </div>
+                            <div class="model-list">
+                                <select class="model-dropdown" id="model-select" name="Model">
+                                    @foreach (var x in Model.Models)
+                                    {
+                                        if (@x.Id == @Model.Product?.ModelId)
+                                        {
+                                            <option value="@x.Id" selected="selected">@x.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@x.Id">@x.Name</option>
+                                        }
 
                             }
                         </select>
@@ -101,50 +101,50 @@
                 </div>
                 <button id="btnMainForm" hidden type="submit">Send</button> 
                         
-                <div class="catecories-block">
-                    <div class="main-categories">
-                        <div class="product-lable">
-                            <span>Головна категорія</span>
+                        <div class="catecories-block">
+                            <div class="main-categories">
+                                <div class="product-lable">
+                                    <span>Головна категорія</span>
+                                </div>
+                                <div class="categories-list">
+                                    <select class="categories-dropdown" id="categories-select">
+                                        @foreach (var x in Model.MainCategories)
+                                        {
+                                            if (@x.Id == @Model.Product.Category.MainCategory.Id)
+                                            {
+                                                <option value="@x.Id" selected="selected">@x.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@x.Id">@x.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="subcategories-div" class="subcategories h-hidden">
+                                <div class="product-lable">
+                                    <span>Підкатегорія</span>
+                                </div>
+                                <div class="subcategories-list">
+                                    <select class="subcategories-dropdown" id="subcategories-select" name="Category">
+                                        @foreach (var x in @Model.Subcategories)
+                                        {
+                                            if (@x.Id == @Model.Product.CategoryId)
+                                            {
+                                                <option value="@x.Id" selected="selected">@x.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@x.Id">@x.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="categories-list">
-                            <select id="categories-select">
-                                @foreach (var x in Model.MainCategories)
-                                {
-                                    if (@x.Id == @Model.Product.Category.MainCategory.Id)
-                                    {
-                                        <option value="@x.Id" selected="selected">@x.Name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@x.Id">@x.Name</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div id="subcategories-div" class="subcategories h-hidden">
-                        <div class="product-lable">
-                            <span>Підкатегорія</span>
-                        </div>
-                        <div class="subcategories-list">
-                            <select id="subcategories-select" name="Category">
-                                @foreach (var x in @Model.Subcategories)
-                                {
-                                    if (@x.Id == @Model.Product.CategoryId)
-                                    {
-                                        <option value="@x.Id" selected="selected">@x.Name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@x.Id">@x.Name</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
-        </div>
 
         <div class="save-btn"> 
             <button id="save-btn" type="submit">Зберегти зміни</button>
