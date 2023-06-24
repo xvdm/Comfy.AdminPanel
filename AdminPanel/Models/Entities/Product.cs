@@ -31,6 +31,7 @@ public sealed class Product : Auditable, IEntityTypeConfiguration<Product>
     public IList<Image> Images { get; set; } = null!;
 
     public ICollection<Characteristic> Characteristics { get; set; } = null!;
+    public ICollection<CharacteristicGroup> CharacteristicGroups { get; set; } = null!;
 
     public ICollection<Question> Questions { get; set; } = null!;
     public ICollection<Review> Reviews { get; set; } = null!;

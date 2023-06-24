@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public sealed record CreateProductCharacteristicCommand(int ProductId, string Name, string Value) : IRequest<Characteristic>;
+public sealed record CreateProductCharacteristicCommand(int ProductId, string Name, string Value, int GroupId) : IRequest<Characteristic>;
 
 
 public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<CreateProductCharacteristicCommand, Characteristic>
@@ -22,6 +22,10 @@ public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<
 
     public async Task<Characteristic> Handle(CreateProductCharacteristicCommand request, CancellationToken cancellationToken)
     {
+        var group = await _context.CharacteristicGroups.FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
+        if(group is null) throw new HttpRequestException("Group with this id does not exist");
+        if(group.ProductId != request.ProductId) throw new HttpRequestException("Group is not for this product");
+
         var characteristicsName = await _context.CharacteristicsNames
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
@@ -64,11 +68,12 @@ public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<
         }
 
 
-        var characteristic = new Characteristic()
+        var characteristic = new Characteristic
         {
             CharacteristicsNameId = characteristicsName.Id,
             CharacteristicsValueId = characteristicsValue.Id,
-            ProductId = request.ProductId
+            ProductId = request.ProductId,
+            CharacteristicGroupId = request.GroupId
         };
         _context.Characteristics.Add(characteristic);
         product.Category.UniqueCharacteristics.Add(characteristic);

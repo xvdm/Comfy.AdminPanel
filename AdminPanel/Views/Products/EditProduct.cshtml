@@ -15,209 +15,250 @@
         </div>
     </div>
     <div class="body body-with-sections">
-        <div class="sections">
-            <div class="left-section-editproduct">
-                 <div class="name-block">
-                    <p>Основна інформація</p>
-                </div>
-                <div class="info-block">
-                    <form method="post" asp-action="EditProduct" asp-controller="Products">
-                        <input required hidden type="number" name="Id" value="@Model.Product?.Id" />
-                        <div class="brand-selector">
-                            <div class="product-lable">
-                                <span>Бренд</span>
-                            </div>
-                            <div class="brand-list">
-                                <select id="brand-select" name="Brand">
-                                    @foreach (var x in Model.Brands)
-                                    {
-                                        if (@x.Id == @Model.Product?.BrandId)
-                                        {
-                                            <option value="@x.Id" selected="selected">@x.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@x.Id">@x.Name</option>
-                                        }
-
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="model-selector">
-                            <div class="product-lable">
-                                <span>Модель</span>
-                            </div>
-                            <div class="model-list">
-                                <select id="model-select" name="Model">
-                                    @foreach (var x in Model.Models)
-                                    {
-                                        if (@x.Id == @Model.Product?.ModelId)
-                                        {
-                                            <option value="@x.Id" selected="selected">@x.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@x.Id">@x.Name</option>
-                                        }
-
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="name">
-                            <div class="product-lable">
-                                <label for="Name">Назва позиції</label>
-                            </div>
-                            <input type="text" name="Name" placeholder="Введіть назву позиції..." value="@Model.Product?.Name" />
-                        </div>
-                        <div class="description">
-                            <div class="product-lable">
-                                <label for="Description">Опис</label>
-                            </div>
-                            <textarea type="text" name="Description" placeholder="Введіть опис...">@Model.Product?.Description</textarea>
-                        </div>
-                        <div class="price-div">
-                            <div class="price">
-                                <div class="product-lable">
-                                    <label for="Price">Ціна, грн</label>
-                                </div>
-                                <input type="number" name="Price" placeholder="Ціна" value="@Model.Product?.Price" />
-                            </div>
-
-                            <div class="discount">
-                                <div class="product-lable">
-                                    <label for="DiscountAmount">Розмір знижки</label>
-                                </div>
-                                <input type="number" name="DiscountAmount" placeholder="Знижка" value="@Model.Product?.DiscountAmount" />
-                            </div>
-                            
-                            <div class="rating">
-                                <div class="product-lable">
-                                    <label for="Rating">Рейтинг</label>
-                                </div>
-                                <input readonly name="Rating" placeholder="Рейтинг" value="@Math.Round(Model.Product!.Rating, 2)" />
-                            </div>
-                        </div>
-                        <button id="btnMainForm" hidden type="submit">Send</button> 
-                        
-                        <div class="catecories-block">
-                            <div class="main-categories">
-                                <div class="product-lable">
-                                    <span>Головна категорія</span>
-                                </div>
-                                <div class="categories-list">
-                                    <select id="categories-select">
-                                        @foreach (var x in Model.MainCategories)
-                                        {
-                                            if (@x.Id == @Model.Product.Category.MainCategory.Id)
-                                            {
-                                                <option value="@x.Id" selected="selected">@x.Name</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@x.Id">@x.Name</option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="subcategories-div" class="subcategories h-hidden">
-                                <div class="product-lable">
-                                    <span>Підкатегорія</span>
-                                </div>
-                                <div class="subcategories-list">
-                                    <select id="subcategories-select" name="Category">
-                                        @foreach (var x in @Model.Subcategories)
-                                        {
-                                            if (@x.Id == @Model.Product.CategoryId)
-                                            {
-                                                <option value="@x.Id" selected="selected">@x.Name</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@x.Id">@x.Name</option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="save-btn"> 
-                    <button id="save-btn" type="submit">Зберегти зміни</button>
-                </div>
-            </div>
-            <div class="right-section-editproduct">
-                <div class="visibility-block">
-                    <div class="name-block">
-                        <p>Видимість</p>
+    <div class="sections">
+    <div class="left-section-editproduct">
+        <div class="name-block">
+            <p>Основна інформація</p>
+        </div>
+        <div class="info-block">
+            <form method="post" asp-action="EditProduct" asp-controller="Products">
+                <input required hidden type="number" name="Id" value="@Model.Product?.Id" />
+                <div class="brand-selector">
+                    <div class="product-lable">
+                        <span>Бренд</span>
                     </div>
-                    <div class="visibility-switcher">
-
-                        <input id="visibility-status" type="text" class="h-hidden" value="@Model.Product.IsActive.ToString()" />
-                        <div>
-                            <label class="unselectable"><input type="radio" id="visibility-on" name="product-visibility" value="on">Активовано</label>
-                            <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
-                        </div>
-                        <div>
-                            <label class="unselectable"><input type="radio" id="visibility-off" name="product-visibility" value="off">Деактивовано</label>
-                            <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="images-block">
-                    <div class="name-block">
-                        <p>Зображення</p>
-                    </div>
-                    <div class="images">
-                        <div class="main-image">
-                            <div name="load-img">
-                                @if (Model.Product.Images.Count != 0)
+                    <div class="brand-list">
+                        <select id="brand-select" name="Brand">
+                            @foreach (var x in Model.Brands)
+                            {
+                                if (@x.Id == @Model.Product?.BrandId)
                                 {
-                                    <img src="@Model.Product.Images[0].Url" alt="image"/>
+                                    <option value="@x.Id" selected="selected">@x.Name</option>
                                 }
                                 else
                                 {
-                                    <span class="material-icons add-icon unselectable">block</span>
+                                    <option value="@x.Id">@x.Name</option>
                                 }
-                            </div>
-                            </div>
-                            <ul class="list-images">
-                                @foreach (var image in Model.Product.Images)
-                                {
-                                    <li class="item-image">
-                                        <div class="image-load-div" name="load-img">
-                                            <form method="post" asp-action="DeleteProductImage" asp-controller="Images">
-                                                <input hidden name="productId" value="@Model.Product.Id" />
-                                                <input hidden name="imageId" value="@image.Id" />
-                                                <button  type="submit">
-                                                    <img src="@image.Url" alt="image" onclick="deleteImage(@image.Id)" />
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
+
+                            }
+                        </select>
                     </div>
                 </div>
-                <div class="load-photo-block">
-                    <div class="name-block">
-                        <p>Загрузка зображень</p>
+                <div class="model-selector">
+                    <div class="product-lable">
+                        <span>Модель</span>
                     </div>
-                    <form method="post" asp-action="UploadProductImage" asp-controller="Images" enctype="multipart/form-data">
-                        <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
-                        <div>
-                            <label>Оберіть зображення</label>
-                            <input class="img-input" accept="image/*" type="file" name="files" id="image" multiple required>
+                    <div class="model-list">
+                        <select id="model-select" name="Model">
+                            @foreach (var x in Model.Models)
+                            {
+                                if (@x.Id == @Model.Product?.ModelId)
+                                {
+                                    <option value="@x.Id" selected="selected">@x.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@x.Id">@x.Name</option>
+                                }
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="name">
+                    <div class="product-lable">
+                        <label for="Name">Назва позиції</label>
+                    </div>
+                    <input type="text" name="Name" placeholder="Введіть назву позиції..." value="@Model.Product?.Name" />
+                </div>
+                <div class="description">
+                    <div class="product-lable">
+                        <label for="Description">Опис</label>
+                    </div>
+                    <textarea type="text" name="Description" placeholder="Введіть опис...">@Model.Product?.Description</textarea>
+                </div>
+                <div class="price-div">
+                    <div class="price">
+                        <div class="product-lable">
+                            <label for="Price">Ціна, грн</label>
                         </div>
-                        <button type="submit">Загрузити</button>
-                    </form>
+                        <input type="number" name="Price" placeholder="Ціна" value="@Model.Product?.Price" />
+                    </div>
+
+                    <div class="discount">
+                        <div class="product-lable">
+                            <label for="DiscountAmount">Розмір знижки</label>
+                        </div>
+                        <input type="number" name="DiscountAmount" placeholder="Знижка" value="@Model.Product?.DiscountAmount" />
+                    </div>
+                            
+                    <div class="rating">
+                        <div class="product-lable">
+                            <label for="Rating">Рейтинг</label>
+                        </div>
+                        <input readonly name="Rating" placeholder="Рейтинг" value="@Math.Round(Model.Product!.Rating, 2)" />
+                    </div>
+                </div>
+                <button id="btnMainForm" hidden type="submit">Send</button> 
+                        
+                <div class="catecories-block">
+                    <div class="main-categories">
+                        <div class="product-lable">
+                            <span>Головна категорія</span>
+                        </div>
+                        <div class="categories-list">
+                            <select id="categories-select">
+                                @foreach (var x in Model.MainCategories)
+                                {
+                                    if (@x.Id == @Model.Product.Category.MainCategory.Id)
+                                    {
+                                        <option value="@x.Id" selected="selected">@x.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@x.Id">@x.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div id="subcategories-div" class="subcategories h-hidden">
+                        <div class="product-lable">
+                            <span>Підкатегорія</span>
+                        </div>
+                        <div class="subcategories-list">
+                            <select id="subcategories-select" name="Category">
+                                @foreach (var x in @Model.Subcategories)
+                                {
+                                    if (@x.Id == @Model.Product.CategoryId)
+                                    {
+                                        <option value="@x.Id" selected="selected">@x.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@x.Id">@x.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="save-btn"> 
+            <button id="save-btn" type="submit">Зберегти зміни</button>
+        </div>
+    </div>
+    <div class="right-section-editproduct">
+        <div class="visibility-block">
+            <div class="name-block">
+                <p>Видимість</p>
+            </div>
+            <div class="visibility-switcher">
+
+                <input id="visibility-status" type="text" class="h-hidden" value="@Model.Product.IsActive.ToString()" />
+                <div>
+                    <label class="unselectable"><input type="radio" id="visibility-on" name="product-visibility" value="on">Активовано</label>
+                    <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@true">Activate it</a>
+                </div>
+                <div>
+                    <label class="unselectable"><input type="radio" id="visibility-off" name="product-visibility" value="off">Деактивовано</label>
+                    <a class="h-hidden" asp-action="ChangeProductActivityStatus" asp-controller="Products" asp-route-productId="@Model.Product.Id" asp-route-isActive="@false">Deactivate it</a>
                 </div>
             </div>
         </div>
+        <div class="images-block">
+            <div class="name-block">
+                <p>Зображення</p>
+            </div>
+            <div class="images">
+                <div class="main-image">
+                    <div name="load-img">
+                        @if (Model.Product.Images.Count != 0)
+                        {
+                            <img src="@Model.Product.Images[0].Url" alt="image"/>
+                        }
+                        else
+                        {
+                            <span class="material-icons add-icon unselectable">block</span>
+                        }
+                    </div>
+                </div>
+                <ul class="list-images">
+                    @foreach (var image in Model.Product.Images)
+                    {
+                        <li class="item-image">
+                            <div class="image-load-div" name="load-img">
+                                <form method="post" asp-action="DeleteProductImage" asp-controller="Images">
+                                    <input hidden name="productId" value="@Model.Product.Id" />
+                                    <input hidden name="imageId" value="@image.Id" />
+                                    <button  type="submit">
+                                        <img src="@image.Url" alt="image" onclick="deleteImage(@image.Id)" />
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="load-photo-block">
+            <div class="name-block">
+                <p>Загрузка зображень</p>
+            </div>
+            <form method="post" asp-action="UploadProductImage" asp-controller="Images" enctype="multipart/form-data">
+                <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
+                <div>
+                    <label>Оберіть зображення</label>
+                    <input class="img-input" accept="image/*" type="file" name="files" id="image" multiple required>
+                </div>
+                <button type="submit">Загрузити</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="sections">
+        <div class="left-section-editproduct">
+            <h6>Додати групу характеристик</h6>
+                <form method="post" asp-controller="CharacteristicGroups" asp-action="AddGroup">
+                <input hidden name="ProductId" value="@Model.Product.Id" />
+                <input name="Name" placeholder="Ім'я"/>
+                <button type="submit">Додати</button>
+            </form>
+        </div>
+    </div>
+    @if(Model.Product.CharacteristicGroups.Any()) 
+    {
+        @foreach (var group in Model.Product.CharacteristicGroups)
+        {
+            <div class="sections">
+                <div class="left-section-editproduct">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>@group.Id | @group.Name</th>
+                            <th class="editbuttons">
+                                <form method="post" asp-controller="CharacteristicGroups" asp-action="RemoveGroup">
+                                    <input hidden name="GroupId" value="@group.Id" />
+                                    <input hidden name="ProductId" value="@Model.Product.Id" />
+                                    <button type="submit">Видалити групу</button>
+                                </form>
+                                <form asp-controller="CharacteristicGroups" asp-action="EditGroup" asp-route-productId="@Model.Product.Id" asp-route-groupId="@group.Id" asp-route-name="@group.Name">
+                                    <button type="submit">Редагувати групу</button>
+                                </form>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+    
+    
+
     <div class="section">
         <div class="name-block">
             <p>Характеристики товару</p>
@@ -230,6 +271,7 @@
                 <div>
                     <input id="addC-input-name" type="text" value="" placeholder="Назва" />
                     <input id="addC-input-value" type="text" value="" placeholder="Значення" />
+                        <input id="addC-input-groupId" type="text" value="" placeholder="Id групи характеристики" />
                     <button type="button" id="add-characteristic-btn">Додати</button>
                 </div>
             </div>
@@ -244,11 +286,11 @@
                             <th>ID</th>
                             <th>Назва</th>
                             <th>Значення</th>
-                            <th></th>
+                            <th>Група</th>
                         </tr>
                         </thead>
                         <tbody id="list-characteristics">
-                        @if (Model.Product.Characteristics.Count > 0)
+                        @if (Model.Product.Characteristics.Any())
                         {
                            @foreach (var x in Model.Product.Characteristics)
                            {
@@ -256,6 +298,7 @@
                                    <td><p>@x.Id</p></td> 
                                    <td><p>@x.CharacteristicsName.Name</p></td>
                                    <td><p>@x.CharacteristicsValue.Value</p></td>
+                                   <td><p>@x.CharacteristicGroup.Name</p></td>
                                    <td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value,@x.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>
                                    <td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>
                                </tr>
@@ -288,16 +331,14 @@
         </div>
     </div>
 
-
-
-    <div class="section">
-                <form  method="post" asp-action="DeleteProduct" asp-controller="Products">
-                    <input hidden required name="Id" value="@Model.Product.Id"/>
-                    <button type="submit">Видалити товар</button>
-                </form>
-    </div>
     
-    
+
+        <div class="section">
+            <form  method="post" asp-action="DeleteProduct" asp-controller="Products">
+                <input hidden required name="Id" value="@Model.Product.Id"/>
+                <button type="submit">Видалити товар</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -306,82 +347,3 @@
 @section scripts {
     <script src="~/js/EditProduct.js"></script>
 }
-
-
-
-@*<label for="Brand">Brand</label>
-<input type="text" name="Brand" placeholder="Brand" value="@Model.Brand.Name" />
-
-<label for="Category">Category</label>
-<input type="text" name="Category" placeholder="Category" value="@Model.Category.Name" />
-
-<label for="Model">Model</label>
-<input type="text" name="Model" placeholder="Model" value="@Model.Model.Name" />*@
-
-
-
-@*<label for="Url">Url</label>
-<br />
-<input disabled readonly type="text" name="Url" placeholder="Url" value="@Model.Product.Url" size="100" />
-<br />
-<br />
-
-<label for="Rating">Rating</label>
-<br />
-<input disabled readonly type="text" name="Rating" placeholder="Rating" value="@Model.Product.Rating" />
-<br />
-<br />
-
-<label for="Amount">Amount</label>
-<br />
-<input disabled readonly type="number" name="Amount" placeholder="Amount" value="@Model.Product.Amount" />
-<br />
-<br />
-
-<label for="Code">Code</label>
-<br />
-<input disabled readonly type="number" name="Code" placeholder="Code" value="@Model.Code" />
-<br />*@
-
-@*
-
-@if (Model.Product.PriceHistory.Count > 0)
-{
-    <h3>Price history</h3>
-
-    <table>
-        <tr>
-            <th>Date</th>
-            <th>Price</th>
-        </tr>
-        @foreach (var price in Model.Product.PriceHistory)
-        {
-            <tr>
-                <td>@price.Date.ToString("dd.MM.yyyy")</td>
-                <td>UAH: @price.Price</td>
-            </tr>
-        }
-    </table>
-}
-<h3>Upload image</h3>
-<form method="post" asp-action="UploadProductImage" asp-controller="Images" enctype="multipart/form-data">
-    <input hidden readonly type="number" name="productId" value="@Model.Product.Id" />
-    <div class="form-group">
-        <label for="image">Select Image</label>
-        <input accept="image/*" type="file" name="file" id="image" class="form-control-file" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Upload</button>
-</form>
-
-<br />
-
-@if (Model.Product.Images?.Count > 0)
-{
-    <h1>Images</h1>
-    @foreach (var image in Model.Product.Images)
-    {
-        <img src="@image.Url" width="300" height="200" />
-        <a asp-action="DeleteProductImage" asp-controller="Images" asp-route-imageId="@image.Id" asp-route-productId="@Model.Product.Id">Delete image</a>
-        <br />
-    }
-}*@

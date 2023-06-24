@@ -136,13 +136,17 @@ public sealed class ProductsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddCharacteristic(string productId, string name, string value)
+    public async Task<IActionResult> AddCharacteristic(string productId, string name, string value, string groupId)
     {
         if (int.TryParse(productId, out var productIdInt) == false)
         {
             return BadRequest("AddCharacteristic :: productId :: parse to int error");
         }
-        var addCharacteristic = new CreateProductCharacteristicCommand(productIdInt, name, value);
+        if (int.TryParse(groupId, out var groupIdInt) == false)
+        {
+            return BadRequest("AddCharacteristic :: groupId :: parse to int error");
+        }
+        var addCharacteristic = new CreateProductCharacteristicCommand(productIdInt, name, value, groupIdInt);
         var characteristic = await _mediator.Send(addCharacteristic);
         return Ok(characteristic);
     }

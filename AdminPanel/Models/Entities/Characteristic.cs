@@ -10,6 +10,9 @@ public sealed class Characteristic : IEntityTypeConfiguration<Characteristic>
     public int ProductId { get; set; }
     public Product Product { get; set; } = null!;
 
+    public int CharacteristicGroupId { get; set; }
+    public CharacteristicGroup CharacteristicGroup { get; set; } = null!;
+
     public int CharacteristicsNameId { get; set; }
     public CharacteristicName CharacteristicsName { get; set; } = null!;
 

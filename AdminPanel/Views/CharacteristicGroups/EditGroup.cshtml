@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CharacteristicGroup
+@{
+    ViewData["Title"] = "Редагуваня групи характеристик";
+}
+
+
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Редагуваня групи характеристик</p>
+        </div>
+    </div>
+
+    <div class="body body-with-sections">
+        <div class="section">
+            <form method="post" asp-controller="CharacteristicGroups" asp-action="UpdateGroup">
+                <input name="GroupId" value="@Model.Id" hidden />
+                <input name="ProductId" value="@Model.ProductId" hidden/>
+                <input name="Name" value="@Model.Name" placeholder="name"/>
+                <button type="submit">Оновити дані</button>
+            </form>
+        </div>
+    </div>
+</div>
