@@ -136,19 +136,11 @@ public sealed class ProductsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddCharacteristic(string productId, string name, string value, string groupId)
+    public async Task<IActionResult> AddCharacteristic(int productId, string name, string value, int groupId)
     {
-        if (int.TryParse(productId, out var productIdInt) == false)
-        {
-            return BadRequest("AddCharacteristic :: productId :: parse to int error");
-        }
-        if (int.TryParse(groupId, out var groupIdInt) == false)
-        {
-            return BadRequest("AddCharacteristic :: groupId :: parse to int error");
-        }
-        var addCharacteristic = new CreateProductCharacteristicCommand(productIdInt, name, value, groupIdInt);
-        var characteristic = await _mediator.Send(addCharacteristic);
-        return Ok(characteristic);
+        var addCharacteristic = new CreateProductCharacteristicCommand(productId, name, value, groupId);
+        await _mediator.Send(addCharacteristic);
+        return LocalRedirect($"/Products/EditProduct/{productId}");
     }
 
     private async Task<ProductCategoriesViewModel> GetProductCategoriesViewModel(int productId)

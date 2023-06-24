@@ -269,10 +269,13 @@
                     <span>Створити характеристику</span>
                 </div>
                 <div>
-                    <input id="addC-input-name" type="text" value="" placeholder="Назва" />
-                    <input id="addC-input-value" type="text" value="" placeholder="Значення" />
-                        <input id="addC-input-groupId" type="text" value="" placeholder="Id групи характеристики" />
-                    <button type="button" id="add-characteristic-btn">Додати</button>
+                    <form method="post" asp-controller="Products" asp-action="AddCharacteristic">
+                        <input name="ProductId" type="text" value="@Model.Product.Id" hidden/>
+                        <input name="Name" type="text" value="" placeholder="Назва"/>
+                        <input name="Value" type="text" value="" placeholder="Значення"/>
+                        <input name="GroupId" type="number" value="" placeholder="Id групи характеристики"/>
+                        <button type="submit">Додати</button>
+                    </form>
                 </div>
             </div>
             <div class="characteristics-table">
