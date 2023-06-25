@@ -404,18 +404,6 @@
     opacity: 0;
   
 }
-.characteristics-table thead th {
-    padding: 0 10px;
-}
-
-.characteristics-table tbody td p {
-    margin: 0;
-    padding: 0 10px;
-}
-
-.characteristics-table tbody button {
-    padding: 5px 10px;
-}
 
 .modal-backdrop {
     z-index: 5;
@@ -625,4 +613,30 @@
 .subcategories-dropdown {
     overflow: scroll;
 }
+/**/
+
+/**/
+.characteristics-group-lable {
+    font-weight: 500;
+    margin: 8px 0;
+}
+
+.characteristics-group-table {
+    margin-top:20px
+}
+
+.characteristics-group-table thead th {
+    padding: 0 10px;
+}
+
+.characteristics-group-table tbody td p {
+    margin: 0;
+    padding: 0 10px;
+}
+
+.characteristics-group-table tbody button {
+    padding: 5px 10px;
+}
+
+
 /**/
