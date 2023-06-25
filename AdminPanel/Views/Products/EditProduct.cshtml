@@ -218,6 +218,7 @@
         </div>
     </div>
         </div> 
+
         <div class="sections">
             <div class="left-section-editproduct">
                 <div class="name-block">
@@ -230,120 +231,68 @@
                     <button type="submit">Додати</button>
                 </form>
 
+                <div class="characteristics-block">
                 @if (Model.Product.CharacteristicGroups.Any())
                 {
-                    <div class="characteristics-group-table">
-                        <div class="characteristics-group-lable">
-                            <span>Список наявних груп характеристик</span>
-                        </div>
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Назва</th>
-                                </tr>
-                            </thead>
-                            <tbody id="list-characteristics">
-                                @foreach (var group in Model.Product.CharacteristicGroups)
-                                {
-                                    <tr>
-                                        <td><p>@group.Id | @group.Name</p></td>
-                                        <td>
-                                            <form method="post" asp-controller="CharacteristicGroups" asp-action="RemoveGroup">
-                                                <input hidden name="GroupId" value="@group.Id" />
-                                                <input hidden name="ProductId" value="@Model.Product.Id" />
-                                                <button type="submit">Видалити групу</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form asp-controller="CharacteristicGroups" asp-action="EditGroup" asp-route-productId="@Model.Product.Id" asp-route-groupId="@group.Id" asp-route-name="@group.Name">
-                                                <button type="submit">Редагувати групу</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                    <div class="characteristics-group-lable">
+                        <span>Список наявних груп і характеристик</span>
                     </div>
-                }
-            </div>
-        </div>
-    <div class="section">
-        <div class="name-block">
-            <p>Характеристики товару</p>
-        </div>
-        <div class="characteristics-section">
-            <div class="add-characteristics">
-                <div class="product-lable">
-                    <span>Створити характеристику</span>
-                </div>
-                <div>
-                    <form method="post" asp-controller="Products" asp-action="AddCharacteristic">
-                        <input name="ProductId" type="text" value="@Model.Product.Id" hidden/>
-                        <input name="Name" type="text" value="" placeholder="Назва"/>
-                        <input name="Value" type="text" value="" placeholder="Значення"/>
-                        <input name="GroupId" type="number" value="" placeholder="Id групи характеристики"/>
-                        <button type="submit">Додати</button>
-                    </form>
-                </div>
-            </div>
-            <div class="characteristics-table">
-                <div class="product-lable">
-                    <span>Список характеристик</span>
-                </div>
-            
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Назва</th>
-                            <th>Значення</th>
-                            <th>Група</th>
-                        </tr>
-                        </thead>
-                        <tbody id="list-characteristics">
-                        @if (Model.Product.Characteristics.Any())
+                    <ul class="group-characteristics-ul">
+                        @foreach (var group in Model.Product.CharacteristicGroups)
                         {
-                           @foreach (var x in Model.Product.Characteristics)
-                           {
-                               <tr name="@x.Id">
-                                   <td><p>@x.Id</p></td> 
-                                   <td><p>@x.CharacteristicsName.Name</p></td>
-                                   <td><p>@x.CharacteristicsValue.Value</p></td>
-                                   <td><p>@x.CharacteristicGroup.Name</p></td>
-                                   <td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value,@x.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>
-                                   <td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>
-                               </tr>
-                           }
-                        }
-                        </tbody>
-                    </table>
+                            <li class="characteristics-li-block">
+                                <div class="group-characteristics-div">
+                                    <p class="characteristics-group-name">@group.Name</p>
 
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel" >Редагування</h5>
-                            </div>
-                            <div class="modal-body">
-                                <input id="edit-value-id" value="" type="hidden"/>
-                                <p class="modal-title-input">Назва</p>
-                                <input class="modal-input" id="edit-name" value="" placeholder="" />
-                                <p class="modal-title-input">Значення</p>
-                                <input class="modal-input" id="edit-value" value="" placeholder="" />
-                            </div>
-                            <div class="modal-footer">
-                                <button id="close-modal" type="button" data-bs-dismiss="modal">Закрити</button>
-                                <button id="save-changes-modal" type="button" >Зберігти</button>
-                            </div>
-                        </div>
-                    </div>
+                                    <form class="characteristics-group-form" method="post" asp-controller="CharacteristicGroups" asp-action="RemoveGroup">
+                                        <input hidden name="GroupId" value="@group.Id" />
+                                        <input hidden name="ProductId" value="@Model.Product.Id" />
+                                        <button type="submit">Видалити групу</button>
+                                    </form > 
+                                    <form class="characteristics-group-form" asp-controller="CharacteristicGroups" asp-action="EditGroup" asp-route-productId="@Model.Product.Id" asp-route-groupId="@group.Id" asp-route-name="@group.Name">
+                                        <button type="submit">Редагувати групу</button>
+                                    </form>
+
+                                    <form class="addcharacteristics-form" method="post" asp-controller="Products" asp-action="AddCharacteristic">
+                                        <input name="ProductId" type="text" value="@Model.Product.Id" hidden />
+                                            <input class="characteristics-group-input" name="Name" type="text" value="" placeholder="Назва характеристики" />
+                                            <input class="characteristics-group-input" name="Value" type="text" value="" placeholder="Значення" />
+                                        <input hidden name="GroupId" type="number" value="@group.Id" />
+                                        <button type="submit">Додати характеристику</button>
+                                    </form>
+                                </div> 
+                                @if (Model.Product.Characteristics.Where(a => a.CharacteristicGroupId == group.Id).Any())
+                                {
+                                <table class="characteristics-table">
+                                    <thead>
+                                        <tr>
+                                              <th class="characteristics-label">Назва</th>
+                                              <th class="characteristics-label">Значення</th>
+                                        </tr>
+                                    </thead>
+                                        <tbody id="list-characteristics">
+                                       
+                                        @foreach (var x in Model.Product.Characteristics.Where(x => x.CharacteristicGroupId == group.Id))
+                                        {
+                                            
+                                                <tr name="@x.Id">
+                                                    <td><p>@x.CharacteristicsName.Name</p></td>
+                                                    <td><p>@x.CharacteristicsValue.Value</p></td>
+                                                    <td><button value="@x.CharacteristicsName.Name,@x.CharacteristicsValue.Value,@x.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button" name="edit-characteristic">Редагувати</button></td>
+                                                    <td><button value="@x.Id" type="button" name="delete-characteristic">Видалити</button></td>
+                                                </tr>
+                                         }
+                                     
+                                    </tbody>
+                                </table>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
                 </div>
             </div>
         </div>
-    </div>
-
-    
 
     <div class="section">
         <form  method="post" asp-action="DeleteProduct" asp-controller="Products">

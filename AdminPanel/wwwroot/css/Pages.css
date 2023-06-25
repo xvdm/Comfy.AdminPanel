@@ -306,19 +306,6 @@
     margin-bottom: 20px;
 }
 
-.characteristics-table thead th {
-    padding: 0 10px;
-}
-
-.characteristics-table tbody td p {
-        margin: 0;
-        padding: 0 10px;
-}
-
-.characteristics-table tbody button {
-    padding: 5px 10px;
-}
-
 .visibility-switcher input {
     margin-right: 5px;
     border: none;
@@ -638,5 +625,69 @@
     padding: 5px 10px;
 }
 
+.characteristics-groups-table-td {
+    display: block;
+}
 
+/**/
+
+/**/
+.characteristics-block{
+    padding-left:0;
+    margin-top:1rem;
+}
+.group-characteristics-ul {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.group-characteristics-div{
+    padding: 8px 0px 0px 0px;
+    display:flex;
+    height: 45px;
+}
+}
+.characteristics-ul {
+    list-style-type: none;
+}
+
+.characteristics-group-name {
+    font-weight: 700;
+    width: auto;
+    min-width: 100px;
+    margin-top: 6px;
+}
+/**/
+.characteristics-table{
+    margin-left:5px;
+}
+.characteristics-group-form{
+    padding: 0px 1px;
+}
+.characteristics-table thead th {
+    padding: 0 10px;
+}
+
+.characteristics-table tbody td p {
+    margin: 0;
+    padding: 0 10px;
+}
+
+.characteristics-table tbody button {
+    padding: 5px 15px;
+}
+.addcharacteristics-form {
+    margin-left: 10px;
+}
+.characteristics-group-input {
+    height: 34px;
+}
+
+.characteristics-li-block{
+    padding: 0 0 15px 0;
+}
+
+.characteristics-label {
+    font-weight: 500;
+}
 /**/
