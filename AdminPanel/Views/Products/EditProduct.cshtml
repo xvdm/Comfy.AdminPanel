@@ -217,7 +217,57 @@
             </form>
         </div>
     </div>
-    </div>
+        </div> 
+        <div class="sections">
+            <div class="left-section-editproduct">
+                <div class="name-block">
+                    <p>Додати групу характеристик</p>
+                </div>
+
+                <form method="post" asp-controller="CharacteristicGroups" asp-action="AddGroup">
+                    <input hidden name="ProductId" value="@Model.Product.Id" />
+                    <input name="Name" placeholder="Ім'я" />
+                    <button type="submit">Додати</button>
+                </form>
+
+                @if (Model.Product.CharacteristicGroups.Any())
+                {
+                    <div class="characteristics-group-table">
+                        <div class="characteristics-group-lable">
+                            <span>Список наявних груп характеристик</span>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Назва</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-characteristics">
+                                @foreach (var group in Model.Product.CharacteristicGroups)
+                                {
+                                    <tr>
+                                        <td><p>@group.Id | @group.Name</p></td>
+                                        <td>
+                                            <form method="post" asp-controller="CharacteristicGroups" asp-action="RemoveGroup">
+                                                <input hidden name="GroupId" value="@group.Id" />
+                                                <input hidden name="ProductId" value="@Model.Product.Id" />
+                                                <button type="submit">Видалити групу</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form asp-controller="CharacteristicGroups" asp-action="EditGroup" asp-route-productId="@Model.Product.Id" asp-route-groupId="@group.Id" asp-route-name="@group.Name">
+                                                <button type="submit">Редагувати групу</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
     <div class="section">
         <div class="name-block">
             <p>Характеристики товару</p>
@@ -292,92 +342,7 @@
             </div>
         </div>
     </div>
-    <div class="sections">
-        <div class="left-section-editproduct">
-                <div class="name-block">
-                    <p>Додати групу характеристик</p>
-                </div>
 
-                <form method="post" asp-controller="CharacteristicGroups" asp-action="AddGroup">
-                <input hidden name="ProductId" value="@Model.Product.Id" />
-                <input name="Name" placeholder="Ім'я"/>
-                <button type="submit">Додати</button>
-            </form>
-            
-            @if (Model.Product.CharacteristicGroups.Any())
-                {
-                    <div class="characteristics-group-table">
-                        <div class="characteristics-group-lable">
-                            <span>Список наявних груп характеристик</span>
-                        </div>
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Назва</th>
-                                </tr>
-                            </thead>
-                            <tbody id="list-characteristics">
-                                @foreach (var group in Model.Product.CharacteristicGroups)
-                                { 
-                                    <tr>
-                                        <td><p>@group.Id | @group.Name</p></td>
-                                        <td>
-                                            <form method="post" asp-controller="CharacteristicGroups" asp-action="RemoveGroup">
-                                                <input hidden name="GroupId" value="@group.Id" />
-                                                <input hidden name="ProductId" value="@Model.Product.Id" />
-                                                <button type="submit">Видалити групу</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form asp-controller="CharacteristicGroups" asp-action="EditGroup" asp-route-productId="@Model.Product.Id" asp-route-groupId="@group.Id" asp-route-name="@group.Name">
-                                                <button type="submit">Редагувати групу</button>
-                                            </form>
-                                        </td>
-                                    </tr> 
-                                }
-                            </tbody>
-                    </table>
-                </div>
-            }
-
-            @*@if (Model.Product.CharacteristicGroups.Any())
-            { 
-               <div class="characteristics-group-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Назва</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var group in Model.Product.CharacteristicGroups)
-                            { 
-                                <tr>
-                                    <td><p> @group.Id | @group.Name</p></td>
-                                    <td class="remove-group-button">
-                                        <form method="post" asp-controller="CharacteristicGroups" asp-action="RemoveGroup">
-                                            <input hidden name="GroupId" value="@group.Id" />
-                                            <input hidden name="ProductId" value="@Model.Product.Id" />
-                                            <button type="submit">Видалити групу</button>
-                                        </form>
-                                        
-                                    </td>
-                                    <td>
-                                        <form asp-controller="CharacteristicGroups" asp-action="EditGroup" asp-route-productId="@Model.Product.Id" asp-route-groupId="@group.Id" asp-route-name="@group.Name">
-                                            <button type="submit">Редагувати групу</button>
-                                        </form>
-                                    </td>
-
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-               </div>
-            }*@
-
-        </div>
-    </div>
     
 
     <div class="section">
