@@ -23,14 +23,14 @@ public sealed class AddCharacteristicGroupCommandHandler : IRequestHandler<AddCh
             .Include(x => x.CharacteristicGroups)
             .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
         if (product is null) return;
-        if (product.CharacteristicGroups.Any(characteristicGroup => characteristicGroup.Name == request.Name))
+        if (product.CharacteristicGroups.Any(characteristicGroup => characteristicGroup.Name == request.Name.Trim()))
         {
             throw new Exception("Група з такою назвою вже є");
         }
 
         var group = new CharacteristicGroup
         {
-            Name = request.Name,
+            Name = request.Name.Trim(),
             ProductId = request.ProductId
         };
 

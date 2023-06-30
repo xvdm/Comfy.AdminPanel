@@ -6,7 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public sealed record CreateProductCharacteristicCommand(int ProductId, string Name, string Value, int GroupId) : IRequest<Characteristic>;
+public sealed record CreateProductCharacteristicCommand : IRequest<Characteristic>
+{
+    public int ProductId { get; init; }
+    public int GroupId { get; init; }
+    public string Name { get; init; }
+    public string Value { get; init; }
+    public CreateProductCharacteristicCommand(int productId, string name, string value, int groupId)
+    {
+        ProductId = productId;
+        Name = name.Trim();
+        Value = value.Trim();
+        GroupId = groupId;
+    }
+}
 
 
 public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<CreateProductCharacteristicCommand, Characteristic>
@@ -28,22 +41,22 @@ public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<
 
         var characteristicsName = await _context.CharacteristicsNames
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Name == request.Name.Trim(), cancellationToken);
+            .FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
        
         var characteristicsValue = await _context.CharacteristicsValues
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Value == request.Value.Trim(), cancellationToken);
+            .FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);
 
         var isNewCharacteristic = false;
         if (characteristicsName is null)
         {
-            characteristicsName = new CharacteristicName { Name = request.Name.Trim() };
+            characteristicsName = new CharacteristicName { Name = request.Name };
             _context.CharacteristicsNames.Add(characteristicsName);
             isNewCharacteristic = true;
         }
         if (characteristicsValue is null)
         {
-            characteristicsValue = new CharacteristicValue { Value = request.Value.Trim() };
+            characteristicsValue = new CharacteristicValue { Value = request.Value };
             _context.CharacteristicsValues.Add(characteristicsValue);
             isNewCharacteristic = true;
         }

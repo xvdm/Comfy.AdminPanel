@@ -24,11 +24,11 @@ public sealed class UpdateCharacteristicGroupCommandHandler : IRequestHandler<Up
             .Include(x => x.CharacteristicGroups)
             .FirstOrDefaultAsync(x => x.Id == group.ProductId, cancellationToken);
         if (product is null) return;
-        if (product.CharacteristicGroups.Any(characteristicGroup => characteristicGroup.Name == request.Name))
+        if (product.CharacteristicGroups.Any(characteristicGroup => characteristicGroup.Name == request.Name.Trim()))
         {
             throw new Exception("Група з такою назвою вже є");
         }
-        group.Name = request.Name;
+        group.Name = request.Name.Trim();
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

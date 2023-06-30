@@ -3,11 +3,23 @@ using AdminPanel.Events.Invalidation;
 using AdminPanel.Models.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public sealed record UpdateProductCharacteristicCommand(int ProductId, int CharacteristicId, string Name, string Value) : IRequest;
+public sealed record UpdateProductCharacteristicCommand : IRequest
+{
+    public int ProductId { get; init; }
+    public int CharacteristicId { get; init; }
+    public string Name { get; init; }
+    public string Value { get; init; }
+    public UpdateProductCharacteristicCommand(int productId, int characteristicId, string name, string value)
+    {
+        ProductId = productId;
+        CharacteristicId = characteristicId;
+        Name = name.Trim();
+        Value = value.Trim();
+    }
+}
 
 
 public sealed class UpdateProductCharacteristicCommandHandler : IRequestHandler<UpdateProductCharacteristicCommand>
