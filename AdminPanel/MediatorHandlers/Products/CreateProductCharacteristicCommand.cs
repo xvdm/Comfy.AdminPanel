@@ -37,13 +37,13 @@ public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<
         var isNewCharacteristic = false;
         if (characteristicsName is null)
         {
-            characteristicsName = new CharacteristicName { Name = request.Name };
+            characteristicsName = new CharacteristicName { Name = request.Name.Trim() };
             _context.CharacteristicsNames.Add(characteristicsName);
             isNewCharacteristic = true;
         }
         if (characteristicsValue is null)
         {
-            characteristicsValue = new CharacteristicValue { Value = request.Value };
+            characteristicsValue = new CharacteristicValue { Value = request.Value.Trim() };
             _context.CharacteristicsValues.Add(characteristicsValue);
             isNewCharacteristic = true;
         }
