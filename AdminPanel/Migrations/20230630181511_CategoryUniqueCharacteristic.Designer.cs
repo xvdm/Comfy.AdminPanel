@@ -3,6 +3,7 @@ using System;
 using AdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdminPanel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230630181511_CategoryUniqueCharacteristic")]
+    partial class CategoryUniqueCharacteristic
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,20 +136,22 @@ namespace AdminPanel.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CharacteristicNameId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CharacteristicsName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int>("CharacteristicValueId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CharacteristicsValue")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("SubcategoryId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacteristicNameId");
+                    b.HasIndex("CharacteristicsName");
 
-                    b.HasIndex("CharacteristicValueId");
+                    b.HasIndex("CharacteristicsValue");
 
                     b.HasIndex("SubcategoryId");
 
@@ -1121,27 +1125,11 @@ namespace AdminPanel.Migrations
 
             modelBuilder.Entity("AdminPanel.Models.Entities.CategoryUniqueCharacteristic", b =>
                 {
-                    b.HasOne("AdminPanel.Models.Entities.CharacteristicName", "CharacteristicName")
-                        .WithMany()
-                        .HasForeignKey("CharacteristicNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AdminPanel.Models.Entities.CharacteristicValue", "CharacteristicValue")
-                        .WithMany()
-                        .HasForeignKey("CharacteristicValueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AdminPanel.Models.Entities.Subcategory", "Subcategory")
                         .WithMany("UniqueCharacteristics")
                         .HasForeignKey("SubcategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CharacteristicName");
-
-                    b.Navigation("CharacteristicValue");
 
                     b.Navigation("Subcategory");
                 });

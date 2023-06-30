@@ -43,6 +43,7 @@ public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, Ap
     public DbSet<Banner> Banners { get; set; } = null!;
     public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
     public DbSet<PendingUser> PendingUsers { get; set; } = null!;
+    public DbSet<CategoryUniqueCharacteristic> CategoryUniqueCharacteristics { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

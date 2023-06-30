@@ -1,5 +1,6 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Events.Invalidation;
+using AdminPanel.Models.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,9 +23,19 @@ public sealed class DeleteProductCharacteristicCommandHandler : IRequestHandler<
     public async Task Handle(DeleteProductCharacteristicCommand request, CancellationToken cancellationToken)
     {
         var characteristic = await _context.Characteristics
+            .Include(x => x.CharacteristicsName)
+            .Include(x => x.CharacteristicsValue)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.CharacteristicId, cancellationToken);
         if (characteristic is null) return;
+
+        var product = await _context.Products
+            .Include(x => x.Category)
+                .ThenInclude(x => x.UniqueCharacteristics)
+            .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
+        if (product is null) return;
+
+        await DeleteUniqueCharacteristicIfNoProductsLeft(product, characteristic, cancellationToken);
 
         _context.Characteristics.Remove(characteristic);
         await _context.SaveChangesAsync(cancellationToken);
@@ -37,5 +48,23 @@ public sealed class DeleteProductCharacteristicCommandHandler : IRequestHandler<
 
         var productInvalidatedEvent = new ProductInvalidatedEvent(request.ProductId, productUrl!.Url);
         await _publisher.Publish(productInvalidatedEvent, cancellationToken);
+    }
+
+    private async Task DeleteUniqueCharacteristicIfNoProductsLeft(Product product, Characteristic characteristic, CancellationToken cancellationToken)
+    {
+        var productsWithThisCharacteristic = await _context.Characteristics
+            .Include(x => x.Product)
+            .CountAsync(x => x.Product.CategoryId == product.CategoryId &&
+                             x.CharacteristicsNameId == characteristic.CharacteristicsNameId &&
+                             x.CharacteristicsValueId == characteristic.CharacteristicsValueId, cancellationToken);
+        if (productsWithThisCharacteristic <= 1)
+        {
+            var uniqueCharacteristic = await _context.CategoryUniqueCharacteristics
+                .FirstOrDefaultAsync(x => x.SubcategoryId == product.CategoryId &&
+                                          x.CharacteristicNameId == characteristic.CharacteristicsNameId &&
+                                          x.CharacteristicValueId == characteristic.CharacteristicsValueId, cancellationToken);
+            if (uniqueCharacteristic is null) return;
+            product.Category.UniqueCharacteristics.Remove(uniqueCharacteristic);
+        }
     }
 }

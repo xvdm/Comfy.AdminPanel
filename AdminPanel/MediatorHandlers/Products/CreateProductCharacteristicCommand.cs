@@ -57,6 +57,10 @@ public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<
                 .ThenInclude(x => x.CharacteristicsName)
             .Include(x => x.Category)
                 .ThenInclude(x => x.UniqueCharacteristics)
+                    .ThenInclude(x => x.CharacteristicName)
+            .Include(x => x.Category)
+                .ThenInclude(x => x.UniqueCharacteristics)
+                    .ThenInclude(x => x.CharacteristicValue)
             .FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
         if (product is null)
         {
@@ -77,12 +81,20 @@ public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<
         };
         _context.Characteristics.Add(characteristic);
 
-        if (product.Category.UniqueCharacteristics.Any(x =>
-                x.CharacteristicsNameId == characteristicsName.Id &&
-                x.CharacteristicsValueId == characteristicsValue.Id) == false)
+
+        if (product.Category.UniqueCharacteristics.Any(x => 
+                x.CharacteristicNameId == characteristicsName.Id &&
+                x.CharacteristicValueId == characteristicsValue.Id) == false)
         {
-            product.Category.UniqueCharacteristics.Add(characteristic);
+            var categoryUniqueCharacteristic = new CategoryUniqueCharacteristic
+            {
+                SubcategoryId = product.CategoryId,
+                CharacteristicNameId = characteristicsName.Id,
+                CharacteristicValueId = characteristicsValue.Id
+            };
+            product.Category.UniqueCharacteristics.Add(categoryUniqueCharacteristic);
         }
+
         await _context.SaveChangesAsync(cancellationToken);
 
 
