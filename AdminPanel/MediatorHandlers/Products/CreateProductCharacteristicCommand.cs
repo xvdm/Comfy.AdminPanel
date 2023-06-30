@@ -76,7 +76,13 @@ public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<
             CharacteristicGroupId = request.GroupId
         };
         _context.Characteristics.Add(characteristic);
-        product.Category.UniqueCharacteristics.Add(characteristic);
+
+        if (product.Category.UniqueCharacteristics.Any(x =>
+                x.CharacteristicsNameId == characteristicsName.Id &&
+                x.CharacteristicsValueId == characteristicsValue.Id) == false)
+        {
+            product.Category.UniqueCharacteristics.Add(characteristic);
+        }
         await _context.SaveChangesAsync(cancellationToken);
 
 
