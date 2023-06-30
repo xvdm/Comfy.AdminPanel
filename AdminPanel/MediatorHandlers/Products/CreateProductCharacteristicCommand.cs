@@ -28,11 +28,11 @@ public sealed class CreateProductCharacteristicCommandHandler : IRequestHandler<
 
         var characteristicsName = await _context.CharacteristicsNames
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Name == request.Name.Trim(), cancellationToken);
        
         var characteristicsValue = await _context.CharacteristicsValues
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Value == request.Value, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Value == request.Value.Trim(), cancellationToken);
 
         var isNewCharacteristic = false;
         if (characteristicsName is null)
