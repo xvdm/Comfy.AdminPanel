@@ -1,5 +1,6 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Events.Invalidation;
+using AdminPanel.Helpers;
 using AdminPanel.Models.Entities;
 using MediatR;
 
@@ -21,6 +22,7 @@ public sealed class CreateMainCategoryCommandHandler : IRequestHandler<CreateMai
 
     public async Task Handle(CreateMainCategoryCommand request, CancellationToken cancellationToken)
     {
+        request.Category.Url = UrlHelper.CreateCategoryUrl(request.Category.Name);
         _context.MainCategories.Add(request.Category);
         await _context.SaveChangesAsync(cancellationToken);
 
