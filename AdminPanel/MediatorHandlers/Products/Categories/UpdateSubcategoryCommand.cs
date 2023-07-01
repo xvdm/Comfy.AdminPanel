@@ -1,5 +1,6 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Events.Invalidation;
+using AdminPanel.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,7 @@ public sealed class UpdateSubcategoryCommandHandler : IRequestHandler<UpdateSubc
         if (category is null) throw new HttpRequestException($"No Subcategory with id {request.Id}");
 
         category.Name = request.Name;
+        category.Url = UrlHelper.CreateCategoryUrl(request.Name);
         await _context.SaveChangesAsync(cancellationToken);
 
         var notification = new CategoriesMenuInvalidatedEvent();

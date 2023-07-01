@@ -1,5 +1,6 @@
 ﻿using AdminPanel.Data;
 using AdminPanel.Events.Invalidation;
+using AdminPanel.Helpers;
 using AdminPanel.Models.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ public sealed class CreateSubcategoryCommandHandler : IRequestHandler<CreateSubc
         var mainCategoryCount = await _context.MainCategories.CountAsync(x => x.Id == request.Category.MainCategoryId, cancellationToken);
         if (mainCategoryCount <= 0) return;
 
+        request.Category.Url = UrlHelper.CreateCategoryUrl(request.Category.Name);
         _context.Subcategories.Add(request.Category);
         await _context.SaveChangesAsync(cancellationToken);
 

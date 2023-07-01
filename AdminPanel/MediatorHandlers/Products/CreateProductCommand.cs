@@ -56,7 +56,7 @@ public sealed class CreateProductCommandHandler : IRequestHandler<CreateProductC
         await _context.SaveChangesAsync(cancellationToken);
 
         product.Code = product.Id + 1000000;
-        product.Url = ProductUrl.Create(product.Name, product.Code);
+        product.Url = UrlHelper.CreateProductUrl(product.Name, product.Code);
         product.PriceHistory = new List<PriceHistory>
         {
             new()

@@ -7,6 +7,7 @@ public sealed class Subcategory : IEntityTypeConfiguration<Subcategory>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
+    public string Url { get; set; } = null!;
     public string? ImageUrl { get; set; }
 
     public int MainCategoryId { get; set; }

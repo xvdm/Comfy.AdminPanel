@@ -82,7 +82,7 @@ public sealed class UpdateProductCommandHandler : IRequestHandler<UpdateProductC
         if (product.Name != request.Name)
         {
             product.Name = request.Name;
-            product.Url = ProductUrl.Create(product.Name, product.Code);
+            product.Url = UrlHelper.CreateProductUrl(product.Name, product.Code);
         }
 
         if (product.Price != request.Price)
