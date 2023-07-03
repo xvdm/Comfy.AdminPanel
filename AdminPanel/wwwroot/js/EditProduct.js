@@ -79,7 +79,7 @@ $(document).ready(function editProductJS() {
     // Characteristics
     // Edit
     $('button[name="edit-characteristic"]').on('click', function () {
-        const value = $(this).val().split(";");
+        const value = $(this).val().split("|");
         $('#edit-name').val(value[0]);
         $('#edit-value').val(value[1]);
         $('#edit-value-id').val(value[2]);
@@ -103,6 +103,7 @@ $(document).ready(function editProductJS() {
                     location.reload();
                 }
             });
+
     });
 
     
