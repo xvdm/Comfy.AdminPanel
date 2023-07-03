@@ -79,10 +79,11 @@ $(document).ready(function editProductJS() {
     // Characteristics
     // Edit
     $('button[name="edit-characteristic"]').on('click', function () {
-        const value = $(this).val().split(",");
+        const value = $(this).val().split(";");
         $('#edit-name').val(value[0]);
         $('#edit-value').val(value[1]);
         $('#edit-value-id').val(value[2]);
+
     });
 
     //Save modal
@@ -91,7 +92,6 @@ $(document).ready(function editProductJS() {
         const newValue = $('#edit-value').val();
         const characteristicId = $('#edit-value-id').val();
 
-        if ((newName.length > 1 && newValue.length > 1) && (newName.length < 50 && newValue.length < 50)) {
             $.ajax({
                 type: 'POST',
                 url: '/Products/EditCharacteristic/',
@@ -103,7 +103,6 @@ $(document).ready(function editProductJS() {
                     location.reload();
                 }
             });
-        }
     });
 
     
