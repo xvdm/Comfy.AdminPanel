@@ -28,7 +28,7 @@ public sealed class CommentsController : Controller
         var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery(true));
         var totalPages = (totalCount - 1) / query.PageSize + 1;
 
-        var viewModel = new QuestionsViewModel()
+        var viewModel = new QuestionsViewModel
         {
             Questions = questions,
             TotalPages = totalPages,
@@ -45,7 +45,7 @@ public sealed class CommentsController : Controller
         var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery(true));
         var totalPages = (totalCount - 1) / query.PageSize + 1;
 
-        var viewModel = new ReviewsViewModel()
+        var viewModel = new ReviewsViewModel
         {
             Reviews = reviews,
             TotalPages = totalPages,
@@ -60,9 +60,9 @@ public sealed class CommentsController : Controller
         var questions = await _mediator.Send(query);
 
         var totalCount = await _mediator.Send(new GetQuestionsTotalCountQuery(false));
-        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
 
-        var viewModel = new QuestionsViewModel()
+        var viewModel = new QuestionsViewModel
         {
             Questions = questions,
             TotalPages = totalPages,
@@ -77,9 +77,9 @@ public sealed class CommentsController : Controller
         var reviews = await _mediator.Send(query);
 
         var totalCount = await _mediator.Send(new GetReviewsTotalCountQuery(false));
-        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
 
-        var viewModel = new ReviewsViewModel()
+        var viewModel = new ReviewsViewModel
         {
             Reviews = reviews,
             TotalPages = totalPages,
@@ -94,9 +94,9 @@ public sealed class CommentsController : Controller
         var reviewAnswers = await _mediator.Send(query);
 
         var totalCount = await _mediator.Send(new GetReviewAnswersTotalCountQuery(true));
-        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
 
-        var viewModel = new ReviewAnswersViewModel()
+        var viewModel = new ReviewAnswersViewModel
         {
             ReviewAnswers = reviewAnswers,
             TotalPages = totalPages,
@@ -111,9 +111,9 @@ public sealed class CommentsController : Controller
         var questionAnswers = await _mediator.Send(query);
 
         var totalCount = await _mediator.Send(new GetReviewAnswersTotalCountQuery(true));
-        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
 
-        var viewModel = new QuestionAnswersViewModel()
+        var viewModel = new QuestionAnswersViewModel
         {
             QuestionAnswers = questionAnswers,
             TotalPages = totalPages,
@@ -128,9 +128,9 @@ public sealed class CommentsController : Controller
         var reviewAnswers = await _mediator.Send(query);
 
         var totalCount = await _mediator.Send(new GetReviewAnswersTotalCountQuery(false));
-        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
 
-        var viewModel = new ReviewAnswersViewModel()
+        var viewModel = new ReviewAnswersViewModel
         {
             ReviewAnswers = reviewAnswers,
             TotalPages = totalPages,
@@ -145,9 +145,9 @@ public sealed class CommentsController : Controller
         var questionAnswers = await _mediator.Send(query);
 
         var totalCount = await _mediator.Send(new GetReviewAnswersTotalCountQuery(false));
-        var totalPages = (totalCount - 1) / (query.PageSize + 1);
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
 
-        var viewModel = new QuestionAnswersViewModel()
+        var viewModel = new QuestionAnswersViewModel
         {
             QuestionAnswers = questionAnswers,
             TotalPages = totalPages,
