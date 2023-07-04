@@ -46,7 +46,7 @@ public sealed class Product : Auditable, IEntityTypeConfiguration<Product>
         builder.HasIndex(x => x.Code).IsUnique();
         builder.HasIndex(x => x.Url).IsUnique();
 
-        builder.HasMany(x => x.Orders).WithMany(x => x.OrderedProducts);
+        builder.HasMany(x => x.Orders).WithMany(x => x.Products);
         builder.HasMany(x => x.WishLists).WithMany(x => x.Products);
     }
 }

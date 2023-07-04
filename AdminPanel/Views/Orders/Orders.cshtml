@@ -1,0 +1,181 @@
+﻿@model OrdersViewModel
+@{
+    ViewData["Title"] = "Замовлення";
+}
+
+<div class="Page">
+    <div class="header">
+        <div class="namePage">
+            <p>Замовлення</p>
+        </div>
+    </div>
+    <div class="body body-with-sections">
+        <div class="sections">
+            <form method="post" asp-controller="Orders" asp-action="Orders" id="filter-form">
+                <select class="status-dropdown" id="status-select" name="statusFilter">
+                    @foreach (var x in Model.Statuses)
+                    {
+                        <option value="@x.Id">@x.Name</option>
+                    }
+                </select>
+                <button type="submit" onclick="updateQueryParameter()">Фільтрувати за статусом</button>
+            </form>
+        </div>
+        <div class="sections">
+            <div class="left-section-editproduct">
+                <div class="comments-table">
+                    <table class="table-comments-width">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Статус</th>
+                                <th>Загальна ціна</th>
+                                <th>Email</th>
+                                <th>ФІО</th>
+                                <th>Місто та адреса</th>
+                                <th>Коментар</th>
+                                <th>Передзвонити</th>
+                                <th>Дата створення</th>
+                                <th>Артикули товарів</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-orders">
+                            @foreach (var x in Model.Orders)
+                            {
+                                <tr name="@x.Id">
+                                    <td>
+                                        <p>@x.Id</p>
+                                    </td>
+                                    <td>
+                                        <p>@x.OrderStatus.Name</p>
+                                    </td>
+                                    <td class="comments-product-width">
+                                        <p>@x.TotalPrice</p>
+                                    </td>
+                                    <td>
+                                        <p>@x.Email</p>
+                                    </td>
+                                    <td>
+                                        <p>@x.Surname @x.Name @x.Patronymic</p>
+                                    </td>
+                                    <td>
+                                        <p>@x.City @x.Address</p>
+                                    </td>
+                                    <td>
+                                        <p>@x.UserComment</p>
+                                    </td>
+                                    <td>
+                                        <p>@x.CallToConfirm</p>
+                                    </td>
+                                    <td>
+                                        <p>@x.CreatedAt</p>
+                                    </td>
+                                    <td>
+                                        @foreach (var product in x.Products)
+                                        {
+                                            <p>@product.Code</p>
+                                        }
+                                    </td>
+                                    <td class="comments-buttons-width">
+                                        <form class="page-form" method="post" asp-controller="Orders" asp-route-id="@x.Id" asp-route-currentStatus="@x.OrderStatusId" asp-action="ChangeOrderStatus">
+                                            <button class="page-num" type="submit">Змінити статус</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @if (Model.TotalPages > 1)
+                    {
+                        <div class="pagination-section">
+                            @if (Model.CurrentPage == 1)
+                            {
+                                <button class="page-num">Previous</button>
+                            }
+                            else
+                            {
+                                <form class="page-form" method="get" asp-controller="Orders" asp-action="Orders">
+                                    <input type="hidden" name="statusFilter" value="@Context.Request.Query["statusFilter"]" />
+                                    <input type="hidden" name="pageNumber" value="@(Model.CurrentPage - 1)" />
+                                    <button class="page-num" type="submit">Previous</button>
+                                </form>
+                            }
+
+                            @for (var i = 1; i <= Model.TotalPages; i++)
+                            {
+                                @if (i == Model.CurrentPage)
+                                {
+                                    <form class="current-page-form" method="get" asp-controller="Orders" asp-action="Orders">
+                                        <input type="hidden" name="statusFilter" value="@Context.Request.Query["statusFilter"]" />
+                                        <input type="hidden" name="pageNumber" value="@i" />
+                                        <button type="submit">@i</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form class="page-form" method="get" asp-controller="Orders" asp-action="Orders">
+                                        <input type="hidden" name="statusFilter" value="@Context.Request.Query["statusFilter"]" />
+                                        <input type="hidden" name="pageNumber" value="@i" />
+                                        <button type="submit">@i</button>
+                                    </form>
+                                }
+                            }
+
+                            @if (Model.CurrentPage == Model.TotalPages)
+                            {
+                                <button class="page-num">Next</button>
+                            }
+                            else
+                            {
+                                <form class="page-form" method="get" asp-controller="Orders" asp-action="Orders">
+                                    <input type="hidden" name="statusFilter" value="@Context.Request.Query["statusFilter"]" />
+                                    <input type="hidden" name="pageNumber" value="@(Model.CurrentPage + 1)" />
+                                    <button class="page-num" type="submit">Next</button>
+                                </form>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+<script>
+    function updateQueryParameter() {
+        var form = document.getElementById("filter-form");
+        var statusSelect = document.getElementById("status-select");
+        var selectedStatus = statusSelect.options[statusSelect.selectedIndex].value;
+
+        // Get the current URL
+        var currentUrl = window.location.href;
+
+        // Check if the URL already contains a query string
+        if (currentUrl.indexOf("?") !== -1) {
+            // Split the URL into base URL and query string
+            var parts = currentUrl.split("?");
+            var baseUrl = parts[0];
+            var queryString = parts[1];
+
+            // Split the query string into individual parameters
+            var parameters = queryString.split("&");
+
+            // Find and replace the statusFilter parameter
+            for (var i = 0; i < parameters.length; i++) {
+                if (parameters[i].startsWith("statusFilter=")) {
+                    parameters[i] = "statusFilter=" + selectedStatus;
+                }
+                else if (parameters[i].startsWith("pageNumber=")) {
+                    parameters[i] = "pageNumber=1";
+                }
+            }
+
+            // Combine the base URL, modified query string, and form action
+            form.action = baseUrl + "?" + parameters.join("&");
+        } else {
+            // Create a new query string with the new parameter
+            form.action = currentUrl + "?statusFilter=" + selectedStatus;
+        }
+    }
+</script>

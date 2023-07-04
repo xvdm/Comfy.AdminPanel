@@ -34,8 +34,8 @@ switch (userMainPosition[1]) {
         let divMain = document.getElementById("Main");
         blockMainLink(divMain)
 
-        links = ["Активні", "Прийняті", "Виконані", "Скасовані"];
-        href = ["/Orders/ActiveOrders", "/Orders/AcceptedOrders", "/Orders/CompletedOrders", "/Orders/CancelledOrders"]
+        links = ["Усі замовлення"];
+        href = ["/Orders/Orders"]
         createLI(links, href)
         div.appendChild(ul)
         divMain.appendChild(div)
