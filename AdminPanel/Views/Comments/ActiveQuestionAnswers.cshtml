@@ -51,7 +51,7 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="InactiveQuestionAnswers">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="ActiveQuestionAnswers">
                                     <button class="page-num" type="submit">Previous</button>
                                 </form>
                             }
@@ -60,13 +60,13 @@
                             {
                                 @if (i == Model.CurrentPage)
                                 {
-                                    <form class="current-page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="InactiveQuestionAnswers">
+                                    <form class="current-page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="ActiveQuestionAnswers">
                                         <button type="submit">@i</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="InactiveQuestionAnswers">
+                                    <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@i" asp-action="ActiveQuestionAnswers">
                                         <button type="submit">@i</button>
                                     </form>
                                 }
@@ -78,7 +78,7 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="InactiveQuestionAnswers">
+                                <form class="page-form" method="post" asp-controller="Comments" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="ActiveQuestionAnswers">
                                     <button class="page-num" type="submit">Next</button>
                                 </form>
                             }
