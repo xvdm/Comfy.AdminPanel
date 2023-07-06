@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Services.Images.Remove;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,13 @@ public sealed class RemoveSubcategoryImageCommandHandler : IRequestHandler<Remov
 {
     private readonly ApplicationDbContext _context;
     private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
+    private readonly IPublisher _publisher;
 
-    public RemoveSubcategoryImageCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService)
+    public RemoveSubcategoryImageCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService, IPublisher publisher)
     {
         _context = context;
         _removeImageFromFileSystemService = removeImageFromFileSystemService;
+        _publisher = publisher;
     }
 
     public async Task Handle(RemoveSubcategoryImageCommand request, CancellationToken cancellationToken)
@@ -31,5 +34,8 @@ public sealed class RemoveSubcategoryImageCommandHandler : IRequestHandler<Remov
 
         category.ImageUrl = "";
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new CategoriesMenuInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }

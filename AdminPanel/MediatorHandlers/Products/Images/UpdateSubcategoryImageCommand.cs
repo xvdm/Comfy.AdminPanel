@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Events.Invalidation;
 using AdminPanel.Services.Images.Remove;
 using AdminPanel.Services.Images.Upload;
 using MediatR;
@@ -14,12 +15,14 @@ public sealed class UpdateSubcategoryImageCommandHandler : IRequestHandler<Updat
     private readonly ApplicationDbContext _context;
     private readonly IRemoveImageFromFileSystemService _removeImageFromFileSystemService;
     private readonly IUploadImageToFileSystemService _uploadImageToFileSystemService;
+    private readonly IPublisher _publisher;
 
-    public UpdateSubcategoryImageCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService, IUploadImageToFileSystemService uploadImageToFileSystemService)
+    public UpdateSubcategoryImageCommandHandler(ApplicationDbContext context, IRemoveImageFromFileSystemService removeImageFromFileSystemService, IUploadImageToFileSystemService uploadImageToFileSystemService, IPublisher publisher)
     {
         _context = context;
         _removeImageFromFileSystemService = removeImageFromFileSystemService;
         _uploadImageToFileSystemService = uploadImageToFileSystemService;
+        _publisher = publisher;
     }
 
     public async Task Handle(UpdateSubcategoryImageCommand request, CancellationToken cancellationToken)
@@ -35,5 +38,8 @@ public sealed class UpdateSubcategoryImageCommandHandler : IRequestHandler<Updat
 
         category.ImageUrl = path;
         await _context.SaveChangesAsync(cancellationToken);
+
+        var notification = new CategoriesMenuInvalidatedEvent();
+        await _publisher.Publish(notification, cancellationToken);
     }
 }
