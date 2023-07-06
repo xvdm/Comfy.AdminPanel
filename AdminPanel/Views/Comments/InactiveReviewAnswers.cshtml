@@ -31,7 +31,7 @@
                                     <td><p>@x.Text</p></td>
                                     <td class="comments-product-width"><p>@x.Review.Product.Name</p></td>
                                     <td class="comments-product-width"><p>@x.Review.Text</p></td>
-                                    <td><p>@x.User.UserName</p></td>
+                                    <td><p>@x.User.Name</p></td>
                                     <td><p>@x.CreatedAt</p></td>
                                     <td class="comments-buttons-width">
                                         <form class="page-form" method="post" asp-controller="Comments" asp-route-id="@x.Id" asp-route-isActive="@true" asp-action="ChangeReviewAnswerActivityStatus">
