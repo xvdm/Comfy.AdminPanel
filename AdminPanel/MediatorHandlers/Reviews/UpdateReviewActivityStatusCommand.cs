@@ -44,8 +44,5 @@ public sealed class UpdateReviewActivityStatusCommandHandler : IRequestHandler<U
 
         var productNotification = new ProductInvalidatedEvent(review.ProductId, product.Url);
         await _publisher.Publish(productNotification, cancellationToken);
-
-        var notification = new ReviewInvalidatedEvent(review.ProductId);
-        await _publisher.Publish(notification, cancellationToken);
     }
 }

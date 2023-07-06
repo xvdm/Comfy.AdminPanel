@@ -28,8 +28,5 @@ public sealed class UpdateReviewAnswerActivityStatusCommandHandler : IRequestHan
 
         reviewAnswer.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
-
-        var notification = new ReviewInvalidatedEvent(reviewAnswer.Review.ProductId);
-        await _publisher.Publish(notification, cancellationToken);
     }
 }

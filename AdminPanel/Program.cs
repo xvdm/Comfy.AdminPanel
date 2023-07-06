@@ -2,19 +2,18 @@ using AdminPanel.Data;
 using AdminPanel.Helpers;
 using AdminPanel.Mapping;
 using AdminPanel.Models.Identity;
-using AdminPanel.Services.Caching;
 using AdminPanel.Services.DatabaseLogging;
 using AdminPanel.Services.Images.Remove;
 using AdminPanel.Services.Images.Upload;
+using Amazon.S3;
+using HealthChecks.UI.Client;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Amazon.S3;
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AdminPanelContextConnection") ?? 
@@ -94,7 +93,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 
-builder.Services.AddScoped<IRemoveCacheService, RemoveRedisCacheService>();
+
 
 var app = builder.Build();
 

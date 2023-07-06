@@ -28,8 +28,5 @@ public sealed class UpdateQuestionAnswerActivityStatusCommandHandler : IRequestH
 
         questionAnswer.IsActive = request.IsActive;
         await _context.SaveChangesAsync(cancellationToken);
-
-        var notification = new QuestionInvalidatedEvent(questionAnswer.Question.ProductId);
-        await _publisher.Publish(notification, cancellationToken);
     }
 }
