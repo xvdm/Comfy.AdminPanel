@@ -6,6 +6,8 @@ using Mapster;
 using MediatR;
 using AdminPanel.MediatorHandlers.Logging;
 using AdminPanel.MediatorHandlers.Users;
+using AdminPanel.Models.ViewModels;
+using System.Drawing.Printing;
 
 namespace AdminPanel.Controllers;
 
@@ -26,16 +28,36 @@ public sealed class AccountsController : Controller
         return View();
     }
 
-    public async Task<IActionResult> ActiveUsers(string? searchString)
+    public async Task<IActionResult> ActiveUsers(string? searchString, int? pageSize, int? pageNumber)
     {
-        var users = await _mediator.Send(new GetDTOUsersQuery(searchString, false));
-        return View(users);
+        bool lockout = false;
+        var query = new GetDTOUsersQuery(searchString, lockout, pageSize, pageNumber);
+        var users = await _mediator.Send(query);
+        var totalCount = await _mediator.Send(new GetUsersTotalCountQuery(searchString, lockout));
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
+        var viewModel = new UsersViewModel
+        {
+            Users = users,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
     }
 
-    public async Task<IActionResult> LockoutUsers(string? searchString)
+    public async Task<IActionResult> LockoutUsers(string? searchString, int? pageSize, int? pageNumber)
     {
-        var users = await _mediator.Send(new GetDTOUsersQuery(searchString, true));
-        return View(users);
+        bool lockout = true;
+        var query = new GetDTOUsersQuery(searchString, lockout, pageSize, pageNumber);
+        var users = await _mediator.Send(query);
+        var totalCount = await _mediator.Send(new GetUsersTotalCountQuery(searchString, lockout));
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
+        var viewModel = new UsersViewModel
+        {
+            Users = users,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
     }
 
     [HttpPost]

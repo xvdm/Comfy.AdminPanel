@@ -1,6 +1,6 @@
 ﻿@using AdminPanel.Models.DTO
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<UserDTO>
+@model UsersViewModel
 @{
     ViewData["Title"] = "Активні користувачі";
 }
@@ -20,12 +20,10 @@
 
         <div class="section">
             <div class="search-block">
-                <form asp-controller="Accounts" asp-action="ActiveUsers">
-                    <input class="search-block-input" type="text" name="searchString" />
-                    <button class="search-block-btn" type="submit" value="Пошук">
-                        <span class="material-icons ">
-                            search
-                        </span>
+                <form asp-controller="Accounts" asp-action="ActiveUsers" id="search-form">
+                    <input class="search-block-input" type="text" name="searchString" id="searchString" />
+                    <button class="search-block-btn" type="submit" value="Пошук" onclick="updateQueryParameter()">
+                        <span class="material-icons">search</span>
                     </button>
                 </form>
         </div>
@@ -44,7 +42,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model)
+                    @foreach (var user in Model.Users)
                     {
                         <tr>
                             <form method="post" asp-controller="Accounts" asp-action="UpdateUser">
@@ -61,10 +59,98 @@
                             </form>
                         </tr>
                     }
-
                 </tbody>
             </table>
         </div>
 
+        <div class="pagination-block">
+            @if (Model.TotalPages > 1)
+            {
+                <div class="pagination-section">
+                    @if (Model.CurrentPage == 1)
+                    {
+                        <button class="page-num">Previous</button>
+                    }
+                    else
+                    {
+                        <form class="page-form" method="get" asp-controller="Accounts" asp-action="ActiveUsers">
+                            <input type="hidden" name="searchString" value="@Context.Request.Query["searchString"]" />
+                            <input type="hidden" name="pageNumber" value="@(Model.CurrentPage - 1)" />
+                            <button class="page-num" type="submit">Previous</button>
+                        </form>
+                    }
+
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        @if (i == Model.CurrentPage)
+                        {
+                            <form class="current-page-form" method="get" asp-controller="Accounts" asp-action="ActiveUsers">
+                                <input type="hidden" name="searchString" value="@Context.Request.Query["searchString"]" />
+                                <input type="hidden" name="pageNumber" value="@i" />
+                                <button type="submit">@i</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form class="page-form" method="get" asp-controller="Accounts" asp-action="ActiveUsers">
+                                <input type="hidden" name="searchString" value="@Context.Request.Query["searchString"]" />
+                                <input type="hidden" name="pageNumber" value="@i" />
+                                <button type="submit">@i</button>
+                            </form>
+                        }
+                    }
+
+                    @if (Model.CurrentPage == Model.TotalPages)
+                    {
+                        <button class="page-num" type="submit">Next</button>
+                    }
+                    else
+                    {
+                        <form class="page-form" method="get" asp-controller="Accounts" asp-action="ActiveUsers">
+                            <input type="hidden" name="searchString" value="@Context.Request.Query["searchString"]" />
+                            <input type="hidden" name="pageNumber" value="@(Model.CurrentPage + 1)" />
+                            <button class="page-num" type="submit">Next</button>
+                        </form>
+                    }
+                </div>
+            }
+        </div>
     </div>
 </div>
+
+
+<script>
+    function updateQueryParameter() {
+        var form = document.getElementById("search-form");
+        var searchString = document.getElementById("searchString").value;
+
+        var currentUrl = window.location.href;
+
+        // Check if the URL already contains a query string
+        if (currentUrl.indexOf("?") !== -1) {
+            // Split the URL into base URL and query string
+            var parts = currentUrl.split("?");
+            var baseUrl = parts[0];
+            var queryString = parts[1];
+
+            // Split the query string into individual parameters
+            var parameters = queryString.split("&");
+
+            // Find and replace the searchString parameter
+            for (var i = 0; i < parameters.length; i++) {
+                if (parameters[i].startsWith("searchString=")) {
+                    parameters[i] = "searchString=" + searchString;
+                }
+                else if (parameters[i].startsWith("pageNumber=")) {
+                    parameters[i] = "pageNumber=1";
+                }
+            }
+
+            // Combine the base URL, modified query string, and form action
+            form.action = baseUrl + "?" + parameters.join("&");
+        } else {
+            // Create a new query string with the new parameter
+            form.action = currentUrl + "?searchString=" + searchString;
+        }
+    }
+</script>

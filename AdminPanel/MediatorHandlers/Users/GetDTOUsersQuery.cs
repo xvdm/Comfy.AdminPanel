@@ -9,7 +9,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Users;
 
-public sealed record GetDTOUsersQuery(string? SearchString, bool GetLockoutUsers) : IRequest<IEnumerable<UserDTO>>;
+public sealed record GetDTOUsersQuery : IRequest<IEnumerable<UserDTO>>
+{
+    public string? SearchString { get; set; }
+    public bool GetLockoutUsers { get; set; }
+
+    private const int MaxPageSize = 10;
+    private int _pageSize = MaxPageSize;
+    private int _pageNumber = 1;
+
+    public int PageSize
+    {
+        get => _pageSize;
+        set => _pageSize = value is > MaxPageSize or < 1 ? MaxPageSize : value;
+    }
+    public int PageNumber
+    {
+        get => _pageNumber;
+        set => _pageNumber = (value < 1) ? 1 : value;
+    }
+
+    public GetDTOUsersQuery(string? searchString, bool getLockoutUsers, int? pageSize, int? pageNumber)
+    {
+        SearchString = searchString;
+        GetLockoutUsers = getLockoutUsers;
+        if (pageSize is not null) PageSize = (int)pageSize;
+        if (pageNumber is not null) PageNumber = (int)pageNumber;
+    }
+}
 
 
 public sealed class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQuery, IEnumerable<UserDTO>>
@@ -35,11 +62,15 @@ public sealed class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQ
         if (request.SearchString is not null)
         {
             users = users.Where(x =>
-                x.UserName.Contains(request.SearchString) ||
+                x.Name.Contains(request.SearchString) ||
                 x.Email.Contains(request.SearchString) ||
                 x.PhoneNumber.Contains(request.SearchString)
             );
         }
+
+        users = users
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize);
 
         var usersDto = await _mapper
             .From(users)
