@@ -22,7 +22,7 @@ public sealed class CharacteristicsController : Controller
     {
         var query = new GetCharacteristicNamesQuery(searchString, pageSize, pageNumber);
         var names = await _mediator.Send(query);
-        var totalCount = await _mediator.Send(new GetCharacteristicNamesTotalCountQuery());
+        var totalCount = await _mediator.Send(new GetCharacteristicNamesTotalCountQuery(searchString));
         var totalPages = (totalCount - 1) / query.PageSize + 1;
         var viewModel = new CharacteristicNamesViewModel
         {
@@ -37,7 +37,7 @@ public sealed class CharacteristicsController : Controller
     {
         var query = new GetCharacteristicValuesQuery(searchString, pageSize, pageNumber);
         var values = await _mediator.Send(query);
-        var totalCount = await _mediator.Send(new GetCharacteristicValuesTotalCountQuery());
+        var totalCount = await _mediator.Send(new GetCharacteristicValuesTotalCountQuery(searchString));
         var totalPages = (totalCount - 1) / query.PageSize + 1;
         var viewModel = new CharacteristicValuesViewModel
         {

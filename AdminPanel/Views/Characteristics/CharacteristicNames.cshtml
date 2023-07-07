@@ -13,6 +13,16 @@
     </div>
 
     <div class="body body-with-sections">
+        <div class="section">
+            <div class="search-block">
+                <form asp-controller="Characteristics" asp-action="CharacteristicNames" id="search-form">
+                    <input class="search-block-input" type="text" name="searchString" id="searchString" />
+                    <button class="search-block-btn" type="submit" value="Пошук" onclick="updateQueryParameter()">
+                        <span class="material-icons">search</span>
+                    </button>
+                </form>
+            </div>
+        </div>
         <div class="sections">
             <div class="left-section-editproduct">
                 <div class="brands-table">
@@ -38,7 +48,9 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Characteristics" asp-route-pageNumber="@(Model.CurrentPage-1)" asp-action="CharacteristicNames">
+                                <form class="page-form" method="get" asp-controller="Characteristics" asp-action="CharacteristicNames">
+                                    <input type="hidden" name="searchString" value="@Context.Request.Query["searchString"]" />
+                                    <input type="hidden" name="pageNumber" value="@(Model.CurrentPage - 1)" />
                                     <button class="page-num" type="submit">Previous</button>
                                 </form>
                             }
@@ -47,13 +59,17 @@
                             {
                                 @if (i == Model.CurrentPage)
                                 {
-                                    <form class="current-page-form" method="post" asp-controller="Characteristics" asp-route-pageNumber="@i" asp-action="CharacteristicNames">
+                                    <form class="current-page-form" method="get" asp-controller="Characteristics" asp-action="CharacteristicNames">
+                                        <input type="hidden" name="searchString" value="@Context.Request.Query["searchString"]" />
+                                        <input type="hidden" name="pageNumber" value="@i" />
                                         <button type="submit">@i</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form class="page-form" method="post" asp-controller="Characteristics" asp-route-pageNumber="@i" asp-action="CharacteristicNames">
+                                    <form class="page-form" method="get" asp-controller="Characteristics" asp-action="CharacteristicNames">
+                                        <input type="hidden" name="searchString" value="@Context.Request.Query["searchString"]" />
+                                        <input type="hidden" name="pageNumber" value="@i" />
                                         <button type="submit">@i</button>
                                     </form>
                                 }
@@ -65,7 +81,9 @@
                             }
                             else
                             {
-                                <form class="page-form" method="post" asp-controller="Characteristics" asp-route-pageNumber="@(Model.CurrentPage+1)" asp-action="CharacteristicNames">
+                                <form class="page-form" method="get" asp-controller="Characteristics" asp-action="CharacteristicNames">
+                                    <input type="hidden" name="searchString" value="@Context.Request.Query["searchString"]" />
+                                    <input type="hidden" name="pageNumber" value="@(Model.CurrentPage + 1)" />
                                     <button class="page-num" type="submit">Next</button>
                                 </form>
                             }
@@ -76,3 +94,41 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+    function updateQueryParameter() {
+        var form = document.getElementById("search-form");
+        var searchString = document.getElementById("searchString").value;
+
+        var currentUrl = window.location.href;
+
+        // Check if the URL already contains a query string
+        if (currentUrl.indexOf("?") !== -1) {
+            // Split the URL into base URL and query string
+            var parts = currentUrl.split("?");
+            var baseUrl = parts[0];
+            var queryString = parts[1];
+
+            // Split the query string into individual parameters
+            var parameters = queryString.split("&");
+
+            // Find and replace the searchString parameter
+            for (var i = 0; i < parameters.length; i++) {
+                if (parameters[i].startsWith("searchString=")) {
+                    parameters[i] = "searchString=" + searchString;
+                }
+                else if (parameters[i].startsWith("pageNumber=")) {
+                    parameters[i] = "pageNumber=1";
+                }
+            }
+
+            // Combine the base URL, modified query string, and form action
+            form.action = baseUrl + "?" + parameters.join("&");
+        } else {
+            // Create a new query string with the new parameter
+            form.action = currentUrl + "?searchString=" + searchString;
+        }
+    }
+</script>

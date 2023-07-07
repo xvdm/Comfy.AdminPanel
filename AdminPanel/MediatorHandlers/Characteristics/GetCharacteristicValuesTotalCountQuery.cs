@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Characteristics;
 
-public sealed record GetCharacteristicValuesTotalCountQuery : IRequest<int>;
+public sealed record GetCharacteristicValuesTotalCountQuery(string? SearchString) : IRequest<int>;
 
 
 public sealed class GetCharacteristicValuesTotalCountQueryHandler : IRequestHandler<GetCharacteristicValuesTotalCountQuery, int>
@@ -18,6 +18,8 @@ public sealed class GetCharacteristicValuesTotalCountQueryHandler : IRequestHand
 
     public async Task<int> Handle(GetCharacteristicValuesTotalCountQuery request, CancellationToken cancellationToken)
     {
-        return await _context.CharacteristicsValues.CountAsync(cancellationToken);
+        var values = _context.CharacteristicsValues.AsQueryable();
+        if (request.SearchString is not null) values = values.Where(x => x.Value.Contains(request.SearchString));
+        return await values.CountAsync(cancellationToken);
     }
 }
