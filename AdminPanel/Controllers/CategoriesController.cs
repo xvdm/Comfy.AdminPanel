@@ -35,10 +35,19 @@ public sealed class CategoriesController : Controller
         return View(subcategories);
     }
 
-    public async Task<IActionResult> SubcategoryFilters(string? searchString)
+    public async Task<IActionResult> SubcategoryFilters(string? searchString, int? pageSize, int? pageNumber)
     {
-        var subcategoryFilters = await _mediator.Send(new GetSubcategoryFiltersQuery());
-        return View(subcategoryFilters);
+        var query = new GetSubcategoryFiltersQuery(searchString, pageSize, pageNumber);
+        var filters = await _mediator.Send(query);
+        var totalCount = await _mediator.Send(new GetSubcategoryFiltersTotalCountQuery(searchString));
+        var totalPages = (totalCount - 1) / query.PageSize + 1;
+        var viewModel = new SubcategoryFiltersViewModel 
+        { 
+            SubcategoryFilters = filters,
+            TotalPages = totalPages,
+            CurrentPage = query.PageNumber
+        };
+        return View(viewModel);
     }
 
     public async Task<IActionResult> GetMainCategoryImageUrl(string id)
