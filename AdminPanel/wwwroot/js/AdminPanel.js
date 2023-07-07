@@ -122,7 +122,7 @@ switch (userMainPosition[1]) {
         blockMainLink(divAccounts)
 
         links = ["Активні користувачі","Заблоковані користувачі"];
-        href = ["/Accounts/ActiveUsers","/Accounts/LockoutedUsers"]
+        href = ["/Accounts/ActiveUsers","/Accounts/LockoutUsers"]
 
         createLI(links, href)
 

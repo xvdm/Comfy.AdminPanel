@@ -32,7 +32,7 @@ public sealed class AccountsController : Controller
         return View(users);
     }
 
-    public async Task<IActionResult> LockoutedUsers(string? searchString)
+    public async Task<IActionResult> LockoutUsers(string? searchString)
     {
         var users = await _mediator.Send(new GetDTOUsersQuery(searchString, true));
         return View(users);
@@ -88,6 +88,6 @@ public sealed class AccountsController : Controller
             var createUserLogCommand = new CreateUserLogCommand(User, id, LoggingActionNames.Activate);
             await _mediator.Send(createUserLogCommand);
         }
-        return RedirectToAction(nameof(LockoutedUsers));
+        return RedirectToAction(nameof(LockoutUsers));
     }
 }
