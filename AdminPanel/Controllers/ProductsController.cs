@@ -44,7 +44,7 @@ public sealed class ProductsController : Controller
     {
         var query = new GetProductsQuery(searchString, pageSize, pageNumber);
         var products = await _mediator.Send(query);
-        var totalCount = await _mediator.Send(new GetProductsTotalCountQuery());
+        var totalCount = await _mediator.Send(new GetProductsTotalCountQuery(searchString));
         var totalPages = (totalCount - 1) / query.PageSize + 1;
         var viewModel = new ProductsViewModel
         {

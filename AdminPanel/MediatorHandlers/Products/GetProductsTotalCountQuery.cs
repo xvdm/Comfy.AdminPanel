@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.MediatorHandlers.Products;
 
-public sealed record GetProductsTotalCountQuery : IRequest<int>;
+public sealed record GetProductsTotalCountQuery(string? SearchString) : IRequest<int>;
 
 
 public sealed class GetProductsTotalCountQueryHandler : IRequestHandler<GetProductsTotalCountQuery, int>
@@ -18,6 +18,13 @@ public sealed class GetProductsTotalCountQueryHandler : IRequestHandler<GetProdu
 
     public async Task<int> Handle(GetProductsTotalCountQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Products.CountAsync(cancellationToken);
+        var products = _context.Products.AsQueryable();
+
+        if (request.SearchString is not null)
+        {
+            products = products.Where(x => x.Name.Contains(request.SearchString));
+        }
+
+        return await products.CountAsync(cancellationToken);
     }
 } 
