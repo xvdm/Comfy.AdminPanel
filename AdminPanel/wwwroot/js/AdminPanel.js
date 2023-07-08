@@ -1,5 +1,4 @@
 ﻿
-
 var URL = document.location.pathname; 
 var userMainPosition = URL.split("/")
 
@@ -26,7 +25,6 @@ function createLI(links, href) {
         ul.appendChild(li)
     }
 }
-/*<a class="navbar-brand " asp-area="" asp-controller="Products" asp-action="Products" target="_self">*/
 
 switch (userMainPosition[1]) {
 
@@ -56,8 +54,10 @@ switch (userMainPosition[1]) {
         let divComments = document.getElementById("Comments");
         blockMainLink(divComments)
      
-        links = ["Активні питання", "Активні відгуки", "Активні відповіді на питання", "Активні відповіді на відгуки", "Неактивні питання", "Неактивні відгуки", "Неактивні відповіді на питання", "Неактивні відповіді на відгуки"];
-        href = ["/Comments/ActiveQuestions", "/Comments/ActiveReviews", "/Comments/ActiveQuestionAnswers", "/Comments/ActiveReviewAnswers", "/Comments/InactiveQuestions", "/Comments/InactiveReviews", "/Comments/InactiveQuestionAnswers", "/Comments/InactiveReviewAnswers"]
+        links = ["Активні питання", "Активні відгуки", "Активні відповіді на питання", "Активні відповіді на відгуки", "Неактивні питання",
+            "Неактивні відгуки", "Неактивні відповіді на питання", "Неактивні відповіді на відгуки"];
+        href = ["/Comments/ActiveQuestions", "/Comments/ActiveReviews", "/Comments/ActiveQuestionAnswers", "/Comments/ActiveReviewAnswers",
+            "/Comments/InactiveQuestions", "/Comments/InactiveReviews", "/Comments/InactiveQuestionAnswers", "/Comments/InactiveReviewAnswers"]
         createLI(links, href)
         div.appendChild(ul)
         divComments.appendChild(div)
