@@ -105,7 +105,7 @@ public sealed class UpdateProductCommandHandler : IRequestHandler<UpdateProductC
         var productInvalidatedEvent = new ProductInvalidatedEvent(request.Id, product.Url);
         await _publisher.Publish(productInvalidatedEvent, cancellationToken);
 
-        if (product.ShowcaseGroups.Count > 0)
+        if (product.ShowcaseGroups.Any())
         {
             var notification = new ShowcaseGroupsInvalidatedEvent();
             await _publisher.Publish(notification, cancellationToken);
