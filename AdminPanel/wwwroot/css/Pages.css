@@ -669,4 +669,14 @@
 .characteristics-label {
     font-weight: 500;
 }
+
+.filter-section{
+    padding: 15px;
+}
+
+.status-dropdown{
+    height: 38px;
+    width: 300px;
+}
+
 /**/

@@ -11,6 +11,7 @@
     </div>
     <div class="body body-with-sections">
         <div class="sections">
+            <div class="filter-section">
             <form method="post" asp-controller="Orders" asp-action="Orders" id="filter-form">
                 <select class="status-dropdown" id="status-select" name="statusFilter">
                     @foreach (var x in Model.Statuses)
@@ -20,6 +21,7 @@
                 </select>
                 <button type="submit" onclick="updateQueryParameter()">Фільтрувати за статусом</button>
             </form>
+            </div>
         </div>
         <div class="sections">
             <div class="left-section-editproduct">
