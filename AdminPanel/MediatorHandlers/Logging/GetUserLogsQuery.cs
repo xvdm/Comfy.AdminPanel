@@ -48,7 +48,7 @@ public sealed class GetUserLogsQueryHandler : IRequestHandler<GetUserLogsQuery, 
             .AsQueryable();
 
 
-        if(request.SearchString is not null)
+        if(string.IsNullOrWhiteSpace(request.SearchString) == false)
         {
             logs = logs.Where(x => 
                 x.UserId.ToString().Contains(request.SearchString) ||

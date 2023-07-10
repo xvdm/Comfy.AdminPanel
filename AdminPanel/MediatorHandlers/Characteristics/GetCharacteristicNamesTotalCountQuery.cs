@@ -19,7 +19,7 @@ public sealed class GetCharacteristicNamesTotalCountQueryHandler : IRequestHandl
     public async Task<int> Handle(GetCharacteristicNamesTotalCountQuery request, CancellationToken cancellationToken)
     {
         var names = _context.CharacteristicsNames.AsQueryable();
-        if (request.SearchString is not null) names = names.Where(x => x.Name.Contains(request.SearchString));
+        if (string.IsNullOrWhiteSpace(request.SearchString) == false) names = names.Where(x => x.Name.Contains(request.SearchString));
         return await names.CountAsync(cancellationToken);
     }
 }

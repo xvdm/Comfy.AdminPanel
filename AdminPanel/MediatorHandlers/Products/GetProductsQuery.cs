@@ -48,7 +48,7 @@ public sealed class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, 
             .Include(x => x.Images.Take(1))
             .AsQueryable();
 
-        if (request.SearchString is not null)
+        if (string.IsNullOrWhiteSpace(request.SearchString) == false)
         {
             products = products.Where(x => x.Name.Contains(request.SearchString));
         }

@@ -19,7 +19,7 @@ public sealed class GetCharacteristicValuesTotalCountQueryHandler : IRequestHand
     public async Task<int> Handle(GetCharacteristicValuesTotalCountQuery request, CancellationToken cancellationToken)
     {
         var values = _context.CharacteristicsValues.AsQueryable();
-        if (request.SearchString is not null) values = values.Where(x => x.Value.Contains(request.SearchString));
+        if (string.IsNullOrWhiteSpace(request.SearchString) == false) values = values.Where(x => x.Value.Contains(request.SearchString));
         return await values.CountAsync(cancellationToken);
     }
 }

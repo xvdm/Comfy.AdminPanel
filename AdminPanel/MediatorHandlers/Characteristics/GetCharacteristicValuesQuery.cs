@@ -47,7 +47,7 @@ public sealed class GetCharacteristicValuesQueryHandler : IRequestHandler<GetCha
         var values = _context.CharacteristicsValues
             .AsQueryable();
 
-        if (request.SearchString is not null)
+        if (string.IsNullOrWhiteSpace(request.SearchString) == false)
         {
             values = values.Where(x => x.Value.Contains(request.SearchString));
         }

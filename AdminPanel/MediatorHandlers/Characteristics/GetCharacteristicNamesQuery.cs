@@ -47,7 +47,7 @@ public sealed class GetCharacteristicNamesQueryHandler : IRequestHandler<GetChar
         var names = _context.CharacteristicsNames
             .AsQueryable();
 
-        if (request.SearchString is not null)
+        if (string.IsNullOrWhiteSpace(request.SearchString) == false)
         {
             names = names.Where(x => x.Name.Contains(request.SearchString));
         }

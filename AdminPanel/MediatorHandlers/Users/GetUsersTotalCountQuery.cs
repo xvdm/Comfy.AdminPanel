@@ -23,7 +23,7 @@ public sealed class GetUsersTotalCountQueryHandler : IRequestHandler<GetUsersTot
             .AsQueryable()
             .Where(x => request.LockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null);
 
-        if (request.SearchString is not null)
+        if (string.IsNullOrWhiteSpace(request.SearchString) == false)
         {
             users = users.Where(x =>
                 x.Name.Contains(request.SearchString) ||

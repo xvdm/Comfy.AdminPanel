@@ -59,7 +59,7 @@ public sealed class GetActiveDTOUsersQueryHandler : IRequestHandler<GetDTOUsersQ
             .AsQueryable()
             .Where(x => request.GetLockoutUsers ? x.LockoutEnd != null : x.LockoutEnd == null);
         
-        if (request.SearchString is not null)
+        if (string.IsNullOrWhiteSpace(request.SearchString) == false)
         {
             users = users.Where(x =>
                 x.Name.Contains(request.SearchString) ||

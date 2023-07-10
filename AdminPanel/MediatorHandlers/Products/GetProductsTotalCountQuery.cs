@@ -20,7 +20,7 @@ public sealed class GetProductsTotalCountQueryHandler : IRequestHandler<GetProdu
     {
         var products = _context.Products.AsQueryable();
 
-        if (request.SearchString is not null)
+        if (string.IsNullOrWhiteSpace(request.SearchString) == false)
         {
             products = products.Where(x => x.Name.Contains(request.SearchString));
         }
