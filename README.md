@@ -1,4 +1,5 @@
 Dockerhub reposipoty: https://hub.docker.com/repository/docker/tapeex/adminpanel/general
+Database repository: https://hub.docker.com/repository/docker/tapeex/postgresdb/general
 <br><br>
 
 # **Кэширование**
