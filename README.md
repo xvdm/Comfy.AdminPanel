@@ -1,3 +1,6 @@
+Dockerhub reposipoty: https://hub.docker.com/repository/docker/tapeex/adminpanel/general
+<br><br>
+
 # **Кэширование**
 
 
